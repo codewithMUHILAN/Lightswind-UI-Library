@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
- 
+
 const AllAlert = () => {
     const [alert, setAlert] = useState({
         type: 'success',
