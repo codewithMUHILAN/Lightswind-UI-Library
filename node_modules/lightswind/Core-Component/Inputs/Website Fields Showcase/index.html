@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Fields Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+</head>
+
+<body class="font-primarylw">
+    <div class="max-w-3xl mx-auto p-6 flex items-center justify-center flex-col">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Form Fields Showcase</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+            <div>
+                <!-- Text Input with Label and Focus -->
+                <label for="advanced-text-input" class="block text-gray-700 mb-2">Full Name</label>
+                <input type="text" id="advanced-text-input" placeholder="John Doe" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none 
+                    focus:border-blue-500 transition-all duration-300">
+            </div>
+
+            <div>
+                <!-- Email Input -->
+                <label for="email-input" class="block text-gray-700 mt-4 mb-2">Email Address</label>
+                <input type="email" id="email-input" placeholder="you@example.com"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <div>
+                <!-- Password Input with Visibility Toggle -->
+                <label for="advanced-password-input" class="block text-gray-700 mt-4 mb-2">Password</label>
+                <div class="relative">
+                    <input type="password" id="advanced-password-input" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none 
+                        focus:border-blue-500 transition-all duration-300">
+                    <button class="absolute right-4 top-2 text-gray-600 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+
+            <div>
+                <!-- Date Input -->
+                <label for="date-input" class="block text-gray-700 mt-4 mb-2">Date of Birth</label>
+                <input type="date" id="date-input"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <div>
+                <!-- Phone Number Input -->
+                <label for="phone-input" class="block text-gray-700 mb-2">Phone Number</label>
+                <input type="tel" id="phone-input" placeholder="+1 (555) 555-5555"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <div>
+                <!-- Date Input -->
+                <label for="date-input" class="block text-gray-700 mt-4 mb-2">Date</label>
+                <input type="date" id="date-input"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+
+            <div>
+                <!-- Time Input -->
+                <label for="time-input" class="block text-gray-700 mt-4 mb-2">Time</label>
+                <input type="time" id="time-input"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+
+            <div>
+                <!-- Range Input -->
+                <label for="range-input" class="block text-gray-700 mt-4 mb-2">Range</label>
+                <input type="range" id="range-input" min="1" max="100" step="1"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+
+            <div>
+                <!-- Checkboxes -->
+                <label class="block text-gray-700 mt-4 mb-2">Select Preferences</label>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="checkbox1" class="h-5 w-5 text-blue-500">
+                        <label for="checkbox1" class="ml-2 text-gray-700">Option 1</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="checkbox2" class="h-5 w-5 text-blue-500">
+                        <label for="checkbox2" class="ml-2 text-gray-700">Option 2</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="checkbox3" class="h-5 w-5 text-blue-500">
+                        <label for="checkbox3" class="ml-2 text-gray-700">Option 3</label>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <!-- Switch Toggle -->
+                <label for="switch-toggle" class="block text-gray-700 mt-4 mb-2">Enable Notifications</label>
+                <input type="checkbox" id="switch-toggle" class="toggle-checkbox hidden" />
+                <label for="switch-toggle" class="flex items-center cursor-pointer">
+                    <div class="relative">
+                        <div class="block bg-gray-400 w-14 h-8 rounded-full"></div>
+                        <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                    </div>
+                </label>
+            </div>
+
+
+            <div>
+                <!-- Select Input -->
+                <label for="advanced-select" class="block text-gray-700 mt-4 mb-2">Select Country</label>
+                <select id="advanced-select"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <option value="us">United States</option>
+                    <option value="ca">Canada</option>
+                    <option value="uk">United Kingdom</option>
+                    <option value="au">Australia</option>
+                </select>
+            </div>
+
+            <div>
+                <!-- Textarea Input -->
+                <label for="advanced-textarea" class="block text-gray-700 mt-4 mb-2">Message</label>
+                <textarea id="advanced-textarea" rows="4" placeholder="Type your message here"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+            </div>
+
+
+            <div>
+                <!-- Radio Input -->
+                <label for="radio-input" class="block text-gray-700 mt-4 mb-2">Choose an option</label>
+                <div class="space-x-4">
+                    <input type="radio" id="option1" name="options" value="1">
+                    <label for="option1" class="text-gray-700">Option 1</label>
+                    <input type="radio" id="option2" name="options" value="2">
+                    <label for="option2" class="text-gray-700">Option 2</label>
+                </div>
+            </div>
+
+            <div>
+                <!-- File Upload with Custom Style -->
+                <label for="file-upload" class="block text-gray-700 mt-4 mb-2">Upload File</label>
+                <div class="relative">
+                    <input type="file" id="file-upload"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <button class="absolute right-4 top-2 text-gray-600 hover:text-blue-500 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+
+            <div>
+                <!-- Drag and Drop with Additional Styling -->
+                <label for="drag-drop" class="block text-gray-700 mt-4 mb-2">Drag and Drop Upload</label>
+                <div id="drag-drop"
+                    class="w-full p-6 border-2 border-dashed border-gray-300 rounded-md text-center text-gray-700 bg-gray-50 hover:bg-gray-100 transition duration-200">
+                    <p>Drag your files here</p>
+                    <input type="file" id="file-drop" class="hidden" multiple>
+                </div>
+            </div>
+
+            <div>
+                <!-- Color-Picker Section -->
+                <label for="color-picker" class="block text-gray-700 mt-4 mb-2">Color Picker</label>
+                <div class="flex items-center justify-center space-x-4 mt-4">
+                    <!-- Square Color Picker Input -->
+                    <input type="color" id="color-picker"
+                        class="w-16 h-16 border-2 border-gray-300 bg-white cursor-pointer rounded-md transition-all focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        aria-label="Select Color">
+                    <!-- Display Selected Color and Code -->
+                    <div id="color-display" class="text-center">
+                        <div id="color-preview"></div>
+                        <p id="color-code" class="mt-2 text-gray-700 font-medium text-lg">#ffffff</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div>
+                <!-- Multi-Select Dropdown -->
+                <label for="multi-select" class="block text-gray-700 mb-2">Select Interests</label>
+                <select id="multi-select" multiple
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <option value="sports">Sports</option>
+                    <option value="technology">Technology</option>
+                    <option value="music">Music</option>
+                    <option value="reading">Reading</option>
+                </select>
+            </div>
+
+
+            <div>
+                <!-- Credit Card Input -->
+                <label for="credit-card-input" class="block text-gray-700 mt-4 mb-2">Credit Card Number</label>
+                <input type="text" id="credit-card-input" placeholder="1234 5678 9012 3456"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+            <div>
+                <!-- Credit Card Expiry Date -->
+                <label for="expiry-date" class="block text-gray-700 mt-4 mb-2">Expiration Date</label>
+                <input type="month" id="expiry-date"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+
+            <div>
+                <!-- CVV -->
+                <label for="cvv" class="block text-gray-700 mt-4 mb-2">CVV</label>
+                <input type="text" id="cvv" placeholder="123"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for Drag and Drop functionality
+        const dragDropArea = document.getElementById("drag-drop");
+        const fileInput = document.getElementById("file-drop");
+
+        dragDropArea.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            dragDropArea.classList.add("bg-gray-100");
+        });
+
+        dragDropArea.addEventListener("dragleave", () => {
+            dragDropArea.classList.remove("bg-gray-100");
+        });
+
+        dragDropArea.addEventListener("drop", (event) => {
+            event.preventDefault();
+            dragDropArea.classList.remove("bg-gray-100");
+            const files = event.dataTransfer.files;
+            fileInput.files = files;
+        });
+
+        // JavaScript for Switch Toggle
+        const switchToggle = document.getElementById("switch-toggle");
+        const switchDot = document.querySelector(".dot");
+
+        switchToggle.addEventListener("change", () => {
+            switchDot.classList.toggle("left-1");
+            switchDot.classList.toggle("left-7");
+            switchDot.classList.toggle("bg-blue-500");
+        });
+
+        // JavaScript for Color Picker
+        const colorPicker = document.getElementById('color-picker');
+        const colorPreview = document.getElementById('color-preview');
+        const colorCode = document.getElementById('color-code');
+
+        colorPicker.addEventListener('input', function () {
+            const selectedColor = colorPicker.value;
+            colorPreview.style.backgroundColor = selectedColor;
+            colorCode.textContent = selectedColor.toUpperCase();
+        });
+    </script>
+
+</body>
+
+</html>

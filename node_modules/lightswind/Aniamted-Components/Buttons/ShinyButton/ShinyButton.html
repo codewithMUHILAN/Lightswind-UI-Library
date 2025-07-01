@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+    <style>
+        @property --gradient-angle {
+            syntax: "<angle>";
+            initial-value: 0turn;
+            inherits: false;
+        }
+
+        .card {
+            animation: 2s gradient-angle infinite linear;
+            border: 2px solid transparent;
+            background-image: linear-gradient(#000, #000),
+                conic-gradient(from var(--gradient-angle),
+                    #87CEEB 0%,
+                    #00BFFF 37%,
+                    #B0E0E6 40%,
+                    #00BFFF 50%,
+                    #87CEEB 57%,
+                    #4682B4 60%,
+                    #00BFFF 77%,
+                    #B0E0E6 80%,
+                    #00BFFF 83%,
+                    #87CEEB 90%);
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+        }
+
+
+        @keyframes gradient-angle {
+            to {
+                --gradient-angle: 1turn;
+            }
+        }
+
+        html,
+        body {
+            background: #141819;
+        }
+
+        body {
+            line-height: 1.6;
+            display: grid;
+            align-content: center;
+            min-height: 100svh;
+            padding: 24px;
+            color: #d5cec0;
+            gap: 24px;
+
+            @media (width < 970px) {
+                align-content: start;
+            }
+        }
+
+        .container {
+            display: grid;
+            justify-content: center;
+            margin-inline: auto;
+            grid-auto-flow: column;
+            gap: 16px 40px;
+
+            @media (width < 970px) {
+                grid-auto-flow: row;
+            }
+        }
+
+        .card {
+            display: grid;
+            max-width: 240px;
+            padding: 20px;
+            text-decoration: none;
+            color: currentColor;
+            border-radius: 20px;
+            place-content: center;
+            place-items: center;
+            aspect-ratio: 1/1;
+            row-gap: 16px;
+        }
+
+        .card h2 {
+            font-family: "Comfortaa", sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            font-style: normal;
+            font-optical-sizing: auto;
+        }
+
+        .card p {
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <a class="card" href="#">
+                <img alt="Owl" height="40" src="https://assets.codepen.io/221808/owl.svg" width="40" />
+                <h2>Owl</h2>
+                <p>
+                    A nocturnal bird that flies silently. Known for its large eyes,
+                    sharp claws, and as a symbol of wisdom.
+                </p>
+            </a>
+            <a class="card" href="#">
+
+                <img alt="Rabbit" height="40" src="https://assets.codepen.io/221808/rabbit.svg" width="40" />
+                <h2>Rabbit</h2>
+                <p>
+                    A herbivorous animal with long ears and a hopping motion. Loved for
+                    its cute appearance.
+                </p>
+            </a>
+            <a class="card" href="#">
+                <img alt="Rabbit" height="40" src="https://assets.codepen.io/221808/raven.svg" width="40" />
+                <h2>Raven</h2>
+                <p>
+                    A smart bird with black feathers. Often depicted in myths and
+                    stories as a symbol of mystery.
+                </p>
+            </a>
+        </div>
+    </main>
+</body>
+
+</html>

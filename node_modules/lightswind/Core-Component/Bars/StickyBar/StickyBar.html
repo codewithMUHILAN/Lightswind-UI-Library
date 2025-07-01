@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Sticky Bar with Countdown</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+</head>
+
+<body>
+<section class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-lg font-primarylw">
+    <div class="relative px-6 py-3 sm:py-4 lg:py-5">
+        <div class="flex items-center justify-between pr-10">
+            <!-- Offer Text for Desktop and Mobile -->
+            <p class="text-xs font-medium text-white sm:text-sm lg:text-base">
+                Save 50%! on every purchase, Offer ends in
+            </p>
+
+            <!-- Countdown Timer -->
+            <div id="countdown"
+                class="countdown flex items-center gap-1 text-xs font-medium text-white sm:gap-2 sm:text-sm">
+                <span class="rounded-md bg-white/20 px-2 py-1 sm:px-3 sm:py-2">00</span>
+                <span>:</span>
+                <span class="rounded-md bg-white/20 px-2 py-1 sm:px-3 sm:py-2">00</span>
+                <span>:</span>
+                <span class="rounded-md bg-white/20 px-2 py-1 sm:px-3 sm:py-2">00</span>
+            </div>
+
+            <!-- Shop Now Link for Larger Screens -->
+            <a href="javascript:void(0)"
+                class="hidden text-xs font-medium text-white underline sm:block sm:text-sm lg:text-base hover:text-white/90">
+                Shop Now →
+            </a>
+        </div>
+
+        <!-- Close Button -->
+        <button
+            class="absolute right-3 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white z-10">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M1.14288 1.14285L8.00003 8M8.00003 8L14.8572 14.8571M8.00003 8L14.8572 1.14285M8.00003 8L1.14288 14.8571"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </button>
+    </div>
+</section>
+<!-- ====== Advanced Professional Sticky Bar End ====== -->
+
+<script>
+    // Set the target time (e.g., 2 hours from now)
+    const targetTime = new Date().getTime() + 2 * 60 * 60 * 1000;
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const timeLeft = targetTime - now;
+
+        if (timeLeft <= 0) {
+            document.getElementById("countdown").innerHTML =
+                '<span class="rounded-md bg-red-600 px-2 py-1 sm:px-3 sm:py-2">00</span>' +
+                '<span>:</span>' +
+                '<span class="rounded-md bg-red-600 px-2 py-1 sm:px-3 sm:py-2">00</span>' +
+                '<span>:</span>' +
+                '<span class="rounded-md bg-red-600 px-2 py-1 sm:px-3 sm:py-2">00</span>';
+            return; // Stop further updates
+        }
+
+        const hours = Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+        const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
+        const seconds = Math.floor((timeLeft % (60 * 1000)) / 1000);
+
+        // Update the countdown
+        document.getElementById("countdown").innerHTML =
+            '<span class="rounded-md bg-white/20 px-2 py-1 sm:px-3 sm:py-2">' + String(hours).padStart(2, '0') + '</span>' +
+            '<span>:</span>' +
+            '<span class="rounded-md bg-white/20 px-2 py-1 sm:px-3 sm:py-2">' + String(minutes).padStart(2, '0') + '</span>' +
+            '<span>:</span>' +
+            '<span class="rounded-md bg-white/20 px-2 py-1 sm:px-3 sm:py-2">' + String(seconds).padStart(2, '0') + '</span>';
+    }
+
+    // Update the countdown every second
+    setInterval(updateCountdown, 1000);
+</script>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Pagination</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl ">
+        <div class="relative text-center flex items-center justify-center flex-wrap gap-4">
+            <!-- Pagination Container -->
+            <div class="flex justify-center items-center ">
+                <nav aria-label="Page navigation" class="inline-flex items-center space-x-2">
+
+                    <!-- Previous Button -->
+                    <button id="prevButton"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-lg hover:bg-primarylw-2 hover:text-white focus:outline-none focus:ring-2 focus:ring-primarylw-2 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled>
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                            </path>
+                        </svg>
+                    </button>
+
+                    <!-- Pagination Buttons -->
+                    <ul id="paginationContainer" class="inline-flex items-center space-x-2">
+                        <!-- Pagination items will be dynamically generated here -->
+                    </ul>
+
+                    <!-- Next Button -->
+                    <button id="nextButton"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-lg hover:bg-primarylw-2 hover:text-white focus:outline-none focus:ring-2 focus:ring-primarylw-2 focus:ring-opacity-50">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const totalPages = 20;
+        let currentPage = 1;
+        let startIndex = 1;
+        const itemsPerPage = window.innerWidth <= 768 ? 3 : 5;
+
+        const paginationContainer = document.getElementById('paginationContainer');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+
+        function renderPagination() {
+            paginationContainer.innerHTML = '';
+
+            for (let i = startIndex; i < startIndex + itemsPerPage && i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.innerText = i;
+                pageButton.classList.add('px-4', 'py-2', 'text-sm', 'font-medium', 'border', 'rounded-lg', 'transition', 'transform', 'duration-200');
+
+                if (i === currentPage) {
+                    pageButton.classList.add('bg-primarylw', 'text-white', 'border-primarylw', 'scale-110', 'shadow-lg');
+                } else {
+                    pageButton.classList.add('bg-white', 'text-gray-700', 'border-gray-300', 'hover:bg-primarylw-2', 'hover:text-white');
+                }
+
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    updatePagination();
+                });
+
+                paginationContainer.appendChild(pageButton);
+            }
+        }
+
+        function updatePagination() {
+            // If the current page is outside the visible range, adjust startIndex
+            if (currentPage < startIndex) {
+                startIndex = currentPage;
+            } else if (currentPage >= startIndex + itemsPerPage) {
+                startIndex = currentPage - itemsPerPage + 1;
+            }
+
+            renderPagination();
+
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === totalPages;
+        }
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            const isMobileView = window.innerWidth <= 768;
+            if (isMobileView) {
+                itemsPerPage = 3;
+            } else {
+                itemsPerPage = 5;
+            }
+            updatePagination();
+        });
+
+        updatePagination();
+    </script>
+
+</body>
+
+</html>

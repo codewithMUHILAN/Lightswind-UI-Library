@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.2.0/src/lightswind.css">
+</head>
+
+<body>
+<div tabindex="-1" class="bg-white dark:bg-black overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 
+    h-full items-center justify-center flex font-primarylw">
+    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+
+        <div
+            class="relative bg-white dark:bg-black rounded-lg shadow border border-gray-500 dark:border-gray-300 dark:border-gray-700 ">
+            <button type="button"
+                class="absolute top-3 right-2.5 text-gray-800 dark:text-gray-200 bg-transparent hover:bg-gray-800 dark:hover:bg-gray-200 
+                hover:text-gray-200 dark:hover:text-gray-800 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center popup-close">
+                <svg aria-hidden="true" class="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        cliprule="evenodd"></path>
+                </svg>
+                <span class="sr-only">Close popup</span>
+            </button>
+
+            <div class="p-5">
+                <h3 class="text-2xl mb-0.5 font-medium"></h3>
+                <p class="mb-4 text-sm font-normal text-gray-800 dark:text-gray-200"></p>
+
+                <div class="text-center">
+                    <p class="mb-3 text-xl md:text-2xl font-semibold leading-5 text-gray-800 dark:text-gray-200">
+                        Login to your account
+                    </p>
+                    <p class="mt-2 text-xs md:text-sm leading-4 text-gray-500 dark:text-gray-500">
+                        You must be logged in to perform this action.
+                    </p>
+                </div>
+
+                <div class="mt-7 flex flex-col gap-2">
+
+                    <button class="inline-flex h-10 w-full items-center justify-center gap-2 rounded border 
+                        border-gray-600 dark:border-gray-400 bg-white dark:bg-black p-2 text-xs md:text-sm font-medium text-gray-800 dark:text-gray-200 outline-none focus:ring-2 
+                        focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 32 32">
+                            <path fill-rule="evenodd"
+                                d="M16 4C9.371 4 4 9.371 4 16c0 5.3 3.438 9.8 8.207 11.387.602.11.82-.258.82-.578 0-.286-.011-1.04-.015-2.04-3.34.723-4.043-1.609-4.043-1.609-.547-1.387-1.332-1.758-1.332-1.758-1.09-.742.082-.726.082-.726 1.203.086 1.836 1.234 1.836 1.234 1.07 1.836 2.808 1.305 3.492 1 .11-.777.422-1.305.762-1.605-2.664-.301-5.465-1.332-5.465-5.93 0-1.313.469-2.383 1.234-3.223-.121-.3-.535-1.523.117-3.175 0 0 1.008-.32 3.301 1.23A11.487 11.487 0 0116 9.805c1.02.004 2.047.136 3.004.402 2.293-1.55 3.297-1.23 3.297-1.23.656 1.652.246 2.875.12 3.175.77.84 1.231 1.91 1.231 3.223 0 4.61-2.804 5.621-5.476 5.922.43.367.812 1.101.812 2.219 0 1.605-.011 2.898-.011 3.293 0 .32.214.695.824.578C24.566 25.797 28 21.3 28 16c0-6.629-5.371-12-12-12z" />
+                        </svg>
+                        Continue with GitHub
+                    </button>
+
+                    <button class="inline-flex h-10 w-full items-center justify-center gap-2 rounded border 
+                        border-gray-600 dark:border-gray-400 bg-white dark:bg-black p-2 text-xs md:text-sm font-medium text-gray-800 dark:text-gray-200 outline-none focus:ring-2 
+                        focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 48 48">
+                            <path fill="#fbc02d"
+                                d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12	s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20	s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+                            </path>
+                            <path fill="#e53935"
+                                d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039	l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
+                            </path>
+                            <path fill="#4caf50"
+                                d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36	c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+                            </path>
+                            <path fill="#1565c0"
+                                d="M43.611,20.083L43.595,20L42,20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571	c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z">
+                            </path>
+                        </svg>
+                        Continue with Google
+                    </button>
+
+
+                    <button class="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-gray-600 dark:border-gray-400 
+                        bg-white dark:bg-black p-2 text-xs md:text-sm font-medium text-gray-800 dark:text-gray-200 outline-none focus:ring-2 focus:ring-[#333] 
+                        focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 48 48">
+                            <path fill="#0078d4"
+                                d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5	V37z">
+                            </path>
+                            <path
+                                d="M30,37V26.901c0-1.689-0.819-2.698-2.192-2.698c-0.815,0-1.414,0.459-1.779,1.364	c-0.017,0.064-0.041,0.325-0.031,1.114L26,37h-7V18h7v1.061C27.022,18.356,28.275,18,29.738,18c4.547,0,7.261,3.093,7.261,8.274	L37,37H30z M11,37V18h3.457C12.454,18,11,16.528,11,14.499C11,12.472,12.478,11,14.514,11c2.012,0,3.445,1.431,3.486,3.479	C18,16.523,16.521,18,14.485,18H18v19H11z"
+                                opacity=".05"></path>
+                            <path
+                                d="M30.5,36.5v-9.599c0-1.973-1.031-3.198-2.692-3.198c-1.295,0-1.935,0.912-2.243,1.677	c-0.082,0.199-0.071,0.989-0.067,1.326L25.5,36.5h-6v-18h6v1.638c0.795-0.823,2.075-1.638,4.238-1.638	c4.233,0,6.761,2.906,6.761,7.774L36.5,36.5H30.5z M11.5,36.5v-18h6v18H11.5z M14.457,17.5c-1.713,0-2.957-1.262-2.957-3.001	c0-1.738,1.268-2.999,3.014-2.999c1.724,0,2.951,1.229,2.986,2.989c0,1.749-1.268,3.011-3.015,3.011H14.457z"
+                                opacity=".07"></path>
+                            <path fill="#fff"
+                                d="M12,19h5v17h-5V19z M14.485,17h-0.028C12.965,17,12,15.888,12,14.499C12,13.08,12.995,12,14.514,12	c1.521,0,2.458,1.08,2.486,2.499C17,15.887,16.035,17,14.485,17z M36,36h-5v-9.099c0-2.198-1.225-3.698-3.192-3.698	c-1.501,0-2.313,1.012-2.707,1.99C24.957,25.543,25,26.511,25,27v9h-5V19h5v2.616C25.721,20.5,26.85,19,29.738,19	c3.578,0,6.261,2.25,6.261,7.274L36,36L36,36z">
+                            </path>
+                        </svg>
+                        Continue with
+                        LinkedIn
+                    </button>
+                </div>
+
+                <div class="flex w-full items-center gap-2 py-6 text-sm text-slate-600 dark:text-slate-400">
+                    <div class="h-px w-full bg-slate-700 dark:bg-slate-400"></div>
+                    OR
+                    <div class="h-px w-full bg-slate-700 dark:bg-slate-400"></div>
+                </div>
+
+
+                <form class="w-full">
+                    <label for="email" class="sr-only">Email address</label>
+                    <input name="email" type="email" autocomplete="email" required="" class="block w-full rounded-lg bg-white dark:bg-black border border-gray-300 dark:border-gray-700 px-3 py-2 shadow-sm outline-none 
+                        text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-black focus:ring-offset-1"
+                        placeholder="Email Address" value="">
+                    <label for="password" class="sr-only">Password</label>
+                    <input name="password" type="password" autocomplete="current-password" required="" class="mt-2 block w-full rounded-lg bg-white dark:bg-black border border-gray-300 dark:border-gray-700 px-3 py-2 
+                        shadow-sm outline-none  text-gray-800 dark:text-gray-200 focus:ring-2 
+                        focus:ring-black focus:ring-offset-1" placeholder="Password" value="">
+                    <p class="mb-3 mt-2 text-sm text-gray-500">
+                        <a href="javascript:void(0)"
+                            class="text-blue-800 dark:text-blue-600 hover:text-blue-600 dark:hover:text-blue-300">Reset
+                            your
+                            password?</a>
+                    </p>
+                    <button type="submit" class="inline-flex w-full items-center justify-center rounded-lg bg-black dark:bg-white p-2 py-3 text-sm 
+                        font-medium text-white dark:text-black outline-none focus:ring-2 focus:ring-black dark:focus:ring-white 
+                        focus:ring-offset-1 disabled:bg-gray-400">
+                        Continue
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+                    Don't have an account?
+                    <a href="javascript:void(0)"
+                        class="font-medium text-blue-800 dark:text-blue-600 hover:text-blue-600 dark:hover:text-blue-300">Sign
+                        up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle"
+        class="fixed z-50 top-2 left-2 text-gray-800 dark:text-gray-200 dark:text-white bg-gray-500/30 dark:bg-gray-900/70 p-2 rounded-full shadow-md hover:bg-gray-700">
+        <!-- Sun Icon for Light Mode -->
+        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+        </svg>
+
+        <!-- Moon Icon for Dark Mode -->
+        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+        </svg>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/lightwind@3.1.0/src/lightswind.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {},
+                },
+            },
+        };
+
+        const setInitialTheme = () => {
+            const currentTheme = localStorage.getItem('iframetheme') || 'dark';
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark');
+                document.getElementById('sun-icon').style.opacity = '0';
+                document.getElementById('moon-icon').style.opacity = '1';
+            } else {
+                document.body.classList.remove('dark');
+                document.getElementById('sun-icon').style.opacity = '1';
+                document.getElementById('moon-icon').style.opacity = '0';
+            }
+        };
+
+        setInitialTheme();
+
+        const themeToggleButton = document.getElementById('theme-toggle');
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = localStorage.getItem('iframetheme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('iframetheme', newTheme);
+
+            document.body.classList.toggle('dark', newTheme === 'dark');
+
+            if (newTheme === 'dark') {
+                document.getElementById('moon-icon').style.opacity = '0';
+                document.getElementById('sun-icon').style.opacity = '1';
+            } else {
+                document.getElementById('moon-icon').style.opacity = '1';
+                document.getElementById('sun-icon').style.opacity = '0';
+            }
+
+            const iframe = document.querySelector('iframe');
+            if (iframe) {
+                const iframeWindow = iframe.contentWindow;
+                const iframeDocument = iframe.contentDocument || iframeWindow.document;
+
+                if (iframeDocument) {
+                    iframeDocument.addEventListener('DOMContentLoaded', () => {
+                        iframeDocument.body.classList.toggle('dark', newTheme === 'dark');
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

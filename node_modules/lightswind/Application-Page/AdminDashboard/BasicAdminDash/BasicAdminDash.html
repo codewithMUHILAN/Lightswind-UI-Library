@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <style>
+        /* Dark Mode */
+        .dark-mode {
+            background-color: #1f2937;
+            color: white;
+        }
+        .light-mode {
+            background-color: #f9fafb;
+            color: black;
+        }
+        /* Custom Scrollbars */
+        .scrollable {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="light-mode" id="dashboard-body">
+    <!-- Sidebar -->
+    <div class="flex h-screen">
+        <div class="w-64 bg-gray-800 text-white p-5">
+            <div class="text-lg font-bold mb-5">Admin Dashboard</div>
+            <ul class="space-y-4">
+                <li><a href="#" class="flex items-center py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-tachometer-alt mr-3"></i> Dashboard</a></li>
+                <li><a href="#analytics" class="flex items-center py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-chart-line mr-3"></i> Analytics</a></li>
+                <li><a href="#tasks" class="flex items-center py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-tasks mr-3"></i> Tasks</a></li>
+                <li><a href="#users" class="flex items-center py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-users mr-3"></i> Users</a></li>
+                <li><a href="#settings" class="flex items-center py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-cogs mr-3"></i> Settings</a></li>
+                <li><button onclick="toggleDarkMode()" class="flex items-center py-2 px-4 hover:bg-gray-700 rounded"><i class="fas fa-moon mr-3"></i> Toggle Dark Mode</button></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 bg-gray-100 p-5 overflow-auto">
+            <!-- Dashboard Overview Section -->
+            <section id="dashboard" class="mb-8">
+                <h2 class="text-2xl font-semibold mb-5">Dashboard Overview</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Total Users Card -->
+                    <div class="bg-white p-5 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold">Total Users</h3>
+                        <p class="text-3xl">2,350</p>
+                    </div>
+                    <!-- Total Sales Card -->
+                    <div class="bg-white p-5 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold">Total Sales</h3>
+                        <p class="text-3xl">$18,745</p>
+                    </div>
+                    <!-- Pending Orders Card -->
+                    <div class="bg-white p-5 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold">Pending Orders</h3>
+                        <p class="text-3xl">120</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="mb-8">
+                <h2 class="text-2xl font-semibold mb-5">Analytics</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Sales Chart -->
+                    <div class="bg-white p-5 rounded-lg shadow-md">
+                        <canvas id="salesChart" class="w-full h-64"></canvas>
+                    </div>
+                    <!-- Traffic Chart -->
+                    <div class="bg-white p-5 rounded-lg shadow-md">
+                        <canvas id="trafficChart" class="w-full h-64"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tasks Section -->
+            <section id="tasks" class="mb-8">
+                <h2 class="text-2xl font-semibold mb-5">Tasks</h2>
+                <div class="bg-white p-5 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3">Task List</h3>
+                    <div class="scrollable space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span>Design New Logo</span>
+                            <button class="bg-blue-500 text-white px-3 py-1 rounded">In Progress</button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Implement New Feature</span>
+                            <button class="bg-green-500 text-white px-3 py-1 rounded">Completed</button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Update Analytics Dashboard</span>
+                            <button class="bg-red-500 text-white px-3 py-1 rounded">Pending</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- User Management Section -->
+            <section id="users" class="mb-8">
+                <h2 class="text-2xl font-semibold mb-5">User Management</h2>
+                <div class="bg-white p-5 rounded-lg shadow-md">
+                    <table class="w-full table-auto">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="py-2 px-4">Name</th>
+                                <th class="py-2 px-4">Email</th>
+                                <th class="py-2 px-4">Status</th>
+                                <th class="py-2 px-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-2 px-4">John Doe</td>
+                                <td class="py-2 px-4">johndoe@example.com</td>
+                                <td class="py-2 px-4"><span class="bg-green-500 text-white py-1 px-3 rounded">Active</span></td>
+                                <td class="py-2 px-4"><button class="bg-blue-500 text-white px-3 py-1 rounded">Edit</button></td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 px-4">Jane Smith</td>
+                                <td class="py-2 px-4">janesmith@example.com</td>
+                                <td class="py-2 px-4"><span class="bg-red-500 text-white py-1 px-3 rounded">Inactive</span></td>
+                                <td class="py-2 px-4"><button class="bg-blue-500 text-white px-3 py-1 rounded">Edit</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings">
+                <h2 class="text-2xl font-semibold mb-5">Settings</h2>
+                <div class="bg-white p-5 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold">Notifications</h3>
+                    <p class="mb-4">Enable or disable notifications for tasks, messages, etc.</p>
+                    <button class="bg-green-500 text-white px-4 py-2 rounded">Save Settings</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Chart.js Scripts -->
+    <script>
+        // Sales Chart
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [65, 59, 80, 81, 56],
+                    borderColor: 'rgb(75, 192, 192)',
+                    fill: false,
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Traffic Chart
+        const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+        const trafficChart = new Chart(trafficCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Page Views', 'Unique Visitors', 'Conversions'],
+                datasets: [{
+                    label: 'Traffic',
+                    data: [3500, 2300, 1200],
+                    backgroundColor: 'rgb(54, 162, 235)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        display: true,
+                        color: 'black',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            const body = document.getElementById('dashboard-body');
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+            }
+        }
+    </script>
+</body>
+</html>

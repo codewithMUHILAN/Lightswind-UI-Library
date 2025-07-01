@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toast Notification with Loader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .toast {
+            transition: opacity 0.5s ease-out;
+        }
+
+        .toast.hidden {
+            opacity: 0;
+        }
+
+        /* Loader width transition */
+        #loader-bar {
+            transition: width 3s linear; /* Ensures a consistent animation speed */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+    <!-- Button to trigger Toast -->
+    <button id="show-toast-btn" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+        Show Toast
+    </button>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden fixed top-0 right-0 sm:right-4 sm:top-4 sm:max-w-xs sm:w-auto sm:left-auto 
+    sm:max-w-xs sm:w-auto sm:right-4 w-full sm:w-auto bg-green-600 text-white 
+    sm:rounded-tl-md sm:rounded-tr-md shadow-lg 
+    sm:w-auto sm:top-4 sm:right-4 sm:left-auto sm:max-w-xs">
+        <div class="px-6 py-3 md:py-4">
+            <div class="flex flex-col">
+                <!-- Content Section (Text and Icon) -->
+                <div class="flex items-center space-x-4">
+                    <!-- SVG Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+
+                    <div class="flex-1">
+                        <p class="font-semibold text-sm">Action Successful!</p>
+                        <p class="text-xs">Your request was completed successfully.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Close Button -->
+            <button id="close-btn" class="text-white hover:text-gray-200 focus:outline-none absolute top-2 right-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+
+        </div>
+        <!-- Loader (Bottom Line inside Toast) -->
+        <div class="w-full h-1 bg-white mt-2 rounded-full">
+            <div id="loader-bar" class="h-full bg-yellow-400 w-0"></div>
+        </div>
+    </div>
+
+    <script>
+        // Toast and loader functionality
+        const toast = document.getElementById("toast");
+        const loaderBar = document.getElementById("loader-bar");
+        const closeBtn = document.getElementById("close-btn");
+        const showToastBtn = document.getElementById("show-toast-btn");
+
+        function showToast() {
+            toast.classList.remove("hidden");
+            loaderBar.style.width = "0%"; // Reset the loader bar to 0% before starting the animation
+
+            setTimeout(() => {
+                loaderBar.style.width = "100%"; // Start loading animation immediately
+            }, 100); // Start loader bar after a slight delay for smoothness
+
+            // Hide toast immediately after loader reaches 100%
+            setTimeout(() => {
+                toast.classList.add("hidden"); // Hide toast once the loader completes
+            }, 3000); // Matches the duration of the loader animation (3 seconds)
+        }
+
+        // Close button functionality
+        closeBtn.addEventListener("click", () => {
+            toast.classList.add("hidden");
+        });
+
+        // Show toast when the button is clicked
+        showToastBtn.addEventListener("click", () => {
+            showToast(); // Show the toast immediately
+        });
+    </script>
+
+</body>
+
+</html>

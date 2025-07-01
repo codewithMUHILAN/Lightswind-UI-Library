@@ -1,0 +1,16 @@
+.card1[data-toggle1="true"] {
+    transform: translateY(50px) translateX(60px) scale(0);
+}
+
+
+.card2[data-toggle2="true"] {
+    transform: translateY(50px) translateX(-60px) scale(0);
+}
+
+.card3[data-toggle3="true"] {
+    transform: translateY(-50px) translateX(60px) scale(0);
+}
+
+.card4[data-toggle4="true"] {
+    transform: translateY(-50px) translateX(-60px) scale(0);
+}
