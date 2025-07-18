@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+    <link rel="stylesheet" href="../../../..//node_modules/lightwind/tailwind.css">
+    <style>
+
+    </style>
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gray-400 dark:bg-gray-800">
+
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl ">
+    <div class="relative text-center flex items-center justify-center flex-wrap gap-4">
+        <div class="slider-wrapper relative w-40 h-10 font-primarylw">
+            <label
+                class="animatedRangeInput relative cursor-pointer inline-flex flex-row-reverse items-center w-full">
+                <input type="range" min="0" max="100" value="50" step="1"
+                    class="cursor-pointer animatedRangeInputLevel appearance-none w-full h-[50px] bg-[#525252] dark:bg-[#444444] overflow-hidden rounded-[9px] transition-[height_0.1s] cursor-inherit transform rotate-[270deg]"
+                    id="animatedRangeInput-range-slider" />
+                <!-- Live percentage display -->
+                <span id="percentage"
+                    class="percentage absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-bold text-black z-10">50%</span>
+                <svg class="inline-block align-top text-black dark:text-gray-200 w-[25px] h-auto absolute left-4 pointer-events-none"
+                    xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    width="512" height="512" x="0" y="0" viewBox="0 0 24 24"
+                    style="enable-background:new 0 0 512 512" xml:space="preserve">
+                    <g>
+                        <path
+                            d="M18.36 19.36a1 1 0 0 1-.705-1.71C19.167 16.148 20 14.142 20 12s-.833-4.148-2.345-5.65a1 1 0 1 1 1.41-1.419C20.958 6.812 22 9.322 22 12s-1.042 5.188-2.935 7.069a.997.997 0 0 1-.705.291z"
+                            fill="currentColor" data-original="#000000"></path>
+                        <path
+                            d="M15.53 16.53a.999.999 0 0 1-.703-1.711C15.572 14.082 16 13.054 16 12s-.428-2.082-1.173-2.819a1 1 0 1 1 1.406-1.422A6 6 0 0 1 18 12a6 6 0 0 1-1.767 4.241.996.996 0 0 1-.703.289zM12 22a1 1 0 0 1-.707-.293L6.586 17H4c-1.103 0-2-.897-2-2V9c0-1.103.897-2 2-2h2.586l4.707-4.707A.998.998 0 0 1 13 3v18a1 1 0 0 1-1 1z"
+                            fill="currentColor" data-original="#000000"></path>
+                    </g>
+                </svg>
+            </label>
+        </div>
+
+        <div class="slider-wrapper relative w-40 h-20 mt-10">
+            <label
+                class="animatedRangeInput relative cursor-pointer inline-flex flex-row-reverse items-center w-full">
+                <input type="range" min="0" max="100" value="50" step="1"
+                    class="cursor-pointer animatedRangeInputLevel appearance-none w-full h-[50px] bg-[#525252] dark:bg-[#444444] overflow-hidden rounded-[9px] transition-[height_0.1s] cursor-inherit transform rotate-[270deg]"
+                    id="animatedRangeInput-range-slider-2" />
+                <!-- Live percentage display -->
+                <span id="percentage-2"
+                    class="percentage absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-bold text-black z-10">50%</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor"
+                    class="inline-block align-top  text-black dark:text-gray-200 w-[25px] h-auto absolute left-4 pointer-events-none size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                </svg>
+            </label>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Update percentage for the first slider
+    const rangeSlider = document.getElementById("animatedRangeInput-range-slider");
+    const percentageDisplay = document.getElementById("percentage");
+
+    rangeSlider.addEventListener("input", function () {
+        percentageDisplay.textContent = rangeSlider.value + "%";
+    });
+
+    // Update percentage for the second slider
+    const rangeSlider2 = document.getElementById("animatedRangeInput-range-slider-2");
+    const percentageDisplay2 = document.getElementById("percentage-2");
+
+    rangeSlider2.addEventListener("input", function () {
+        percentageDisplay2.textContent = rangeSlider2.value + "%";
+    });
+</script>
+
+</body>
+
+</html>

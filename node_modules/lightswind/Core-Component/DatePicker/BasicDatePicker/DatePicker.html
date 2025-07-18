@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" class="dark"> <!-- Add 'dark' here to enable dark mode -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Picker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+    <style>
+        /* Custom styles for date picker */
+        .BasicBasicDatePicker {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .BasicBasicDatePicker.BasicDatePickerActive {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-200 transition-colors">
+
+<div class="flex justify-center mt-4 h-full w-full bg-white dark:bg-black">
+    <div class="container mx-auto p-6 font-primarylw">
+        <!-- Date Picker Input -->
+        <div class="relative w-full max-w-sm">
+            <div class="relative w-full">
+                <input type="text" id="dateInput"
+                    class="w-full px-4 py-3 pl-10 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:focus:ring-blue-400 dark:focus:border-blue-400"
+                    placeholder="Select Date" readonly>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor"
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-500 dark:text-gray-300">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
+                </svg>
+            </div>
+
+            <!-- Date Picker Calendar -->
+            <div id="BasicBasicDatePicker"
+                class="BasicBasicDatePicker p-4 mt-2 rounded-lg bg-white shadow-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600">
+                <div class="flex justify-between items-center mb-3">
+                    <button id="prevMonth"
+                        class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                        </svg>
+                    </button>
+                    <div id="currentMonth" class="font-semibold text-lg text-gray-700 dark:text-gray-200">
+                        January 2025
+                    </div>
+                    <button id="nextMonth"
+                        class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+                </div>
+                <div
+                    class="grid grid-cols-7 gap-2 text-center text-sm font-medium text-gray-600 dark:text-gray-300">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div id="calendarGrid" class="grid grid-cols-7 gap-2 mt-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Existing JavaScript functionality remains unchanged.
+    const dateInput = document.getElementById("dateInput");
+    const BasicBasicDatePicker = document.getElementById("BasicBasicDatePicker");
+    const prevMonthBtn = document.getElementById("prevMonth");
+    const nextMonthBtn = document.getElementById("nextMonth");
+    const currentMonthElem = document.getElementById("currentMonth");
+    const calendarGrid = document.getElementById("calendarGrid");
+
+    let currentDate = new Date();
+
+    const daysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
+    const firstDayOfMonth = (month, year) => new Date(year, month, 1).getDay();
+
+    const renderCalendar = () => {
+        const month = currentDate.getMonth();
+        const year = currentDate.getFullYear();
+        const firstDay = firstDayOfMonth(month, year);
+        const totalDays = daysInMonth(month, year);
+
+        currentMonthElem.textContent = currentDate.toLocaleString('default', { month: 'long' }) + ' ' + year;
+        calendarGrid.innerHTML = "";
+
+        for (let i = 0; i < firstDay; i++) {
+            const emptyCell = document.createElement("div");
+            calendarGrid.appendChild(emptyCell);
+        }
+
+        for (let day = 1; day <= totalDays; day++) {
+            const dayCell = document.createElement("div");
+            dayCell.textContent = day;
+            dayCell.classList.add(
+                "cursor-pointer",
+                "flex",             // Makes it a flex container
+                "items-center",     // Vertically centers content
+                "justify-center",   // Horizontally centers content
+                "p-2",
+                "rounded-full",     // Makes it circular on hover
+                "transition",
+                "hover:bg-blue-500", // Background color on hover
+                "hover:text-white", // Text color changes to white on hover
+                "text-gray-800",    // Default text color
+                "dark:text-gray-200", // Default text color for dark mode
+                "dark:hover:bg-blue-300", // Hover background for dark mode
+                "dark:hover:text-gray-900" // Hover text color for dark mode
+            );
+            dayCell.addEventListener("click", () => selectDate(day, month, year));
+            calendarGrid.appendChild(dayCell);
+        }
+    };
+
+    const selectDate = (day, month, year) => {
+        const selectedDate = new Date(year, month, day);
+        const formattedDate = selectedDate.toLocaleDateString();
+        dateInput.value = formattedDate;
+        BasicBasicDatePicker.classList.remove("BasicDatePickerActive");
+    };
+
+    dateInput.addEventListener("click", () => {
+        BasicBasicDatePicker.classList.toggle("BasicDatePickerActive");
+        renderCalendar();
+    });
+
+    prevMonthBtn.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+    });
+
+    nextMonthBtn.addEventListener("click", () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+    });
+
+    window.addEventListener("click", (e) => {
+        if (!e.target.closest(".relative")) {
+            BasicBasicDatePicker.classList.remove("BasicDatePickerActive");
+        }
+    });
+
+    renderCalendar();
+</script>
+</body>
+
+</html>

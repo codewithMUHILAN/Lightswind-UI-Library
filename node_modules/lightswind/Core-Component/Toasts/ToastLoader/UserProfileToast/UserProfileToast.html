@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <title>Professional Progress Bars</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+</head>
+
+<body class="bg-gray-100">
+<!-- ====== User Profile Toast Start -->
+<section id="toast" class="fixed top-0 right-0 z-50 w-full max-w-lg sm:max-w-sm sm:right-4 sm:top-4">
+    <div class="w-full bg-white shadow-xl rounded-lg border border-gray-200 overflow-hidden dark:bg-gray-800 dark:border-gray-700 transition-all">
+        <div class="flex items-center p-4">
+            <!-- Profile Image -->
+            <div class="flex-shrink-0 mr-4">
+                <img src="https://codewithmuhilan.com/Extra-Assets/lightwind-logo.png" alt="user image" class="w-14 h-14 rounded-full object-cover">
+            </div>
+            <!-- Toast Content -->
+            <div class="flex-1">
+                <h6 class="text-lg font-semibold text-gray-800 dark:text-white">Nelly Miller</h6>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Purchased polo t-shirt for man</p>
+                <span class="text-xs text-gray-500 dark:text-gray-500">2 min ago</span>
+            </div>
+            <!-- Close Button -->
+            <button id="closeButton" class="ml-4 text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path d="M11.742 4.742a1 1 0 0 0-1.414 0L8 6.586 5.672 4.257a1 1 0 1 0-1.414 1.414L6.586 8l-2.328 2.328a1 1 0 1 0 1.414 1.414L8 9.414l2.328 2.328a1 1 0 1 0 1.414-1.414L9.414 8l2.328-2.328a1 1 0 0 0 0-1.414z" />
+                </svg>
+            </button>
+        </div>
+        <div class="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 p-2 flex justify-end">
+            <button class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">View Product</button>
+        </div>
+    </div>
+</section>
+<!-- ====== User Profile Toast End -->
+
+<script>
+    // Get the toast and close button elements
+    const toast = document.getElementById('toast');
+    const closeButton = document.getElementById('closeButton');
+
+    // Add event listener to the close button
+    closeButton.addEventListener('click', () => {
+        // Hide the toast by setting display to 'none'
+        toast.style.display = 'none';
+    });
+</script>
+</body>
+
+</html>

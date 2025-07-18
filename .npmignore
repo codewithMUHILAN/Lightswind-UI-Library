@@ -1,0 +1,38 @@
+# Ignore node_modules (not necessary, as NPM automatically ignores it)
+node_modules
+./node_modules
+./node_modules/
+
+# Ignore configuration files
+.npmrc
+.gitignore
+.eslintignore
+.eslintrc
+.prettierrc
+babel.config.js
+webpack.config.js
+tailwind.css
+tailwind.js
+# tailwind.css
+
+# Ignore development and test folders
+tests
+coverage
+.env
+__tests__
+.vscode
+
+# Ignore build and cache folders
+build
+dist
+.cache
+
+# Ignore README, unless you want to publish it
+# README.md
+
+# Ignore your local Tailwind config file (optional)
+postcss.config.js
+tailwind.config.js
+
+# Ignore the .history folder
+/.history/

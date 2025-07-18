@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+
+</head>
+
+<body class="flex items-center justify-center h-screen">
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl ">
+    <div class="relative text-center flex items-center justify-center flex-wrap gap-4">
+        <a href="javascript:void(0)" id="confettiButton" class='font-bold font-primarylw bg-primarylw text-white 
+        hover:bg-primarylw-2 hover:text-white p-4 px-12 md:text-1xl  rounded-full cursor-pointer active:scale-125 transform 
+        transition-all duration-150'>
+            <span>Confetti</span>
+            <span>🎉</span>
+        </a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+<script>
+    const button = document.getElementById('confettiButton');
+    button.addEventListener('click', () => {
+        confetti({
+            particleCount: 250,
+            spread: 70
+        });
+    });
+</script>
+</body>
+
+</html>

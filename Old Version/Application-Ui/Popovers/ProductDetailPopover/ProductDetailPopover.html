@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Product Popover</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 font-primarylw">
+
+    <!-- Modal Background Overlay -->
+    <div class="bg-black bg-opacity-50 h-screen flex justify-center items-center z-50 fade-in">
+        <!-- Modal Container -->
+        <div
+            class="relative w-11/12 md:w-3/4 lg:w-2/3 bg-white dark:bg-gray-800 shadow-lg rounded-md smooth-scroll p-6 flex flex-col md:flex-row space-y-6 md:space-y-0">
+            <!-- Left Side: Product Image -->
+            <div class="w-full md:w-1/2 flex justify-center md:justify-start">
+                <img src="https://images.pexels.com/photos/7156880/pexels-photo-7156880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Premium Sneakers" class="w-full h-auto object-cover rounded-md shadow-lg">
+            </div>
+
+            <!-- Right Side: Product Details -->
+            <div class="w-full md:w-1/2 flex flex-col justify-between space-y-6 p-4">
+                <!-- Product Title -->
+                <h1
+                    class="text-3xl font-extrabold text-gray-800 dark:text-white hover:text-primarylw transition-colors duration-300">
+                    Premium Sneakers
+                </h1>
+
+                <!-- Product Description -->
+                <p class="text-lg text-gray-600 dark:text-gray-300">
+                    Experience unmatched comfort and style with our premium sneakers, designed for all-day wear and
+                    durability.
+                </p>
+
+                <!-- Price and Stock -->
+                <div class="flex items-center justify-between">
+                    <p class="text-3xl font-bold text-gray-800 dark:text-white">$149.99</p>
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="text-sm text-gray-600 dark:text-gray-300">In Stock</span>
+                    </div>
+                </div>
+
+                <!-- Color Picker -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Choose Color:</h3>
+                    <div class="flex items-center gap-3 mt-2">
+                        <button
+                            class="w-8 h-8 bg-red-500 rounded-full border-2 border-gray-300 hover:border-red-500 transition-all"></button>
+                        <button
+                            class="w-8 h-8 bg-blue-500 rounded-full border-2 border-gray-300 hover:border-blue-500 transition-all"></button>
+                        <button
+                            class="w-8 h-8 bg-green-500 rounded-full border-2 border-gray-300 hover:border-green-500 transition-all"></button>
+                        <button
+                            class="w-8 h-8 bg-yellow-500 rounded-full border-2 border-gray-300 hover:border-yellow-500 transition-all"></button>
+                    </div>
+                </div>
+
+                <!-- Size Selector -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Choose Size:</h3>
+                    <select
+                        class="mt-3 block w-full p-3 border-2 border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-primarylw dark:focus:ring-primarylw hover:bg-gray-50 dark:hover:bg-gray-600 transition-all">
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                        <option value="xlarge">X-Large</option>
+                    </select>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-between mt-6 space-x-3">
+                    <!-- Add to Cart Button -->
+                    <button
+                        class="flex items-center justify-center gap-3 px-6 py-3 bg-primarylw text-white rounded-full hover:bg-primarylw-2 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primarylw focus:ring-opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="h-5 w-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                        </svg>
+                        Add to Cart
+                    </button>
+
+                    <!-- Like Button -->
+                    <button
+                        class="flex items-center justify-center px-4 py-3 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primarylw">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.318 6.318a4.5 4.5 0 0 1 6.364 0L12 7.636l1.318-1.318a4.5 4.5 0 1 1 6.364 6.364L12 19.364l-7.682-7.682a4.5 4.5 0 0 1 0-6.364z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
