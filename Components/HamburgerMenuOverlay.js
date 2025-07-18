@@ -1,3 +1,4 @@
+"use client";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "../lib/utils";
@@ -9,14 +10,14 @@ export const HamburgerMenuOverlay = ({ items = [], buttonTop = "60px", buttonLef
     const buttonSizes = {
         sm: "w-10 h-10",
         md: "w-12 h-12",
-        lg: "w-16 h-16"
+        lg: "w-16 h-16",
     };
     const fontSizes = {
         sm: "text-2xl md:text-3xl",
         md: "text-3xl md:text-4xl",
         lg: "text-4xl md:text-5xl",
         xl: "text-5xl md:text-6xl",
-        "2xl": "text-6xl md:text-7xl"
+        "2xl": "text-6xl md:text-7xl",
     };
     const toggleMenu = () => {
         const newState = !isOpen;
@@ -67,7 +68,7 @@ export const HamburgerMenuOverlay = ({ items = [], buttonTop = "60px", buttonLef
             z-index: ${zIndex};
             clip-path: circle(0px at ${buttonLeft} ${buttonTop});
             transition: clip-path ${animationDuration}s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            ${enableBlur ? 'backdrop-filter: blur(10px);' : ''}
+            ${enableBlur ? "backdrop-filter: blur(10px);" : ""}
           }
           
           .hamburger-overlay-${zIndex}.open {
@@ -97,9 +98,9 @@ export const HamburgerMenuOverlay = ({ items = [], buttonTop = "60px", buttonLef
           }
           
           .menu-items-${zIndex} {
-            ${menuDirection === 'horizontal' ? 'display: flex; flex-wrap: wrap; gap: 1rem;' : ''}
-            ${menuAlignment === 'center' ? 'text-align: center;' : ''}
-            ${menuAlignment === 'right' ? 'text-align: right;' : ''}
+            ${menuDirection === "horizontal" ? "display: flex; flex-wrap: wrap; gap: 1rem;" : ""}
+            ${menuAlignment === "center" ? "text-align: center;" : ""}
+            ${menuAlignment === "right" ? "text-align: right;" : ""}
           }
           
           .menu-item-${zIndex} {
@@ -113,7 +114,7 @@ export const HamburgerMenuOverlay = ({ items = [], buttonTop = "60px", buttonLef
             font-family: ${fontFamily};
             font-weight: ${fontWeight};
             color: ${textColor};
-            ${menuDirection === 'horizontal' ? 'display: inline-block; margin: 0 1rem;' : ''}
+            ${menuDirection === "horizontal" ? "display: inline-block; margin: 0 1rem;" : ""}
           }
           
           .menu-item-${zIndex}.visible {
@@ -187,20 +188,24 @@ export const HamburgerMenuOverlay = ({ items = [], buttonTop = "60px", buttonLef
           
           @media (max-width: 480px) {
             .menu-items-${zIndex} {
-              ${menuDirection === 'horizontal' ? 'flex-direction: column; gap: 0;' : ''}
+              ${menuDirection === "horizontal" ? "flex-direction: column; gap: 0;" : ""}
             }
             
             .menu-item-${zIndex} {
-              ${menuDirection === 'horizontal' ? 'display: block; margin: 0;' : ''}
+              ${menuDirection === "horizontal" ? "display: block; margin: 0;" : ""}
             }
           }
         ` }), _jsx("div", { ref: navRef, className: cn(`hamburger-overlay-${zIndex}`, isOpen && "open"), "aria-hidden": !isOpen, children: _jsx("ul", { className: cn(`menu-items-${zIndex}`, menuDirection === "horizontal" && "flex flex-wrap"), children: items.map((item, index) => (_jsx("li", { className: cn(`menu-item-${zIndex}`, fontSizes[fontSize], isOpen && "visible", menuItemClassName), style: {
-                            transitionDelay: isOpen ? `${index * staggerDelay}s` : '0s'
+                            transitionDelay: isOpen ? `${index * staggerDelay}s` : "0s",
                         }, onClick: () => handleItemClick(item), onKeyDown: (e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
+                            if (e.key === "Enter" || e.key === " ") {
                                 e.preventDefault();
                                 handleItemClick(item);
                             }
-                        }, tabIndex: isOpen ? 0 : -1, role: "button", "aria-label": `Navigate to ${item.label}`, children: _jsxs("span", { children: [item.icon && _jsx("span", { className: "menu-icon", children: item.icon }), item.label] }) }, index))) }) }), _jsx("button", { className: cn(`hamburger-button-${zIndex}`, buttonSizes[buttonSize], buttonClassName), onClick: toggleMenu, "aria-label": ariaLabel, "aria-expanded": isOpen, "aria-controls": "navigation-menu", children: customButton || (_jsxs("div", { className: "relative w-full h-full flex items-center justify-center", children: [_jsx(Menu, { className: cn("absolute transition-all duration-300", isOpen ? "opacity-0 rotate-45 scale-0" : "opacity-100 rotate-0 scale-100"), size: buttonSize === "sm" ? 16 : buttonSize === "md" ? 20 : 24, color: textColor }), _jsx(X, { className: cn("absolute transition-all duration-300", isOpen ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-45 scale-0"), size: buttonSize === "sm" ? 16 : buttonSize === "md" ? 20 : 24, color: textColor })] })) })] }));
+                        }, tabIndex: isOpen ? 0 : -1, role: "button", "aria-label": `Navigate to ${item.label}`, children: _jsxs("span", { children: [item.icon && _jsx("span", { className: "menu-icon", children: item.icon }), item.label] }) }, index))) }) }), _jsx("button", { className: cn(`hamburger-button-${zIndex}`, buttonSizes[buttonSize], buttonClassName), onClick: toggleMenu, "aria-label": ariaLabel, "aria-expanded": isOpen, "aria-controls": "navigation-menu", children: customButton || (_jsxs("div", { className: "relative w-full h-full flex items-center justify-center", children: [_jsx(Menu, { className: cn("absolute transition-all duration-300", isOpen
+                                ? "opacity-0 rotate-45 scale-0"
+                                : "opacity-100 rotate-0 scale-100"), size: buttonSize === "sm" ? 16 : buttonSize === "md" ? 20 : 24, color: textColor }), _jsx(X, { className: cn("absolute transition-all duration-300", isOpen
+                                ? "opacity-100 rotate-0 scale-100"
+                                : "opacity-0 -rotate-45 scale-0"), size: buttonSize === "sm" ? 16 : buttonSize === "md" ? 20 : 24, color: textColor })] })) })] }));
 };
 export default HamburgerMenuOverlay;

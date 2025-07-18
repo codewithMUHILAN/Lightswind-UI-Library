@@ -9,7 +9,7 @@ const confettiButtonVariants = cva("inline-flex items-center justify-center gap-
         variant: {
             default: "bg-primary text-primary-foreground hover:bg-primary/90",
             secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
-            outline: "border border-gray-200 dark:border-gray-800 bg-background hover:bg-accent hover:text-accent-foreground",
+            outline: "border   bg-background hover:bg-accent hover:text-accent-foreground",
             ghost: "hover:bg-accent hover:text-accent-foreground",
             link: "text-primary underline-offset-4 hover:underline",
             gradient: "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700",

@@ -1,49 +1,18 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "../lib/utils";
-export const DynamicNavigation = ({ links, theme = "dark", backgroundColor, textColor, highlightColor, glowIntensity = 5, className, showLabelsOnMobile = false, onLinkClick, activeLink, enableRipple = true, }) => {
+export const DynamicNavigation = ({ links, backgroundColor, textColor, highlightColor, glowIntensity = 5, className, showLabelsOnMobile = false, onLinkClick, activeLink, enableRipple = true, }) => {
     const navRef = useRef(null);
     const highlightRef = useRef(null);
     const [active, setActive] = useState(activeLink || (links.length > 0 ? links[0].id : null));
-    // Calculate theme-based styles
-    const getThemeStyles = () => {
-        switch (theme) {
-            case "light":
-                return {
-                    bg: "bg-white",
-                    border: "border-gray-200",
-                    text: "text-gray-800",
-                    highlight: "bg-gray-100",
-                    glow: "shadow-md",
-                };
-            case "primary":
-                return {
-                    bg: "bg-primary",
-                    border: "border-primary/30",
-                    text: "text-primary-foreground",
-                    highlight: "bg-primary-foreground/10",
-                    glow: "shadow-lg shadow-primary/20",
-                };
-            case "custom":
-                return {
-                    bg: backgroundColor ? "" : "bg-black",
-                    border: "border-gray-700",
-                    text: textColor ? "" : "text-white",
-                    highlight: highlightColor ? "" : "bg-white/10",
-                    glow: `shadow-[0_0_${glowIntensity}px_rgba(255,255,255,0.3)]`,
-                };
-            case "dark":
-            default:
-                return {
-                    bg: "bg-black",
-                    border: "border-gray-700",
-                    text: "text-white",
-                    highlight: "bg-white/10",
-                    glow: `shadow-[0_0_${glowIntensity}px_rgba(255,255,255,0.3)]`,
-                };
-        }
+    // Directly define the default black and white theme styles
+    const defaultThemeStyles = {
+        bg: backgroundColor || "bg-background", // Use provided or default black
+        border: "border",
+        text: textColor || "text-foreground", // Use provided or default white
+        highlight: highlightColor || "bg-foreground/10", // Use provided or default white/10
+        glow: `shadow-[0_0_${glowIntensity}px_rgba(255,255,255,0.3)]`,
     };
-    const themeStyles = getThemeStyles();
     // Update highlight position based on active link
     const updateHighlightPosition = (id) => {
         if (!navRef.current || !highlightRef.current)
@@ -107,22 +76,19 @@ export const DynamicNavigation = ({ links, theme = "dark", backgroundColor, text
             setActive(activeLink);
         }
     }, [activeLink]);
-    // Apply custom styles
-    const customStyles = {
-        backgroundColor: theme === "custom" && backgroundColor ? backgroundColor : undefined,
-        color: theme === "custom" && textColor ? textColor : undefined,
-    };
-    const highlightStyles = {
-        backgroundColor: theme === "custom" && highlightColor ? highlightColor : undefined,
-    };
-    return (_jsxs("nav", { ref: navRef, className: cn(`relative rounded-full px-2 backdrop-blur-md border border-gray-200 dark:border-gray-800 
-        shadow-lg transition-all duration-300`, themeStyles.bg, themeStyles.border, themeStyles.glow, className), style: customStyles, children: [_jsx("div", { ref: highlightRef, className: cn(`absolute top-0 left-0 h-full rounded-full transition-all 
-          duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] z-0`, themeStyles.highlight), style: highlightStyles }), _jsx("ul", { className: "flex justify-between items-center gap-1 py-2 relative z-10", children: links.map((link) => (_jsx("li", { className: "flex-1 rounded-full", id: `nav-item-${link.id}`, children: _jsxs("a", { href: link.href, className: cn(`flex gap-2 items-center justify-center h-8 md:h-10 text-xs md:text-sm 
+    return (_jsxs("nav", { ref: navRef, className: cn(`relative rounded-full  backdrop-blur-md border 
+        shadow-lg transition-all duration-300`, defaultThemeStyles.bg, defaultThemeStyles.border, defaultThemeStyles.glow, className), style: {
+            backgroundColor: backgroundColor,
+            color: textColor,
+        }, children: [_jsx("div", { ref: highlightRef, className: cn(`absolute top-0 left-0 h-full rounded-full transition-all 
+          duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] z-0`, defaultThemeStyles.highlight), style: {
+                    backgroundColor: highlightColor,
+                } }), _jsx("ul", { className: "flex justify-between items-center gap-4 py-2 relative z-10", children: links.map((link) => (_jsx("li", { className: "flex-1 rounded-full mx-1 lg:mx-2 px-4", id: `nav-item-${link.id}`, children: _jsxs("a", { href: link.href, className: cn(`flex gap-1 items-center justify-center h-8 md:h-8 text-xs md:text-sm 
                 rounded-full font-medium transition-all duration-300 hover:scale-105 
-                relative overflow-hidden`, themeStyles.text, active === link.id && "font-semibold"), onClick: (e) => {
+                relative overflow-hidden`, defaultThemeStyles.text, active === link.id && "font-semibold"), onClick: (e) => {
                             e.preventDefault();
                             handleLinkClick(link.id, e);
-                        }, onMouseEnter: () => handleLinkHover(link.id), children: [link.icon && (_jsx("span", { className: "text-current text-xs md:text-sm ", children: link.icon })), _jsx("span", { className: cn(showLabelsOnMobile ? "flex" : "hidden sm:flex"), children: link.label })] }) }, link.id))) }), _jsx("style", { dangerouslySetInnerHTML: {
+                        }, onMouseEnter: () => handleLinkHover(link.id), children: [link.icon && (_jsx("span", { className: "text-current text-xs ", children: link.icon })), _jsx("span", { className: cn(showLabelsOnMobile ? "flex" : "hidden sm:flex"), children: link.label })] }) }, link.id))) }), _jsx("style", { dangerouslySetInnerHTML: {
                     __html: `        @keyframes ripple {
           to {
             transform: scale(4);
@@ -132,7 +98,7 @@ export const DynamicNavigation = ({ links, theme = "dark", backgroundColor, text
         .animate-ripple {
           animation: ripple 0.6s linear;
         }
- `,
+`,
                 } })] }));
 };
 export default DynamicNavigation;

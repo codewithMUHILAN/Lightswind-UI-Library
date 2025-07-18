@@ -17,9 +17,6 @@ export interface CodeHoverCardsProps {
     borderRadius?: number;
     cardGap?: string;
     iconSize?: number;
-    iconColor?: string;
-    backgroundColor?: string;
-    borderColor?: string;
     enableTouch?: boolean;
     columns?: 1 | 2 | 3 | 4;
     minHeight?: number;
@@ -27,6 +24,7 @@ export interface CodeHoverCardsProps {
     onCardHover?: (card: CardData) => void;
     disabled?: boolean;
     showBorder?: boolean;
+    theme?: 'normal' | 'dark';
 }
 declare const CodeHoverCards: React.FC<CodeHoverCardsProps>;
 export default CodeHoverCards;

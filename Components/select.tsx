@@ -152,7 +152,7 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
         data-state={open ? "open" : "closed"}
         data-select-trigger="true"
         className={cn(
-          "flex h-10 w-full items-center justify-between rounded-md border border-gray-200 dark:border-gray-800 bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+          "flex h-10 w-full items-center justify-between rounded-md border   bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
           className
         )}
         onClick={() => setOpen(!open)}
@@ -372,7 +372,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
               transformOrigin: currentSide === 'bottom' ? 'top' : 'bottom',
             }}
             className={cn(
-              "z-[100] overflow-hidden rounded-md border border-gray-200 dark:border-gray-800 bg-popover text-popover-foreground shadow-md",
+              "z-[100] overflow-hidden rounded-md border   bg-popover text-popover-foreground shadow-md",
               className
             )}
             role="listbox"

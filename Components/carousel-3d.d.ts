@@ -1,31 +1,21 @@
-import React from "react";
-export interface CarouselCard {
-    id: string;
-    category: string;
+export interface Carousel3DItem {
+    id: number;
     title: string;
-    icon: React.ReactNode;
-    preview: string;
-    content: string;
-    imageUrl?: string;
+    brand: string;
+    description: string;
+    tags: string[];
+    imageUrl: string;
+    link: string;
 }
 interface Carousel3DProps {
-    cards: CarouselCard[];
-    cardWidth?: number;
-    cardHeight?: number;
-    radius?: number;
+    items: Carousel3DItem[];
     autoRotate?: boolean;
-    autoRotateInterval?: number;
-    pauseOnHover?: boolean;
-    enableGlitchEffect?: boolean;
-    enableGlowEffect?: boolean;
-    showControls?: boolean;
-    showThemeToggle?: boolean;
-    dragSensitivity?: number;
-    transitionDuration?: number;
-    className?: string;
-    onCardClick?: (card: CarouselCard, index: number) => void;
-    onCardFlip?: (card: CarouselCard, index: number, isFlipped: boolean) => void;
-    onRotate?: (currentIndex: number) => void;
+    rotateInterval?: number;
+    cardHeight?: number;
+    title?: string;
+    subtitle?: string;
+    tagline?: string;
+    isMobileSwipe?: boolean;
 }
-declare const Carousel3D: React.FC<Carousel3DProps>;
+declare const Carousel3D: ({ items, autoRotate, rotateInterval, cardHeight, title, subtitle, tagline, isMobileSwipe, }: Carousel3DProps) => import("react/jsx-runtime").JSX.Element;
 export default Carousel3D;

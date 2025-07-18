@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tooltip Example</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.0.0/src/lightswind.css">
+</head>
+
+<body class="bg-black dark:bg-white">
+
+<div
+    class="bg-white dark:bg-black py-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full  ">
+    <div class="relative text-center flex items-center justify-center flex-wrap gap-4 items-center justify-center ">
+
+        <div class="w-full px-4 sm:w-1/2 lg:w-1/4 mt-20">
+            <div class="mb-14">
+                <div class="group relative inline-block">
+                    <a href="javascript:void(0)"
+                        class="bg-primarylw dark:bg-darklw inline-flex rounded-full py-2 px-8 font-medium text-white">
+                        Tooltip on top
+                    </a>
+                    <div
+                        class="bg-darklw dark:bg-white absolute bottom-full left-1/2 z-20 mb-3 -translate-x-1/2 whitespace-nowrap rounded-full py-1.5 px-3.5 text-sm text-white dark:text-black opacity-0 group-hover:opacity-100">
+                        <span
+                            class="bg-darklw dark:bg-white absolute bottom-[-3px] left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45"></span>
+                        Tooltip Text
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full px-4 sm:w-1/2 lg:w-1/4">
+            <div class="mb-14">
+                <div class="group relative inline-block">
+                    <a href="javascript:void(0)"
+                        class="bg-primarylw dark:bg-darklw inline-flex rounded-full py-2 px-8 font-medium text-white">
+                        Tooltip on right
+                    </a>
+                    <div
+                        class="bg-darklw dark:bg-white absolute left-full top-1/2 z-20 ml-3 -translate-y-1/2 whitespace-nowrap rounded-full py-1.5 px-3.5 text-sm text-white dark:text-black opacity-0 group-hover:opacity-100">
+                        <span
+                            class="bg-darklw dark:bg-white absolute left-[-3px] top-1/2 -z-10 h-2 w-2 -translate-y-1/2 rotate-45"></span>
+                        Tooltip Text
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full px-4 sm:w-1/2 lg:w-1/4">
+            <div class="mb-14">
+                <div class="group relative inline-block">
+                    <a href="javascript:void(0)"
+                        class="bg-primarylw dark:bg-darklw inline-flex rounded-full py-2 px-8 font-medium text-white">
+                        Tooltip on bottom
+                    </a>
+                    <div
+                        class="bg-darklw dark:bg-white absolute top-full left-1/2 z-20 mt-3 -translate-x-1/2 whitespace-nowrap rounded-full py-1.5 px-3.5 text-sm text-white dark:text-black opacity-0 group-hover:opacity-100">
+                        <span
+                            class="bg-darklw dark:bg-white absolute top-[-3px] left-1/2 -z-10 h-2 w-2 -translate-x-1/2 rotate-45"></span>
+                        Tooltip Text
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full px-4 sm:w-1/2 lg:w-1/4">
+            <div class="mb-14 text-right sm:text-left">
+                <div class="group relative inline-block">
+                    <a href="javascript:void(0)"
+                        class="bg-primarylw dark:bg-darklw inline-flex rounded-full py-2 px-8 font-medium text-white">
+                        Tooltip on left
+                    </a>
+                    <div
+                        class="bg-darklw dark:bg-white absolute right-full top-1/2 z-20 mr-3 -translate-y-1/2 whitespace-nowrap rounded-full py-1.5 px-3.5 text-sm text-white dark:text-black opacity-0 group-hover:opacity-100">
+                        <span
+                            class="bg-darklw dark:bg-white absolute right-[-3px] top-1/2 -z-10 h-2 w-2 -translate-y-1/2 rotate-45"></span>
+                        Tooltip Text
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

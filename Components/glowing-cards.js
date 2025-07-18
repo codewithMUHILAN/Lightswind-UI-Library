@@ -3,7 +3,7 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '../lib/utils';
 export const GlowingCard = ({ children, className, glowColor = "#3b82f6", hoverEffect = true, ...props }) => {
-    return (_jsx("div", { className: cn("relative flex-1 min-w-[14rem] p-6 rounded-2xl text-black dark:text-white", "bg-white dark:bg-black border border-gray-200 dark:border-gray-700", "transition-all duration-400 ease-out", className), style: {
+    return (_jsx("div", { className: cn("relative flex-1 min-w-[14rem] p-6 rounded-2xl text-black dark:text-white", "bg-background border ", "transition-all duration-400 ease-out", className), style: {
             '--glow-color': glowColor, // CSS variable definition
         }, ...props, children: children }));
 };

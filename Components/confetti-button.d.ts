@@ -26,7 +26,7 @@ declare global {
 declare const confettiButtonVariants: (props?: ({
     variant?: "link" | "default" | "outline" | "secondary" | "ghost" | "gradient" | null | undefined;
     size?: "default" | "icon" | "sm" | "lg" | "xl" | "pill" | null | undefined;
-    animation?: "none" | "expand" | "scale" | "pulse" | "bounce" | "shake" | "glow" | null | undefined;
+    animation?: "none" | "scale" | "expand" | "pulse" | "bounce" | "shake" | "glow" | null | undefined;
 } & import("class-variance-authority/dist/types").ClassProp) | undefined) => string;
 export interface ConfettiButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof confettiButtonVariants> {
     asChild?: boolean;

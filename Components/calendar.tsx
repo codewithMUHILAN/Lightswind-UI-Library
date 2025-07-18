@@ -252,7 +252,7 @@ function Calendar({
       className={cn(
         "p-3", 
         animateMonths && "rdp-transitions",
-        shadow && "shadow-lg rounded-lg border border-gray-200 dark:border-gray-800", 
+        shadow && "shadow-lg rounded-lg border  ", 
         className
       )}
       classNames={{
@@ -271,7 +271,7 @@ function Calendar({
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
-        table: "w-full border border-gray-200 dark:border-gray-800 space-y-1",
+        table: "w-full border   space-y-1",
         head_row: "flex",
         head_cell:
           "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",

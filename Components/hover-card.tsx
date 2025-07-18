@@ -142,7 +142,7 @@ const HoverCardContent = React.forwardRef<HTMLDivElement, HoverCardContentProps>
             exit={{ opacity: 0, scale: 0.95, y: -5 }}      // Fade out, shrink, and move up on exit
             transition={{ duration: 0.2, ease: "easeOut" }} // Smooth transition
             className={cn(
-              `absolute z-50 w-64 rounded-md border border-gray-200 dark:border-gray-800 bg-white
+              `absolute z-50 w-64 rounded-md border   bg-white
                p-4 text-black shadow-md`,
               className
             )}

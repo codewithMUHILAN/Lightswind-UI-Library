@@ -87,7 +87,7 @@ function Skeleton({
 // Template Card Skeleton component for reuse
 function TemplateCardSkeleton() {
   return (
-    <div className="rounded-lg border border-gray-200 dark:border-gray-800 bg-card overflow-hidden shadow-sm">
+    <div className="rounded-lg border   bg-card overflow-hidden shadow-sm">
       <div className="space-y-3">
         {/* Image placeholder */}
         <Skeleton className="h-48 w-full rounded-t-lg rounded-b-none" shimmer />

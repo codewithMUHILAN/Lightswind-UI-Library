@@ -9,9 +9,7 @@ export const BorderBeam = ({ className, size = 50, delay = 0, duration = 6, colo
     const glowEffect = glowIntensity > 0
         ? `0 0 ${glowIntensity * 5}px ${glowIntensity * 2}px var(--color-from)`
         : undefined;
-    return (_jsx("div", { className: cn("pointer-events-none absolute inset-0 rounded-[inherit]", "border border-transparent", "[mask-clip:padding-box,border-box]", "[mask-composite:intersect]", "[mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]"), style: {
-            borderWidth: `${borderThickness}px`,
-        }, children: _jsx(motion.div, { className: cn("absolute aspect-square", "bg-gradient-to-l from-[var(--color-from)] via-[var(--color-to)] to-transparent", pauseOnHover && "group-hover:animation-play-state-paused", className), style: {
+    return (_jsx("div", { className: "pointer-events-none absolute inset-0 rounded-[inherit] \r\n    border border-transparent [mask-clip:padding-box,border-box] \r\n    [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]", children: _jsx(motion.div, { className: cn("absolute aspect-square", "bg-gradient-to-l from-[var(--color-from)] via-[var(--color-to)] to-transparent", pauseOnHover && "group-hover:animation-play-state-paused", className), style: {
                 width: size,
                 offsetPath: `rect(0 auto auto 0 round ${beamBorderRadius ?? size}px)`,
                 "--color-from": colorFrom,

@@ -110,7 +110,7 @@ const RadioGroupItem = React.forwardRef<HTMLDivElement, RadioGroupItemProps>(
           />
           <div
             className={cn(
-              "relative flex items-center justify-center rounded-full border border-gray-200 dark:border-gray-800 ring-offset-background transition-all duration-200",
+              "relative flex items-center justify-center rounded-full border   ring-offset-background transition-all duration-200",
               checked && "border-primary",
               focused && "ring-2 ring-ring ring-offset-2",
               props.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",

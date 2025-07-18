@@ -119,6 +119,7 @@ const MagicCursor = ({ target, config = {}, enabled = true, className, clickInte
             position: "relative",
             cursor: clickInteraction ? "pointer" : "default",
             minHeight: "100px",
+            maxHeight: "100vh",
         }, children: children }));
 };
 export default MagicCursor;

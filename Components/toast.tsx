@@ -29,7 +29,7 @@ const ToastViewport = React.forwardRef<
 ToastViewport.displayName = "ToastViewport";
 
 const toastVariants = cva(
-  `group relative flex w-96 items-center justify-between overflow-hidden rounded-md border border-gray-200 dark:border-gray-800 p-4 pr-8 shadow-lg transition-all 
+  `group relative flex w-96 items-center justify-between overflow-hidden rounded-md border   p-4 pr-8 shadow-lg transition-all 
   bg-background text-foreground`,
   {
     variants: {

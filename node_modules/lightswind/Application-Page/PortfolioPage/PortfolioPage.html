@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.2.0/src/lightswind.css">
+</head>
+
+<body>
+<div class="w-full h-screen bg-gray-200 dark:bg-gray-900 font-primarylw overflow-y-scroll scrollbar-hide">
+    <header class="lg:px-16 px-4 flex flex-wrap items-center py-4 shadow-lg bg-gray-200 dark:bg-gray-900">
+        <div class="flex-1 flex justify-between items-center">
+            <h2 class="text-4xl font-sans text-black dark:text-white">Muhilan</h2>
+        </div>
+        <label for="menu-toggle" class="cursor-pointer md:hidden block">
+            <svg class="fill-current text-black dark:text-white" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20">
+                <title>menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+            </svg>
+        </label>
+        <input class="hidden" type="checkbox" id="menu-toggle" />
+
+        <div id="menu" class="hidden md:flex md:items-center md:w-auto w-full absolute md:static top-16 left-0 md:bg-transparent transition-all 
+        z-50 duration-300 ease-in-out bg-gray-300 dark:bg-gray-800 md:dark:bg-transparent">
+            <nav>
+                <ul class="md:flex items-center justify-between text-base text-gray-700 dark:text-gray-100 md:pt-0">
+                    <li><a class="md:p-4 py-3 px-4 block text-primarylw" href="#">Home</a></li>
+                    <li><a class="md:p-4 py-3 px-4 block" href="#">About Me</a></li>
+                    <li><a class="md:p-4 py-3 px-4 block" href="#">Education</a></li>
+                    <li><a class="md:p-4 py-3 px-4 block" href="#">Experience</a></li>
+                    <li><a class="md:p-4 py-3 px-4 block" href="#">Projects</a></li>
+                    <li><a class="md:p-4 py-3 px-4 block md:mb-0 mb-2" href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div
+        class="h-full w-full mx-auto relative pt-20 pb-20 xl:px-16 px-8 flex md:flex-row flex-col gap-4 justify-center items-center">
+        <div class="w-full relative">
+            <img class="shadow-2xl shadow-blue-500 animate-[spin_12s_linear_infinite] absolute left-0 right-0 rounded-full lg:max-w-[70%] max-w-[60%] mx-auto"
+                src="https://cdn.buymeacoffee.com/uploads/profile_pictures/2023/11/PIXxBAJGpUj1wI7F.png@300w_0e.webp"
+                alt="My Image" />
+            <img class="relative z-10 rounded-full lg:max-w-[70%] max-w-[60%] mx-auto outline outline-[.7rem] outline-offset-[.1rem] outline-blue-400/30"
+                src="https://cdn.buymeacoffee.com/uploads/profile_pictures/2023/11/PIXxBAJGpUj1wI7F.png@300w_0e.webp"
+                alt="My Image" />
+        </div>
+        <div
+            class="w-full flex flex-col justify-center gap-4 md:text-left text-center text-gray-800 dark:text-white md:mt-0 sm:mt-8 mt-4">
+            <h1 class="md:text-4xl sm:text-3xl text-2xl font-semibold">Hello, My name is Muhilan</h1>
+            <h3 class="capitalize text-primarylw">I'm <span
+                    class="typing text-primarylw dark:text-primarylw-2">fullstack developer</span></h3>
+            <p>Experienced full-stack developer with 4+ years of expertise in Laravel, NestJS, Nuxt.js, Next.js,
+                Android, and some Flutter experience.</p>
+            <div class="sm:mt-4 mt-2">
+                <button class="px-6 py-3 rounded-xl bg-primarylw text-white rounded-sm">Get In Touch</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const textElement = document.querySelector('.typing');
+    const textArray = [
+        'FullStack Developer,',
+        'Frontend Developer,',
+        'Backend Developer,',
+        'Mobile Apps Developer.'
+    ];
+
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+        const currentText = textArray[textIndex];
+
+        if (isDeleting) {
+            textElement.textContent = currentText.substring(0, charIndex--);
+        } else {
+            textElement.textContent = currentText.substring(0, charIndex++);
+        }
+
+        let typingSpeed = isDeleting ? 50 : 100;
+
+        if (!isDeleting && charIndex === currentText.length) {
+            typingSpeed = 1000; // Pause before deleting
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % textArray.length;
+            typingSpeed = 500; // Pause before typing new text
+        }
+
+        setTimeout(typeEffect, typingSpeed);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        typeEffect();
+    });
+
+    // Toggle mobile menu visibility and icon change
+    document.getElementById('menu-toggle').addEventListener('change', function () {
+        var menu = document.getElementById('menu');
+        var icon = document.querySelector('label[for="menu-toggle"] svg');
+
+        if (this.checked) {
+            menu.classList.remove('hidden');
+            menu.classList.add('block', 'bg-gray-200', 'dark:bg-gray-900');
+
+            // Change icon to "X" (close)
+            icon.innerHTML = '<path d="M14.348 14.849l-4.349-4.349-4.349 4.349-1.415-1.415 4.349-4.349-4.349-4.349 1.415-1.415 4.349 4.349 4.349-4.349 1.415 1.415-4.349 4.349 4.349 4.349z"></path>';
+        } else {
+            menu.classList.remove('block', 'bg-gray-200', 'dark:bg-gray-900');
+            menu.classList.add('hidden');
+
+            // Change icon back to menu (3 bars)
+            icon.innerHTML = '<path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>';
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle"
+        class="fixed z-50 top-2 left-2 text-gray-800 dark:text-gray-200 dark:text-white bg-gray-500/30 dark:bg-gray-900/70 p-2 rounded-full shadow-md hover:bg-gray-700">
+        <!-- Sun Icon for Light Mode -->
+        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+        </svg>
+
+        <!-- Moon Icon for Dark Mode -->
+        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+        </svg>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/lightwind@3.1.0/src/lightswind.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {},
+                },
+            },
+        };
+
+        const setInitialTheme = () => {
+            const currentTheme = localStorage.getItem('iframetheme') || 'dark';
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark');
+                document.getElementById('sun-icon').style.opacity = '0';
+                document.getElementById('moon-icon').style.opacity = '1';
+            } else {
+                document.body.classList.remove('dark');
+                document.getElementById('sun-icon').style.opacity = '1';
+                document.getElementById('moon-icon').style.opacity = '0';
+            }
+        };
+
+        setInitialTheme();
+
+        const themeToggleButton = document.getElementById('theme-toggle');
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = localStorage.getItem('iframetheme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('iframetheme', newTheme);
+
+            document.body.classList.toggle('dark', newTheme === 'dark');
+
+            if (newTheme === 'dark') {
+                document.getElementById('moon-icon').style.opacity = '0';
+                document.getElementById('sun-icon').style.opacity = '1';
+            } else {
+                document.getElementById('moon-icon').style.opacity = '1';
+                document.getElementById('sun-icon').style.opacity = '0';
+            }
+
+            const iframe = document.querySelector('iframe');
+            if (iframe) {
+                const iframeWindow = iframe.contentWindow;
+                const iframeDocument = iframe.contentDocument || iframeWindow.document;
+
+                if (iframeDocument) {
+                    iframeDocument.addEventListener('DOMContentLoaded', () => {
+                        iframeDocument.body.classList.toggle('dark', newTheme === 'dark');
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

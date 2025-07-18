@@ -7,13 +7,11 @@ export interface DynamicNavigationProps {
         href: string;
         icon?: React.ReactNode;
     }[];
-    /** Color theme for the navigation */
-    theme?: "dark" | "light" | "primary" | "custom";
-    /** Background color (for custom theme) */
+    /** Background color */
     backgroundColor?: string;
-    /** Text color (for custom theme) */
+    /** Text color */
     textColor?: string;
-    /** Highlight color (for custom theme) */
+    /** Highlight color */
     highlightColor?: string;
     /** Glow effect intensity (0-10) */
     glowIntensity?: number;
@@ -28,5 +26,5 @@ export interface DynamicNavigationProps {
     /** Enable ripple effect on click */
     enableRipple?: boolean;
 }
-export declare const DynamicNavigation: ({ links, theme, backgroundColor, textColor, highlightColor, glowIntensity, className, showLabelsOnMobile, onLinkClick, activeLink, enableRipple, }: DynamicNavigationProps) => import("react/jsx-runtime").JSX.Element;
+export declare const DynamicNavigation: ({ links, backgroundColor, textColor, highlightColor, glowIntensity, className, showLabelsOnMobile, onLinkClick, activeLink, enableRipple, }: DynamicNavigationProps) => import("react/jsx-runtime").JSX.Element;
 export default DynamicNavigation;

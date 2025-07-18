@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Launch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightwind@3.2.0/src/lightswind.css">
+
+</head>
+
+
+<body class="relative bg-white dark:bg-black dark:bg-black h-screen">
+
+<style>
+    /* Hide the default number input arrows */
+    #quantityInput::-webkit-outer-spin-button,
+    #quantityInput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    #quantityInput[type=number] {
+        -moz-appearance: textfield;
+        /* Firefox */
+    }
+</style>
+<div class="flex-col md:flex-row justify-between flex gap-8 items-start  py-12 font-primarylw">
+    <div
+        class="flex bg-white rounded-lg shadow-lg dark:bg-black flex-col md:flex-row border border-gray-400 dark:border-gray-500  mx-auto max-w-3xl">
+        <!-- Product Image Section -->
+        <div class="relative w-full md:w-1/2 flex justify-center items-center">
+            <img src="https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="shopping image"
+                class="object-cover w-full h-48 md:h-full rounded-t-lg md:rounded-l-lg md:rounded-t-none transition-transform transform hover:scale-105 duration-300 ease-in-out">
+        </div>
+        <!-- Product Details Section -->
+        <form class="flex-auto p-8 md:p-8 space-y-6">
+            <div class="flex flex-col flex-wrap items-start justify-between mb-4 gap-1">
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100">Sneakers Shoes</h1>
+                <div class="text-lg md:text-xl font-semibold text-gray-800 dark:text-gray-300">Price - $175.00</div>
+            </div>
+            <div class="mb-4 text-xs md:text-sm font-medium text-gray-500 dark:text-gray-300">
+                <p>In stock</p>
+            </div>
+            <!-- Size Selector -->
+            <div
+                class="flex items-baseline text-xs md:text-sm space-x-4 mt-4 mb-6 text-gray-700 dark:text-gray-300">
+                <div class="flex space-x-2">
+                    <label class="flex gap-1 items-center justify-center cursor-pointer">
+                        <input type="radio"
+                            class="w-4 h-4 md:w-6 md:h-6 accent-blue-600 bg-gray-100 rounded-full dark:bg-gray-600"
+                            name="size" value="xs"> XS
+                    </label>
+                    <label class="flex gap-1 items-center justify-center cursor-pointer">
+                        <input type="radio"
+                            class="w-4 h-4 md:w-6 md:h-6  accent-blue-600 bg-gray-100 rounded-full dark:bg-gray-600"
+                            name="size" value="s"> S
+                    </label>
+                    <label class="flex gap-1 items-center justify-center cursor-pointer">
+                        <input type="radio"
+                            class="w-4 h-4 md:w-6 md:h-6  accent-blue-600 bg-gray-100 rounded-full dark:bg-gray-600"
+                            name="size" value="m"> M
+                    </label>
+                    <label class="flex gap-1 items-center justify-center cursor-pointer">
+                        <input type="radio"
+                            class="w-4 h-4 md:w-6 md:h-6  accent-blue-600 bg-gray-100 rounded-full dark:bg-gray-600"
+                            name="size" value="l"> L
+                    </label>
+                    <label class="flex gap-1 items-center justify-center cursor-pointer">
+                        <input type="radio"
+                            class="w-4 h-4 md:w-6 md:h-6  accent-blue-600 bg-gray-100 rounded-full dark:bg-gray-600"
+                            name="size" value="xl"> XL
+                    </label>
+                </div>
+
+            </div>
+            <!-- Quantity Selector -->
+            <div class="flex items-center space-x-4 text-xs md:text-sm text-gray-700 dark:text-gray-300">
+                <span class="text-xs md:text-sm">Quantity:</span>
+                <div class="flex items-center">
+                    <button type="button"
+                        class="px-3 py-1 bg-gray-200 rounded-lg dark:bg-gray-700 text-gray-800 dark:text-gray-300"
+                        id="decreaseQty">-</button>
+                    <input id="quantityInput" type="number" value="1"
+                        class="flex items-center justify-center w-10 py-2 px-3 mx-2 text-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 rounded-lg" />
+                    <button type="button"
+                        class="px-3 py-1 bg-gray-200 rounded-lg dark:bg-gray-700 text-gray-800 dark:text-gray-300"
+                        id="increaseQty">+</button>
+                </div>
+            </div>
+
+
+            <!-- Add to Cart & Buy Now Buttons -->
+            <div
+                class="flex flex-col items-center justify-between items-center space-y-4 max-w-60 text-xs md:text-sm">
+                <button type="button"
+                    class="flex items-center justify-center gap-2 py-2 px-6 bg-primarylw-2 dark:bg-primarylw hover:bg-primarylw-3 dark:hover:bg-primarylw-4 focus:ring-primarylw-2 dark:focus:ring-primarylw-4 focus:ring-offset-blue-500 text-white w-full transition ease-in-out duration-300 rounded-lg shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                    id="addToCartBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                    </svg>
+                    Add to Cart
+                </button>
+                <button type="button"
+                    class="flex items-center justify-center gap-2 py-2 px-6 bg-primarylw-2 dark:bg-primarylw hover:bg-primarylw-3 dark:hover:bg-primarylw-4 focus:ring-primarylw-2 dark:focus:ring-primarylw-4 focus:ring-offset-blue-500 text-white w-full transition ease-in-out duration-300 rounded-lg shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                    </svg>
+                    Buy Now
+                </button>
+            </div>
+            <p class="text-xs md:text-sm text-gray-500 dark:text-gray-300">Free shipping on all continental US
+                orders.</p>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const decreaseButton = document.getElementById("decreaseQty");
+        const increaseButton = document.getElementById("increaseQty");
+        const quantityInput = document.getElementById("quantityInput");
+
+        // Decrease quantity
+        decreaseButton.addEventListener("click", () => {
+            let currentQuantity = parseInt(quantityInput.value);
+            if (currentQuantity > 1) {
+                quantityInput.value = currentQuantity - 1;
+            }
+        });
+
+        // Increase quantity
+        increaseButton.addEventListener("click", () => {
+            let currentQuantity = parseInt(quantityInput.value);
+            quantityInput.value = currentQuantity + 1;
+        });
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle"
+        class="fixed z-50 top-2 left-2 text-gray-800 dark:text-gray-200 dark:text-gray-200 dark:text-gray-200 dark:text-white bg-gray-500/30 dark:bg-gray-900/70 p-2 rounded-full shadow-md hover:bg-gray-700">
+        <!-- Sun Icon for Light Mode -->
+        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+        </svg>
+
+        <!-- Moon Icon for Dark Mode -->
+        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+        </svg>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/lightwind@3.1.0/src/lightswind.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {},
+                },
+            },
+        };
+
+        const setInitialTheme = () => {
+            const currentTheme = localStorage.getItem('iframetheme') || 'dark';
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark');
+                document.getElementById('sun-icon').style.opacity = '0';
+                document.getElementById('moon-icon').style.opacity = '1';
+            } else {
+                document.body.classList.remove('dark');
+                document.getElementById('sun-icon').style.opacity = '1';
+                document.getElementById('moon-icon').style.opacity = '0';
+            }
+        };
+
+        setInitialTheme();
+
+        const themeToggleButton = document.getElementById('theme-toggle');
+        themeToggleButton.addEventListener('click', () => {
+            const currentTheme = localStorage.getItem('iframetheme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('iframetheme', newTheme);
+
+            document.body.classList.toggle('dark', newTheme === 'dark');
+
+            if (newTheme === 'dark') {
+                document.getElementById('moon-icon').style.opacity = '0';
+                document.getElementById('sun-icon').style.opacity = '1';
+            } else {
+                document.getElementById('moon-icon').style.opacity = '1';
+                document.getElementById('sun-icon').style.opacity = '0';
+            }
+
+            const iframe = document.querySelector('iframe');
+            if (iframe) {
+                const iframeWindow = iframe.contentWindow;
+                const iframeDocument = iframe.contentDocument || iframeWindow.document;
+
+                if (iframeDocument) {
+                    iframeDocument.addEventListener('DOMContentLoaded', () => {
+                        iframeDocument.body.classList.toggle('dark', newTheme === 'dark');
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

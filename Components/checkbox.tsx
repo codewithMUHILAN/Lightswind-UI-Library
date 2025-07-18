@@ -53,7 +53,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         />
         <div
           className={cn(
-            "peer h-4 w-4 shrink-0 rounded-sm border border-gray-200 dark:border-gray-800 ring-offset-background",
+            "peer h-4 w-4 shrink-0 rounded-sm border   ring-offset-background",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             "disabled:cursor-not-allowed disabled:opacity-50",
             "transition-all duration-300 ease-in-out",

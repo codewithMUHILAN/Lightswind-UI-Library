@@ -149,7 +149,7 @@ const DialogContent = React.forwardRef<HTMLDivElement, OmittedDialogContentHTMLA
  exit={{ opacity: 0, scale: 0.95 }}  // Scale down and invisible on exit
  transition={{ duration: 0.2, ease: "easeOut" }} // Smooth transition for content
  className={cn(
-    "relative z-50 w-full max-w-lg rounded-lg border border-gray-200 dark:border-gray-800 bg-background p-6 shadow-lg",
+    "relative z-50 w-full max-w-lg rounded-lg border   bg-background p-6 shadow-lg",
     className
  )}
  role="dialog"

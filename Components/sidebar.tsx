@@ -136,7 +136,8 @@ export function SidebarProvider({
   React.useLayoutEffect(() => {
     // This effect runs whenever activeMenuItem changes OR when menuRefsVersion increments.
     // By depending on menuRefsVersion, we ensure that if an item registers its ref
-    // AFTER activeMenuItem is set (e.g., on initial load/navigation), this effect will
+    // AFTER activeMenuItem is set (e.g., on initial load/navigation), 
+    // this effect will
     // re-run and find the newly available ref.
     updateIndicatorPosition(activeMenuItem);
   }, [activeMenuItem, menuRefsVersion, menuRef, updateIndicatorPosition]);
@@ -189,10 +190,10 @@ export function Sidebar({ className, children, ...props }: SidebarProps) {
   return (
     <div
       className={cn(
-        "h-full min-h-screen transition-all duration-300 z-40",
-        expanded ? "w-56" : "w-16",
-        "bg-background border-r border-gray-200 dark:border-gray-800 shadow-sm",
-        "fixed md:sticky top-0 md:top-0",
+        "h-full min-h-screen z-40 w-56 relative",
+        // expanded ? "" : "w-16",
+        "bg-background border-r   shadow-sm",
+        "fixed lg:sticky top-0 md:top-0",
         expanded ? "left-0" : "md:left-0 -left-full",
         className
       )}
@@ -216,7 +217,6 @@ export function SidebarTrigger({ className, ...props }: SidebarTriggerProps) {
       className={cn(
         "inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "fixed md:static z-50 left-4 top-20",
-        "transition-all duration-300",
         className
       )}
       onClick={() => onChange(!expanded)}
@@ -241,7 +241,7 @@ export function SidebarHeader({ className, children, ...props }: SidebarHeaderPr
   return (
     <div
       className={cn(
-        "flex h-16 items-center border-b border-gray-200 dark:border-gray-800 px-4",
+        "flex h-16 items-center border-b   px-4",
         expanded ? "justify-between" : "justify-center",
         className
       )}
@@ -258,7 +258,7 @@ export function SidebarContent({ className, children, ...props }: SidebarContent
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   return (
-    <div className={cn("flex-1 overflow-hidden h-[calc(100vh-4rem)]", className)} {...props}>
+    <div className={cn("flex-1 overflow-hidden h-[calc(100vh-4rem)] space-y-4 ", className)} {...props}>
       <div ref={scrollRef} className="h-full pb-12 overflow-auto">
         {children}
       </div>
@@ -270,7 +270,7 @@ interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function SidebarGroup({ className, children, ...props }: SidebarGroupProps) {
   return (
-    <div className={cn("px-2 py-2", className)} {...props}>
+    <div className={cn("px-2 py-4", className)} {...props}>
       {children}
     </div>
   );
@@ -287,7 +287,7 @@ export function SidebarGroupLabel({ className, children, ...props }: SidebarGrou
 
   return (
     <div
-      className={cn("mb-2 px-2 text-xs font-semibold tracking-tight", className)}
+      className={cn("mb-2 px-2 text-md md:text-sm font-semibold md:font-bold tracking-tight", className)}
       {...props}
     >
       {children}
@@ -313,7 +313,7 @@ export function SidebarFooter({ className, children, ...props }: SidebarFooterPr
   return (
     <div
       className={cn(
-        "flex border-t border-gray-200 dark:border-gray-800 p-4",
+        "flex border-t   p-4",
         expanded ? "flex-row items-center justify-between" : "flex-col justify-center",
         className
       )}
@@ -332,11 +332,9 @@ export function SidebarMenu({ className, children, ...props }: SidebarMenuProps)
   return (
 // In your SidebarMenu component's div for the indicator:
 <div ref={menuRef} className={cn("relative", className)} {...props}>
-      <div className="sidebar-menu-indicator opacity-0 absolute transition-all
-      duration-300 ease-in-out rounded-md bg-primary/10 border border-gray-400
+      <div className="sidebar-menu-indicator opacity-0 absolute ease-in-out rounded-md bg-primary/10 border border-gray-400
       dark:border-gray-600" />
-      <div className="sidebar-menu-indicator opacity-0 absolute transition-all
-      duration-300 ease-in-out rounded-md bg-primary/10" /> {/* Removed border classes */}
+      <div className="sidebar-menu-indicator opacity-0 absolute ease-in-out rounded-md bg-primary/10" /> {/* Removed border classes */}
        {children}
 </div>
   );
@@ -375,7 +373,7 @@ export function SidebarMenuItem({ className, children, value, ...props }: Sideba
   return (
     <motion.div
       ref={itemRef}
-      className={cn("mb-1 scrollbar-hidden scrollbar-none", className)}
+      className={cn("mb-1 scrollbar-hide", className)}
       data-value={menuItemId}
       data-state={isActive ? "active" : "inactive"}
       initial={{ scale: 1, opacity: 0.5, x: -0 }}
@@ -426,7 +424,7 @@ export function SidebarMenuButton({
     }
   }, [menuItemId, setActiveMenuItem, updateIndicatorPosition, props.onClick]);
 
-  const sharedClassName = "flex cursor-pointer items-center rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all duration-300";
+  const sharedClassName = "flex cursor-pointer items-center rounded-md px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ";
 
   if (!expanded) {
     if (asChild) {

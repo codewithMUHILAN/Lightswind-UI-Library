@@ -15,7 +15,7 @@ export interface TeamCarouselProps {
     titleSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
     /** Title color */
     titleColor?: string;
-    /** Background color or gradient */
+    /** Background color or gradient. Overrides the default 'bg-background' class. */
     background?: string;
     /** Card width in pixels */
     cardWidth?: number;

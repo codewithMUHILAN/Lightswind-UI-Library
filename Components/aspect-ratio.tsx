@@ -51,7 +51,7 @@ const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
         className={cn(
           "overflow-hidden",
           rounded && "rounded-md",
-          bordered && "border border-gray-200 dark:border-gray-800",
+          bordered && "border  ",
           className
         )}
         {...props}

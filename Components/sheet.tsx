@@ -270,10 +270,10 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className={cn(
                 "fixed z-50 gap-4 bg-background p-6 shadow-lg",
-                side === "top" && "inset-x-0 top-0 border-b border-gray-200 dark:border-gray-800",
-                side === "bottom" && "inset-x-0 bottom-0 border-t border-gray-200 dark:border-gray-800",
-                side === "left" && "inset-y-0 left-0 h-full w-3/4 border-r border-gray-200 dark:border-gray-800 sm:max-w-sm",
-                side === "right" && "inset-y-0 right-0 h-full w-3/4 border-l border-gray-200 dark:border-gray-800 sm:max-w-sm",
+                side === "top" && "inset-x-0 top-0 border-b  ",
+                side === "bottom" && "inset-x-0 bottom-0 border-t  ",
+                side === "left" && "inset-y-0 left-0 h-full w-3/4 border-r   sm:max-w-sm",
+                side === "right" && "inset-y-0 right-0 h-full w-3/4 border-l   sm:max-w-sm",
                 className
               )}
               {...restProps} // Use restProps here

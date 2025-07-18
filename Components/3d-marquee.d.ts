@@ -8,7 +8,7 @@ export interface MarqueeImage {
 export interface ThreeDMarqueeProps {
     images: MarqueeImage[];
     className?: string;
+    cols?: number;
     onImageClick?: (image: MarqueeImage, index: number) => void;
 }
 export declare const ThreeDMarquee: React.FC<ThreeDMarqueeProps>;
-export default ThreeDMarquee;

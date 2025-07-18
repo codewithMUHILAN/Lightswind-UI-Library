@@ -12,7 +12,13 @@ export function AuroraTextEffect({ text, className, textClassName, fontSize = "c
     third: 3,
     fourth: 13,
 }, }) {
-    return (_jsx("div", { className: cn("bg-black flex items-center justify-center overflow-hidden text-white", className), children: _jsx("div", { className: "text-center", children: _jsxs("h1", { className: cn("font-extrabold tracking-tight relative overflow-hidden", textClassName), style: { fontSize }, children: [text, _jsxs("div", { className: "absolute inset-0 z-10 mix-blend-darken pointer-events-none", children: [_jsx("div", { className: cn("absolute w-[60vw] h-[60vw] rounded-[37%_29%_27%_27%/28%_25%_41%_37%] filter mix-blend-overlay", colors.first || "bg-cyan-400", blurAmount), style: {
+    return (_jsx("div", { className: cn(
+        // Updated to support light and dark modes
+        "bg-white dark:bg-black flex items-center justify-center overflow-hidden", className), children: _jsx("div", { className: "text-center", children: _jsxs("h1", { className: cn(
+                // Added theme-aware text color for visibility
+                "font-extrabold tracking-tight relative overflow-hidden text-black dark:text-white", textClassName), style: { fontSize }, children: [text, _jsxs("div", { 
+                        // Switched blend mode based on theme to preserve the effect
+                        className: "absolute inset-0 z-10 mix-blend-lighten dark:mix-blend-darken pointer-events-none", children: [_jsx("div", { className: cn("absolute w-[60vw] h-[60vw] rounded-[37%_29%_27%_27%/28%_25%_41%_37%] filter mix-blend-overlay", colors.first || "bg-cyan-400", blurAmount), style: {
                                     animationName: "aurora-border, aurora-1",
                                     animationDuration: `${animationSpeed.border}s, ${animationSpeed.first}s`,
                                     animationTimingFunction: "ease-in-out, ease-in-out",

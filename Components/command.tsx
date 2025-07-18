@@ -211,7 +211,7 @@ const CommandInput = React.forwardRef<HTMLInputElement, CommandInputProps>(
     };
 
     return (
-      <div className="flex items-center border-b border-gray-200 dark:border-gray-800 px-3" cmdk-input-wrapper="">
+      <div className="flex items-center border-b   px-3" cmdk-input-wrapper="">
         {isLoading ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin opacity-70" />
         ) : (

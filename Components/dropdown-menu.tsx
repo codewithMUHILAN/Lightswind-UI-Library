@@ -203,7 +203,7 @@ const DropdownMenuTrigger = React.forwardRef<
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
 
 const dropdownMenuContentVariants = cva(
-  "z-50 min-w-[8rem] overflow-hidden rounded-md border border-gray-200 dark:border-gray-800 bg-popover p-1 text-popover-foreground shadow-md",
+  "z-50 min-w-[8rem] overflow-hidden rounded-md border   bg-popover p-1 text-popover-foreground shadow-md",
   {
     variants: {
       variant: {

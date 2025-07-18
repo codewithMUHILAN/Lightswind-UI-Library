@@ -42,7 +42,7 @@ function Menubar({ className, children, ...props }: MenubarProps) {
     <MenubarContext.Provider value={{ openMenu, setOpenMenu }}>
       <div
         className={cn(
-          "flex h-10 items-center space-x-1 rounded-md border border-gray-200 dark:border-gray-800 bg-background p-1",
+          "flex h-10 items-center space-x-1 rounded-md border   bg-background p-1",
           className
         )}
         role="menubar"
@@ -142,7 +142,7 @@ function MenubarContent({ className, children, ...props }: MenubarContentProps) 
           transition={{ duration: 0.15, ease: "easeOut" }}
           className={cn(
             `absolute left-0 top-0 z-50 mt-10 min-w-[8rem] flex-col
-             rounded-md border border-gray-200 dark:border-gray-800 bg-popover p-1
+             rounded-md border   bg-popover p-1
              text-popover-foreground shadow-md`,
             className
           )}

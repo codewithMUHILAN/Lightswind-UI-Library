@@ -6,7 +6,7 @@ import { cn } from "../lib/utils";
 const toggleVariants = {
   variant: {
     default: "bg-transparent",
-    outline: "border border-gray-200 dark:border-gray-800 bg-transparent hover:bg-accent hover:text-accent-foreground",
+    outline: "border   bg-transparent hover:bg-accent hover:text-accent-foreground",
   },
   size: {
     default: "h-10 px-3",

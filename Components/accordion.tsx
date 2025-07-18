@@ -69,7 +69,7 @@ const AccordionItem = React.forwardRef<HTMLDivElement, AccordionItemProps>(
       <AccordionItemContext.Provider value={{ value }}>
         <div
           ref={ref}
-          className={cn("border-b border-gray-200 dark:border-gray-800 text-black dark:text-white", className)}
+          className={cn("border-b   text-black dark:text-white", className)}
           data-state={disabled ? "disabled" : undefined}
           data-value={value}
           {...props}

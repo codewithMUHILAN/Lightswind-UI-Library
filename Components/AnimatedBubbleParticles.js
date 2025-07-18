@@ -3,7 +3,9 @@ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { cn } from "../lib/utils"; // Assuming this is a utility like clsx or classnames
 const AnimatedBubbleParticles = ({ className, backgroundColor = "#edf3f8", // Default fallback background color
-particleColor = "#3e82f7", particleSize = 30, spawnInterval = 180, height, width, enableGooEffect = true, blurStrength = 12, pauseOnBlur = true, zIndex = 1, friction = { min: 1, max: 2 }, scaleRange = { min: 0.4, max: 2.4 }, children, }) => {
+particleColor = "#3e82f7", particleSize = 30, spawnInterval = 180, height = "100vh", // Default to 100vh for full viewport height
+width = "100vw", // Default to 100vw for full viewport width
+enableGooEffect = true, blurStrength = 12, pauseOnBlur = true, zIndex = 1, friction = { min: 1, max: 2 }, scaleRange = { min: 0.4, max: 2.4 }, children, }) => {
     const containerRef = useRef(null);
     const particlesRef = useRef(null);
     const animationRef = useRef();
@@ -159,23 +161,20 @@ particleColor = "#3e82f7", particleSize = 30, spawnInterval = 180, height, width
     // Determine the background class to apply
     const backgroundClass = (() => {
         // Check if a 'bg-' class is already present in the user-provided className
-        // This is a simple check and might not catch all edge cases (e.g., dynamic classes)
-        // but it's generally sufficient for explicit Tailwind background classes.
         if (className && className.split(' ').some(cls => cls.startsWith('bg-'))) {
             return ''; // User provided a background class, don't add default
         }
         // If no 'bg-' class is found, use the backgroundColor prop as a Tailwind arbitrary value
         return `bg-[${backgroundColor}]`;
     })();
-    return (_jsxs("div", { ref: containerRef, className: cn("relative overflow-hidden", {
-            "min-h-screen": !height,
-            "min-w-screen": !width,
-        }, backgroundClass, // Apply the determined background class here
+    return (_jsxs("div", { ref: containerRef, className: cn("relative overflow-hidden", "w-screen h-screen", // Always apply full screen width and height
+        backgroundClass, // Apply the determined background class here
         className // User's className comes last to ensure highest precedence
         ), style: {
-            height: height || "auto",
-            width: width || "auto",
             zIndex,
+            // Explicitly set width and height from props, overriding Tailwind defaults if provided
+            width: width,
+            height: height,
         }, children: [_jsx("div", { ref: particlesRef, className: "absolute inset-0 w-full h-full pointer-events-none z-0", style: {
                     filter: enableGooEffect ? "url(#" + gooIdRef.current + ")" : undefined,
                 } }), _jsx("div", { className: "absolute inset-0 flex items-center justify-center z-10 w-full h-full", children: children }), enableGooEffect && (_jsx("svg", { className: "absolute w-0 h-0 z-0", children: _jsx("defs", { children: _jsxs("filter", { id: gooIdRef.current, children: [_jsx("feGaussianBlur", { in: "SourceGraphic", result: "blur", stdDeviation: blurStrength }), _jsx("feColorMatrix", { in: "blur", result: "colormatrix", type: "matrix", values: "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -9" }), _jsx("feBlend", { in: "SourceGraphic", in2: "colormatrix" })] }) }) }))] }));
