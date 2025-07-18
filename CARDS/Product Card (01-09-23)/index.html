@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Lato:400,700");
+html {
+  display: grid;
+  min-height: 100%;
+}
+
+body {
+  display: grid;
+  background: black;
+  font-family: "Lato", sans-serif, sans-serif;
+  text-transform: uppercase;
+}
+
+.container {
+  position: relative;
+  margin: auto;
+  overflow: hidden;
+  width: 520px;
+  height: 350px;
+  background: linear-gradient(to right, #1abc9c, #3498db);
+  box-shadow: 0 5px 15px 10px rgba(25, 142, 174, 0.5);
+  border-radius: 10px;
+}
+
+p {
+  font-size: 0.6em;
+  color: #000000;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 2em;
+  color: #000000;
+  margin-top: -5px;
+}
+
+h2 {
+  color: #000000;
+  margin-top: -5px;
+  font-size: 1.6rem;
+}
+
+img {
+  margin-left: 50px;
+  width: 170px;
+  height: 200px;
+  margin-top: 33px;
+}
+
+.slideshow-buttons {
+  top: 70%;
+  display: none;
+}
+
+.one, .two, .three, .four {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #000000;
+}
+
+.one {
+  left: 22%;
+}
+
+.two {
+  left: 27%;
+}
+
+.three {
+  left: 32%;
+}
+
+.four {
+  left: 37%;
+}
+
+.product {
+  position: absolute;
+  width: 40%;
+  height: 100%;
+  top: 10%;
+  left: 60%;
+}
+
+.desc {
+  text-transform: none;
+  letter-spacing: 0;
+  margin-bottom: 17px;
+  color: #4E4E4E;
+  font-size: 0.7em;
+  line-height: 1.6em;
+  margin-right: 25px;
+  text-align: justify;
+}
+
+button {
+  background: #000000;
+  padding: 10px;
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  margin: -1px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  cursor: pointer;
+}
+button:hover {
+  background: lightblue;
+  color: #000000;
+  transition: all 0.4s ease-in-out;
+}
+
+.add {
+  width: 67%;
+  margin-top: 14px;
+}
+
+.like {
+  width: 22%;
+}
+
+.sizes {
+display: grid; color: #000000;
+grid-template-columns: repeat(auto-fill, 30px);
+width: 60%; grid-gap: 50px; margin-left: 20px;
+margin-top: 8px;
+}
+.sizes:hover {
+  cursor: pointer;
+}
+
+.pick {
+  margin-top: 11px;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-left: 20px;
+}
+
+.size {
+  padding: 5px;
+  border: 1px solid #000000;
+  font-size: 1em;
+  font-weight: 800;
+  width: 60px;
+  margin-top: 2px;
+  text-align: center;
+}
+.size:hover {
+  background: #000000;
+  color: #F5F5F5;
+  transition: all 0.4s ease-in-out;
+}
+
+
+
+.focus {
+  background: #000000;
+  color: #F5F5F5;
+}
+
+
+
+        /* Animations */
+        .size {
+            transition: background-color 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        .size:focus, .size.focus {
+            animation: shake 0.5s;
+            background-color: #000000;
+            color: #F5F5F5;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            50% {
+                transform: translateX(5px);
+            }
+            75% {
+                transform: translateX(-5px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        
+        
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+    <script>
+        // Wait for the document to be ready
+        $(document).ready(function () {
+            // Event handler for size selection
+            $(".size").on('click', function () {
+                $(this).toggleClass('focus').siblings().removeClass('focus');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="images">
+          <img src="3.png" />
+        </div>
+        <div class="slideshow-buttons">
+          <div class="one"></div>
+          <div class="two"></div>
+          <div class="three"></div>
+          <div class="four"></div>
+        </div>
+        <p class="pick">choose size:</p>
+        <div class="sizes">
+          <div class="size" >red</div>
+          <div class="size">blue</div>
+          <div class="size">purple</div>
+        </div>
+        <div class="product">
+            <p>Designed for Maximum Performance</p>
+            <h1>Boat 135G Ultra Sound</h1>
+            <h2>RS 40,999</h2>
+            <div class="buttons">
+            <button class="add">Add to Cart</button>
+            <button class="like"><span>♥</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!--Social Liks codings below-->
+      <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+        <i class="fas fa-link"></i>
+        <span class="roboto-mono">Join my Telegram</span>
+    </a>
+
+    <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+      <i class="fab fa-youtube"></i>
+      <span>Subscribe my channel..❤</span>
+    </a>
+
+</body>
+</html>

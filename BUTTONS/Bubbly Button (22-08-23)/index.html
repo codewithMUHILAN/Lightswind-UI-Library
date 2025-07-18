@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+  font-size: 16px;
+  font-family: "Helvetica", "Arial", sans-serif;
+  text-align: center;
+  background-color: #000000;
+}
+
+.bubbly-button {
+  font-family: "Helvetica", "Arial", sans-serif;
+  display: inline-block;
+  font-size: 1em;
+  padding: 1em 2em;
+  margin-top: 350px;
+  margin-bottom: 60px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #00fffc;
+  color: #000000;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+  box-shadow: 0 2px 25px #00fffc;
+}
+
+    .bubbly-button:focus {
+      outline: 0;
+    }
+    .bubbly-button:before,
+    .bubbly-button:after {
+      position: absolute;
+      content: "";
+      display: block;
+      width: 140%;
+      height: 100%;
+      left: -20%;
+      z-index: -1000;
+      transition: all ease-in-out 0.5s;
+      background-repeat: no-repeat;
+    }
+
+.bubbly-button:before {
+  display: none;
+  top: -75%;
+  background-image: radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, transparent 20%, #00fffc 20%, transparent 30%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, transparent 10%, #00fffc 15%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%);
+  background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
+}
+.bubbly-button:after {
+  display: none;
+  bottom: -75%;
+  background-image: radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, transparent 10%, #00fffc 15%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%), radial-gradient(circle, #00fffc 20%, transparent 20%);
+  background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+}
+.bubbly-button:active {
+  transform: scale(0.9);
+  background-color: #00fffc;
+  box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+}
+
+    .bubbly-button.animate:before {
+      display: block;
+      animation: topBubbles
+      ease-in-out 0.75s forwards;
+    }
+
+.bubbly-button.animate:after {
+  display: block;
+  animation: bottomBubbles ease-in-out 0.75s forwards;
+}
+
+@keyframes topBubbles {
+  0% {
+    background-position: 
+    5% 90%, 10% 90%, 10% 90%, 
+    15% 90%, 25% 90%, 25% 90%, 
+    40% 90%, 55% 90%, 70% 90%;
+  }
+  50% {
+    background-position: 
+    0% 80%, 0% 20%, 10% 40%, 
+    20% 0%, 30% 30%, 22% 50%, 
+    50% 50%, 65% 20%, 90% 30%;
+  }
+    100% {
+      background-position: 
+      0% 70%, 0% 10%, 10% 30%, 
+      20% -10%, 30% 20%, 22% 40%, 
+      50% 40%, 65% 10%, 90% 20%;
+      background-size: 0% 0%, 
+      0% 0%, 0% 0%, 0% 0%, 
+      0% 0%, 0% 0%;
+    }
+  }
+@keyframes bottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0%;
+  }
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0%;
+  }
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+</head>
+<body>
+    <button class="bubbly-button">Click me!</button>
+
+    <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+      <i class="fas fa-link"></i>
+      <span class="roboto-mono">Join my Telegram</span>
+  </a>
+
+  <a id="yt-link" class="meta-link" href="https://l.instagram.com/?u=https%3A%2F%2Fwww.youtube.com%2F%40codewith_muhilan%3Fsub_confirmation%3D1&e=AT3q9-SARrHRtE8I1_NI855_75D8wXjVAYBfm5zNrA7qSVTtvXnGAPbsK_N2a9plc_B4qu6-PBZdm6joS-kiAxI33JZSySVLZlPR20BqIYM_2bNPJVwB5hU" target="_blank">
+    <i class="fab fa-youtube"></i>
+    <span>Subscribe my channel..❤</span>
+  </a>
+    <script>
+        var animateButton = function(e) {
+
+e.preventDefault;
+//reset animation
+e.target.classList.remove('animate');
+e.target.classList.add('animate');
+setTimeout(function(){
+  e.target.classList.remove('animate');
+},700);
+};
+
+var bubblyButtons = document.getElementsByClassName("bubbly-button");
+
+for (var i = 0; i < bubblyButtons.length; i++) {
+bubblyButtons[i].addEventListener('click', animateButton, false);
+}
+    </script>
+</body>
+</html>

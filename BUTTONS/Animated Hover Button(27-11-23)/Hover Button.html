@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@codewith_muhilan</title>
+  <style>
+    body {
+      margin: 0; padding: 0;
+    }
+
+    
+    .btn {
+      position: relative;
+      padding: 10px 20px;
+      cursor: pointer; font-size: 28px;
+      background: #7ed957;
+      border-top-right-radius: 10px;
+      border-bottom-left-radius: 10px;
+      transition: all 1s;
+    }
+    .btn:after, .btn:before {
+      content: " ";
+      width: 10px; height: 10px;
+      position: absolute;
+      border: 0px solid #fff;
+      transition: all 1s;
+    }
+    .btn:after {
+      top: -1px; left: -1px;
+      border-top: 5px solid black;
+      border-left: 5px solid black;
+    }
+    .btn:before {
+      bottom: -1px; right: -1px;
+      border-bottom: 5px solid black;
+      border-right: 5px solid black;
+    }
+    .btn:hover {
+      border-top-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+    .btn:hover:before, .btn:hover:after {
+      width: 100%; height: 100%;
+    }
+    .data-container {
+      background: #EAEAEA;
+      height: 100vh; display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="data-container">
+    <span class="btn">Button</span>
+  </div>
+
+</body>
+
+</html>

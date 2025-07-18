@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+
+      body {
+        background: #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+      .card span {
+        font-weight: normal;
+        font-size: .5em;
+        position: absolute;
+        bottom: 10%;
+        right: 10%;
+      }
+
+.card {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  width: 190px;
+  height: 254px;
+  box-shadow: 0 0 0.5em rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  transition: 0.5s;
+  cursor: pointer;
+  transform: rotateX(-55deg) rotateY(15deg) rotateZ(60deg);
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 1.5em;
+  color: #000000;
+  font-weight: 800;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+      .card:active {
+        scale: 1.1; rotate: 5deg;
+      }
+
+@keyframes animate {
+  0% {
+    opacity: 0.3;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.3;
+  }
+}
+.card:hover {
+  transform: rotate(0deg);
+  opacity: 1;
+}
+
+.card, .card::before {
+  background: linear-gradient(43deg,  rgb(210, 170, 39) 0%, #00fffc, rgb(210, 170, 39) 100%);
+}
+
+.card::before {
+  content: '';
+  width: 120%;
+  height: 110%;
+  z-index: -1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 15px;
+  transform: translate(-50%, -50%);
+  filter: blur(30px);
+  animation: animate 3s linear infinite;
+}
+
+              img{
+                height: 150px;
+                width: 150px;
+                object-fit: cover;
+                border-radius: 25px;
+              }
+
+              
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="card">Hover Me
+    <span>@codewith_muhilan</span>
+    </div>
+
+    <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+      <i class="fas fa-link"></i>
+      <span class="roboto-mono">Join my Telegram</span>
+  </a>
+
+  <a id="yt-link" class="meta-link" href="https://www.instagram.com/codewith_muhilan/" target="_blank">
+      <i class="fab fa-instagram"></i>
+      <span>Follow me..❤</span>
+  </a>
+</body>
+</html>

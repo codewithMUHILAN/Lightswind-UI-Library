@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+ 
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: 'Poppins', sans-serif;
+ }
+  
+ body {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 100vh;
+     background: #000000;
+ }
+
+ .navigation {
+     position: relative;
+     width: 400px;
+     height: 70px;
+     background:  linear-gradient(155deg,
+      #192b6e, #a6307c);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-radius: 10px;
+ }
+  
+ .navigation ul {
+     display: flex;
+     width: 350px;
+ }
+  
+ .navigation ul li {
+     position: relative;
+     width: 70px;
+     height: 70px;
+     list-style: none;
+     z-index: 1;
+ }
+  
+ .navigation ul li a {
+     position: relative;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     width: 100%;
+     text-align: center;
+     font-weight: 500;
+ }
+  
+ .navigation ul li a .icon {
+     position: relative;
+     display: block;
+     line-height: 75px;
+     font-size: 1.5em;
+     text-align: center;
+     color: #fff;
+     transition: .5s;
+ }
+  
+ .navigation ul li.active a .icon {
+     transform: translateY(-32px);
+ }
+  
+ .navigation ul li a .text {
+     position: absolute;
+     color: #fff;
+     font-weight: 400;
+     font-size: .75em;
+     letter-spacing: .05em;
+     opacity: 0;
+     transform: translateY(20px);
+     transition: .5s;
+ }
+  
+ .navigation ul li.active a .text {
+     opacity: 1;
+     transform: translateY(10px);
+ }
+  
+ .navigation ul li a .circle {
+     position: absolute;
+     display: block;
+     width: 50px;
+     height: 50px;
+     background: transparent;
+     border-radius: 50%;
+     border: 1.8px solid #fff;
+     transform: translateY(-37px) scale(0);
+ }
+  
+ .navigation ul li.active a .circle {
+     transition: .5s;
+     transition-delay: .5s;
+     transform: translateY(-37px) scale(1);
+ }
+  
+ .indicator {
+     position: absolute;
+     top: -50%;
+     width: 70px;
+     height: 70px;
+     background: linear-gradient(0deg, #ffa576,#0951eb);
+     border: 6px solid #06021b;
+     border-radius: 50%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     transition: .5s;
+ }
+  
+ .indicator::before {
+     content: '';
+     position: absolute;
+     top: 50%;
+     left: -22px;
+     width: 20px;
+     height: 20px;
+     background: transparent;
+     border-top-right-radius: 20px;
+     box-shadow: 1px -10px 0 #06021b;
+ }
+  
+ .indicator::after {
+     content: '';
+     position: absolute;
+     top: 50%;
+     right: -22px;
+     width: 20px;
+     height: 20px;
+     background: transparent;
+     border-top-left-radius: 20px;
+     box-shadow: -1px -10px 0 #06021b;
+ }
+  
+ .navigation ul li:nth-child(1).active~.indicator {
+     transform: translateX(calc(70px * 0));
+ }
+  
+ .navigation ul li:nth-child(2).active~.indicator {
+     transform: translateX(calc(70px * 1));
+ }
+  
+ .navigation ul li:nth-child(3).active~.indicator {
+     transform: translateX(calc(70px * 2));
+ }
+  
+ .navigation ul li:nth-child(4).active~.indicator {
+     transform: translateX(calc(70px * 3));
+ }
+  
+ .navigation ul li:nth-child(5).active~.indicator {
+     transform: translateX(calc(70px * 4));
+ }
+
+ 
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+</head>
+ 
+<body>
+ 
+    <div class="navigation">
+        <ul>
+            <li class="list active">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="home-outline"></ion-icon>
+                    </span>
+                    <span class="text">Home</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </span>
+                    <span class="text">Profile</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="chatbubble-outline"></ion-icon>
+                    </span>
+                    <span class="text">Message</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="camera-outline"></ion-icon>
+                    </span>
+                    <span class="text">Photos</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <li class="list">
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </span>
+                    <span class="text">Settings</span>
+                    <span class="circle"></span>
+                </a>
+            </li>
+            <div class="indicator"></div>
+        </ul>
+    </div>
+ 
+
+    <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+        <i class="fas fa-link"></i>
+        <span class="roboto-mono">Join my Telegram</span>
+    </a>
+
+    <a id="yt-link" class="meta-link" href="https://www.instagram.com/codewith_muhilan/" target="_blank">
+        <i class="fab fa-instagram"></i>
+        <span>Follow me..❤</span>
+    </a>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        const list = document.querySelectorAll('.list');
+ 
+ function activeLink() {
+     list.forEach((item) =>
+     item.classList.remove('active'));
+     this.classList.add('active');
+ }
+  
+ list.forEach((item) =>
+ item.addEventListener('click',activeLink));
+    </script>
+</body>
+ 
+</html>

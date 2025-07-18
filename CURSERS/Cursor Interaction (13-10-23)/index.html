@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body,
+        html {
+            padding: 0;
+            margin: 0;
+            overscroll-behavior: none;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            margin-left: 1em;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        a img.icon {
+            display: inline-block;
+            height: 1em;
+            margin: 0 0 -0.1em 0.3em;
+        }
+
+        
+    /* -- YouTube Link Styles -- */
+
+    #source-link {
+      top: 60px;
+    }
+
+    #source-link>i {
+      color: rgb(94, 106, 210);
+    }
+
+    #yt-link {
+      top: 10px;
+    }
+
+    #yt-link>i {
+      color: rgb(219, 31, 106);
+
+    }
+
+    .meta-link {
+      align-items: center;
+      backdrop-filter: blur(3px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      display: inline-flex;
+      gap: 5px;
+      left: 10px;
+      padding: 10px 20px;
+      position: fixed;
+      text-decoration: none;
+      transition: background-color 600ms, border-color 600ms;
+      z-index: 10000;
+    }
+
+    .meta-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .meta-link>i,
+    .meta-link>span {
+      height: 20px;
+      line-height: 20px;
+    }
+
+    .meta-link>span {
+      color: white;
+      font-family: "Rubik", sans-serif;
+      transition: color 600ms;
+    }
+
+
+    </style>
+</head>
+
+<body>
+    <canvas>
+
+
+
+    </canvas>
+
+
+            
+  <!--Social Liks codings below-->
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+    <i class="fas fa-link"></i>
+    <span class="roboto-mono">Join my Telegram</span>
+  </a>
+
+  <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+    <i class="fab fa-youtube"></i>
+    <span>Subscribe my channel..❤</span>
+  </a>
+
+
+
+    <script>
+        const canvas = document.querySelector("canvas");
+        const ctx = canvas.getContext('2d');
+
+        // for intro motion
+        let mouseMoved = false;
+
+        const pointer = {
+            x: .5 * window.innerWidth,
+            y: .5 * window.innerHeight,
+        }
+        const params = {
+            pointsNumber: 40,
+            widthFactor: .3,
+            mouseThreshold: .6,
+            spring: .4,
+            friction: .5
+        };
+
+        const trail = new Array(params.pointsNumber);
+        for (let i = 0; i < params.pointsNumber; i++) {
+            trail[i] = {
+                x: pointer.x,
+                y: pointer.y,
+                dx: 0,
+                dy: 0,
+            }
+        }
+
+        window.addEventListener("click", e => {
+            updateMousePosition(e.pageX, e.pageY);
+        });
+        window.addEventListener("mousemove", e => {
+            mouseMoved = true;
+            updateMousePosition(e.pageX, e.pageY);
+        });
+        window.addEventListener("touchmove", e => {
+            mouseMoved = true;
+            updateMousePosition(e.targetTouches[0].pageX, e.targetTouches[0].pageY);
+        });
+
+        function updateMousePosition(eX, eY) {
+            pointer.x = eX;
+            pointer.y = eY;
+        }
+
+        setupCanvas();
+        update(0);
+        window.addEventListener("resize", setupCanvas);
+
+
+        function update(t) {
+
+            // for intro motion
+            if (!mouseMoved) {
+                pointer.x = (.5 + .3 * Math.cos(.002 * t) * (Math.sin(.005 * t))) * window.innerWidth;
+                pointer.y = (.5 + .2 * (Math.cos(.005 * t)) + .1 * Math.cos(.01 * t)) * window.innerHeight;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            trail.forEach((p, pIdx) => {
+                const prev = pIdx === 0 ? pointer : trail[pIdx - 1];
+                const spring = pIdx === 0 ? .4 * params.spring : params.spring;
+                p.dx += (prev.x - p.x) * spring;
+                p.dy += (prev.y - p.y) * spring;
+                p.dx *= params.friction;
+                p.dy *= params.friction;
+                p.x += p.dx;
+                p.y += p.dy;
+            });
+
+            ctx.beginPath();
+            ctx.moveTo(trail[0].x, trail[0].y);
+
+            for (let i = 1; i < trail.length - 1; i++) {
+                const xc = .5 * (trail[i].x + trail[i + 1].x);
+                const yc = .5 * (trail[i].y + trail[i + 1].y);
+                ctx.quadraticCurveTo(trail[i].x, trail[i].y, xc, yc);
+                ctx.lineWidth = params.widthFactor * (params.pointsNumber - i);
+                ctx.stroke();
+            }
+            ctx.lineTo(trail[trail.length - 1].x, trail[trail.length - 1].y);
+            ctx.strokeStyle = '#00fffc';
+            window.requestAnimationFrame(update);
+        }
+
+        function setupCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+    </script>
+</body>
+
+</html>

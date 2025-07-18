@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<style>
+    body {
+  background: #000;
+}
+
+main {
+  height: 100vh;
+  width: 100vw;
+}
+
+  .button {
+    background: linear-gradient(45deg,
+    #00fffc, #0099cc);  
+    height: 55px;
+    width: 200px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+.text {
+  font: bold 1.25rem/1 poppins;
+  color: #000000;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-52%);
+  left: 0;
+  right: 0;
+}
+
+.progress-bar {
+  position: absolute;
+  height: 10px;
+  width: 0;
+  right: 0;
+  top: 50%;
+  left: 50%;
+  border-radius: 200px;
+  transform: translateY(-50%) translateX(-50%);
+  background: #000;
+}
+
+svg {
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  left: 50%;
+  right: 0;
+}
+
+  .check {
+    fill: none;
+    stroke: #FFFFFF;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+
+</style>
+</head>
+<body>
+
+
+<main>
+  
+  <div class="button">
+    <div class="text">Download</div>
+  </div>
+  <div class="progress-bar"></div>
+  <svg x="0px" y="0px"
+	 viewBox="0 0 25 30" style="enable-background:new 0 0 25 30;">
+    <path class="check" class="st0" d="M2,19.2C5.9,23.6,9.4,28,9.4,28L23,2"/>
+  </svg>
+</main>
+
+
+  <!--Social Liks codings below-->
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+    <i class="fas fa-link"></i>
+    <span class="roboto-mono">Join my Telegram</span>
+</a>
+
+<a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+  <i class="fab fa-youtube"></i>
+  <span>Subscribe my channel..❤</span>
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var basicTimeline = anime.timeline({
+  autoplay: false
+});
+
+var pathEls = $(".check");
+for (var i = 0; i < pathEls.length; i++) {
+  var pathEl = pathEls[i];
+  var offset = anime.setDashoffset(pathEl);
+  pathEl.setAttribute("stroke-dashoffset", offset);
+}
+
+basicTimeline
+  .add({
+    targets: ".text",
+    duration: 1,
+    opacity: "0"
+  })
+  .add({
+    targets: ".button",
+    duration: 1300,
+    height: 20,
+    width: 300,
+    backgroundColor: "#2B2D2F",
+    border: "0",
+    borderRadius: 100
+  })
+  .add({
+    targets: ".progress-bar",
+    duration: 2000,
+    width: 300,
+    easing: "linear"
+  })
+  .add({
+    targets: ".button",
+    width: 0,
+    duration: 1
+  })
+  .add({
+    targets: ".progress-bar",
+    width: 80,
+    height: 80,
+    delay: 500,
+    duration: 750,
+    borderRadius: 80,
+    backgroundColor: "#20e1a1"
+  })
+  .add({
+    targets: pathEl,
+    strokeDashoffset: [offset, 0],
+    duration: 200,
+    easing: "easeInOutSine"
+  });
+
+$(".button").click(function() {
+  basicTimeline.play();
+});
+
+$(".text").click(function() {
+  basicTimeline.play();
+});
+</script>
+
+</body>
+</html>

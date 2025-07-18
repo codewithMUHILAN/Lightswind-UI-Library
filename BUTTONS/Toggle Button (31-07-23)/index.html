@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+html * {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: #000000;
+  display: grid;
+  font-family: sans-serif;
+  font-size: 1.6rem;
+  min-height: 100vh;
+  place-content: center;
+  position: relative;
+}
+body::before {
+  background-color: #000000;
+  content: "";
+  height: 100%;
+  left: 0;
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+.buttons {
+  position: relative;
+  z-index: 1;
+}
+.buttons--active .buttons__ctas {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+.buttons--active .buttons__cta:nth-child(1) {
+  transform: translate(-110%, -150%) rotate(0deg);
+}
+.buttons--active .buttons__cta:nth-child(2) {
+  transform: translate(10%, -150%) rotate(0deg);
+}
+.buttons--active .buttons__cta:nth-child(3) {
+  transform: translate(65%, -50%) rotate(0deg);
+}
+.buttons--active .buttons__cta:nth-child(4) {
+  transform: translate(10%, 50%) rotate(0deg);
+}
+.buttons--active .buttons__cta:nth-child(5) {
+  transform: translate(-110%, 50%) rotate(0deg);
+}
+.buttons--active .buttons__cta:nth-child(6) {
+  transform: translate(-165%, -50%) rotate(0deg);
+}
+
+.buttons__toggle {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  align-items: center;
+  background-color: #00fffc;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: inset 0 -8px 0 #00fffc;
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  font-size: 0;
+  height: 8rem;
+  justify-content: center;
+  text-decoration: none;
+  text-shadow: 0 2px 0 #168B86;
+  width: 8rem;
+  position: relative;
+  z-index: 1;
+}
+.buttons__toggle:hover {
+  text-shadow: 0 2px 0 #168B86, 0 0 4px rgba(255, 255, 255, 0.5);
+}
+.buttons__toggle:focus, .buttons__toggle--active {
+  background-color: rgb(20, 131, 215);
+  box-shadow: inset 0 8px 0 #111010;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+.buttons__toggle i {
+  font-size: 3.2rem;
+}
+.buttons__ctas {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(180deg);
+  transform-origin: center;
+  transition: transform 0.75s ease;
+  z-index: 0;
+}
+.buttons__cta {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  align-items: center;
+  background-color: #00fffc;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: inset 0 -8px 0 #00fffc;
+  color: #000000;
+  cursor: pointer;
+  display: flex;
+  font-size: 0;
+  height: 8rem;
+  justify-content: center;
+  text-decoration: none;
+  text-shadow: 0 2px 0 #168B86;
+  width: 8rem;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(180deg);
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+.buttons__cta:hover {
+  text-shadow: 0 2px 0 #168B86, 0 0 4px rgba(255, 255, 255, 0.5);
+}
+.buttons__cta:focus, .buttons__cta--active {
+  background-color: #168B86;
+  box-shadow: inset 0 8px 0 #0B6F6B;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+.buttons__cta i {
+  font-size: 3.2rem;
+}
+.buttons__cta:nth-child(1) {
+  transition-delay: calc(1 * 0.075s);
+  z-index: calc(6 - 1);
+}
+.buttons__cta:nth-child(2) {
+  transition-delay: calc(2 * 0.075s);
+  z-index: calc(6 - 2);
+}
+.buttons__cta:nth-child(3) {
+  transition-delay: calc(3 * 0.075s);
+  z-index: calc(6 - 3);
+}
+.buttons__cta:nth-child(4) {
+  transition-delay: calc(4 * 0.075s);
+  z-index: calc(6 - 4);
+}
+.buttons__cta:nth-child(5) {
+  transition-delay: calc(5 * 0.075s);
+  z-index: calc(6 - 5);
+}
+.buttons__cta:nth-child(6) {
+  transition-delay: calc(6 * 0.075s);
+  z-index: calc(6 - 6);
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="buttons">
+
+        <button class="buttons__toggle">
+            <i class="fa fa-share-alt">
+            </i>
+        </button>
+          
+          <div class="buttons__ctas">
+            <a class="buttons__cta" href="#">
+            <i class="fa-brands fa-facebook-f">
+            </i>Facebook</a>
+            <a class="buttons__cta" href="#">
+            <i class="fa-brands fa-twitter">
+            </i>Twitter</a>
+            <a class="buttons__cta" href="#">
+            <i class="fa-brands fa-instagram">
+            </i>Instagram</a>
+            <a class="buttons__cta" href="#">
+            <i class="fa-brands fa-youtube">
+            </i>YouTube</a>
+
+            <a class="buttons__cta" href="#">
+              <i class="fa-brands fa-tiktok">
+              </i>Tiktok</a>
+
+              <a class="buttons__cta" href="#">
+                <i class="fa-brands fa-linkedin">
+                </i>Linkedin</a>
+          </div>
+
+    </div>
+
+        <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+        <i class="fas fa-link"></i>
+        <span class="roboto-mono">Join my Telegram</span>
+    </a>
+
+    <a id="yt-link" class="meta-link" href="https://www.instagram.com/codewith_muhilan/" target="_blank">
+        <i class="fab fa-instagram"></i>
+        <span>Follow me..❤</span>
+    </a>
+
+    <script>
+        const buttonsComponent = document.querySelector('.buttons');
+const buttonsToggle = document.querySelector('.buttons__toggle');
+
+buttonsToggle.addEventListener('click', toggleButtons);
+
+function toggleButtons() {
+	buttonsToggle.classList.toggle('buttons__toggle--active');
+	buttonsComponent.classList.toggle('buttons--active');
+	document.activeElement.blur();
+}
+
+    </script>
+</body>
+</html>

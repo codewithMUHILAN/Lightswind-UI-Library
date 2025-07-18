@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Nunito:400,700,300);
+body {
+  font-family: "Nunito", sans-serif;
+  background: #000;
+}
+
+#loading_line {
+  width: 0px;
+  height: 5px;
+  background: blue;
+}
+
+  .buttonContainer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: 
+    translate(-50%, -50%);
+    text-align: center;
+    cursor: pointer;
+  }
+
+.buttonContainer .complete {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  transform: scale(1.9);
+  color: #f9f9f9;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+  .buttonContainer 
+  .complete.fadein {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  .buttonContainer #counter {
+    color: #00fffc;
+    font-size: 19px;
+    left: 0; right: 0;
+    bottom: 20px; margin: auto;
+    display: none;
+    position: absolute;
+  }
+
+  .buttonContainer .ball {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -26px;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    background-color:#00fffc;
+    box-shadow: inset 1px 
+    1px 1px 0px
+    rgba(255, 255, 255, 0.54);
+    display: none;
+  }
+
+.buttonContainer:before {
+  content: "Download";
+  display: block;
+  text-transform: uppercase;
+  color: #00fffc;
+  font-weight: 700;
+  font-size: 13px;
+  transform: translateY(38px);
+  transition: all 0.2s ease;
+}
+
+  .buttonContainer
+  .active {
+    pointer-events: none;
+  }
+  .buttonContainer
+  .active:before {
+    opacity: 0;
+  }
+
+.buttonContainer
+.active .ball {
+  -webkit-animation: jump 2s cubic-bezier(0.16, 0.15, 1, 0.49) infinite;
+          animation: jump 2s cubic-bezier(0.16, 0.15, 1, 0.49) infinite;
+}
+.buttonContainer.active #button {
+  stroke-dashoffset: 290;
+  width: 300px;
+  stroke-width: 9;
+  -webkit-animation: struk 2s cubic-bezier(0.16, 0.15, 1, 0.49) infinite;
+          animation: struk 2s cubic-bezier(0.16, 0.15, 1, 0.49) infinite;
+}
+
+.buttonContainer #button {
+  stroke-dasharray: 411;
+  stroke-dashoffset: 0;
+  marker-start: 30;
+  transform-origin: 50% 50%;
+  transition: all 0.4s 
+  cubic-bezier(0.18, 0.89, 
+  0.32, 1.28);
+}
+
+#button {
+  stroke-dasharray: 411;
+  stroke-dashoffset: 0;
+  marker-start: 30;
+  transform-origin: 50% 50%;
+  transition: all 0.4s 
+  cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  stroke: #00fffc; /* Change the stroke color to #00fffc */
+    }
+
+@-webkit-keyframes jump {
+  0% {
+    transform: translateY(0%);
+  }
+  10% {
+    transform: translateY(-180%);
+  }
+  18% {
+    width: 40px;
+    height: 40px;
+  }
+  20% {
+    transform: translateY(10%);
+    width: 48px;
+    height: 32px;
+  }
+  22% {
+    width: 40px;
+    height: 40px;
+  }
+  30% {
+    transform: translateY(-90%);
+  }
+  38% {
+    width: 40px;
+    height: 40px;
+  }
+  40% {
+    transform: translateY(5%);
+    width: 44px;
+    height: 36px;
+  }
+  42% {
+    width: 40px;
+    height: 40px;
+  }
+  49% {
+    transform: translateY(-40%);
+  }
+  57% {
+    transform: translateY(0%);
+  }
+  65% {
+    transform: translateY(-10%);
+  }
+  70% {
+    transform: translateY(0%);
+  }
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0%);
+  }
+  10% {
+    transform: translateY(-180%);
+  }
+  18% {
+    width: 40px;
+    height: 40px;
+  }
+  20% {
+    transform: translateY(10%);
+    width: 48px;
+    height: 32px;
+  }
+  22% {
+    width: 40px;
+    height: 40px;
+  }
+  30% {
+    transform: translateY(-90%);
+  }
+  38% {
+    width: 40px;
+    height: 40px;
+  }
+  40% {
+    transform: translateY(5%);
+    width: 44px;
+    height: 36px;
+  }
+  42% {
+    width: 40px;
+    height: 40px;
+  }
+  49% {
+    transform: translateY(-40%);
+  }
+  57% {
+    transform: translateY(0%);
+  }
+  65% {
+    transform: translateY(-10%);
+  }
+  70% {
+    transform: translateY(0%);
+  }
+}
+@-webkit-keyframes struk {
+  18% {
+    transform: translateY(0%);
+  }
+  20% {
+    transform: translateY(10%);
+  }
+  22% {
+    transform: translateY(0%);
+  }
+  38% {
+    transform: translateY(0%);
+  }
+  40% {
+    transform: translateY(5%);
+  }
+  42% {
+    transform: translateY(0%);
+  }
+}
+@keyframes struk {
+  18% {
+    transform: translateY(0%);
+  }
+  20% {
+    transform: translateY(10%);
+  }
+  22% {
+    transform: translateY(0%);
+  }
+  38% {
+    transform: translateY(0%);
+  }
+  40% {
+    transform: translateY(5%);
+  }
+  42% {
+    transform: translateY(0%);
+  }
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="buttonContainer">
+    <div class="complete">Download complete</div>
+    <div class="ball"></div>
+    <svg width="182" height="61" xmlns="http://www.w3.org/2000/svg">
+      <path id="button" d="m31.048188,4.720621l120.048623,0l0,0c15.726711,0 28.475699,11.640603 28.475699,26.000007c0,14.359399 -12.748994,25.999997 -28.475699,25.999997l-120.048623,0l0,0c-15.726693,0 -28.475699,-11.640598 -28.475699,-25.999997c0,-14.359409 12.749006,-26.000007 28.475699,-26.000007z" stroke-width="4" stroke="#e91d62" fill="none"/>
+    </svg>
+    <div id="counter">0</div>
+  </div>
+
+
+  
+  <!--Social Liks codings below-->
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+    <i class="fas fa-link"></i>
+    <span class="roboto-mono">Join my Telegram</span>
+</a>
+
+<a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+  <i class="fab fa-youtube"></i>
+  <span>Subscribe my channel..❤</span>
+</a>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+
+  <script>
+    $('.buttonContainer').click(function(){
+	if($('.buttonContainer').hasClass('active')){
+		$(this).removeClass('active');
+		$('.complete').removeClass('fadein');
+		$('#counter').fadeOut(100);
+		$('.ball').fadeOut(100);
+		count().stop;
+	} else{
+		$(this).addClass('active');
+		$('#counter').fadeIn(200);
+		$('.ball').fadeIn(200);
+		count();
+	}
+});
+
+//Loading
+function count(){
+	$({countNum: $('#counter').text()}).animate({countNum: 100}, {
+	  duration: 2500,
+	  easing:'linear',
+	  step: function() {
+		 $('#counter').text(Math.floor(this.countNum) + '%');
+	  },
+	  complete: function() {
+		 $('#counter').fadeOut(200);
+		 $('.complete').addClass('fadein');
+		 $('.ball').fadeOut(200);
+		  $('#button').fadeOut(100);
+		  setTimeout(function() {
+			   $('.buttonContainer').removeClass('active');
+			  $('.complete').removeClass('fadein');
+			  $('#button').fadeIn(200);
+   		}, 1000);
+	  }
+	});
+}
+  </script>
+</body>
+</html>

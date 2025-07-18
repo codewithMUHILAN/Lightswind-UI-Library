@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+
+            
+            background: #000000;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #navbarContainer {
+            width: 400px;
+            min-width: 400px;
+            height: 50vh;
+            background-color: #ffcc80;
+            border-radius: 20px;
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        }
+
+        #navbar {
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            position: absolute;
+        }
+
+        #bubbleWrapper {
+            position: absolute;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            bottom: 25px;
+        }
+
+          .bubble {
+            width: 50px;
+            height: 50px;
+            bottom: 85px;
+            border-radius: 50%;
+            z-index: 1;
+            transform: 
+            translateY(120%);
+            display: flex;
+            justify-content: 
+            center;
+            background-color:
+             #fff;
+            align-items: center;
+          }
+
+        .icon {
+            opacity: 0;}
+
+        #bubble1 {
+            transform: translateY(0%);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        #bubble1 > span {
+            opacity: 0.7;
+        }
+
+        #bgWrapper {
+            filter: url(#goo);
+            width: 100%;
+            height: 100px;
+            position: absolute;
+            bottom: 60px;
+        }
+
+        #bg {
+            background-color: #ffcc80;
+            width: 120%;
+            height: 100%;
+            margin-left: -10%;
+        }
+
+        #bgBubble {
+            position: absolute;
+            background-color: #ffcc80;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            bottom: -50px;
+            left: 50px;
+            transform: translateX(-50%);
+        }
+
+        #menuWrapper {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+        }
+
+                        .menuElement {
+                            opacity: 0.4;
+                            transform: 
+                            translateY(100%);
+                            cursor: pointer;
+                        }
+                        .menuElement:hover
+                        {
+                            opacity: 0.5;
+                        }
+
+                        
+        #contentWrapper {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #contentWrapper h2 {
+            color: #fff;
+            font-family: sans-serif;
+            font-weight: 400;
+        }
+
+        .content {
+            display: none;
+            opacity: 0;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        function move(id, position, color) {
+            var tl = gsap.timeline();
+            tl.to("#bgBubble", {duration: 0.15, bottom: "-30px", ease: "ease-out"}, 0)
+                .to("#bubble1", {duration: 0.1, y: "120%", boxShadow: 'none', ease: "ease-out",}, 0)
+                .to("#bubble2", {duration: 0.1, y: "120%", boxShadow: 'none', ease: "ease-out",}, 0)
+                .to("#bubble3", {duration: 0.1, y: "120%", boxShadow: 'none', ease: "ease-out",}, 0)
+                .to("#bubble4", {duration: 0.1, y: "120%", boxShadow: 'none', ease: "ease-out",}, 0)
+                .to(".icon", {duration: 0.05, opacity: 0, ease: "ease-out",}, 0)
+                .to("#bgBubble", {duration: 0.2, left: position, ease: "ease-in-out"}, 0.1)
+                .to("#bgBubble", {duration: 0.15, bottom: "-50px", ease: "ease-out"}, '-=0.2')
+                .to(`#bubble${id}`, {duration: 0.15, y: "0%", opacity: 1, boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)', ease: "ease-out"}, '-=0.1')
+                .to(`#bubble${id}> span`, {duration: 0.15, y: "0%", opacity: 0.7, ease: "ease-out"}, '-=0.1')
+                .to("#navbarContainer", {duration: 0.3, backgroundColor: color, ease: "ease-in-out"}, 0)
+                .to("#bg", {duration: 0.3, backgroundColor: color, ease: "ease-in-out"}, 0)
+                .to("#bgBubble", {duration: 0.3, backgroundColor: color, ease: "ease-in-out"}, 0);
+        }
+    </script>
+</head>
+<body>
+<div id="navbarContainer">
+    <div id="navbar">
+        <div id="bubbleWrapper">
+            <div id="bubble1" class="bubble"><span class="icon"><i class="fas fa-home"></i></span></div>
+            <div id="bubble2" class="bubble"><span class="icon"><i class="fab fa-twitter"></i></span></div>
+            <div id="bubble3" class="bubble"><span class="icon"><i class="fas fa-bell"></i></span></div>
+            <div id="bubble4" class="bubble"><span class="icon"><i class="fas fa-user"></i></span></div>
+        </div>
+        <div id="menuWrapper">
+            <div id="menu1" class="menuElement" onclick="move('1', '50px', '#ffcc80')"><i class="fas fa-home"></i></div>
+            <div id="menu2" class="menuElement" onclick="move('2', '150px', '#81d4fa')"><i class="fab fa-twitter"></i></div>
+            <div id="menu3" class="menuElement" onclick="move('3', '250px', '#c5e1a5')"><i class="fas fa-bell"></i></div>
+            <div id="menu4" class="menuElement" onclick="move('4', '350px', '#ce93d8')"><i class="fas fa-user"></i></div>
+        </div>
+    </div>
+    <div id="bgWrapper">
+        <div id="bg"></div>
+        <div id="bgBubble"></div>
+    </div>
+</div>
+
+<svg width="0" height="0">
+    <defs>
+        <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur" id="blurFilter"/>
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" result="goo" />
+            <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+        </filter>
+    </defs>
+</svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+</body>
+</html>

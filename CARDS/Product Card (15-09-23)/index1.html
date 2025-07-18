@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+
+
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Satoshi variable', sans-serif;
+            display: grid;
+            place-items: center;
+            background-color: #000;
+            height: 100vh;
+        }
+
+        .card-group {
+            max-width: 1460px;
+            display: flex;
+            column-gap: 16px;
+            padding: 50px;
+            overflow-x: hidden;
+        }
+
+        .card {
+            width: 300px;
+            flex: 0 0 300px;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(to right, #1abc9c, #3498db);
+            padding: 32px;
+            box-shadow: -5px 0 16px 32px rgba(0, 0, 0, 0.25);
+            position: relative;
+            perspective: 1000px;
+            border-radius: 20px;
+            border: 4px solid #e6e6e6;
+            transform: perspective(750px) translate3d(0px, 0px, -250px) rotateX(27deg) scale(0.9, 0.9);
+            transition: 0.4s ease-in-out transform, 0.4s ease-in-out box-shadow;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card:not(:first-child) {
+            margin-left: -130px;
+        }
+
+        .card:hover {
+            transform: translate(-8px, -16px) rotate(3deg);
+        }
+
+        .card:hover ~ .card {
+            transform: translateX(130px);
+        }
+
+        .card:hover {
+            transform: translate3d(0px, 0px, -250px);
+            box-shadow: 0 20px 40px -10px rgba(32, 195, 187, 0.5);
+        }
+
+        .product-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px; /* Adjust this height as needed */
+            overflow: hidden;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Keeps the image inside the container */
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .product-price {
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .product-buttons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 10px;
+            z-index: 2;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .add-to-cart {
+            background: #e4a110;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #ffffff;
+            transition: transform 0.3s, opacity 0.3s;
+            transform-origin: center;
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .add-to-cart:hover {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+
+      
+    </style>
+</head>
+<body>
+    <div class="card-group">
+
+        <article class="card">
+          <div class="product-buttons">
+            <button class="add-to-cart">
+            <i class="fas fa-cart-plus">
+            </i></button>
+          </div>
+          <div class="product-image">
+            <img src="3.png"alt="Product 1">
+          </div>
+          <div class="product-name">
+            Product Name 1</div>
+          <div class="product-price">
+            $99.99</div>
+        </article>
+
+        <article class="card">
+            <div class="product-buttons">
+                <button class="add-to-cart"><i class="fas fa-cart-plus"></i></button>
+            </div>
+            <div class="product-image">
+                <img src="3.png" alt="Product 2">
+            </div>
+            <div class="product-name">Product Name 2</div>
+            <div class="product-price">$79.99</div>
+        </article>
+        <article class="card">
+            <div class="product-buttons">
+                <button class="add-to-cart"><i class="fas fa-cart-plus"></i></button>
+            </div>
+            <div class="product-image">
+                <img src="3.png" alt="Product 3">
+            </div>
+            <div class="product-name">Product Name 3</div>
+            <div class="product-price">$129.99</div>
+        </article>
+        <article class="card">
+            <div class="product-buttons">
+                <button class="add-to-cart"><i class="fas fa-cart-plus"></i></button>
+            </div>
+            <div class="product-image">
+                <img src="3.png" alt="Product 4">
+            </div>
+            <div class="product-name">Product Name 4</div>
+            <div class="product-price">$49.99</div>
+        </article>
+    </div>
+
+
+
+
+    <!-- Include Font Awesome JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/js/all.min.js"></script>
+</body>
+</html>

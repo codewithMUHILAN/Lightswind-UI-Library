@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background: #000
+    }
+
+    .face-load {
+      display: flex;
+      width: 250px;
+      height: 50px;
+      margin: 20% auto;
+      border-radius: 50px;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .face-load div {
+      width: 250px;
+      height: 100px;
+      background-image: linear-gradient(to right, #00fffc, rgb(30, 28, 28));
+      margin-right: 2px;
+      border-radius: 50px;
+
+    }
+
+    @keyframes face-load {
+
+      0%,
+      100% {
+        transform: scaley(1);
+        opacity: 1
+      }
+
+      50% {
+        transform: scaley(.4);
+        opacity: 0.1
+      }
+    }
+
+    .face-load>div:nth-child(1) {
+      animation: face-load 1s -.4s infinite cubic-bezier(.2, .68,
+          .18, 1.08)
+    }
+
+    .face-load>div:nth-child(2) {
+      animation: face-load 1s -.3s infinite cubic-bezier(.2, .68, .18, 1.08)
+    }
+
+    .face-load>div:nth-child(3) {
+      animation: face-load 1s -.2s infinite cubic-bezier(.2, .68, .18, 1.08)
+    }
+
+    .face-load>div:nth-child(4) {
+      animation: face-load 1s -.1s infinite cubic-bezier(.2, .68, .18, 1.08)
+    }
+
+    .face-load>div:nth-child(5) {
+      animation: face-load 1s -.1s infinite cubic-bezier(.2, .68, .18, 1.08)
+    }
+
+    .face-load>div:nth-child(6) {
+      animation: face-load 1s -.1s infinite cubic-bezier(.2, .68, .18, 1.08)
+    }
+
+    .face-load>div {
+      animation-fill-mode: both
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="face-load">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</body>
+
+</html>

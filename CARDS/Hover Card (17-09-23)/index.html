@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+    <style>
+        *,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000000;
+}
+
+    .container {
+      display: grid;
+      margin-top: 100px;
+      grid-template-rows: 
+      repeat(2, 1fr);
+      grid-template-columns: 
+      repeat(2, 1fr);
+      grid-gap: 30px;
+    }
+
+figure.card {
+  position: relative;
+  width: 380px;
+  height: 240px;
+  background-image: var(--image-src);
+  background-position: 50% 50%;
+  background-size: 125%;
+  transition: background 400ms ease;
+  box-shadow: 0 6.7px 5.3px rgba(0, 0, 0, 0.03), 0 22.3px 17.9px rgba(0, 0, 0, 0.05), 0 100px 80px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+figure.card:hover figcaption {
+  transform: translateY(0px);
+}
+figure.card--1:hover {
+  background-position: 50% 100%;
+}
+figure.card--1 figcaption {
+  bottom: 0;
+  transform: translateY(80px);
+}
+figure.card--2 {
+  background-size: 110%;
+}
+figure.card--2:hover {
+  background-position: 50% -100%;
+}
+figure.card--2 figcaption {
+  top: 0;
+  transform: translateY(-80px);
+}
+figure.card--3 {
+  background-size: 115%;
+}
+figure.card--3:hover {
+  background-position: -100% 50%;
+}
+figure.card--3 figcaption {
+  left: 0;
+  transform: translateX(-180px);
+}
+figure.card--4:hover {
+  background-position: 100% 50%;
+}
+figure.card--4 figcaption {
+  right: 0;
+  transform: translateX(180px);
+}
+figure.card--1 figcaption, figure.card--2 figcaption {
+  width: 100%;
+  height: 80px;
+  padding: 15px 20px;
+}
+figure.card--3 figcaption, figure.card--4 figcaption {
+  flex-direction: column;
+  width: 180px;
+  height: 100%;
+  padding: 20px 15px;
+}
+figure.card figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  background: #282828;
+  transition: transform 400ms ease;
+}
+figure.card figcaption .info {
+  color: #e2e2e2;
+  font-family: "Montserrat";
+}
+figure.card figcaption .info h3 {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+figure.card figcaption .info span {
+  color: #72cc60;
+  font-size: 0.85rem;
+}
+figure.card figcaption .links {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+  figure.card figcaption .links a {
+    text-decoration: none;
+    position: relative;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    opacity: 0.65;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+figure.card figcaption .links a:hover {
+  opacity: 1;
+}
+
+figure.card figcaption 
+.links a:focus {
+  outline: none;
+}
+figure.card figcaption 
+.links a:focus::after {
+  transform: scale(1);
+  opacity: 1;
+}
+
+figure.card figcaption .links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0;
+  background: rgba(255, 255, 255, 0.05);
+  transform: scale(0.5);
+  z-index: -1;
+  transition: all 150ms ease;
+}
+
+@media only screen and (max-width: 900px) {
+  body {
+    align-items: start;
+  }
+
+  .container {
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: 1fr;
+    grid-gap: 40px;
+    padding: 80px 0;
+  }
+}
+
+.support {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  padding: 10px;
+  display: flex;
+}
+.support a {
+  margin: 0 10px;
+  color: #222;
+  font-size: 1.8rem;
+  backface-visibility: hidden;
+  transition: all 150ms ease;
+}
+
+.support a:hover {
+  transform: scale(1.1);
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <figure class="card card--1" style="--image-src: url('https://source.unsplash.com/78A265wPiO4')">
+            <figcaption>
+                <span class="info">
+                    <h3>The Hills</h3>
+                    <span>by David Marcu</span>
+                </span>
+                <span class="links">
+                    <a href="#"><i class="fas fa-heart"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://unsplash.com/photos/78A265wPiO4" target="_blank"><i class="fas fa-share"></i></a>
+                </span>
+            </figcaption>
+        </figure>
+    
+        <!--<figure class="card card--2" style="--image-src: url('https://source.unsplash.com/TFyi0QOx08c')">
+            <figcaption>
+                <span class="info">
+                    <h3>The Forest</h3>
+                    <span>by Jay Mantri</span>
+                </span>
+                <span class="links">
+                    <a href="#"><i class="fas fa-heart"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://unsplash.com/photos/TFyi0QOx08c" target="_blank"><i class="fas fa-share"></i></a>
+                </span>
+            </figcaption>
+        </figure>
+    
+        <figure class="card card--3" style="--image-src: url('https://source.unsplash.com/PP8Escz15d8')">
+            <figcaption>
+                <span class="info">
+                    <h3>The Desert</h3>
+                    <span>by Keith Hardy</span>
+                </span>
+                <span class="links">
+                    <a href="#"><i class="fas fa-heart"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://unsplash.com/photos/PP8Escz15d8" target="_blank"><i class="fas fa-share"></i></a>
+                </span>
+            </figcaption>
+        </figure>-->
+    
+        <figure class="card card--4" style="--image-src: url('https://source.unsplash.com/DLwUVlzrP0Q')">
+            <figcaption>
+                <span class="info">
+                    <h3>The Ocean</h3>
+                    <span>by Dan Stark</span>
+                </span>
+                <span class="links">
+                    <a href="#"><i class="fas fa-heart"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://unsplash.com/photos/DLwUVlzrP0Q" target="_blank"><i class="fas fa-share"></i></a>
+                </span>
+            </figcaption>
+        </figure>
+    
+    </div>
+    
+    
+
+    
+  <!--Social Liks codings below-->
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+    <i class="fas fa-link"></i>
+    <span class="roboto-mono">Join my Telegram</span>
+</a>
+
+<a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+  <i class="fab fa-youtube"></i>
+  <span>Subscribe my channel..❤</span>
+</a>
+
+</body>
+</html>

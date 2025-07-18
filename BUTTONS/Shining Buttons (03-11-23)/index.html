@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/alphardex/aqua.css@master/dist/aqua.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Raleway',
+                sans-serif;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            width: 200px;
+            height: 50px;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 0;
+            text-transform: uppercase;
+            margin: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .btn::before {
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent,
+                    #00fffc, transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+            position: absolute;
+        }
+
+        .btn:hover {
+            background: transparent;
+            box-shadow: 0 0 20px 5px #00fffc;
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+
+
+
+        /* 2nd button     Follow - @codewith_muhilan */
+        .btn:nth-child(2) {
+            border: 1px solid #e819ef;
+        }
+
+        .btn:nth-child(2)::before {
+            background: linear-gradient(120deg, transparent, #e819ef, transparent);
+        }
+
+        .btn:nth-child(2):hover {
+            box-shadow: 0 0 20px 5px #e819ef;
+        }
+
+
+
+
+        /* 3rd button       Follow - @codewith_muhilan*/
+        .btn:nth-child(3) {
+            border: 1px solid #67dc1e;
+        }
+
+        .btn:nth-child(3)::before {
+            background: linear-gradient(120deg, transparent, #67dc1e, transparent);
+        }
+
+        .btn:nth-child(3):hover {
+            box-shadow: 0 0 20px 5px #67dc1e;
+        }
+
+
+        
+    /* -- YouTube Link Styles -- */
+
+    #source-link {
+      top: 60px;
+    }
+
+    #source-link>i {
+      color: rgb(94, 106, 210);
+    }
+
+    #yt-link {
+      top: 10px;
+    }
+
+    #yt-link>i {
+      color: rgb(219, 31, 106);
+
+    }
+
+    .meta-link {
+      align-items: center;
+      backdrop-filter: blur(3px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      display: inline-flex;
+      gap: 5px;
+      left: 10px;
+      padding: 10px 20px;
+      position: fixed;
+      text-decoration: none;
+      transition: background-color 600ms, border-color 600ms;
+      z-index: 10000;
+    }
+
+    .meta-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .meta-link>i,
+    .meta-link>span {
+      height: 20px;
+      line-height: 20px;
+    }
+
+    .meta-link>span {
+      color: white;
+      font-family: "Rubik", sans-serif;
+      transition: color 600ms;
+    }
+
+
+    </style>
+</head>
+
+<body>
+    <button type="submit" class="btn btn-primary btn-ghost">Like</button>
+    <button type="submit" class="btn btn-primary btn-ghost">Follow</button>
+    <button type="submit" class="btn btn-primary btn-ghost">Subscribe</button>
+
+    
+  <!--Social Liks codings below-->
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+    <i class="fas fa-link"></i>
+    <span class="roboto-mono">Join my Telegram</span>
+  </a>
+
+  <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+    <i class="fab fa-youtube"></i>
+    <span>Subscribe my channel..❤</span>
+  </a>
+
+</body>
+
+</html>
+

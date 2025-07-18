@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+    <style>
+        * {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+:root {
+	--hue: 223;
+	--bg: hsl(var(--hue),90%,90%);
+	--fg: hsl(var(--hue),90%,10%);
+	--primary: hsl(var(--hue),90%,50%);
+	--secondary: hsl(198,90%,50%);
+	--trans-dur: 0.3s;
+	font-size: calc(16px + (48 - 16) * (100vw - 320px) / (2560 - 320));
+}
+body {
+	background-color: #000000;
+	color: var(--fg);
+	font: 1em/1.5 sans-serif;
+	display: flex;
+	height: 100vh;
+	transition:
+		background-color var(--trans-dur),
+		color var(--trans-dur);
+}
+.logo {
+	--anim-dur: 4s;
+	display: block;
+	overflow: visible;
+	margin: auto;
+	width: 13.5em;
+	height: auto;
+}
+.logo__fill,
+.logo__letter,
+.logo__letter path {
+	animation: logoFill var(--anim-dur) cubic-bezier(0.65,0,0.35,1) infinite;
+}
+.logo__fill {
+	transform: translateX(-100%);
+}
+.logo__letter {
+	animation-name: logoLetter;
+	animation-timing-function: cubic-bezier(0.37,-0.67,0.63,1.67);
+	transform: translateY(50%);
+}
+.logo__letter path {
+	animation-name: logoStroke1;
+	stroke-dasharray: 107 107;
+	stroke-dashoffset: -107;
+}
+.logo__letter:nth-child(2),
+.logo__letter:nth-child(2) path {
+	animation-delay: calc(var(--anim-dur) * 0.02);
+}
+.logo__letter:nth-child(2) path {
+	animation-name: logoStroke2;
+	stroke-dasharray: 59 59;
+	stroke-dashoffset: -59;
+}
+.logo__letter:nth-child(3),
+.logo__letter:nth-child(3) path {
+	animation-delay: calc(var(--anim-dur) * 0.04);
+}
+.logo__letter:nth-child(3) path {
+	animation-name: logoStroke3;
+	stroke-dasharray: 107 107;
+	stroke-dashoffset: -107;
+}
+.logo__letter:nth-child(4),
+.logo__letter:nth-child(4) path {
+	animation-delay: calc(var(--anim-dur) * 0.06);
+}
+.logo__letter:nth-child(4) path {
+	animation-name: logoStroke4;
+	stroke-dasharray: 59 59;
+	stroke-dashoffset: -59;
+}
+.logo__letter:nth-child(5),
+.logo__letter:nth-child(5) path {
+	animation-delay: calc(var(--anim-dur) * 0.08);
+}
+.logo__letter:nth-child(5) path {
+	animation-name: logoStroke5;
+	stroke-dasharray: 118 118;
+	stroke-dashoffset: -118;
+}
+.logo__letter:nth-child(6),
+.logo__letter:nth-child(6) path {
+	animation-delay: calc(var(--anim-dur) * 0.1);
+}
+.logo__letter:nth-child(6) path {
+	animation-name: logoStroke6;
+	stroke-dasharray: 100 100;
+	stroke-dashoffset: -100;
+}
+.logo__letter:nth-child(7),
+.logo__letter:nth-child(7) path {
+	animation-delay: calc(var(--anim-dur) * 0.12);
+}
+.logo__letter:nth-child(7) path {
+	animation-name: logoStroke7;
+	stroke-dasharray: 130 130;
+	stroke-dashoffset: -130;
+}
+.logo__letter:nth-child(8),
+.logo__letter:nth-child(8) path {
+	animation-delay: calc(var(--anim-dur) * 0.14);
+}
+.logo__letter:nth-child(8) path {
+	animation-name: logoStroke8;
+	stroke-dasharray: 118 118;
+	stroke-dashoffset: -118;
+}
+.logo__letter:last-child,
+.logo__letter:last-child path {
+	animation-delay: calc(var(--anim-dur) * 0.16);
+}
+.logo__letter:last-child path { 
+	animation-name: logoStroke9;
+	stroke-dasharray: 113 113;
+	stroke-dashoffset: -113;
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: hsl(var(--hue),90%,10%);
+		--fg: hsl(var(--hue),90%,90%);
+	}
+}
+
+/* Animations */
+@keyframes logoFill {
+	from, 25% { transform: translateX(-100%); }
+	40%, 65% { transform: translateX(0); }
+	80%, to { transform: translateX(100%); }
+}
+@keyframes logoLetter {
+	from, 85%, to { transform: translateY(50%); }
+	20%, 70% {
+		animation-timing-function: cubic-bezier(0.37,0,0.63,1);
+		transform: translateY(0);
+	}
+}
+@keyframes logoStroke1 {
+	from { stroke-dashoffset: -107; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 107; }
+}
+@keyframes logoStroke2 {
+	from { stroke-dashoffset: -59; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 59; }
+}
+@keyframes logoStroke3 {
+	from { stroke-dashoffset: -107; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 107; }
+}
+@keyframes logoStroke4 {
+	from { stroke-dashoffset: -59; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 59; }
+}
+@keyframes logoStroke5 {
+	from { stroke-dashoffset: -118; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 118; }
+}
+@keyframes logoStroke6 {
+	from { stroke-dashoffset: -100; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 100; }
+}
+@keyframes logoStroke7 {
+	from { stroke-dashoffset: -130; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 130; }
+}
+@keyframes logoStroke8 {
+	from { stroke-dashoffset: -118; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 118; }
+}
+@keyframes logoStroke9 {
+	from { stroke-dashoffset: -113; }
+	20%, 70% { stroke-dashoffset: 0; }
+	85%, to { stroke-dashoffset: 113; }
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+</head>
+<body>
+    <svg class="logo" viewBox="0 0 216 48" width="216px" height="48px" role="img" aria-label="vividtype">
+        <clipPath id="logo-clip">
+            <path d="M11.2,35.7L2.7,12.5H9L14.8,30l5.9-17.6H27l-8.6,23.2H11.2z"/>
+            <path d="M34,8.9c-1.1,0-2-0.3-2.7-1c-0.7-0.7-1.1-1.5-1.1-2.5c0-1,0.4-1.8,1.1-2.5c0.7-0.6,1.6-1,2.7-1c1.1,0,2,0.3,2.7,1c0.7,0.6,1.1,1.5,1.1,2.5c0,1-0.4,1.8-1.1,2.5C36,8.6,35.1,8.9,34,8.9z M31,35.7V12.5h6v23.2H31z"/>
+            <path d="M49.6,35.7l-8.5-23.2h6.3L53.2,30l5.9-17.6h6.3l-8.6,23.2H49.6z"/>
+            <path d="M72.4,8.9c-1.1,0-2-0.3-2.7-1c-0.7-0.7-1.1-1.5-1.1-2.5c0-1,0.4-1.8,1.1-2.5c0.7-0.6,1.6-1,2.7-1c1.1,0,2,0.3,2.7,1c0.7,0.6,1.1,1.5,1.1,2.5c0,1-0.4,1.8-1.1,2.5C74.4,8.6,73.5,8.9,72.4,8.9z M69.4,35.7V12.5h6v23.2H69.4z"/>
+            <path d="M92.4,36.3c-2.2,0-4.1-0.5-5.9-1.6c-1.7-1.1-3.1-2.5-4.1-4.4c-1-1.8-1.5-3.9-1.5-6.3c0-2.3,0.5-4.4,1.5-6.2c1-1.8,2.4-3.3,4.1-4.3c1.7-1,3.7-1.6,5.9-1.6c1.7,0,3.3,0.3,4.6,1c1.3,0.7,2.4,1.6,3.2,2.8V2h6v33.7h-5.3l-0.7-3.3c-0.7,1-1.7,1.9-3,2.7C95.9,35.9,94.3,36.3,92.4,36.3z M93.6,31c1.9,0,3.5-0.6,4.8-1.9c1.2-1.3,1.8-3,1.8-5c0-2-0.6-3.7-1.8-5c-1.2-1.3-2.8-1.9-4.8-1.9c-1.9,0-3.5,0.6-4.7,1.9C87.7,20.4,87,22,87,24c0,2,0.6,3.7,1.9,5C90.1,30.4,91.7,31,93.6,31z"/>
+            <path d="M122.6,35.7c-2.4,0-4.4-0.6-5.9-1.8c-1.5-1.2-2.2-3.3-2.2-6.3V17.5h-4v-5h4l0.7-6.2h5.3v6.2h6.3v5h-6.3v10.2c0,1.1,0.2,1.9,0.7,2.3c0.5,0.4,1.3,0.6,2.5,0.6h2.9v5.1H122.6z"/>
+            <path d="M134.8,46l5.4-11.8h-1.4l-9-21.7h6.5l6.5,16.3l6.8-16.3h6.4L141.2,46H134.8z"/>
+            <path d="M159.9,46V12.5h5.3l0.7,3.3c0.7-1,1.7-1.9,3-2.7c1.2-0.8,2.8-1.2,4.8-1.2c2.2,0,4.1,0.5,5.9,1.6c1.7,1.1,3.1,2.5,4.1,4.4c1,1.8,1.5,3.9,1.5,6.3s-0.5,4.4-1.5,6.2c-1,1.8-2.4,3.3-4.1,4.3c-1.7,1-3.7,1.6-5.9,1.6c-1.7,0-3.3-0.3-4.6-1c-1.3-0.7-2.4-1.6-3.2-2.8V46H159.9z M172.4,31c1.9,0,3.5-0.6,4.7-1.9c1.2-1.3,1.9-2.9,1.9-5c0-2-0.6-3.7-1.9-5c-1.2-1.3-2.8-2-4.7-2c-1.9,0-3.5,0.6-4.8,1.9c-1.2,1.3-1.8,3-1.8,5c0,2,0.6,3.7,1.8,5C168.8,30.4,170.4,31,172.4,31z"/>
+            <path d="M201.7,36.3c-2.3,0-4.4-0.5-6.2-1.5c-1.8-1-3.2-2.4-4.3-4.2c-1-1.8-1.5-3.9-1.5-6.3c0-2.4,0.5-4.5,1.5-6.4c1-1.9,2.4-3.3,4.2-4.4c1.8-1,3.9-1.6,6.3-1.6c2.3,0,4.3,0.5,6,1.5c1.7,1,3.1,2.4,4.1,4.1c1,1.7,1.5,3.7,1.5,5.8c0,0.3,0,0.7,0,1.1c0,0.4,0,0.8-0.1,1.2h-17.6c0.1,1.8,0.8,3.2,1.9,4.3c1.1,1,2.5,1.5,4.1,1.5c1.2,0,2.2-0.3,3.1-0.8c0.8-0.5,1.4-1.3,1.8-2.1h6.1c-0.4,1.5-1.2,2.8-2.2,4c-1,1.2-2.3,2.1-3.7,2.8C205.2,35.9,203.5,36.3,201.7,36.3z M207.2,21.8c0,0-0.2-5-5.5-5c-5.4,0-6,5-6,5H207.2z"/>
+        </clipPath>
+        <defs>
+            <linearGradient id="logo-gradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#000" />
+                <stop offset="100%" stop-color="#fff" />
+            </linearGradient>
+            <mask id="logo-mask">
+                <rect width="216" height="48" fill="url(#logo-gradient)" />
+            </mask>
+        </defs>
+        <g clip-path="url(#logo-clip)">
+            <rect class="logo__fill" fill="var(--primary)" width="216" height="48" />
+            <g mask="url(#logo-mask)">
+                <rect class="logo__fill" fill="var(--secondary)" width="216" height="48" />
+            </g>
+        </g>
+        <g fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <g stroke="var(--primary)">
+                <g class="logo__letter">
+                    <path d="M11.2,35.7L2.7,12.5H9L14.8,30l5.9-17.6H27l-8.6,23.2H11.2z"/>
+                </g>
+                <g class="logo__letter">
+                    <path d="M34,8.9c-1.1,0-2-0.3-2.7-1c-0.7-0.7-1.1-1.5-1.1-2.5c0-1,0.4-1.8,1.1-2.5c0.7-0.6,1.6-1,2.7-1c1.1,0,2,0.3,2.7,1c0.7,0.6,1.1,1.5,1.1,2.5c0,1-0.4,1.8-1.1,2.5C36,8.6,35.1,8.9,34,8.9z M31,35.7V12.5h6v23.2H31z"/>
+                </g>
+                <g class="logo__letter">
+                    <path d="M49.6,35.7l-8.5-23.2h6.3L53.2,30l5.9-17.6h6.3l-8.6,23.2H49.6z"/>
+                </g>
+                <g class="logo__letter">
+                    <path d="M72.4,8.9c-1.1,0-2-0.3-2.7-1c-0.7-0.7-1.1-1.5-1.1-2.5c0-1,0.4-1.8,1.1-2.5c0.7-0.6,1.6-1,2.7-1c1.1,0,2,0.3,2.7,1c0.7,0.6,1.1,1.5,1.1,2.5c0,1-0.4,1.8-1.1,2.5C74.4,8.6,73.5,8.9,72.4,8.9z M69.4,35.7V12.5h6v23.2H69.4z"/>
+                </g>
+                <g class="logo__letter">
+                    <path d="M92.4,36.3c-2.2,0-4.1-0.5-5.9-1.6c-1.7-1.1-3.1-2.5-4.1-4.4c-1-1.8-1.5-3.9-1.5-6.3c0-2.3,0.5-4.4,1.5-6.2c1-1.8,2.4-3.3,4.1-4.3c1.7-1,3.7-1.6,5.9-1.6c1.7,0,3.3,0.3,4.6,1c1.3,0.7,2.4,1.6,3.2,2.8V2h6v33.7h-5.3l-0.7-3.3c-0.7,1-1.7,1.9-3,2.7C95.9,35.9,94.3,36.3,92.4,36.3z M93.6,31c1.9,0,3.5-0.6,4.8-1.9c1.2-1.3,1.8-3,1.8-5c0-2-0.6-3.7-1.8-5c-1.2-1.3-2.8-1.9-4.8-1.9c-1.9,0-3.5,0.6-4.7,1.9C87.7,20.4,87,22,87,24c0,2,0.6,3.7,1.9,5C90.1,30.4,91.7,31,93.6,31z"/>
+                </g>
+                <g class="logo__letter">
+                    <path d="M122.6,35.7c-2.4,0-4.4-0.6-5.9-1.8c-1.5-1.2-2.2-3.3-2.2-6.3V17.5h-4v-5h4l0.7-6.2h5.3v6.2h6.3v5h-6.3v10.2c0,1.1,0.2,1.9,0.7,2.3c0.5,0.4,1.3,0.6,2.5,0.6h2.9v5.1H122.6z"/>
+                </g>
+                <g class="logo__letter">
+                    <path stroke-width="0.8" d="M134.8,46l5.4-11.8h-1.4l-9-21.7h6.5l6.5,16.3l6.8-16.3h6.4L141.2,46H134.8z"/>
+                </g>
+                <g class="logo__letter">
+                    <path stroke-width="0.8" d="M159.9,46V12.5h5.3l0.7,3.3c0.7-1,1.7-1.9,3-2.7c1.2-0.8,2.8-1.2,4.8-1.2c2.2,0,4.1,0.5,5.9,1.6c1.7,1.1,3.1,2.5,4.1,4.4c1,1.8,1.5,3.9,1.5,6.3s-0.5,4.4-1.5,6.2c-1,1.8-2.4,3.3-4.1,4.3c-1.7,1-3.7,1.6-5.9,1.6c-1.7,0-3.3-0.3-4.6-1c-1.3-0.7-2.4-1.6-3.2-2.8V46H159.9z M172.4,31c1.9,0,3.5-0.6,4.7-1.9c1.2-1.3,1.9-2.9,1.9-5c0-2-0.6-3.7-1.9-5c-1.2-1.3-2.8-2-4.7-2c-1.9,0-3.5,0.6-4.8,1.9c-1.2,1.3-1.8,3-1.8,5c0,2,0.6,3.7,1.8,5C168.8,30.4,170.4,31,172.4,31z"/>
+                </g>
+                <g class="logo__letter">
+                    <path stroke-width="0.8" d="M201.7,36.3c-2.3,0-4.4-0.5-6.2-1.5c-1.8-1-3.2-2.4-4.3-4.2c-1-1.8-1.5-3.9-1.5-6.3c0-2.4,0.5-4.5,1.5-6.4c1-1.9,2.4-3.3,4.2-4.4c1.8-1,3.9-1.6,6.3-1.6c2.3,0,4.3,0.5,6,1.5c1.7,1,3.1,2.4,4.1,4.1c1,1.7,1.5,3.7,1.5,5.8c0,0.3,0,0.7,0,1.1c0,0.4,0,0.8-0.1,1.2h-17.6c0.1,1.8,0.8,3.2,1.9,4.3c1.1,1,2.5,1.5,4.1,1.5c1.2,0,2.2-0.3,3.1-0.8c0.8-0.5,1.4-1.3,1.8-2.1h6.1c-0.4,1.5-1.2,2.8-2.2,4c-1,1.2-2.3,2.1-3.7,2.8C205.2,35.9,203.5,36.3,201.7,36.3z M207.2,21.8c0,0-0.2-5-5.5-5c-5.4,0-6,5-6,5H207.2z"/>
+                </g>
+            </g>
+            <g stroke="var(--secondary)">
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M11.2,35.7L2.7,12.5H9L14.8,30l5.9-17.6H27l-8.6,23.2H11.2z"/>
+                </g>
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M34,8.9c-1.1,0-2-0.3-2.7-1c-0.7-0.7-1.1-1.5-1.1-2.5c0-1,0.4-1.8,1.1-2.5c0.7-0.6,1.6-1,2.7-1c1.1,0,2,0.3,2.7,1c0.7,0.6,1.1,1.5,1.1,2.5c0,1-0.4,1.8-1.1,2.5C36,8.6,35.1,8.9,34,8.9z M31,35.7V12.5h6v23.2H31z"/>
+                </g>
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M49.6,35.7l-8.5-23.2h6.3L53.2,30l5.9-17.6h6.3l-8.6,23.2H49.6z"/>
+                </g>
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M72.4,8.9c-1.1,0-2-0.3-2.7-1c-0.7-0.7-1.1-1.5-1.1-2.5c0-1,0.4-1.8,1.1-2.5c0.7-0.6,1.6-1,2.7-1c1.1,0,2,0.3,2.7,1c0.7,0.6,1.1,1.5,1.1,2.5c0,1-0.4,1.8-1.1,2.5C74.4,8.6,73.5,8.9,72.4,8.9z M69.4,35.7V12.5h6v23.2H69.4z"/>
+                </g>
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M92.4,36.3c-2.2,0-4.1-0.5-5.9-1.6c-1.7-1.1-3.1-2.5-4.1-4.4c-1-1.8-1.5-3.9-1.5-6.3c0-2.3,0.5-4.4,1.5-6.2c1-1.8,2.4-3.3,4.1-4.3c1.7-1,3.7-1.6,5.9-1.6c1.7,0,3.3,0.3,4.6,1c1.3,0.7,2.4,1.6,3.2,2.8V2h6v33.7h-5.3l-0.7-3.3c-0.7,1-1.7,1.9-3,2.7C95.9,35.9,94.3,36.3,92.4,36.3z M93.6,31c1.9,0,3.5-0.6,4.8-1.9c1.2-1.3,1.8-3,1.8-5c0-2-0.6-3.7-1.8-5c-1.2-1.3-2.8-1.9-4.8-1.9c-1.9,0-3.5,0.6-4.7,1.9C87.7,20.4,87,22,87,24c0,2,0.6,3.7,1.9,5C90.1,30.4,91.7,31,93.6,31z"/>
+                </g>
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M122.6,35.7c-2.4,0-4.4-0.6-5.9-1.8c-1.5-1.2-2.2-3.3-2.2-6.3V17.5h-4v-5h4l0.7-6.2h5.3v6.2h6.3v5h-6.3v10.2c0,1.1,0.2,1.9,0.7,2.3c0.5,0.4,1.3,0.6,2.5,0.6h2.9v5.1H122.6z"/>
+                </g>
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M134.8,46l5.4-11.8h-1.4l-9-21.7h6.5l6.5,16.3l6.8-16.3h6.4L141.2,46H134.8z"/>
+                </g>
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M159.9,46V12.5h5.3l0.7,3.3c0.7-1,1.7-1.9,3-2.7c1.2-0.8,2.8-1.2,4.8-1.2c2.2,0,4.1,0.5,5.9,1.6c1.7,1.1,3.1,2.5,4.1,4.4c1,1.8,1.5,3.9,1.5,6.3s-0.5,4.4-1.5,6.2c-1,1.8-2.4,3.3-4.1,4.3c-1.7,1-3.7,1.6-5.9,1.6c-1.7,0-3.3-0.3-4.6-1c-1.3-0.7-2.4-1.6-3.2-2.8V46H159.9z M172.4,31c1.9,0,3.5-0.6,4.7-1.9c1.2-1.3,1.9-2.9,1.9-5c0-2-0.6-3.7-1.9-5c-1.2-1.3-2.8-2-4.7-2c-1.9,0-3.5,0.6-4.8,1.9c-1.2,1.3-1.8,3-1.8,5c0,2,0.6,3.7,1.8,5C168.8,30.4,170.4,31,172.4,31z"/>
+                </g>
+                <g class="logo__letter">
+                    <path mask="url(#logo-mask)" d="M201.7,36.3c-2.3,0-4.4-0.5-6.2-1.5c-1.8-1-3.2-2.4-4.3-4.2c-1-1.8-1.5-3.9-1.5-6.3c0-2.4,0.5-4.5,1.5-6.4c1-1.9,2.4-3.3,4.2-4.4c1.8-1,3.9-1.6,6.3-1.6c2.3,0,4.3,0.5,6,1.5c1.7,1,3.1,2.4,4.1,4.1c1,1.7,1.5,3.7,1.5,5.8c0,0.3,0,0.7,0,1.1c0,0.4,0,0.8-0.1,1.2h-17.6c0.1,1.8,0.8,3.2,1.9,4.3c1.1,1,2.5,1.5,4.1,1.5c1.2,0,2.2-0.3,3.1-0.8c0.8-0.5,1.4-1.3,1.8-2.1h6.1c-0.4,1.5-1.2,2.8-2.2,4c-1,1.2-2.3,2.1-3.7,2.8C205.2,35.9,203.5,36.3,201.7,36.3z M207.2,21.8c0,0-0.2-5-5.5-5c-5.4,0-6,5-6,5H207.2z"/>
+                </g>
+            </g>
+        </g>
+    </svg>
+
+	<a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+        <i class="fas fa-link"></i>
+        <span class="roboto-mono">Join my Telegram</span>
+    </a>
+
+    <a id="yt-link" class="meta-link" href="https://www.instagram.com/codewith_muhilan/" target="_blank">
+        <i class="fab fa-instagram"></i>
+        <span>Follow me..❤</span>
+    </a>
+</body>
+</html>

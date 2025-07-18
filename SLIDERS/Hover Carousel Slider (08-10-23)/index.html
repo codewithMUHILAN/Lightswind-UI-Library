@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+  <style>
+    @charset "UTF-8";
+
+    .carousel {
+      display: block;
+      font-size: 0;
+      border-radius: 8px;
+      padding: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      background: white;
+      border: 2px solid #00fffc;
+      transform: translateZ(0);
+      height: 200px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .touch .carousel {
+      overflow: auto;
+    }
+
+    .carousel[data-at*=left]>.wrap::before {
+      opacity: 1;
+      text-indent: -50px;
+    }
+
+    .carousel[data-at*=right]>.wrap::after {
+      opacity: 1;
+      text-indent: -50px;
+    }
+
+    .carousel::after {
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      z-index: 4;
+      bottom: -4px;
+      left: 0;
+      background: #00fffc;
+      height: 4px;
+      border-radius: 4px;
+      opacity: 0;
+      width: var(--scrollWidth, 0);
+      left: var(--scrollLleft, 0);
+      transition: opacity 0.2s, bottom 0.2s;
+    }
+
+    .carousel:hover::after {
+      opacity: 1;
+      bottom: -10px;
+    }
+
+    .carousel>.wrap {
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .carousel>.wrap::before,
+    .carousel>.wrap::after {
+      content: "‹";
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 2;
+      width: 50px;
+      font-size: 80px;
+      text-indent: -30px;
+      line-height: 200px;
+      font-family: monospace;
+      color: #00fffc;
+      font-weight: bold;
+      border-radius: 8px;
+      pointer-events: none;
+      transition: 0.2s ease-out;
+      background: linear-gradient(to right, white 20%, transparent);
+    }
+
+    .carousel>.wrap::after {
+      transform: rotate(180deg);
+      left: auto;
+      right: 0;
+    }
+
+    .carousel>.wrap>ul {
+      list-style: none;
+      white-space: nowrap;
+      height: 200px;
+    }
+
+    .carousel>.wrap>ul>li {
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%;
+      margin: 0 0 0 5px;
+      position: relative;
+      overflow: hidden;
+      /* transition: 0.25s ease-out; */
+      transition: transform 0.5s ease;
+    }
+
+    .carousel>.wrap>ul>li:first-child {
+      margin: 0;
+    }
+
+    .carousel>.wrap>ul>li>img {
+      display: block;
+      height: 100%;
+      margin: auto;
+      vertical-align: bottom;
+      position: relative;
+      z-index: 1;
+      transition: 1s ease;
+    }
+
+    body {
+      background: #000;
+    }
+
+    .carousel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 50%;
+      max-width: 900px;
+      min-width: 550px;
+      margin: auto;
+    }
+
+    
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+
+  </style>
+</head>
+
+<body>
+
+  <div class="carousel">
+    <div class="wrap">
+      <ul>
+        <li> <img src="https://muhilanorg.online/insta/08-10-23/1.jpg" /></li>
+        <li> <img src="https://muhilanorg.online/insta/08-10-23/2.jpg" /></li>
+        <li> <img src="https://muhilanorg.online/insta/08-10-23/3.jpg" /></li>
+        <li> <img src="https://muhilanorg.online/insta/08-10-23/4.jpg" /></li>
+        <li> <img src="https://muhilanorg.online/insta/08-10-23/5.jpg" /></li>
+        <li> <img src="https://muhilanorg.online/insta/08-10-23/6.jpg" /></li>
+        <li> <img src="https://muhilanorg.online/insta/08-10-23/7.jpg" /></li>
+      </ul>
+    </div>
+  </div>
+
+
+  
+  <!--Social Liks codings below-->
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+    <i class="fas fa-link"></i>
+    <span class="roboto-mono">Join my Telegram</span>
+</a>
+
+<a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+  <i class="fab fa-youtube"></i>
+  <span>Subscribe my channel..❤</span>
+</a>
+
+  <script>
+    // Hover-Carousel component
+    // By Yair Even-Or
+    // written in jQuery 2013 -> refactored to vanilla 2020
+    // https://github.com/yairEO/hover-carousel
+
+    function HoverCarousel(elm, settings) {
+      this.DOM = {
+        scope: elm,
+        wrap: elm.querySelector('ul').parentNode
+      }
+
+      this.containerWidth = 0;
+      this.scrollWidth = 0;
+      this.posFromLeft = 0;    // Stripe position from the left of the screen
+      this.stripePos = 0;    // When relative mouse position inside the thumbs stripe
+      this.animated = null;
+      this.callbacks = {}
+
+      this.init()
+    }
+
+    HoverCarousel.prototype = {
+      init() {
+        this.bind()
+      },
+
+      destroy() {
+        this.DOM.scope.removeEventListener('mouseenter', this.callbacks.onMouseEnter)
+        this.DOM.scope.removeEventListener('mousemove', this.callbacks.onMouseMove)
+      },
+
+      bind() {
+        this.callbacks.onMouseEnter = this.onMouseEnter.bind(this)
+        this.callbacks.onMouseMove = e => {
+          if (this.mouseMoveRAF)
+            cancelAnimationFrame(this.mouseMoveRAF)
+
+          this.mouseMoveRAF = requestAnimationFrame(this.onMouseMove.bind(this, e))
+        }
+
+        this.DOM.scope.addEventListener('mouseenter', this.callbacks.onMouseEnter)
+        this.DOM.scope.addEventListener('mousemove', this.callbacks.onMouseMove)
+      },
+
+      // calculate the thumbs container width
+      onMouseEnter(e) {
+        this.nextMore = this.prevMore = false // reset
+
+        this.containerWidth = this.DOM.wrap.clientWidth;
+        this.scrollWidth = this.DOM.wrap.scrollWidth;
+        // padding in percentage of the area which the mouse movement affects
+        this.padding = 0.2 * this.containerWidth;
+        this.posFromLeft = this.DOM.wrap.getBoundingClientRect().left;
+        var stripePos = e.pageX - this.padding - this.posFromLeft;
+        this.pos = stripePos / (this.containerWidth - this.padding * 2);
+        this.scrollPos = (this.scrollWidth - this.containerWidth) * this.pos;
+
+        // temporary add smoothness to the scroll 
+        this.DOM.wrap.style.scrollBehavior = 'smooth';
+
+        if (this.scrollPos < 0)
+          this.scrollPos = 0;
+
+        if (this.scrollPos > (this.scrollWidth - this.containerWidth))
+          this.scrollPos = this.scrollWidth - this.containerWidth
+
+        this.DOM.wrap.scrollLeft = this.scrollPos
+        this.DOM.scope.style.setProperty('--scrollWidth', (this.containerWidth / this.scrollWidth) * 100 + '%');
+        this.DOM.scope.style.setProperty('--scrollLleft', (this.scrollPos / this.scrollWidth) * 100 + '%');
+
+        // lock UI until mouse-enter scroll is finihsed, after aprox 200ms
+        clearTimeout(this.animated)
+        this.animated = setTimeout(() => {
+          this.animated = null
+          this.DOM.wrap.style.scrollBehavior = 'auto';
+        }, 200)
+
+        return this
+      },
+
+      // move the stripe left or right according to mouse position
+      onMouseMove(e) {
+        // don't move anything until inital movement on 'mouseenter' has finished
+        if (this.animated) return
+
+        this.ratio = this.scrollWidth / this.containerWidth
+
+        // the mouse X position, "normalized" to the carousel position
+        var stripePos = e.pageX - this.padding - this.posFromLeft
+
+        if (stripePos < 0)
+          stripePos = 0
+
+        // calculated position between 0 to 1
+        this.pos = stripePos / (this.containerWidth - this.padding * 2)
+
+        // calculate the percentage of the mouse position within the carousel
+        this.scrollPos = (this.scrollWidth - this.containerWidth) * this.pos
+
+        this.DOM.wrap.scrollLeft = this.scrollPos
+
+        // update scrollbar
+        if (this.scrollPos < (this.scrollWidth - this.containerWidth))
+          this.DOM.scope.style.setProperty('--scrollLleft', (this.scrollPos / this.scrollWidth) * 100 + '%');
+
+        // check if element has reached an edge
+        this.prevMore = this.DOM.wrap.scrollLeft > 0
+        this.nextMore = this.scrollWidth - this.containerWidth - this.DOM.wrap.scrollLeft > 5
+
+        this.DOM.scope.setAttribute('data-at',
+          (this.prevMore ? 'left ' : ' ')
+          + (this.nextMore ? 'right' : '')
+        )
+      }
+    }
+
+    var carouselElm = document.querySelector('.carousel')
+    new HoverCarousel(carouselElm)                          
+  </script>
+</body>
+
+</html>

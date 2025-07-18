@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        @charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans Condensed", sans-serif;
+  font-weight: 700;
+}
+
+html, body {
+  background: #000;
+}
+
+header {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+  flex-flow: row wrap;
+}
+header ul {
+  padding: 1.2em 0 0.5em;
+}
+header span {
+  padding: 0 0 0 0.5em;
+}
+header span, header i {
+  color: #ffffff;
+}
+header i:nth-of-type(2) {
+  cursor: pointer;
+}
+
+.row {
+  width: 100%;
+  justify-content: flex-start;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.product, .product--pink, .product--yellow, .product--green, .product--red, .product--orange, .product--blue {
+  box-shadow: 1px 5px 15px #CCC;
+  width: 15em;
+  height: auto;
+  border-radius: 3px;
+  padding: 2em;
+  margin: 1em;
+  overflow: hidden;
+  position: relative;
+  flex: auto;
+}
+.product--blue {
+  background: linear-gradient(-45deg, #92DCE5 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--orange {
+  background: linear-gradient(-45deg, #EF6F6C 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--red {
+  background: linear-gradient(-45deg, #E84855 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--green {
+  background: linear-gradient(-45deg, #70C1B3 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--yellow {
+  background: linear-gradient(-45deg, #E8DB7D 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product--pink {
+  background: linear-gradient(-45deg, #FF386D 50%, rgba(255, 255, 255, 0.5) 50%);
+}
+.product img, .product--blue img, .product--orange img, .product--red img, .product--green img, .product--yellow img, .product--pink img {
+  max-width: 100%;
+  height: auto !important;
+  text-align: center;
+}
+.product_inner {
+  display: flex;
+  align-items: center;
+  flex-flow: column wrap;
+}
+.product_inner p {
+  color: rgba(255, 255, 255, 0.9);
+}
+.product_inner button {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #FFF;
+  border-radius: 3px;
+  padding: 1em 3em;
+  margin: 1em 0 0 0;
+  background: none;
+  cursor: pointer;
+  transition: background ease-in 0.25s;
+}
+.product_inner button:hover {
+  background: white;
+  color: #2B2D42;
+}
+.product_inner button:before {
+  font-family: FontAwesome;
+  content: "";
+  color: #FFF;
+  position: absolute;
+  font-size: 1.5em;
+  margin: 0 -1.5em;
+}
+.product_inner button:hover:before {
+  color: #2B2D42;
+}
+.product_overlay {
+  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-500px);
+  opacity: 0;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+.product_overlay h2 {
+  color: rgba(43, 45, 66, 0.7);
+  font-size: 1.2em;
+  margin: 1em 0;
+}
+.product_overlay i {
+  color: rgba(43, 45, 66, 0.7);
+  font-size: 1.5em;
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <ul>
+          <i class='fa fa-shopping-cart'>
+            <span class='counter'></span>
+          </i>
+        </ul>
+      </header>
+      <div class='row'>
+        <div class='product--blue'>
+          <div class='product_inner'>
+            <img src='http://wellandgood.com/wp-content/uploads/2012/07/Nike-Free-30-Womens-Running-Shoe-511495_600_A.png' width='300'>
+            <p>Nike Air (Women)</p>
+            <p>Size 7</p>
+            <p>Price £199.99</p>
+            <button>Add to basket</button>
+          </div>
+          <div class='product_overlay'>
+            <h2>Added to basket</h2>
+            <i class='fa fa-check'></i>
+          </div>
+        </div>
+        <div class='product--orange'>
+          <div class='product_inner'>
+            <img src='http://wellandgood.com/wp-content/uploads/2012/07/Nike-Free-30-Womens-Running-Shoe-511495_600_A.png' width='300'>
+            <p>Nike Air (Men)</p>
+            <p>Size 10</p>
+            <p>Price £99.99</p>
+            <button>Add to basket</button>
+          </div>
+          <div class='product_overlay'>
+            <h2>Added to basket</h2>
+            <i class='fa fa-check'></i>
+          </div>
+        </div>
+
+        <br>
+        <div class='product--red'>
+          <div class='product_inner'>
+            <img src='http://wellandgood.com/wp-content/uploads/2012/07/Nike-Free-30-Womens-Running-Shoe-511495_600_A.png' width='300'>
+            <p>Nike Air (Women)</p>
+            <p>Size 8</p>
+            <p>Price £399.99</p>
+            <button>Add to basket</button>
+          </div>
+          <div class='product_overlay'>
+            <h2>Added to basket</h2>
+            <i class='fa fa-check'></i>
+          </div>
+        </div>
+        <div class='product--green'>
+          <div class='product_inner'>
+            <img src='http://wellandgood.com/wp-content/uploads/2012/07/Nike-Free-30-Womens-Running-Shoe-511495_600_A.png' width='300'>
+            <p>Nike Air (Men)</p>
+            <p>Size 11</p>
+            <p>Price £299.99</p>
+            <button>Add to basket</button>
+          </div>
+          <div class='product_overlay'>
+            <h2>Added to basket</h2>
+            <i class='fa fa-check'></i>
+          </div>
+        </div>
+        <div class='product--yellow'>
+          <div class='product_inner'>
+            <img src='http://wellandgood.com/wp-content/uploads/2012/07/Nike-Free-30-Womens-Running-Shoe-511495_600_A.png' width='300'>
+            <p>Nike Air (Women)</p>
+            <p>Size 11</p>
+            <p>Price £299.99</p>
+            <button>Add to basket</button>
+          </div>
+          <div class='product_overlay'>
+            <h2>Added to basket</h2>
+            <i class='fa fa-check'></i>
+          </div>
+        </div>
+        <div class='product--pink'>
+          <div class='product_inner'>
+            <img src='http://wellandgood.com/wp-content/uploads/2012/07/Nike-Free-30-Womens-Running-Shoe-511495_600_A.png' width='300'>
+            <p>Nike Air (Men)</p>
+            <p>Size 11</p>
+            <p>Price £299.99</p>
+            <button>Add to basket</button>
+          </div>
+          <div class='product_overlay'>
+            <h2>Added to basket</h2>
+            <i class='fa fa-check'></i>
+          </div>
+        </div>
+      </div>
+      
+        <!--Social Liks codings below-->
+    <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+      <i class="fas fa-link"></i>
+      <span class="roboto-mono">Join my Telegram</span>
+  </a>
+
+  <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+    <i class="fab fa-youtube"></i>
+    <span>Subscribe my channel..❤</span>
+  </a>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        $(document).ready(function() {
+
+            "use strict";
+
+            var init = "No items yet!";
+            var counter = 0;
+
+            // Initial Cart
+            $(".counter").html(init);
+
+            // Add Items To Basket
+            function addToBasket() {
+                counter++;
+                $(".counter").html(counter).animate({
+                    'opacity' : '0'
+                }, 300, function() {
+                    $(".counter").delay(300).animate({
+                        'opacity' : '1'
+                    });
+                });
+            }
+
+            // Add To Basket Animation
+            $("button").on("click", function() {
+                addToBasket(); 
+                $(this).parent().parent().find(".product_overlay").css({
+                    'transform': ' translateY(0px)',
+                    'opacity': '1',
+                    'transition': 'all ease-in-out .45s'
+                }).delay(1500).queue(function() {
+                    $(this).css({
+                        'transform': 'translateY(-500px)',
+                        'opacity': '0',
+                        'transition': 'all ease-in-out .45s'
+                    }).dequeue();
+                });
+            });
+        });
+      </script>
+</body>
+</html>

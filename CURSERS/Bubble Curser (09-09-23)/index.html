@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        * {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+background-color: #000000 ;
+  color: #20e3a2;
+  font-size: 30px;
+  min-height: 100vh;
+  user-select: none;
+  overflow: hidden;
+}
+
+bubles {
+  border-radius: 100%;
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid #00ffff;
+  box-shadow: 0px 0px 15px 0px #00ffff inset;
+  transform: translate(-50%, -50%);
+  animation: colorgen 8s infinite, float 2s infinite;
+}
+
+@keyframes colorgen {
+  0% {
+    opacity: 1;
+    transform: translatey(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translatey(-1000px);
+  }
+}
+@keyframes float {
+  0% {
+    margin-left: -30px;
+  }
+  50% {
+    margin-left: 30px;
+  }
+  100% {
+    margin-left: -30px;
+  }
+}
+:root {
+  --speed: 10s;
+  --coloring: #20e3a2;
+  --direction: 2000;
+}
+
+html {
+  height: 100%;
+  background: radial-gradient(ellipse at bottom, #20e3a2 0%, #ba55d3 100%);
+  overflow: hidden;
+}
+
+#bubbles {
+  width: 4px;
+  height: 4px;
+  background: transparent;
+  box-shadow: 174px 1592px var(--coloring) , 948px 1588px var(--coloring) , 1243px 869px var(--coloring) , 682px 1624px var(--coloring) , 1175px 1877px var(--coloring) , 1544px 1830px var(--coloring) , 1213px 792px var(--coloring) , 1181px 480px var(--coloring) , 778px 746px var(--coloring) , 1679px 292px var(--coloring) , 497px 835px var(--coloring) , 280px 1517px var(--coloring) , 1844px 1213px var(--coloring) , 872px 1846px var(--coloring) , 558px 289px var(--coloring) , 1521px 240px var(--coloring) , 258px 1828px var(--coloring) , 1041px 1468px var(--coloring) , 1299px 457px var(--coloring) , 6px 1138px var(--coloring) , 1024px 1099px var(--coloring) , 1217px 34px var(--coloring) , 940px 526px var(--coloring) , 456px 252px var(--coloring) , 781px 1199px var(--coloring) , 894px 98px var(--coloring) , 1349px 276px var(--coloring) , 895px 554px var(--coloring) , 1031px 1245px var(--coloring) , 245px 1406px var(--coloring) , 1084px 963px var(--coloring) , 1097px 15px var(--coloring) , 490px 588px var(--coloring) , 521px 819px var(--coloring) , 1458px 1371px var(--coloring) , 1802px 1491px var(--coloring) , 486px 626px var(--coloring) , 43px 108px var(--coloring) , 1111px 1421px var(--coloring) , 6px 840px var(--coloring) , 1038px 353px var(--coloring) , 1810px 759px var(--coloring) , 1377px 612px var(--coloring) , 1683px 1942px var(--coloring) , 419px 1182px var(--coloring) , 1139px 68px var(--coloring) , 1341px 1414px var(--coloring) , 827px 1100px var(--coloring) , 93px 755px var(--coloring) , 1102px 272px var(--coloring) , 889px 1233px var(--coloring) , 285px 1417px var(--coloring) , 1265px 1601px var(--coloring) , 1886px 990px var(--coloring) , 1503px 1358px var(--coloring) , 1120px 219px var(--coloring) , 1474px 1897px var(--coloring) , 301px 1794px var(--coloring) , 604px 1122px var(--coloring) , 656px 492px var(--coloring) , 399px 797px var(--coloring) , 310px 1492px var(--coloring) , 1904px 1926px var(--coloring) , 677px 1981px var(--coloring) , 702px 475px var(--coloring) , 1027px 816px var(--coloring) , 973px 869px var(--coloring) , 631px 1055px var(--coloring) , 695px 1719px var(--coloring) , 627px 1074px var(--coloring) , 1518px 661px var(--coloring) , 240px 668px var(--coloring) , 1603px 1110px var(--coloring) , 1225px 1445px var(--coloring) , 257px 630px var(--coloring) , 1654px 1379px var(--coloring) , 332px 838px var(--coloring) , 372px 1467px var(--coloring) , 1464px 1357px var(--coloring) , 1721px 1871px var(--coloring) , 428px 1879px var(--coloring) , 1915px 1504px var(--coloring) , 1736px 1673px var(--coloring) , 923px 453px var(--coloring) , 1583px 759px var(--coloring) , 1547px 1152px var(--coloring) , 1444px 1306px var(--coloring) , 1360px 257px var(--coloring) , 325px 1066px var(--coloring) , 1445px 1984px var(--coloring) , 1876px 755px var(--coloring) , 607px 671px var(--coloring) , 1245px 1692px var(--coloring) , 484px 1992px var(--coloring) , 394px 849px var(--coloring) , 1756px 503px var(--coloring) , 597px 1324px var(--coloring) , 828px 633px var(--coloring) , 949px 1245px var(--coloring) , 690px 173px var(--coloring) , 287px 593px var(--coloring) , 491px 1879px var(--coloring) , 1052px 1802px var(--coloring) , 965px 929px var(--coloring) , 1429px 268px var(--coloring) , 1905px 659px var(--coloring) , 1435px 605px var(--coloring) , 948px 641px var(--coloring) , 375px 855px var(--coloring) , 1411px 1677px var(--coloring) , 258px 862px var(--coloring) , 824px 1983px var(--coloring) , 972px 605px var(--coloring) , 1254px 1562px var(--coloring) , 1265px 1262px var(--coloring) , 828px 906px var(--coloring) , 593px 854px var(--coloring) , 539px 1245px var(--coloring) , 1773px 1503px var(--coloring) , 1811px 1429px var(--coloring) , 1975px 245px var(--coloring) , 1341px 332px var(--coloring) , 1944px 24px var(--coloring) , 181px 1538px var(--coloring) , 50px 2px var(--coloring) , 182px 1604px var(--coloring) , 718px 1446px var(--coloring) , 441px 350px var(--coloring) , 1706px 251px var(--coloring) , 1926px 1012px var(--coloring) , 1327px 318px var(--coloring) , 1861px 531px var(--coloring) , 1674px 1910px var(--coloring) , 998px 1409px var(--coloring) , 1119px 354px var(--coloring) , 329px 1972px var(--coloring) , 1381px 1776px var(--coloring) , 1753px 410px var(--coloring) , 365px 703px var(--coloring) , 290px 102px var(--coloring) , 758px 1422px var(--coloring) , 1010px 1301px var(--coloring) , 1257px 977px var(--coloring) , 40px 487px var(--coloring) , 1196px 938px var(--coloring) , 682px 232px var(--coloring) , 636px 1743px var(--coloring) , 1932px 1329px var(--coloring) , 741px 1647px var(--coloring) , 1279px 1099px var(--coloring) , 1532px 414px var(--coloring) , 1364px 384px var(--coloring) , 1040px 1721px var(--coloring) , 1987px 935px var(--coloring) , 1575px 403px var(--coloring) , 1814px 131px var(--coloring) , 1675px 1948px var(--coloring) , 1629px 1968px var(--coloring) , 469px 665px var(--coloring) , 1905px 524px var(--coloring) , 527px 1224px var(--coloring) , 978px 1693px var(--coloring) , 931px 1243px var(--coloring) , 1393px 32px var(--coloring) , 809px 590px var(--coloring) , 586px 1858px var(--coloring) , 1170px 911px var(--coloring) , 1522px 327px var(--coloring) , 343px 446px var(--coloring) , 307px 788px var(--coloring) , 1116px 166px var(--coloring) , 225px 117px var(--coloring) , 546px 616px var(--coloring) , 997px 1355px var(--coloring) , 865px 362px var(--coloring) , 693px 1079px var(--coloring) , 1773px 1386px var(--coloring) , 959px 1945px var(--coloring) , 88px 898px var(--coloring) , 986px 572px var(--coloring) , 1060px 1052px var(--coloring) , 1404px 45px var(--coloring) , 1867px 1471px var(--coloring) , 1788px 1072px var(--coloring) , 1829px 1637px var(--coloring) , 1547px 9px var(--coloring) , 640px 886px var(--coloring) , 991px 1323px var(--coloring) , 1073px 418px var(--coloring) , 21px 1955px var(--coloring) , 1862px 356px var(--coloring) , 1802px 1449px var(--coloring) , 792px 1518px var(--coloring) , 1943px 1184px var(--coloring) , 915px 575px var(--coloring) , 892px 1693px var(--coloring) , 1441px 1634px var(--coloring) , 1952px 1908px var(--coloring) , 653px 1020px var(--coloring) , 441px 1302px var(--coloring) , 51px 1481px var(--coloring) , 919px 180px var(--coloring) , 483px 217px var(--coloring) , 1156px 1780px var(--coloring) , 1574px 1699px var(--coloring) , 898px 695px var(--coloring) , 148px 1147px var(--coloring) , 1902px 1292px var(--coloring) , 1697px 1496px var(--coloring) , 1132px 310px var(--coloring) , 955px 99px var(--coloring) , 734px 671px var(--coloring) , 1560px 982px var(--coloring) , 1344px 158px var(--coloring) , 415px 1738px var(--coloring) , 874px 1420px var(--coloring) , 740px 633px var(--coloring) , 568px 1410px var(--coloring) , 373px 1737px var(--coloring) , 261px 5px var(--coloring) , 835px 1887px var(--coloring) , 353px 1900px var(--coloring) , 951px 143px var(--coloring) , 765px 1865px var(--coloring) , 470px 1809px var(--coloring) , 881px 1228px var(--coloring) , 1221px 1143px var(--coloring) , 1993px 1574px var(--coloring) , 1266px 1280px var(--coloring) , 1885px 1889px var(--coloring) , 1632px 310px var(--coloring) , 1165px 1703px var(--coloring) , 23px 1426px var(--coloring) , 1913px 719px var(--coloring) , 964px 153px var(--coloring) , 1198px 544px var(--coloring) , 1633px 1741px var(--coloring) , 1521px 20px var(--coloring) , 718px 1558px var(--coloring) , 1187px 1218px var(--coloring) , 1378px 549px var(--coloring) , 1342px 1463px var(--coloring) , 1034px 1460px var(--coloring) , 1661px 1750px var(--coloring) , 277px 149px var(--coloring) , 1573px 1874px var(--coloring) , 248px 1212px var(--coloring) , 824px 1211px var(--coloring) , 743px 1644px var(--coloring) , 738px 1253px var(--coloring) , 334px 1621px var(--coloring) , 35px 1294px var(--coloring) , 1754px 127px var(--coloring) , 1114px 690px var(--coloring) , 463px 1705px var(--coloring) , 1384px 1847px var(--coloring) , 520px 104px var(--coloring) , 1257px 1353px var(--coloring) , 1210px 1641px var(--coloring) , 1645px 1323px var(--coloring) , 398px 1671px var(--coloring) , 1956px 311px var(--coloring) , 1337px 1877px var(--coloring) , 1166px 192px var(--coloring) , 1508px 1699px var(--coloring) , 1011px 1947px var(--coloring) , 1061px 1364px var(--coloring) , 61px 1281px var(--coloring) , 1654px 1703px var(--coloring) , 1194px 1132px var(--coloring) , 1622px 161px var(--coloring) , 694px 1024px var(--coloring) , 724px 773px var(--coloring) , 1985px 1456px var(--coloring) , 432px 1915px var(--coloring) , 129px 715px var(--coloring) , 275px 855px var(--coloring) , 1795px 1127px var(--coloring) , 1424px 1210px var(--coloring) , 1864px 774px var(--coloring) , 1782px 1246px var(--coloring) , 1855px 596px var(--coloring) , 593px 1630px var(--coloring) , 255px 1765px var(--coloring) , 634px 1315px var(--coloring) , 969px 1441px var(--coloring) , 1854px 1104px var(--coloring) , 1280px 818px var(--coloring) , 1809px 1570px var(--coloring) , 1025px 227px var(--coloring) , 102px 1385px var(--coloring) , 1331px 325px var(--coloring) , 1119px 1429px var(--coloring) , 568px 1867px var(--coloring) , 55px 1351px var(--coloring) , 1647px 1403px var(--coloring) , 645px 1610px var(--coloring) , 1657px 980px var(--coloring) , 1028px 684px var(--coloring) , 182px 1299px var(--coloring);
+  animation: animStar linear infinite;
+  animation-duration: calc(var(--speed) * 6);
+  border-radius: 100%;
+}
+
+    #bubbles:after {
+      content: " ";
+      position: absolute;
+      top: -2000px;
+      width: 2px;
+      height: 2px;
+      background: transparent;
+      border-radius: 100%;
+    }
+
+
+
+
+
+@keyframes animStar {
+  from {
+    transform: translateY(-200px);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+</head>
+<body>
+    <div id="bubbles"></div> <div id="bubbles2"></div> <div id="bubbles3"></div>
+
+
+
+      <!--Social Liks codings below-->
+      <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+        <i class="fas fa-link"></i>
+        <span class="roboto-mono">Join my Telegram</span>
+    </a>
+
+    <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+      <i class="fab fa-youtube"></i>
+      <span>Subscribe my channel..❤</span>
+    </a>
+
+
+    <script>
+        let bubleArr = []; document.addEventListener("mousemove", (e) => { let bubles = document.createElement("bubles"); let x = e.pageX; let y = e.pageY; let size = Math.random() * 60; bubles.style.width = 1 + size + "px"; bubles.style.height = 1 + size + "px"; bubles.style.left = x - size / 2 + "px"; bubles.style.top = y - size / 2 + "px"; document.body.appendChild(bubles); setTimeout(function () { bubles.remove(); console.log("tu sam"); }, 5000); }); 
+    </script>
+</body>
+</html>

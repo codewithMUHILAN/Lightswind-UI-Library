@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background: #000;
+    }
+
+    .frame {
+      width: 90%;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    button {
+      margin: 20px;
+    }
+
+    .custom-btn {
+      width: 130px;
+      height: 40px;
+      color: #fff;
+      border-radius: 5px;
+      padding: 10px 25px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 500;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      display: inline-block;
+      box-shadow: inset 2px 
+      2px 2px 0px #00fffc,
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+      outline: none;
+    }
+
+
+
+    /* 3 */
+    .btn-3 {
+      color: #fff;
+      font-weight: 800;
+      background: #000;
+      width: 130px;
+      height: 40px;
+      line-height: 42px;
+      padding: 0;
+      border: none;
+
+    }
+    .btn-3 span {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .btn-3:before,
+    .btn-3:after {
+      position: absolute;
+      content: "";
+      right: 0;
+      top: 0;
+      background: #00fffc;
+      transition: all 0.3s ease;
+    }
+
+    .btn-3:before {
+      height: 0%;
+      width: 2px;
+    }
+
+    .btn-3:after {
+      width: 0%;
+      height: 2px;
+    }
+
+    .btn-3:hover {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .btn-3:hover:before {
+      height: 100%;
+    }
+
+    .btn-3:hover:after {
+      width: 100%;
+    }
+
+    .btn-3 span:hover {
+      color: #00fffc;
+    }
+
+    .btn-3 span:before,
+    .btn-3 span:after {
+      position: absolute;
+      content: "";
+      left: 0;
+      bottom: 0;
+      background: #00fffc;
+      transition: all 0.3s ease;
+    }
+
+    .btn-3 span:before {
+      width: 2px;
+      height: 0%;
+    }
+
+    .btn-3 span:after {
+      width: 0%;
+      height: 2px;
+    }
+
+    .btn-3 span:hover:before {
+      height: 100%;
+    }
+
+    .btn-3 span:hover:after {
+      width: 100%;
+    }
+
+
+
+    /* 10 */
+    .btn-10 {
+      background: #000;
+      color: #fff;
+      font-weight: 800;
+      border: none;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .btn-10:after {
+      position: absolute;
+      content: " ";
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s ease;
+      -webkit-transform: scale(.1);
+      transform: scale(.1);
+    }
+
+    .btn-10:hover {
+      color: #020101;
+      border: none;
+      background: transparent;
+    }
+
+    .btn-10:hover:after {
+      background: #00fffc;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+
+
+
+    /* 12 */
+    .btn-12 {
+      position: relative;
+      right: 20px;
+      bottom: 20px;
+      border: none;
+      box-shadow: none;
+      width: 130px;
+      height: 40px;
+      line-height: 42px;
+      -webkit-perspective: 230px;
+      perspective: 230px;
+    }
+
+    .btn-12 span {
+      background: #000;
+      display: block;
+      font-weight: 800;
+      position: absolute;
+      width: 130px;
+      height: 40px;
+      box-shadow: inset 2px 2px 2px 0px #00fffc,
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+      border-radius: 5px;
+      margin: 0;
+      text-align: center;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      -webkit-transition: all .3s;
+      transition: all .3s;
+    }
+
+    .btn-12 span:nth-child(1) {
+      -webkit-transform: rotateX(90deg);
+      -moz-transform: rotateX(90deg);
+      transform: rotateX(90deg);
+      -webkit-transform-origin: 50% 50% -20px;
+      -moz-transform-origin: 50% 50% -20px;
+      transform-origin: 50% 50% -20px;
+    }
+
+    .btn-12 span:nth-child(2) {
+      -webkit-transform: rotateX(0deg);
+      -moz-transform: rotateX(0deg);
+      transform: rotateX(0deg);
+      -webkit-transform-origin: 50% 50% -20px;
+      -moz-transform-origin: 50% 50% -20px;
+      transform-origin: 50% 50% -20px;
+    }
+
+    .btn-12:hover span:nth-child(1) {
+      background-color: #00fffc;
+      color: #000;
+      font-weight: 800;
+      box-shadow: inset 2px 2px 2px 0px #00fffc,
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+      -webkit-transform: rotateX(0deg);
+      -moz-transform: rotateX(0deg);
+      transform: rotateX(0deg);
+    }
+
+    .btn-12:hover span:nth-child(2) {
+      background-color: #00fffc;
+      color: #000;
+      font-weight: 800;
+      box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+      color: transparent;
+      -webkit-transform: rotateX(-90deg);
+      -moz-transform: rotateX(-90deg);
+      transform: rotateX(-90deg);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  </header>
+
+  <h1>Animation Buttons</h1>
+  <p>Hover us and enjoy the satisfying neumorphic animation designs!</p>
+  <div class="frame">
+
+    <button class="custom-btn btn-3"><span>LIKE</span></button>
+    <button class="custom-btn btn-10">FOLLOW</button>
+    <button class="custom-btn btn-12"><span>SHARE!</span><span>THANKS</span></button>
+
+  </div>
+
+</body>
+
+</html>

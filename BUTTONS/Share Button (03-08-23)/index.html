@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+
+    <style>
+        *, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+svg {
+  position: absolute;
+}
+
+.demo {
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+    overflow: hidden; /* Hide content outside the demo area to prevent lag */
+
+}
+.demo__buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-100px, -100px);
+  filter: url("#goo");
+}
+.demo__buttons.step-0 .demo__social-btn-1, .demo__buttons.step-0 .demo__social-btn-2, .demo__buttons.step-0 .demo__social-btn-3, .demo__buttons.step-0 .demo__social-btn-4 {
+  transform: translate3d(-50px, -50px, 0);
+}
+.demo__buttons.step-1 .demo__social-btn-1 {
+  transform: translate3d(-50px, -50px, 0);
+}
+.demo__buttons.step-1 .demo__social-btn-2, .demo__buttons.step-1 .demo__social-btn-3, .demo__buttons.step-1 .demo__social-btn-4 {
+  transform: translate3d(-50px, 50px, 0);
+}
+.demo__buttons.step-2 .demo__social-btn-1 {
+  transform: translate3d(-50px, -50px, 0);
+}
+.demo__buttons.step-2 .demo__social-btn-2 {
+  transform: translate3d(-50px, 50px, 0);
+}
+.demo__buttons.step-2 .demo__social-btn-3, .demo__buttons.step-2 .demo__social-btn-4 {
+  transform: translate3d(50px, 50px, 0);
+}
+.demo__buttons.step-3 .demo__social-btn-1 {
+  transform: translate3d(-50px, -50px, 0);
+}
+.demo__buttons.step-3 .demo__social-btn-2 {
+  transform: translate3d(-50px, 50px, 0);
+}
+.demo__buttons.step-3 .demo__social-btn-3 {
+  transform: translate3d(50px, 50px, 0);
+}
+.demo__buttons.step-3 .demo__social-btn-4 {
+  transform: translate3d(50px, -50px, 0);
+}
+
+        .demo__social-btn {
+          position: absolute;
+          left: 65px;
+          top: 65px;
+          width: 70px;
+          height: 70px;
+          text-align: center;
+          line-height: 70px;
+          font-size: 30px;
+          background: white;
+          color: #261758;
+          border-radius: 50%;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+    .demo__social-btn:hover
+    {
+      color: #106279;
+      box-shadow: 0 0 15px
+      white;
+    }
+.demo__open-btn {
+  position: absolute;
+  left: 65px;
+  top: 65px;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  line-height: 70px;
+  font-weight: 700;
+  font-size: 30px;
+  font-family: sans-serif;
+  background: white;
+  color: #261758;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.demo__open-btn:hover {
+  color: #106279;
+  box-shadow: 0 0 15px white;
+}
+
+.demo__social-btn {
+  background-color: #fff;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+       .demo__social-btn:hover {
+          box-shadow: 0 0 25px 
+          #00fffc;
+        }
+        .demo__social-btn-1 {
+          color: #1da1f2; 
+        }
+        .demo__social-btn-2 {
+          color: #3b5998; 
+        }
+        .demo__social-btn-3 {
+          color: #e4405f; 
+        }
+        .demo__social-btn-4 {
+          color: #093e6a; 
+        }
+
+
+        
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(205, 50, 112); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="0" height="0">
+    <defs>
+        <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+            <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+    </defs>
+</svg>
+
+<div class="demo">
+    <div class="demo__buttons">
+        <div class="demo__social-btn-4 demo__social-btn"><i class="fab fa-github"></i></div>
+        <div class="demo__social-btn-3 demo__social-btn"><i class="fab fa-instagram"></i></div>
+        <div class="demo__social-btn-2 demo__social-btn"><i class="fab fa-facebook"></i></div>
+        <div class="demo__social-btn-1 demo__social-btn"><i class="fab fa-twitter"></i></div>
+        <div class="demo__open-btn"><i class="fas fa-share-alt"></i></div>
+    </div>
+</div>
+
+<a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+  <i class="fas fa-link"></i>
+  <span class="roboto-mono">Join my Telegram</span>
+</a>
+
+<a id="yt-link" class="meta-link" href="https://www.instagram.com/codewith_muhilan/" target="_blank">
+  <i class="fab fa-instagram"></i>
+  <span>Follow me..❤</span>
+</a>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    "use strict";
+
+$(document).ready(function() {
+  const $buttons = $(".demo__buttons");
+  const $toggle = $(".demo__open-btn");
+  let delay = 200;
+  let steps = [];
+  let open = false;
+  
+  let curStep = 0;
+
+  for (let i = 0; i <= 3; i++) {
+    steps[i] = "demo__step-" + i;
+  }
+
+  function setStep(index) {    
+    $buttons.removeClass("step-1 step-0 step-3 step-2").addClass("step-" + curStep);   
+  }
+  
+  let lastTimeout;
+
+  function animate() {
+    if (curStep >= 4) {
+      curStep = 0;
+      return;
+    }
+
+    open = true;
+    setStep(curStep);    
+    curStep++;
+    lastTimeout = setTimeout(animate, delay);
+  }
+
+  $toggle.on("click", function() {
+    if (!open) animate();
+    else {
+      $buttons.removeClass("step-1 step-0 step-3 step-2");
+      clearTimeout(lastTimeout);
+      open = false;
+      curStep = 0;
+    }
+  });
+});
+</script>
+</body>
+</html>

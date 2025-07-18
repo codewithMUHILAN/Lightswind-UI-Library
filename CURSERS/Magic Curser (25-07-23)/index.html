@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+
+
+  body {
+	background: #000000;
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+  }
+
+  .card {
+	width: 100%;
+	height: 100%;
+	cursor: url(https:
+	//cdn.custom-cursor
+	.com/db/cursor/32/
+	colorful_cursor.png),
+	default !important;
+	position: relative;
+  }
+
+
+  
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+  </style>
+</head>
+<body>
+  <div class="card" id="star-card"></div>
+
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+	<i class="fas fa-link"></i>
+	<span class="roboto-mono">Join my Telegram</span>
+</a>
+
+<a id="yt-link" class="meta-link" href="https://www.instagram.com/codewith_muhilan/" target="_blank">
+	<i class="fab fa-instagram"></i>
+	<span>Follow me..❤</span>
+</a>
+
+<script>
+  let magicParticles = [];
+let stars = [];
+
+    function setup() {
+        let canvas = createCanvas(windowWidth, windowHeight);
+        canvas.parent("star-card");
+
+        for (let i = 0; i < 200; i++) {
+            let star = new Star();
+            stars.push(star);
+        }
+
+        demo();
+    }
+
+    function demo() {
+        const centerX = windowWidth / 2;
+        const centerY = windowHeight / 2;
+        const radius = Math.min(windowWidth, windowHeight) / 4;
+        const duration = 1500;
+
+        const startAngle = 0;
+        const endAngle = 2 * Math.PI;
+        const step = (endAngle - startAngle) / duration;
+
+        let elapsedTime = 0;
+
+        function updateMousePosition() {
+            const angle = startAngle + elapsedTime * step;
+            const x = centerX + Math.cos(angle) * radius;
+            const y = centerY + Math.sin(angle) * radius;
+            const event = new MouseEvent('mousemove', {
+                clientX: x,
+                clientY: y,
+                bubbles: true,
+                cancelable: true
+            });
+            document.dispatchEvent(event);
+        }
+
+        const interval = setInterval(() => {
+            updateMousePosition();
+            elapsedTime += 16; // 16ms = 1 frame at 60fps
+            if (elapsedTime >= duration) {
+                clearInterval(interval);
+            }
+        }, 16);
+    }
+
+
+function draw() {
+	clear();
+
+	for (let i = 0; i < stars.length; i++) {
+		stars[i].update();
+		stars[i].display();
+	}
+
+	for (let i = magicParticles.length - 1; i >= 0; i--) {
+		let particle = magicParticles[i];
+		particle.update();
+		particle.display();
+
+		if (particle.opacity <= 0) {
+			magicParticles.splice(i, 1);
+		}
+	}
+}
+
+function mouseMoved() {
+	addMagicParticle(mouseX, mouseY);
+}
+
+function touchMoved() {
+	if (touches.length > 0) {
+		let touch = touches[0];
+		addMagicParticle(touch.x, touch.y);
+	}
+}
+
+function addMagicParticle(x, y) {
+	if (x >= 0 && y >= 0 && x <= width && y <= height) {
+		let particle = new MagicParticle(x, y);
+		magicParticles.push(particle);
+	}
+}
+
+      class MagicParticle {
+	   constructor(x, y) {
+		this.x = x;
+		this.y = y;
+		this.size = random(10, 30);
+		this.baseColor = color(
+		 random([
+		 "#e84e66","#67c69e",
+		 "#edf1f4","#80acc9",
+		 "#73a8b0","#fe817f",
+		 "#68d2a4","#1d203f",
+		 "#c9a30d"  ])
+	  );
+
+
+		this.color = this.baseColor;
+		this.rotation = random(TWO_PI);
+		this.speed = random(1, 3);
+		this.opacity = 255;
+		this.fadeOutRate = random(1, 3);
+		this.shapeType = random(["circle", "rect"]);
+		this.sparkles = [];
+		this.shimmer = random(0.3, 0.8);
+		this.shimmerSpeed = random(0.005, 0.02);
+	}
+
+	update() {
+		this.x += cos(this.rotation) * this.speed;
+		this.y += sin(this.rotation) * this.speed;
+		this.opacity -= this.fadeOutRate;
+
+		this.updateSparkles();
+		this.updateColor();
+	}
+
+	updateSparkles() {
+		for (let i = this.sparkles.length - 1; i >= 0; i--) {
+			let sparkle = this.sparkles[i];
+			sparkle.update();
+			if (sparkle.opacity <= 0) {
+				this.sparkles.splice(i, 1);
+			}
+		}
+	}
+
+	updateColor() {
+		let shimmerVal = sin(frameCount * this.shimmerSpeed);
+		let shimmerColor = lerpColor(this.baseColor, color(255), shimmerVal);
+		let sparkleColor = lerpColor(shimmerColor, color(255), this.opacity / 255);
+		this.color = lerpColor(sparkleColor, this.baseColor, this.shimmer);
+	}
+
+	display() {
+		noStroke();
+		fill(this.color, this.opacity);
+		push();
+		translate(this.x, this.y);
+		rotate(frameCount * 0.02);
+		let shapeSize = this.size * 0.6;
+		if (this.shapeType === "circle") {
+			ellipse(0, 0, shapeSize, shapeSize);
+		} else if (this.shapeType === "rect") {
+			rect(-shapeSize / 2, -shapeSize / 2, shapeSize, shapeSize, 5);
+		}
+		pop();
+
+		for (let sparkle of this.sparkles) {
+			sparkle.display();
+		}
+
+		if (random() < 0.1) {
+			// Increased sparkle frequency
+			let sparkle = new Sparkle(this.x, this.y, this.color);
+			this.sparkles.push(sparkle);
+		}
+	}
+}
+
+class Sparkle {
+	constructor(x, y, color) {
+		this.x = x;
+		this.y = y;
+		this.size = random(2, 8); // Increased sparkle size
+		this.color = color;
+		this.opacity = 255;
+		this.speedX = random(-1, 1);
+		this.speedY = random(-1, 1);
+	}
+
+	update() {
+	  this.x += this.speedX;
+	  this.y += this.speedY;
+	  this.opacity -= 10;
+	}
+
+	display() {
+		noStroke();
+		fill(this.color, this.opacity);
+		ellipse(this.x, this.y, this.size, this.size);
+	}
+}
+
+class Star {
+	constructor() {
+		this.x = random(width);
+		this.y = random(height);
+		this.size = random(1, 3);
+		this.opacity = random(100, 255);
+		this.twinkleSpeed = random(0.01, 0.03);
+	}
+
+	update() {
+		let twinkleVal = sin(frameCount * this.twinkleSpeed);
+		this.opacity = map(twinkleVal, -1, 1, 100, 255);
+	}
+
+	display() {
+		noStroke();
+		fill(255, this.opacity);
+		ellipse(this.x, this.y, this.size, this.size);
+	}
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+</body>
+</html>

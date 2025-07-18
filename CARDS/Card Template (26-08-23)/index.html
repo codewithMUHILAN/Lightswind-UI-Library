@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+  --glitter: url("https://raw.githubusercontent.com/zouraiz523/OTP-Input-Field-/1cfbec7f8b6f69b0190da0d4c69d5f05ee989c58/OTP%20Input%20Field%20%20JS/stacked-waves-haikei.svg");
+  --duration: 6.66s;
+}
+
+.card-front:before {
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform: translate3d(0, 0, 0.01px);
+  background-image: var(--glitter), var(--glitter), linear-gradient(120deg, black 25%, white, black 75%);
+  background-size: 100% 100%, 80% 80%, 200% 200%;
+  background-blend-mode: multiply, multiply, overlay;
+  background-position: 50% 50%, 50% 50%, 50% 50%;
+  mix-blend-mode: color-dodge;
+  filter: brightness(2) contrast(0.8);
+  animation: bg var(--duration) ease infinite;
+}
+
+.card-front {
+  top: 300px;
+  display: grid;
+  position: relative;
+  transform: translate3d(0, 0, 0.01px);
+  width: 90vw;
+  max-width: 580px;
+  aspect-ratio: 3/2;
+  border-radius: 3.5% 3.5% 3.5% 3.5%/5% 5% 5% 5%;
+  background-image: url(https://raw.githubusercontent.com/zouraiz523/OTP-Input-Field-/1cfbec7f8b6f69b0190da0d4c69d5f05ee989c58/OTP%20Input%20Field%20%20JS/stacked-waves-haikei.svg);
+  background-size: cover;
+  box-shadow: 0 30px 40px -25px rgb(15, 5, 20), 0 20px 50px -15px rgb(15, 5, 20);
+  overflow: hidden;
+  animation: tilt var(--duration) ease infinite;
+  image-rendering: optimizequality;
+}
+
+.card-front:after {
+  content: "";
+  background: none, none, linear-gradient(125deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 0.1%, rgba(255, 255, 255, 0) 60%);
+  background-size: 200% 200%;
+  mix-blend-mode: hard-light;
+  animation: bg var(--duration) ease infinite;
+}
+
+.card-front * {
+  font-family: PT Mono, monospace;
+}
+
+.cardLogo,
+.expiry,
+.name,
+.number,
+.chip,
+.icon {
+  color: #ccc;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+  font-size: clamp(0.75rem, 2.8vw + 0.2rem, 1.1rem);
+  inset: 5%;
+  text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.5), 1px -1px 0px rgba(255, 255, 255, 0.5), 1px 1px 0px rgba(0, 0, 0, 0.5), 1px -1px 0px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+}
+
+.name, .number, .expiry {
+  background-image: linear-gradient(to bottom, #ededed 20%, #bababa 70%), none, linear-gradient(120deg, transparent 10%, white 40%, white 60%, transparent 90%);
+  background-size: cover, cover, 200%;
+  background-position: 50% 50%;
+  background-blend-mode: overlay;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  
+  animation: bg var(--duration) ease infinite;
+}
+
+.number {
+  font-family: PT Mono, monospace;
+  text-align: center;
+  font-size: clamp(1rem, 8vw - 0.5rem, 2.5rem);
+  letter-spacing: 0.025em;
+  top: 60%;
+  bottom: auto;
+}
+
+.expiry,
+.name {
+  top: auto;
+}
+
+.name {
+  right: auto;
+  max-width: 180px;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.expiry {
+  left: auto;
+}
+
+.cardLogo {
+  bottom: auto;
+  left: auto;
+  width: 15%;
+  filter: invert(1) saturate(0) brightness(1) contrast(1.2);
+  mix-blend-mode: screen;
+}
+
+.chip {
+  display: grid;
+  place-items: center;
+  width: 14%;
+  aspect-ratio: 5/4;
+  left: 10%;
+  top: 30%;
+  border-radius: 10% 10% 10% 10%/15% 15% 15% 15%;
+  background-image: none, none, linear-gradient(120deg, #777 10%, #ddd 40%, #ddd 60%, #777 90%);
+  background-size: 200% 200%;
+  background-position: 50% 50%;
+  overflow: hidden;
+  animation: bg var(--duration) ease infinite;
+}
+
+.chip svg {
+  display: block;
+  width: 90%;
+  fill: none;
+  stroke: #444;
+  stroke-width: 2;
+}
+
+.contactless {
+  position: absolute;
+  left: 23%;
+  top: 30%;
+  width: 12%;
+  rotate: 90deg;
+  stroke-width: 1.25;
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.5;
+}
+
+.icon {
+  width: 25%;
+  bottom: auto;
+  right: auto;
+  top: 0;
+  left: 15px;
+  filter: invert(1) hue-rotate(180deg) saturate(5) contrast(2);
+}
+
+@keyframes tilt {
+  0%, 100% {
+    transform: translate3d(0, 0, 0.01px) rotateY(-20deg) rotateX(5deg);
+  }
+  50% {
+    transform: translate3d(0, 0, 0.01px) rotateY(20deg) rotateX(5deg);
+  }
+}
+@keyframes bg {
+  0%, 100% {
+    background-position: 50% 50%, calc(50% + 1px) calc(50% + 1px), 0% 50%;
+  }
+  50% {
+    background-position: 50% 50%, calc(50% - 1px) calc(50% - 1px), 100% 50%;
+  }
+}
+main {
+  display: grid;
+  grid-template-rows: minmax(20px, 100px) 1fr;
+  place-items: center;
+  min-height: 100%;
+  perspective: 1000px;
+}
+
+TML CSS JSResult Skip Results Iframe
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  html,
+  body,
+  .wrapper {
+    height: 100%;
+  }
+  
+  @keyframes rotate {
+    100% {
+      background-position: 15% 50%;
+    }
+  }
+  body {
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0 24px;
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Euclid Circular A";
+    color: #000;
+    animation: rotate 5s infinite alternate linear;
+  }
+
+#chip,
+#contactless {
+  display: none;
+}
+
+h1 {
+  margin: 1em;
+  color: white;
+  opacity: 0.7;
+  text-shadow: 0 1px 1px black;
+}/*# sourceMappingURL=index.css.map */
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = 'stylesheet' href = 'index.css' >
+    <link href="https://fonts.googleapis.com/css2?family=PT+Mono&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+<main id=app>
+  <aside class="card-front">
+    <label class="number" for="cardNumber">
+      5355 1554 0220 9888
+    </label>
+    <label class="name" for="cardHolder">
+      Muhilan
+    </label>
+    <label class="expiry" for="expiryMonth" >
+      05/37
+    </label>
+    <img class="cardLogo" data-v-5d206127="" data-v-8fcb32d4="" style="opacity: 1;" src="https://simey-credit-card.netlify.app/img/logos/master.svg">
+    
+      
+    <div class="chip">
+      <svg role="img" viewBox="0 0 100 100" aria-label="Chip">
+        <use href="#chip-lines" />
+      </svg>
+    </div>
+    <svg class="contactless" role="img" viewBox="0 0 24 24" aria-label="Contactless">
+      <use href="#contactless">
+    </svg>
+    
+  </aside>
+  
+</main>
+
+
+
+
+
+<svg id="chip">
+  <g id="chip-lines">
+    <polyline points="0,50 35,50"></polyline>
+    <polyline points="0,20 20,20 35,35"></polyline>
+    <polyline points="50,0 50,35"></polyline>
+    <polyline points="65,35 80,20 100,20"></polyline>
+    <polyline points="100,50 65,50"></polyline>
+    <polyline points="35,35 65,35 65,65 35,65 35,35"></polyline>
+    <polyline points="0,80 20,80 35,65"></polyline>
+    <polyline points="50,100 50,65"></polyline>
+    <polyline points="65,65 80,80 100,80"></polyline>
+  </g>
+</svg>
+
+
+<svg id="contactless">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M9.172 15.172a4 4 0 0 1 5.656 0"></path>
+   <path d="M6.343 12.343a8 8 0 0 1 11.314 0"></path>
+   <path d="M3.515 9.515c4.686 -4.687 12.284 -4.687 17 0"></path>
+</svg>
+  
+
+<a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+  <i class="fas fa-link"></i>
+  <span class="roboto-mono">Join my Telegram</span>
+</a>
+
+<a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+<i class="fab fa-youtube"></i>
+<span>Subscribe my channel..❤</span>
+</a>
+  </body>
+</html>
+</body>
+</html>

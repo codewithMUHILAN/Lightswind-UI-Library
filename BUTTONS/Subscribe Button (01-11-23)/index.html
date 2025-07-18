@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@codewith_muhilan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700&amp;display=swap">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      font-family: "Inter", Arial;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+    }
+
+    .newsletter-form {
+      --primary: #00fffc;
+      --primary-dark: #00fffc;
+      --primary-darkest: #00fffc;
+      --input-placeholder: #A6ACCD;
+      --input-text: #000;
+      --border-default: #E1E6F9;
+      --border-active: #00fffc;
+      --background: #fff;
+      --button-text: #000;
+      --success: #000;
+      --trails: rgba(39, 94, 254, 0.15);
+      display: flex;
+      align-items: center;
+      max-width: 300px;
+      width: 100%;
+      background: var(--background);
+      box-shadow: inset 0 0 0 var(--border-width, 1px) var(--border, var(--border-default));
+      border-radius: 9px;
+      padding-right: 4px;
+      transition: box-shadow 0.25s;
+    }
+
+    .newsletter-form:focus-within {
+      --border-width: 1.5px;
+      --border: var(--border-active);
+    }
+
+    .newsletter-form input,
+    .newsletter-form button {
+      -webkit-appearance: none;
+      background: none;
+      outline: none;
+      display: block;
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 24px;
+      margin: 0;
+    }
+
+    .newsletter-form input {
+      width: 100%;
+      flex-grow: 1;
+      padding: 12px 12px 12px 16px;
+      color: var(--input-text);
+      font-weight: 400;
+    }
+
+    .newsletter-form input::-moz-placeholder {
+      color: var(--input-placeholder);
+    }
+
+    .newsletter-form input:-ms-input-placeholder {
+      color: var(--input-placeholder);
+    }
+
+    .newsletter-form input::placeholder {
+      color: var(--input-placeholder);
+    }
+
+    .newsletter-form button {
+      --text-opacity: 1;
+      --success-x: -12px;
+      --success-stroke: 14px;
+      --success-opacity: 0;
+      --border-radius: 7px;
+      --overflow: hidden;
+      --x: 0px;
+      --y: 0px;
+      --rotate: 0deg;
+      --plane-x: 0px;
+      --plane-y: 0px;
+      --plane-opacity: 1;
+      --trails-stroke: 57px;
+      --left-wing-background: var(--primary);
+      --left-wing-first-x: 0%;
+      --left-wing-first-y: 0%;
+      --left-wing-second-x: 50%;
+      --left-wing-second-y: 0%;
+      --left-wing-third-x: 0%;
+      --left-wing-third-y: 100%;
+      --left-body-background: var(--primary);
+      --left-body-first-x: 50%;
+      --left-body-first-y: 0%;
+      --left-body-second-x: 50%;
+      --left-body-second-y: 100%;
+      --left-body-third-x: 0%;
+      --left-body-third-y: 100%;
+      --right-wing-background: var(--primary);
+      --right-wing-first-x: 50%;
+      --right-wing-first-y: 0%;
+      --right-wing-second-x: 100%;
+      --right-wing-second-y: 0%;
+      --right-wing-third-x: 100%;
+      --right-wing-third-y: 100%;
+      --right-body-background: var(--primary);
+      --right-body-first-x: 50%;
+      --right-body-first-y: 0%;
+      --right-body-second-x: 50%;
+      --right-body-second-y: 100%;
+      --right-body-third-x: 100%;
+      --right-body-third-y: 100%;
+      position: relative;
+      padding: 8px 0;
+      min-width: 100px;
+      text-align: center;
+      font-weight: 600;
+      opacity: var(--button-opacity, 0.5);
+      cursor: var(--button-cursor, not-allowed);
+      filter: var(--button-filter, grayscale(65%));
+      color: var(--button-text);
+      border-radius: var(--border-radius);
+      transform: translateZ(0);
+      transition: opacity 0.25s, filter 0.25s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .newsletter-form 
+    button:not(.active) {
+      background: var(--primary);
+    }
+
+
+    .newsletter-form button .plane,
+    .newsletter-form button .trails {
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .newsletter-form button .plane {
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      transform: translate(var(--x), var(--y)) rotate(var(--rotate)) translateZ(0);
+    }
+
+    .newsletter-form button .plane .left,
+    .newsletter-form button .plane .right {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      opacity: var(--plane-opacity);
+      transform: translate(var(--plane-x), var(--plane-y)) translateZ(0);
+    }
+
+    .newsletter-form button .plane .left:before,
+    .newsletter-form button .plane .left:after,
+    .newsletter-form button .plane .right:before,
+    .newsletter-form button .plane .right:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: var(--border-radius);
+      transform: translate(var(--part-x, 0.25%), var(--part-y, 0)) translateZ(0);
+      z-index: var(--z-index, 2);
+      background: var(--b, var(--left-wing-background));
+      -webkit-clip-path: polygon(var(--first-x, var(--left-wing-first-x)) var(--first-y, var(--left-wing-first-y)), var(--second-x, var(--left-wing-second-x)) var(--second-y, var(--left-wing-second-y)), var(--third-x, var(--left-wing-third-x)) var(--third-y, var(--left-wing-third-y)));
+      clip-path: polygon(var(--first-x, var(--left-wing-first-x)) var(--first-y, var(--left-wing-first-y)), var(--second-x, var(--left-wing-second-x)) var(--second-y, var(--left-wing-second-y)), var(--third-x, var(--left-wing-third-x)) var(--third-y, var(--left-wing-third-y)));
+    }
+
+    .newsletter-form button .plane .left:after {
+      --part-x: 0;
+      --z-index: 1;
+      --b: var(--left-body-background);
+      --first-x: var(--left-body-first-x);
+      --first-y: var(--left-body-first-y);
+      --second-x: var(--left-body-second-x);
+      --second-y: var(--left-body-second-y);
+      --third-x: var(--left-body-third-x);
+      --third-y: var(--left-body-third-y);
+    }
+
+    .newsletter-form button .plane .right:before {
+      --part-x: -.25%;
+      --z-index: 2;
+      --b: var(--right-wing-background);
+      --first-x: var(--right-wing-first-x);
+      --first-y: var(--right-wing-first-y);
+      --second-x: var(--right-wing-second-x);
+      --second-y: var(--right-wing-second-y);
+      --third-x: var(--right-wing-third-x);
+      --third-y: var(--right-wing-third-y);
+    }
+
+    .newsletter-form button .plane .right:after {
+      --part-x: 0;
+      --z-index: 1;
+      --b: var(--right-body-background);
+      --first-x: var(--right-body-first-x);
+      --first-y: var(--right-body-first-y);
+      --second-x: var(--right-body-second-x);
+      --second-y: var(--right-body-second-y);
+      --third-x: var(--right-body-third-x);
+      --third-y: var(--right-body-third-y);
+    }
+
+    .newsletter-form button 
+    .trails {
+      display: block;
+      width: 33px;
+      height: 64px;
+      top: -4px;
+      left: 16px;
+      fill: none;
+      stroke: var(--trails);
+      stroke-linecap: round;
+      stroke-width: 2;
+      stroke-dasharray: 57px;
+      stroke-dashoffset: 
+      var(--trails-stroke);
+      transform: rotate(68deg) 
+      translateZ(0);
+    }
+
+    .newsletter-form button span {
+      display: block;
+      position: relative;
+      z-index: 4;
+      opacity: var(--text-opacity);
+    }
+
+    .newsletter-form button 
+     span.success {
+      z-index: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 8px;
+      transform: translateX(
+        var(--success-x)) 
+        translateZ(0);
+      opacity: var(
+        --success-opacity);
+      color: var(--success);
+    }
+
+    .newsletter-form button span.success svg {
+      display: inline-block;
+      vertical-align: top;
+      width: 16px;
+      height: 16px;
+      margin: 4px 8px 0 0;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 14px;
+      stroke: var(--success);
+      stroke-dashoffset: var(--success-stroke);
+    }
+
+    .newsletter-form.valid {
+      --button-opacity: 1;
+      --button-cursor: pointer;
+      --button-filter: grayscale(0%);
+    }
+
+    html {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    * {
+      box-sizing: inherit;
+    }
+
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    
+    /* -- YouTube Link Styles -- */
+
+    #source-link {
+      top: 60px;
+    }
+
+    #source-link>i {
+      color: rgb(94, 106, 210);
+    }
+
+    #yt-link {
+      top: 10px;
+    }
+
+    #yt-link>i {
+      color: rgb(219, 31, 106);
+
+    }
+
+    .meta-link {
+      align-items: center;
+      backdrop-filter: blur(3px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      display: inline-flex;
+      gap: 5px;
+      left: 10px;
+      padding: 10px 20px;
+      position: fixed;
+      text-decoration: none;
+      transition: background-color 600ms, border-color 600ms;
+      z-index: 10000;
+    }
+
+    .meta-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .meta-link>i,
+    .meta-link>span {
+      height: 20px;
+      line-height: 20px;
+    }
+
+    .meta-link>span {
+      color: white;
+      font-family: "Rubik", sans-serif;
+      transition: color 600ms;
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <form class="newsletter-form">
+    <input type="email" placeholder="Email address" />
+    <button>
+      <span class="default">Subscribe</span>
+      <span class="success">
+        <svg viewBox="0 0 16 16">
+          <polyline points="3.75 9 7 12 13 5"></polyline>
+        </svg>Done
+      </span>
+      <svg class="trails" viewBox="0 0 33 64">
+        <path d="M26,4 C28,13.3333333 29,22.6666667 29,32 C29,41.3333333 28,50.6666667 26,60"></path>
+        <path d="M6,4 C8,13.3333333 9,22.6666667 9,32 C9,41.3333333 8,50.6666667 6,60"></path>
+      </svg>
+      <div class="plane">
+        <div class="left"></div>
+        <div class="right"></div>
+      </div>
+    </button>
+  </form>
+
+  
+  <!--Social Liks codings below-->
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+    <i class="fas fa-link"></i>
+    <span class="roboto-mono">Join my Telegram</span>
+  </a>
+
+  <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+    <i class="fab fa-youtube"></i>
+    <span>Subscribe my channel..❤</span>
+  </a>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/gsap.min.js"></script>
+  <script>
+    const { to, fromTo, set } = gsap
+
+    function validateEmail(email) {
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(String(email).toLowerCase())
+    }
+
+    document.querySelectorAll('.newsletter-form').forEach(form => {
+
+      let input = form.querySelector('input'),
+        button = form.querySelector('button'),
+        getVar = variable => getComputedStyle(button).getPropertyValue(variable)
+
+      input.addEventListener('input', e => {
+        form.classList.toggle('valid', validateEmail(input.value))
+      })
+
+      form.addEventListener('submit', e => {
+
+        e.preventDefault()
+
+        if (!validateEmail(input.value)) {
+          input.focus()
+          return
+        }
+
+        if (!button.classList.contains('active')) {
+
+          button.classList.add('active')
+
+          to(button, {
+            keyframes: [{
+              '--left-wing-first-x': '50%',
+              '--left-wing-first-y': '100%',
+              '--right-wing-second-x': '50%',
+              '--right-wing-second-y': '100%',
+              duration: .2,
+              onComplete() {
+                set(button, {
+                  '--left-wing-first-y': '0%',
+                  '--left-wing-second-x': '40%',
+                  '--left-wing-second-y': '100%',
+                  '--left-wing-third-x': '0%',
+                  '--left-wing-third-y': '100%',
+                  '--left-body-third-x': '40%',
+                  '--right-wing-first-x': '50%',
+                  '--right-wing-first-y': '0%',
+                  '--right-wing-second-x': '60%',
+                  '--right-wing-second-y': '100%',
+                  '--right-wing-third-x': '100%',
+                  '--right-wing-third-y': '100%',
+                  '--right-body-third-x': '60%'
+                })
+              }
+            }, {
+              '--left-wing-third-x': '20%',
+              '--left-wing-third-y': '90%',
+              '--left-wing-second-y': '90%',
+              '--left-body-third-y': '90%',
+              '--right-wing-third-x': '80%',
+              '--right-wing-third-y': '90%',
+              '--right-body-third-y': '90%',
+              '--right-wing-second-y': '90%',
+              duration: .2
+            }, {
+              '--rotate': '50deg',
+              '--left-wing-third-y': '95%',
+              '--left-wing-third-x': '27%',
+              '--right-body-third-x': '45%',
+              '--right-wing-second-x': '45%',
+              '--right-wing-third-x': '60%',
+              '--right-wing-third-y': '83%',
+              duration: .25
+            }, {
+              '--rotate': '60deg',
+              '--plane-x': '-8px',
+              '--plane-y': '40px',
+              duration: .2
+            }, {
+              '--rotate': '40deg',
+              '--plane-x': '45px',
+              '--plane-y': '-300px',
+              '--plane-opacity': 0,
+              duration: .375,
+              onComplete() {
+                setTimeout(() => {
+                  button.removeAttribute('style')
+                  fromTo(button, {
+                    opacity: 0,
+                    y: -8
+                  }, {
+                    opacity: 1,
+                    y: 0,
+                    clearProps: true,
+                    duration: .3,
+                    onComplete() {
+                      button.classList.remove('active')
+                    }
+                  })
+                }, 2500)
+              }
+            }]
+          })
+
+          to(button, {
+            keyframes: [{
+              '--text-opacity': 0,
+              '--border-radius': '0px',
+              '--left-wing-background': getVar('--primary-dark'),
+              '--right-wing-background': getVar('--primary-dark'),
+              duration: .1
+            }, {
+              '--left-wing-background': getVar('--primary'),
+              '--right-wing-background': getVar('--primary'),
+              duration: .15
+            }, {
+              '--left-body-background': getVar('--primary-dark'),
+              '--right-body-background': getVar('--primary-darkest'),
+              duration: .25,
+              delay: .1
+            }, {
+              '--trails-stroke': '171px',
+              duration: .22,
+              delay: .22
+            }, {
+              '--success-opacity': 1,
+              '--success-x': '0px',
+              duration: .2,
+              delay: .15
+            }, {
+              '--success-stroke': '0px',
+              duration: .15
+            }]
+          })
+
+        }
+
+      })
+
+    })
+  </script>
+</body>
+
+</html>

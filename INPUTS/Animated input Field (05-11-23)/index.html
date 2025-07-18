@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600,700&amp;display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    .input {
+      --background: #fff;
+      --border-default: #D0D0DF;
+      --border-active: #00fffc;
+      --shadow-default: rgba(32, 32, 72, 0.12);
+      --shadow-active: rgba(61, 109, 249, 0.25);
+      --text-color: #000;
+      --placeholder-color: #C9C9D9;
+      --placeholder-color-hover: #BABAC9;
+      --close: #000;
+      --close-light: #000;
+      --close-background: #F1F1FA;
+      width: 100%;
+      max-width: 240px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      border-radius: 8px;
+      background: var(--background);
+      box-shadow: inset 0 0 0 var(--border-width, 1px) var(--border, var(--border-default)), 0 1px 3px var(--shadow, var(--shadow-default));
+      transition: box-shadow 0.2s;
+      --clear-x: 0px;
+      --clear-swipe-left: 0px;
+      --clear-swipe-x: 0;
+      --clear-swipe: 0px;
+      --clear-scale: 0;
+      --clear-rotate: 0deg;
+      --clear-opacity: 0;
+      --clear-arrow-o: 1;
+      --clear-arrow-x: 0px;
+      --clear-arrow-y: 0px;
+      --clear-arrow-offset: 4px;
+      --clear-arrow-offset-second: 4px;
+      --clear-line-array: 8.5px;
+      --clear-line-offset: 27px;
+      --clear-long-array: 8.5px;
+      --clear-long-offset: 24px;
+    }
+
+    .input.clearing,
+    .input:focus-within {
+      --border-width: 1.5px;
+      --border: var(--border-active);
+      --shadow: var(--shadow-active);
+    }
+
+    .input.clearing {
+      --close-background: transparent;
+      --clear-arrow-stroke: var(--close-light);
+    }
+
+    .input .text {
+      flex-grow: 1;
+    }
+
+    .input .text input {
+      -webkit-appearance: none;
+      line-height: 24px;
+      background: none;
+      border: none;
+      outline: none;
+      display: block;
+      width: 100%;
+      margin: 0;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+
+    .input .text input::-moz-placeholder {
+      color: var(--placeholder-color);
+      -moz-transition: color 0.2s;
+      transition: color 0.2s;
+    }
+
+    .input .text input:-ms-input-placeholder {
+      color: var(--placeholder-color);
+      -ms-transition: color 0.2s;
+      transition: color 0.2s;
+    }
+
+    .input .text input::placeholder {
+      color: var(--placeholder-color);
+      transition: color 0.2s;
+    }
+
+    .input:hover .text input::-moz-placeholder {
+      color: var(--placeholder-color-hover);
+    }
+
+    .input:hover .text input:-ms-input-placeholder {
+      color: var(--placeholder-color-hover);
+    }
+
+    .input:hover .text input::placeholder {
+      color: var(--placeholder-color-hover);
+    }
+
+    .input .clear {
+      -webkit-appearance: none;
+      position: relative;
+      outline: none;
+      z-index: 1;
+      padding: 0;
+      margin: 12px 12px 12px 0;
+      border: none;
+      background: var(--b, transparent);
+      transition: background 0.2s;
+      border-radius: 50%;
+      opacity: var(--clear-opacity);
+      transform: scale(var(--clear-scale)) translateZ(0);
+    }
+
+    .input .clear:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 12px;
+      left: var(--clear-swipe-left);
+      background: var(--background);
+      transform-origin: 100% 50%;
+      transform: translateX(var(--clear-swipe)) scaleX(var(--clear-swipe-x)) translateZ(0);
+    }
+
+    .input .clear svg {
+      display: block;
+      position: relative;
+      z-index: 1;
+      fill: none;
+      width: 24px;
+      height: 24px;
+      outline: none;
+      cursor: pointer;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke: var(--close);
+      transform: translateX(var(--clear-x)) rotate(var(--clear-rotate)) translateZ(0);
+    }
+
+    .input .clear svg path {
+      transition: stroke 0.2s;
+    }
+
+    .input .clear svg path.arrow {
+      stroke: var(--clear-arrow-stroke, var(--close));
+      stroke-dasharray: 4px;
+      stroke-dashoffset: var(--clear-arrow-offset);
+      opacity: var(--clear-arrow-o);
+      transform: translate(var(--clear-arrow-x), var(--clear-arrow-y)) translateZ(0);
+    }
+
+    .input .clear svg path.arrow:last-child {
+      stroke-dashoffset: var(--clear-arrow-offset-second);
+    }
+
+    .input .clear svg path.line {
+      stroke-dasharray: var(--clear-line-array) 28.5px;
+      stroke-dashoffset: var(--clear-line-offset);
+    }
+
+    .input .clear svg path.long {
+      stroke: var(--clear-arrow-stroke, var(--close));
+      stroke-dasharray: var(--clear-long-array) 15.5px;
+      stroke-dashoffset: var(--clear-long-offset);
+      opacity: var(--clear-arrow-o);
+      transform: translate(var(--clear-arrow-x), var(--clear-arrow-y)) translateZ(0);
+    }
+
+    .input .clear:hover {
+      --b: var(--close-background);
+    }
+
+    html {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    * {
+      box-sizing: inherit;
+    }
+
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      font-family: "Inter", Arial;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+    }
+
+
+    /* -- YouTube Link Styles -- */
+
+    #source-link {
+      top: 60px;
+    }
+
+    #source-link>i {
+      color: rgb(94, 106, 210);
+    }
+
+    #yt-link {
+      top: 10px;
+    }
+
+    #yt-link>i {
+      color: rgb(219, 31, 106);
+
+    }
+
+    .meta-link {
+      align-items: center;
+      backdrop-filter: blur(3px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      display: inline-flex;
+      gap: 5px;
+      left: 10px;
+      padding: 10px 20px;
+      position: fixed;
+      text-decoration: none;
+      transition: background-color 600ms, border-color 600ms;
+      z-index: 10000;
+    }
+
+    .meta-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .meta-link>i,
+    .meta-link>span {
+      height: 20px;
+      line-height: 20px;
+    }
+
+    .meta-link>span {
+      color: white;
+      font-family: "Rubik", sans-serif;
+      transition: color 600ms;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="input">
+    <div class="text">
+      <input type="text" placeholder="Placeholder" />
+    </div>
+    <button class="clear">
+      <svg viewBox="0 0 24 24">
+        <path class="line" d="M2 2L22 22" />
+        <path class="long" d="M9 15L20 4" />
+        <path class="arrow" d="M13 11V7" />
+        <path class="arrow" d="M17 11H13" />
+      </svg>
+    </button>
+  </div>
+
+
+  <!--Social Liks codings below-->
+  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+    <i class="fas fa-link"></i>
+    <span class="roboto-mono">Join my Telegram</span>
+  </a>
+
+  <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+    <i class="fab fa-youtube"></i>
+    <span>Subscribe my channel..❤</span>
+  </a>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.0/gsap.min.js"></script>
+  <script>
+    const { to, set, timeline } = gsap
+
+    function delay(fn, ms) {
+      let timer = 0
+      return function (...args) {
+        clearTimeout(timer)
+        timer = setTimeout(fn.bind(this, ...args), ms || 0)
+      }
+    }
+
+    document.querySelectorAll('.input').forEach(elem => {
+      let clear = elem.querySelector('.clear'),
+        input = elem.querySelector('input'),
+        { classList } = elem,
+        svgLine = clear.querySelector('.line'),
+        svgLineProxy = new Proxy({
+          x: null
+        }, {
+          set(target, key, value) {
+            target[key] = value
+            if (target.x !== null) {
+              svgLine.setAttribute('d', getPath(target.x, .1925))
+            }
+            return true
+          },
+          get(target, key) {
+            return target[key]
+          }
+        })
+
+      svgLineProxy.x = 0
+
+      input.addEventListener('input', delay(e => {
+        let bool = input.value.length
+        to(elem, {
+          '--clear-scale': bool ? 1 : 0,
+          duration: bool ? .5 : .15,
+          ease: bool ? 'elastic.out(1, .7)' : 'none'
+        })
+        to(elem, {
+          '--clear-opacity': bool ? 1 : 0,
+          duration: .15
+        })
+      }, 250))
+
+      clear.addEventListener('click', e => {
+        classList.add('clearing')
+        set(elem, {
+          '--clear-swipe-left': (input.offsetWidth - 16) * -1 + 'px'
+        })
+        to(elem, {
+          keyframes: [{
+            '--clear-rotate': '45deg',
+            duration: .25
+          }, {
+            '--clear-arrow-x': '2px',
+            '--clear-arrow-y': '-2px',
+            duration: .15
+          }, {
+            '--clear-arrow-x': '-3px',
+            '--clear-arrow-y': '3px',
+            '--clear-swipe': '-3px',
+            duration: .15,
+            onStart() {
+              to(svgLineProxy, {
+                x: 3,
+                duration: .1,
+                delay: .05
+              })
+            }
+          }, {
+            '--clear-swipe-x': 1,
+            '--clear-x': (input.offsetWidth) * -1 + 'px',
+            duration: .45,
+            onComplete() {
+              input.value = ''
+              input.focus()
+              to(elem, {
+                '--clear-arrow-offset': '4px',
+                '--clear-arrow-offset-second': '4px',
+                '--clear-line-array': '8.5px',
+                '--clear-line-offset': '27px',
+                '--clear-long-offset': '24px',
+                '--clear-rotate': '0deg',
+                '--clear-arrow-o': 1,
+                duration: 0,
+                delay: .7,
+                onStart() {
+                  classList.remove('clearing')
+                }
+              })
+              to(elem, {
+                '--clear-opacity': 0,
+                duration: .2,
+                delay: .55
+              })
+              to(elem, {
+                '--clear-arrow-o': 0,
+                '--clear-arrow-x': '0px',
+                '--clear-arrow-y': '0px',
+                '--clear-swipe': '0px',
+                duration: .15
+              })
+              to(svgLineProxy, {
+                x: 0,
+                duration: .45,
+                ease: 'elastic.out(1, .75)'
+              })
+            }
+          }, {
+            '--clear-swipe-x': 0,
+            '--clear-x': '0px',
+            duration: .4,
+            delay: .35
+          }]
+        })
+        to(elem, {
+          '--clear-arrow-offset': '0px',
+          '--clear-arrow-offset-second': '8px',
+          '--clear-line-array': '28.5px',
+          '--clear-line-offset': '57px',
+          '--clear-long-offset': '17px',
+          duration: .2
+        })
+      })
+    })
+
+    function getPoint(point, i, a, smoothing) {
+      let cp = (current, previous, next, reverse) => {
+        let p = previous || current,
+          n = next || current,
+          o = {
+            length: Math.sqrt(Math.pow(n[0] - p[0], 2) + Math.pow(n[1] - p[1], 2)),
+            angle: Math.atan2(n[1] - p[1], n[0] - p[0])
+          },
+          angle = o.angle + (reverse ? Math.PI : 0),
+          length = o.length * smoothing;
+        return [current[0] + Math.cos(angle) * length, current[1] + Math.sin(angle) * length];
+      },
+        cps = cp(a[i - 1], a[i - 2], point, false),
+        cpe = cp(point, a[i - 1], a[i + 1], true);
+      return `C ${cps[0]},${cps[1]} ${cpe[0]},${cpe[1]} ${point[0]},${point[1]}`;
+    }
+
+    function getPath(x, smoothing) {
+      return [
+        [2, 2],
+        [12 - x, 12 + x],
+        [22, 22]
+      ].reduce((acc, point, i, a) => i === 0 ? `M ${point[0]},${point[1]}` : `${acc} ${getPoint(point, i, a, smoothing)}`, '')
+    }
+
+  </script>
+</body>
+
+</html>

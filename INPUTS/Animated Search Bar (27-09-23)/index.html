@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@codewith_muhilan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        * {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+:root {
+	--hue: 223;
+	--bg: hsl(var(--hue),90%,90%);
+	--fg: hsl(var(--hue),90%,10%);
+	--trans-dur: 0.3s;
+	--trans-timing: cubic-bezier(0.65,0,0.35,1);
+	font-size: calc(20px + (40 - 20) * (100vw - 320px) / (2560 - 320));
+}
+body,
+button,
+input {
+	color: var(--fg);
+	font: 1em/1.5 "DM Sans", sans-serif;
+}
+body {
+	background-color: #000;
+	display: flex;
+	height: 100vh;
+	transition:
+		background-color var(--trans-dur),
+		color var(--trans-dur);
+}
+.search,
+.search__icon,
+.search__input {
+	color: hsl(0,0%,100%);
+}
+.search {
+	margin: auto;
+width: 12em;
+}
+.search__button,
+.search__input {
+	outline: transparent;
+}
+
+	.search__button {
+	  background-color: transparent;
+	  cursor: pointer;
+	  display: block;
+	  position: absolute;
+	  top: 0;
+	  right: 0.125em;
+	  width: 2.25em;
+	  height: 2.25em;
+	  -webkit-tap-highlight-color:
+	  transparent;
+	}
+	[dir="rtl"] .search__button {
+	  right: auto;
+	  left: 0.125em;
+	  transform: scaleX(-1);
+	}
+
+.search__icon {
+	display: block;
+	margin: auto;
+	transition: color 0.15s linear;
+	width: 2.25em;
+	height: 2.25em;
+}
+.search__button:focus-visible .search__icon,
+.search__button:hover .search__icon {
+	color: hsl(var(--hue),90%,80%);
+}
+.search__icon-ellipse {
+	transition: ry var(--trans-dur) var(--trans-timing);
+}
+.search__icon-g,
+.search__icon-line2,
+.search__icon-line3  {
+	transition: transform var(--trans-dur) var(--trans-timing);
+}
+.search__icon-g {
+	transform: translate(6px,6px);
+	transform-origin: 12px 12px;
+}
+
+	.search__icon-line2,
+	.search__icon-line3 {
+	  transform-origin: 21px 21px;
+	}
+
+.search__input {
+	background-color: hsl(var(--hue),90%,60%);
+	border-radius: 0.5em;
+	box-shadow: 0 0.5em 1em hsla(var(--hue),90%,60%,0.4);
+	padding: 0.125em 0.75em;
+	padding-inline-end: 2.375em;
+	transition:
+		background-color var(--trans-dur),
+		box-shadow 0.15s linear;
+	width: 100%;
+	height: 2.25em;
+}
+.search__input::placeholder {
+	color: hsl(var(--hue),90%,80%);
+	transition: color var(--trans-dur);
+}
+.search__input-wrap {
+	position: relative;
+}
+
+	.search__label {
+	  position: absolute;
+	  width: 1px; height: 1px;
+	}
+
+
+/* `:focus` state */
+.search__button:focus .search__icon-ellipse,
+.search__button:hover .search__icon-ellipse,
+.search__input:focus + .search__button .search__icon-ellipse {
+	ry: 0.01px;
+}
+.search__button:focus .search__icon-g,
+.search__button:hover .search__icon-g,
+.search__input:focus + .search__button .search__icon-g {
+	transform: translate(6px,6px) rotate(-45deg);
+}
+.search__button:focus .search__icon-line2,
+.search__button:hover .search__icon-line2,
+.search__input:focus + .search__button .search__icon-line2 {
+	transform: rotate(-45deg);
+}
+.search__button:focus .search__icon-line3,
+.search__button:hover .search__icon-line3,
+.search__input:focus + .search__button .search__icon-line3 {
+	transform: rotate(45deg);
+}
+
+/* “searched” state */
+.search--searched .search__button {
+	animation: search-icon-bounce var(--trans-dur);
+}
+[dir="rtl"] .search--searched .search__button {
+	animation: search-icon-bounce-rtl var(--trans-dur);
+}
+.search--searched .search__icon-ellipse,
+.search--searched .search__icon-g,
+.search--searched .search__icon-line2,
+.search--searched .search__icon-line3  {
+	transition-delay: var(--trans-dur);
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: hsl(var(--hue),90%,10%);
+		--fg: hsl(var(--hue),90%,90%);
+	}
+	.search__input {
+		background-color: hsl(var(--hue),90%,40%);
+		box-shadow: 0 0.5em 1em hsla(var(--hue),90%,40%,0.4);
+	}
+	.search__input::placeholder {
+		color: hsl(var(--hue),90%,70%);
+	}
+}
+
+/* Animations */
+
+	@keyframes search-icon-bounce {
+	from,
+	to {
+		animation-timing-function: 
+		cubic-bezier(0.65,0,1,1);
+		transform: translateX(0);
+	}
+	50% {
+		animation-timing-function: 
+		cubic-bezier(0,0,0.35,1);
+		transform: translateX(12.5%);
+	}
+	}
+
+@keyframes search-icon-bounce-rtl {
+	from,
+	to {
+		animation-timing-function: cubic-bezier(0.65,0,1,1);
+		transform: scaleX(-1) translateX(0);
+	}
+	50% {
+		animation-timing-function: cubic-bezier(0,0,0.35,1);
+		transform: scaleX(-1) translateX(12.5%);
+	}
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+
+    </style>
+</head>
+<body>
+    <form class="search" onsubmit="return false">
+        <label class="search__label" for="search">Search</label>
+        <div class="search__input-wrap">
+            <input class="search__input" id="search" type="text" name="search" placeholder="Search…">
+            <button class="search__button" type="submit" name="search-submit" aria-label="Search">
+                <svg class="search__icon" viewBox="0 0 36 36" width="36px" height="36px" aria-hidden="true">
+                    <g class="search__icon-g" stroke="currentcolor" stroke-linecap="round" stroke-width="4" transform="translate(6,6)">
+                        <ellipse class="search__icon-ellipse" fill="none" cx="9" cy="9" rx="7" ry="7" transform="rotate(45,9,9)" />
+                        <line class="search__icon-line1" x1="15" y1="15" x2="21" y2="21" />
+                        <line class="search__icon-line2" x1="21" y1="21" x2="15" y2="15" />
+                        <line class="search__icon-line3" x1="21" y1="21" x2="15" y2="15" />
+                    </g>
+                </svg>
+            </button>
+        </div>
+    </form>
+
+
+	  <!--Social Liks codings below-->
+	  <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+        <i class="fas fa-link"></i>
+        <span class="roboto-mono">Join my Telegram</span>
+    </a>
+
+    <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+      <i class="fab fa-youtube"></i>
+      <span>Subscribe my channel..❤</span>
+    </a>
+
+    <script>
+        window.addEventListener("DOMContentLoaded",() => {
+	const searchBar = new SearchBar("form");
+});
+
+class SearchBar {
+	searchedClass = "search--searched";
+
+	constructor(el) {
+		this.form = document.querySelector(el);
+		this.form?.addEventListener("submit",this.search.bind(this));
+	}
+	search() {
+		if (this.form.search.value) {
+			document.activeElement.blur();
+			this.form.classList.add(this.searchedClass);
+
+			clearTimeout(this.searchTimeout);
+			this.searchTimeout = setTimeout(this.resetAnim.bind(this),600);
+		}
+	}
+	resetAnim() {
+		this.form.classList.remove(this.searchedClass);
+	}
+}
+    </script>
+</body>
+</html>

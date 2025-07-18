@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    background-color: #000;
+}
+
+figure {
+    position: relative;
+    width: 220px;
+    height: 320px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+}
+
+figcaption {
+    background-color: rgba(48, 48, 48, 0.3);
+    color: #ffffff;
+    padding: 10px 15px;
+    margin: none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 42px;
+    overflow: hidden;
+}
+
+.caption-title {
+    font-size: 1.2em;
+}
+
+.caption-full {
+    opacity: 0;
+    margin-top: 10px;
+}
+
+.expanded {
+    height: 100%;
+    transition: 0.5s ease-in-out;
+    background-color: rgba(48, 48, 48, 0.7);
+}
+
+.visible {
+    opacity: 100;
+}
+
+.image-filter {
+    filter: blur(5px) contrast(90%);
+}
+
+
+/* -- YouTube Link Styles -- */
+
+#source-link {
+  top: 60px;
+}
+
+#source-link > i {
+  color: rgb(94, 106, 210);
+}
+
+#yt-link {  
+  top: 10px;
+}
+
+#yt-link > i {
+  color: rgb(219, 31, 106); 
+
+}
+
+.meta-link {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;  
+  display: inline-flex;
+  gap: 5px;
+  left: 10px;
+  padding: 10px 20px;
+  position: fixed;
+  text-decoration: none;
+  transition: background-color 600ms, border-color 600ms;
+  z-index: 10000;
+}
+
+.meta-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.meta-link > i, .meta-link > span {
+  height: 20px;
+  line-height: 20px;
+}
+
+.meta-link > span {
+  color: white;
+  font-family: "Rubik", sans-serif;
+  transition: color 600ms;
+}
+
+    </style>
+</head>
+<body>
+    <figure>
+		<img src="https://images.unsplash.com/photo-1542259009477-d625272157b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80" alt="Tropical beach" " title="Photo by Ganapathy Kumar for Unsplash">
+		<figcaption>
+            <div class="caption-title">Sunsets</div>
+            <div class="caption-full">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis pariatur corrupti nesciunt aliquam! Assumenda, distinctio suscipit dicta at cupiditate optio voluptatem magni numquam dolore eveniet commodi ut ratione quidem itaque!</div>
+        </figcaption>
+	</figure>
+    <figure>
+		<img src="https://images.unsplash.com/photo-1566371486490-560ded23b5e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="People looking down at the bay" title="Photo by Tron Le for Unsplash">
+		<figcaption>
+            <div class="caption-title">Adventure</div>
+            <div class="caption-full">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis pariatur corrupti nesciunt aliquam! Assumenda, distinctio suscipit dicta at cupiditate optio voluptatem magni numquam dolore eveniet commodi ut ratione quidem itaque!</div>
+        </figcaption>
+	</figure>
+    <figure>
+		<img src="https://images.unsplash.com/photo-1597634285596-01fd1bffe116?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1548&q=80" alt="Lounges by the water " title="Photo by Yang Wewe for Unsplash">
+		<figcaption>
+            <div class="caption-title">Relaxation</div>
+            <div class="caption-full">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis pariatur corrupti nesciunt aliquam! Assumenda, distinctio suscipit dicta at cupiditate optio voluptatem magni numquam dolore eveniet commodi ut ratione quidem itaque!</div>
+        </figcaption>
+	</figure>
+
+      <!--Social Liks codings below-->
+      <a id="source-link" class="meta-link" href="https://t.me/+7yc_oGHnLJhlOWVl" target="_blank">
+        <i class="fas fa-link"></i>
+        <span class="roboto-mono">Join my Telegram</span>
+    </a>
+
+    <a id="yt-link" class="meta-link" href="https://www.youtube.com/@codewith_muhilan?sub_confirmation=1" target="_blank">
+      <i class="fab fa-youtube"></i>
+      <span>Subscribe my channel..❤</span>
+    </a>
+
+    <script>
+        const figure = document.querySelectorAll('figure');
+const caption = document.querySelectorAll('figcaption');
+const fullCaption = document.querySelectorAll('.caption-full');
+const figureImage = document.querySelectorAll('figure img');
+
+figure.forEach((fig, idx) => {
+    fig.addEventListener('mouseover', () => {
+        caption[idx].classList.add('expanded');
+        fullCaption[idx].classList.add('visible');
+        figureImage[idx].classList.add('image-filter');
+    });
+    
+    fig.addEventListener('mouseout', () => {
+       caption[idx].classList.remove('expanded');
+       fullCaption[idx].classList.remove('visible');
+       figureImage[idx].classList.remove('image-filter');
+    });
+});
+    </script>
+</body>
+</html>
