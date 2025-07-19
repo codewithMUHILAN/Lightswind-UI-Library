@@ -88,7 +88,7 @@ function DockItem({
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
       className="relative inline-flex items-center justify-center rounded-full 
-      bg-background border-2 border border-gray-200 dark:border-gray-800 shadow-md  "
+      bg-background border-2 border   shadow-md  "
       tabIndex={0}
       role="button"
       aria-haspopup="true"
@@ -107,7 +107,7 @@ function DockItem({
             exit={{ opacity: 0, y: 0 }}
             transition={{ duration: 0.2 }}
             className="absolute -top-6 left-1/2 w-fit whitespace-pre rounded-md 
-            border border border-gray-200 dark:border-gray-800 bg-[#060606] px-2 py-0.5 text-xs text-white"
+            border border   bg-[#060606] px-2 py-0.5 text-xs text-white"
             style={{ x: "-50%" }}
             role="tooltip"
           >
@@ -177,7 +177,7 @@ export default function Dock({
         }}
         className={`absolute bottom-2 left-1/2 -translate-x-1/2 transform 
             flex items-end gap-4 w-fit rounded-2xl 
-            border-2 border border-gray-200 dark:border-gray-800 px-4 pb-2 ${className}`}
+            border-2 border   px-4 pb-2 ${className}`}
         style={{ height: panelHeight }}
         role="toolbar"
         aria-label="Application dock"

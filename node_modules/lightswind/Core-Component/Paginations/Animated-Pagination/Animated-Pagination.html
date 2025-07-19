@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            height: 100%;
+            margin: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="absolute top-1/2 left-0 right-0 mx-auto flex gap-4 w-[180px] h-[20px] transform -translate-y-1/2">
+        <div class="btn w-[60px] h-[20px] bg-black rounded-full cursor-pointer transition-all duration-300 ease-in-out active"></div>
+        <div class="btn w-[20px] h-[20px] bg-black rounded-full cursor-pointer transition-all duration-300 ease-in-out"></div>
+        <div class="btn w-[20px] h-[20px] bg-black rounded-full cursor-pointer transition-all duration-300 ease-in-out"></div>
+        <div class="btn w-[20px] h-[20px] bg-black rounded-full cursor-pointer transition-all duration-300 ease-in-out"></div>
+    </div>
+
+    <script>
+        let containerElm = null;
+
+        function switchToNext(evt) {
+            const { target } = evt;
+            if (!target.classList.contains("btn")) {
+                return;
+            }
+            const clickedBtn = target;
+            if (clickedBtn.classList.contains("active")) {
+                return;
+            }
+
+            const activeBtn = containerElm.getElementsByClassName("active")[0];
+            if (activeBtn) {
+                activeBtn.classList.remove("active");
+                activeBtn.classList.remove("w-[60px]");
+                activeBtn.classList.add("w-[20px]");
+            }
+            clickedBtn.classList.add("active");
+            clickedBtn.classList.add("w-[60px]");
+            clickedBtn.classList.remove("w-[20px]");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            containerElm = document.getElementById("container");
+            containerElm.addEventListener("click", switchToNext);
+        });
+    </script>
+</body>
+
+</html>
