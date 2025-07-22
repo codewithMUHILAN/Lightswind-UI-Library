@@ -1,0 +1,124 @@
+let relationalactiveTab = "relationalHome";
+function relationalhandleTabClick(e) {
+  relationalactiveTab = e;
+  const t = document.getElementById("relationalactiveTabBackground"),
+    s = [
+      "relationalHome",
+      "relationalAbout",
+      "relationalContact",
+      "relationalHelp",
+    ];
+  s.forEach(function (t) {
+    const s = document.getElementById(t.toLowerCase() + "Btn");
+    t === e
+      ? (s.classList.add("text-white"), s.classList.remove("text-gray-700"))
+      : (s.classList.remove("text-white"), s.classList.add("text-gray-700"));
+  });
+  const n = s.indexOf(e);
+  t.style.left = 25 * n + "%";
+}
+document.addEventListener("DOMContentLoaded", function () {
+  const e = document.getElementById("moderntogglenavbar"),
+    t = document.getElementById("moderntoggleindicator");
+  let s = 0;
+  function n(t) {
+    (s = t),
+      o(),
+      (function () {
+        const t = e.getElementsByTagName("a");
+        for (let e = 0; e < t.length; e++) {
+          const n = t[e];
+          n.classList.remove("opacity-100", "scale-125"),
+            n.classList.add("opacity-50", "scale-100"),
+            e === s && n.classList.add("opacity-100", "scale-125");
+        }
+      })();
+  }
+  function o() {
+    const e = 20 * s + 10 + "%";
+    t.style.left = e;
+  }
+  [
+    "moderntogglehome",
+    "moderntogglebookmark",
+    "moderntoggleplus",
+    "moderntoggleuser",
+    "moderntogglesettings",
+  ].forEach((t, s) => {
+    const o = document.createElement("li"),
+      l = document.createElement("a");
+    (l.href = "#"),
+      (l.innerHTML =
+        '<svg class="w-8 h-8 fill-current text-white"><use xlink:href="#' +
+        t +
+        'Icon"></use></svg>'),
+      l.classList.add("transition-transform", "duration-200", "ease-in-out"),
+      l.addEventListener("click", () => n(s)),
+      o.appendChild(l),
+      e.appendChild(o);
+  }),
+    o();
+});
+const nav = document.querySelector("nav"),
+  links = document.querySelectorAll("nav ul li a"),
+  highlight = document.getElementById("highlight");
+function handleHover(e) {
+  const t = e.currentTarget.parentNode,
+    { left: s, width: n } = t.getBoundingClientRect(),
+    o = nav.getBoundingClientRect();
+  (highlight.style.transform = `translateX(${s - o.left}px)`),
+    (highlight.style.width = `${n}px`),
+    links.forEach((e) => e.classList.remove("dynamicNav-highlighted")),
+    e.currentTarget.classList.add("dynamicNav-highlighted");
+}
+function handleClick(e) {
+  e.preventDefault(),
+    links.forEach((e) =>
+      e.parentNode.classList.remove("dynamicNav-active-link")
+    ),
+    e.currentTarget.parentNode.classList.add("dynamicNav-active-link");
+}
+links.forEach((e) => {
+  e.addEventListener("mousemove", handleHover),
+    e.addEventListener("click", handleClick);
+}),
+  window.addEventListener("DOMContentLoaded", () => {
+    const { left: e, width: t } = links[0].parentNode.getBoundingClientRect(),
+      s = nav.getBoundingClientRect();
+    (highlight.style.transform = `translateX(${e - s.left}px)`),
+      (highlight.style.width = `${t}px`),
+      links[0].classList.add("dynamicNav-highlighted");
+  });
+const GlassmorphismSidenav = document.getElementById("GlassmorphismSidenav"),
+  GlassmorphismPname = document.getElementById("GlassmorphismPname"),
+  GlassmorphismTogglericon = document.getElementById(
+    "GlassmorphismTogglericon"
+  ),
+  GlassmorphismMenuText = document.querySelectorAll(".GlassmorphismMenuText"),
+  GlassmorphismCreateTask = document.getElementById("GlassmorphismCreateTask"),
+  GlassmorphismTaskText = document.getElementById("GlassmorphismTaskText");
+let GlassmorphismisCollapsed = !1;
+function GlassmorphismToggle() {
+  (GlassmorphismisCollapsed = !GlassmorphismisCollapsed),
+    (GlassmorphismSidenav.style.width = GlassmorphismisCollapsed
+      ? "70px"
+      : "208px"),
+    (GlassmorphismPname.style.display = GlassmorphismisCollapsed
+      ? "none"
+      : "block"),
+    GlassmorphismMenuText.forEach((e) => {
+      e.style.display = GlassmorphismisCollapsed ? "none" : "block";
+    }),
+    (GlassmorphismTaskText.style.display = GlassmorphismisCollapsed
+      ? "none"
+      : "flex");
+}
+const shoppingDropdownButton = document.getElementById(
+    "shoppingDropdownButton"
+  ),
+  shoppingDropdownMenu = document.getElementById("shoppingDropdownMenu");
+shoppingDropdownButton.addEventListener("click", () => {
+  shoppingDropdownMenu.classList.toggle("hidden"),
+    shoppingDropdownMenu.classList.toggle("opacity-0"),
+    shoppingDropdownMenu.classList.toggle("scale-95");
+});
