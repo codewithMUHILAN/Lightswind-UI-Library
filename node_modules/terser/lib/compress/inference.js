@@ -55,6 +55,7 @@ import {
   AST_Class,
   AST_DefClass,
   AST_ClassStaticBlock,
+  AST_ClassPrivateProperty,
   AST_ClassProperty,
   AST_ConciseMethod,
   AST_Conditional,
@@ -81,6 +82,9 @@ import {
   AST_ObjectKeyVal,
   AST_ObjectProperty,
   AST_ObjectSetter,
+  AST_PrivateGetter,
+  AST_PrivateMethod,
+  AST_PrivateSetter,
   AST_PropAccess,
   AST_RegExp,
   AST_Return,
@@ -171,18 +175,24 @@ export const unary_side_effects = makePredicate("delete ++ --");
     def_is_number(AST_Node, return_false);
     def_is_number(AST_Number, return_true);
     const unary = makePredicate("+ - ~ ++ --");
-    def_is_number(AST_Unary, function() {
-        return unary.has(this.operator) && !(this.expression instanceof AST_BigInt);
+    def_is_number(AST_Unary, function(compressor) {
+        return unary.has(this.operator) && this.expression.is_number(compressor);
     });
     const numeric_ops = makePredicate("- * / % & | ^ << >> >>>");
     def_is_number(AST_Binary, function(compressor) {
-        return numeric_ops.has(this.operator) || this.operator == "+"
-            && this.left.is_number(compressor)
-            && this.right.is_number(compressor);
+        if (this.operator === "+") {
+            // Both sides need to be `number`. Or one is a `number` and the other is number-ish.
+            return this.left.is_number(compressor) && this.right.is_number_or_bigint(compressor)
+                || this.right.is_number(compressor) && this.left.is_number_or_bigint(compressor);
+        } else if (numeric_ops.has(this.operator)) {
+            return this.left.is_number(compressor) || this.right.is_number(compressor);
+        } else {
+            return false;
+        }
     });
     def_is_number(AST_Assign, function(compressor) {
-        return numeric_ops.has(this.operator.slice(0, -1))
-            || this.operator == "=" && this.right.is_number(compressor);
+        return (this.operator === "=" || numeric_ops.has(this.operator.slice(0, -1)))
+            && this.right.is_number(compressor);
     });
     def_is_number(AST_Sequence, function(compressor) {
         return this.tail_node().is_number(compressor);
@@ -194,19 +204,83 @@ export const unary_side_effects = makePredicate("delete ++ --");
     node.DEFMETHOD("is_number", func);
 });
 
+// methods to determine if an expression returns a BigInt
+(function(def_is_bigint) {
+    def_is_bigint(AST_Node, return_false);
+    def_is_bigint(AST_BigInt, return_true);
+    const unary = makePredicate("+ - ~ ++ --");
+    def_is_bigint(AST_Unary, function(compressor) {
+        return unary.has(this.operator) && this.expression.is_bigint(compressor);
+    });
+    const numeric_ops = makePredicate("- * / % & | ^ << >>");
+    def_is_bigint(AST_Binary, function(compressor) {
+        if (this.operator === "+") {
+            return this.left.is_bigint(compressor) && this.right.is_number_or_bigint(compressor)
+                || this.right.is_bigint(compressor) && this.left.is_number_or_bigint(compressor);
+        } else if (numeric_ops.has(this.operator)) {
+            return this.left.is_bigint(compressor) || this.right.is_bigint(compressor);
+        } else {
+            return false;
+        }
+    });
+    def_is_bigint(AST_Assign, function(compressor) {
+        return (numeric_ops.has(this.operator.slice(0, -1)) || this.operator == "=")
+            && this.right.is_bigint(compressor);
+    });
+    def_is_bigint(AST_Sequence, function(compressor) {
+        return this.tail_node().is_bigint(compressor);
+    });
+    def_is_bigint(AST_Conditional, function(compressor) {
+        return this.consequent.is_bigint(compressor) && this.alternative.is_bigint(compressor);
+    });
+})(function(node, func) {
+    node.DEFMETHOD("is_bigint", func);
+});
+
+// methods to determine if an expression is a number or a bigint
+(function(def_is_number_or_bigint) {
+    def_is_number_or_bigint(AST_Node, return_false);
+    def_is_number_or_bigint(AST_Number, return_true);
+    def_is_number_or_bigint(AST_BigInt, return_true);
+    const numeric_unary_ops = makePredicate("+ - ~ ++ --");
+    def_is_number_or_bigint(AST_Unary, function(_compressor) {
+        return numeric_unary_ops.has(this.operator);
+    });
+    const numeric_ops = makePredicate("- * / % & | ^ << >>");
+    def_is_number_or_bigint(AST_Binary, function(compressor) {
+        return this.operator === "+"
+            ? this.left.is_number_or_bigint(compressor) && this.right.is_number_or_bigint(compressor)
+            : numeric_ops.has(this.operator);
+    });
+    def_is_number_or_bigint(AST_Assign, function(compressor) {
+        return numeric_ops.has(this.operator.slice(0, -1))
+            || this.operator == "=" && this.right.is_number_or_bigint(compressor);
+    });
+    def_is_number_or_bigint(AST_Sequence, function(compressor) {
+        return this.tail_node().is_number_or_bigint(compressor);
+    });
+    def_is_number_or_bigint(AST_Conditional, function(compressor) {
+        return this.consequent.is_number_or_bigint(compressor) && this.alternative.is_number_or_bigint(compressor);
+    });
+}(function (node, func) {
+    node.DEFMETHOD("is_number_or_bigint", func);
+}));
+
+
 // methods to determine if an expression is a 32 bit integer (IE results from bitwise ops, or is an integer constant fitting in that size
 (function(def_is_32_bit_integer) {
     def_is_32_bit_integer(AST_Node, return_false);
-    def_is_32_bit_integer(AST_Number, function() {
+    def_is_32_bit_integer(AST_Number, function(_compressor) {
         return this.value === (this.value | 0);
     });
-    def_is_32_bit_integer(AST_UnaryPrefix, function() {
-        return this.operator == "~" ? this.expression.is_number()
-            : this.operator === "+" ? this.expression.is_32_bit_integer()
+    def_is_32_bit_integer(AST_UnaryPrefix, function(compressor) {
+        return this.operator == "~" ? this.expression.is_number(compressor)
+            : this.operator === "+" ? this.expression.is_32_bit_integer(compressor)
             : false;
     });
-    def_is_32_bit_integer(AST_Binary, function() {
-        return bitwise_binop.has(this.operator);
+    def_is_32_bit_integer(AST_Binary, function(compressor) {
+        return bitwise_binop.has(this.operator)
+            && (this.left.is_number(compressor) || this.right.is_number(compressor));
     });
 }(function (node, func) {
     node.DEFMETHOD("is_32_bit_integer", func);
@@ -367,25 +441,29 @@ export function is_nullish(node, compressor) {
     def_has_side_effects(AST_Object, function(compressor) {
         return any(this.properties, compressor);
     });
-    def_has_side_effects(AST_ObjectProperty, function(compressor) {
+    def_has_side_effects(AST_ObjectKeyVal, function(compressor) {
         return (
             this.computed_key() && this.key.has_side_effects(compressor)
             || this.value && this.value.has_side_effects(compressor)
         );
     });
-    def_has_side_effects(AST_ClassProperty, function(compressor) {
+    def_has_side_effects([
+        AST_ClassProperty,
+        AST_ClassPrivateProperty,
+    ], function(compressor) {
         return (
             this.computed_key() && this.key.has_side_effects(compressor)
             || this.static && this.value && this.value.has_side_effects(compressor)
         );
     });
-    def_has_side_effects(AST_ConciseMethod, function(compressor) {
-        return this.computed_key() && this.key.has_side_effects(compressor);
-    });
-    def_has_side_effects(AST_ObjectGetter, function(compressor) {
-        return this.computed_key() && this.key.has_side_effects(compressor);
-    });
-    def_has_side_effects(AST_ObjectSetter, function(compressor) {
+    def_has_side_effects([
+        AST_PrivateMethod,
+        AST_PrivateGetter,
+        AST_PrivateSetter,
+        AST_ConciseMethod,
+        AST_ObjectGetter,
+        AST_ObjectSetter,
+    ], function(compressor) {
         return this.computed_key() && this.key.has_side_effects(compressor);
     });
     def_has_side_effects(AST_Array, function(compressor) {
@@ -430,8 +508,10 @@ export function is_nullish(node, compressor) {
     def_has_side_effects(AST_TemplateString, function(compressor) {
         return any(this.segments, compressor);
     });
-})(function(node, func) {
-    node.DEFMETHOD("has_side_effects", func);
+})(function(node_or_nodes, func) {
+    for (const node of [].concat(node_or_nodes)) {
+        node.DEFMETHOD("has_side_effects", func);
+    }
 });
 
 // determine if expression may throw
@@ -510,25 +590,33 @@ export function is_nullish(node, compressor) {
     def_may_throw(AST_Object, function(compressor) {
         return any(this.properties, compressor);
     });
-    def_may_throw(AST_ObjectProperty, function(compressor) {
-        // TODO key may throw too
-        return this.value ? this.value.may_throw(compressor) : false;
+    def_may_throw(AST_ObjectKeyVal, function(compressor) {
+        return (
+            this.computed_key() && this.key.may_throw(compressor)
+            || this.value ? this.value.may_throw(compressor) : false
+        );
     });
-    def_may_throw(AST_ClassProperty, function(compressor) {
+    def_may_throw([
+        AST_ClassProperty,
+        AST_ClassPrivateProperty,
+    ], function(compressor) {
         return (
             this.computed_key() && this.key.may_throw(compressor)
             || this.static && this.value && this.value.may_throw(compressor)
         );
     });
-    def_may_throw(AST_ConciseMethod, function(compressor) {
+    def_may_throw([
+        AST_ConciseMethod,
+        AST_ObjectGetter,
+        AST_ObjectSetter,
+    ], function(compressor) {
         return this.computed_key() && this.key.may_throw(compressor);
     });
-    def_may_throw(AST_ObjectGetter, function(compressor) {
-        return this.computed_key() && this.key.may_throw(compressor);
-    });
-    def_may_throw(AST_ObjectSetter, function(compressor) {
-        return this.computed_key() && this.key.may_throw(compressor);
-    });
+    def_may_throw([
+        AST_PrivateMethod,
+        AST_PrivateGetter,
+        AST_PrivateSetter,
+    ], return_false);
     def_may_throw(AST_Return, function(compressor) {
         return this.value && this.value.may_throw(compressor);
     });
@@ -573,8 +661,10 @@ export function is_nullish(node, compressor) {
         if (!this.value) return false;
         return this.value.may_throw(compressor);
     });
-})(function(node, func) {
-    node.DEFMETHOD("may_throw", func);
+})(function(node_or_nodes, func) {
+    for (const node of [].concat(node_or_nodes)) {
+        node.DEFMETHOD("may_throw", func);
+    }
 });
 
 // determine if expression is constant
@@ -827,30 +917,36 @@ export function is_lhs(node, parent) {
 });
 
 (function (def_bitwise_negate) {
-    function basic_negation(exp) {
+    function basic_bitwise_negation(exp) {
         return make_node(AST_UnaryPrefix, exp, {
             operator: "~",
             expression: exp
         });
     }
 
-    def_bitwise_negate(AST_Node, function() {
-        return basic_negation(this);
+    def_bitwise_negate(AST_Node, function(_compressor) {
+        return basic_bitwise_negation(this);
     });
 
-    def_bitwise_negate(AST_Number, function() {
+    def_bitwise_negate(AST_Number, function(_compressor) {
         const neg = ~this.value;
         if (neg.toString().length > this.value.toString().length) {
-            return basic_negation(this);
+            return basic_bitwise_negation(this);
         }
         return make_node(AST_Number, this, { value: neg });
     });
 
-    def_bitwise_negate(AST_UnaryPrefix, function(in_32_bit_context) {
-        if (this.operator == "~" && (in_32_bit_context || this.expression.is_32_bit_integer())) {
+    def_bitwise_negate(AST_UnaryPrefix, function(compressor, in_32_bit_context) {
+        if (
+            this.operator == "~"
+            && (
+                this.expression.is_32_bit_integer(compressor) ||
+                (in_32_bit_context != null ? in_32_bit_context : compressor.in_32_bit_context())
+            )
+        ) {
             return this.expression;
         } else {
-            return basic_negation(this);
+            return basic_bitwise_negation(this);
         }
     });
 })(function (node, func) {

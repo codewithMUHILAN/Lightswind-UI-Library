@@ -12,6 +12,8 @@
   <h1>PostCSS CLI</h1>
 </div>
 
+PostCSS CLI is a command line interface for [PostCSS](https://postcss.org/)
+
 <h2 align="center">Install</h2>
 
 ```bash

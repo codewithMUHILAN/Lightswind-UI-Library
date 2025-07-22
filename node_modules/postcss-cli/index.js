@@ -4,10 +4,10 @@ import fs from 'fs-extra'
 import path from 'path'
 
 import prettyHrtime from 'pretty-hrtime'
-import stdin from 'get-stdin'
+import { text } from 'stream/consumers'
 import read from 'read-cache'
 import pc from 'picocolors'
-import { globby } from 'globby'
+import { glob } from 'tinyglobby'
 import slash from 'slash'
 import chokidar from 'chokidar'
 
@@ -86,7 +86,7 @@ buildCliConfig()
     }
 
     if (input && input.length) {
-      return globby(
+      return glob(
         input.map((i) => slash(String(i))),
         { dot: argv.includeDotfiles },
       )
@@ -188,7 +188,7 @@ function files(files) {
   return Promise.all(
     files.map((file) => {
       if (file === 'stdin') {
-        return stdin().then((content) => {
+        return text(process.stdin).then((content) => {
           if (!content) return error('Input Error: Did not receive any STDIN')
           return css(content, 'stdin')
         })

@@ -10,6 +10,7 @@ import {
     AST_Chain,
     AST_Class,
     AST_ClassProperty,
+    AST_ClassPrivateProperty,
     AST_ConciseMethod,
     AST_Conditional,
     AST_Debugger,
@@ -43,6 +44,8 @@ import {
     AST_ObjectProperty,
     AST_ObjectSetter,
     AST_PrefixedTemplateString,
+    AST_PrivateIn,
+    AST_PrivateMethod,
     AST_PropAccess,
     AST_RegExp,
     AST_Sequence,
@@ -190,13 +193,13 @@ AST_VarDef.prototype.shallow_cmp = function(other) {
 AST_NameMapping.prototype.shallow_cmp = pass_through;
 
 AST_Import.prototype.shallow_cmp = function(other) {
-    return (this.imported_name == null ? other.imported_name == null : this.imported_name === other.imported_name) && (this.imported_names == null ? other.imported_names == null : this.imported_names === other.imported_names);
+    return (this.imported_name == null ? other.imported_name == null : this.imported_name === other.imported_name) && (this.imported_names == null ? other.imported_names == null : this.imported_names === other.imported_names) && (this.attributes == null ? other.attributes == null : this.attributes === other.attributes);
 };
 
 AST_ImportMeta.prototype.shallow_cmp = pass_through;
 
 AST_Export.prototype.shallow_cmp = function(other) {
-    return (this.exported_definition == null ? other.exported_definition == null : this.exported_definition === other.exported_definition) && (this.exported_value == null ? other.exported_value == null : this.exported_value === other.exported_value) && (this.exported_names == null ? other.exported_names == null : this.exported_names === other.exported_names) && this.module_name === other.module_name && this.is_default === other.is_default;
+    return (this.exported_definition == null ? other.exported_definition == null : this.exported_definition === other.exported_definition) && (this.exported_value == null ? other.exported_value == null : this.exported_value === other.exported_value) && (this.exported_names == null ? other.exported_names == null : this.exported_names === other.exported_names) && (this.attributes == null ? other.attributes == null : this.attributes === other.attributes) && this.module_name === other.module_name && this.is_default === other.is_default;
 };
 
 AST_Call.prototype.shallow_cmp = pass_through;
@@ -223,6 +226,8 @@ AST_Binary.prototype.shallow_cmp = function(other) {
     return this.operator === other.operator;
 };
 
+AST_PrivateIn.prototype.shallow_cmp = pass_through;
+
 AST_Conditional.prototype.shallow_cmp = pass_through;
 
 AST_Array.prototype.shallow_cmp = pass_through;
@@ -232,7 +237,7 @@ AST_Object.prototype.shallow_cmp = pass_through;
 AST_ObjectProperty.prototype.shallow_cmp = pass_through;
 
 AST_ObjectKeyVal.prototype.shallow_cmp = function(other) {
-    return this.key === other.key;
+    return this.key === other.key && this.quote === other.quote;
 };
 
 AST_ObjectSetter.prototype.shallow_cmp = function(other) {
@@ -244,7 +249,11 @@ AST_ObjectGetter.prototype.shallow_cmp = function(other) {
 };
 
 AST_ConciseMethod.prototype.shallow_cmp = function(other) {
-    return this.static === other.static && this.is_generator === other.is_generator && this.async === other.async;
+    return this.static === other.static;
+};
+
+AST_PrivateMethod.prototype.shallow_cmp = function(other) {
+    return this.static === other.static;
 };
 
 AST_Class.prototype.shallow_cmp = function(other) {
@@ -252,6 +261,13 @@ AST_Class.prototype.shallow_cmp = function(other) {
 };
 
 AST_ClassProperty.prototype.shallow_cmp = function(other) {
+    return this.static === other.static
+        && (typeof this.key === "string"
+            ? this.key === other.key
+            : true /* AST_Node handled elsewhere */);
+};
+
+AST_ClassPrivateProperty.prototype.shallow_cmp = function(other) {
     return this.static === other.static;
 };
 

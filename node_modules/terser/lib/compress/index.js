@@ -71,6 +71,7 @@ import {
     AST_Directive,
     AST_Do,
     AST_Dot,
+    AST_DotHash,
     AST_DWLoop,
     AST_EmptyStatement,
     AST_Exit,
@@ -187,7 +188,6 @@ import {
     UNUSED,
     TRUTHY,
     FALSY,
-
     has_flag,
     set_flag,
     clear_flag,
@@ -376,12 +376,16 @@ class Compressor extends TreeWalker {
         }
     }
 
-    in_32_bit_context() {
+    in_32_bit_context(other_operand_must_be_number) {
         if (!this.option("evaluate")) return false;
         var self = this.self();
         for (var i = 0, p; p = this.parent(i); i++) {
             if (p instanceof AST_Binary && bitwise_binop.has(p.operator)) {
-                return true;
+                if (other_operand_must_be_number) {
+                    return (self === p.left ? p.right : p.left).is_number(this);
+                } else {
+                    return true;
+                }
             }
             if (p instanceof AST_UnaryPrefix) {
                 return p.operator === "~";
@@ -496,6 +500,7 @@ class Compressor extends TreeWalker {
     }
 }
 
+
 function def_optimize(node, optimizer) {
     node.DEFMETHOD("optimize", function(compressor) {
         var self = this;
@@ -524,15 +529,17 @@ AST_Toplevel.DEFMETHOD("drop_console", function(options) {
             return;
         }
 
-        if (isArray && !options.includes(exp.property)) {
-            return;
-        }
-
         var name = exp.expression;
+        var property = exp.property;
         var depth = 2;
         while (name.expression) {
+            property = name.property;
             name = name.expression;
             depth++;
+        }
+
+        if (isArray && !options.includes(property)) {
+            return;
         }
 
         if (is_undeclared_ref(name) && name.name == "console") {
@@ -1718,6 +1725,23 @@ def_optimize(AST_Call, function(self, compressor) {
         self.args.length = last;
     }
 
+    if (
+        exp instanceof AST_Dot
+        && exp.expression instanceof AST_SymbolRef
+        && exp.expression.name === "console"
+        && exp.expression.definition().undeclared
+        && exp.property === "assert"
+    ) {
+        const condition = self.args[0];
+        if (condition) {
+            const value = condition.evaluate(compressor);
+    
+            if (value === 1 || value === true) {
+                return make_node(AST_Undefined, self);
+            }
+        }
+    }    
+
     if (compressor.option("unsafe") && !exp.contains_optional()) {
         if (exp instanceof AST_Dot && exp.start.value === "Array" && exp.property === "from" && self.args.length === 1) {
             const [argument] = self.args;
@@ -2132,7 +2156,7 @@ def_optimize(AST_UnaryPrefix, function(self, compressor) {
             self.operator === "~"
             && self.expression instanceof AST_UnaryPrefix
             && self.expression.operator === "~"
-            && (compressor.in_32_bit_context() || self.expression.expression.is_32_bit_integer())
+            && (compressor.in_32_bit_context(false) || self.expression.expression.is_32_bit_integer(compressor))
         ) {
             return self.expression.expression;
         }
@@ -2145,9 +2169,9 @@ def_optimize(AST_UnaryPrefix, function(self, compressor) {
         ) {
             if (e.left instanceof AST_UnaryPrefix && e.left.operator === "~") {
                 // ~(~x ^ y) => x ^ y
-                e.left = e.left.bitwise_negate(true);
+                e.left = e.left.bitwise_negate(compressor, true);
             } else {
-                e.right = e.right.bitwise_negate(true);
+                e.right = e.right.bitwise_negate(compressor, true);
             }
             return e;
         }
@@ -2242,10 +2266,13 @@ def_optimize(AST_Binary, function(self, compressor) {
       case "===":
       case "!==":
         var is_strict_comparison = true;
-        if ((self.left.is_string(compressor) && self.right.is_string(compressor)) ||
+        if (
+            (self.left.is_string(compressor) && self.right.is_string(compressor)) ||
             (self.left.is_number(compressor) && self.right.is_number(compressor)) ||
+            (self.left.is_bigint(compressor) && self.right.is_bigint(compressor)) ||
             (self.left.is_boolean() && self.right.is_boolean()) ||
-            self.left.equivalent_to(self.right)) {
+            self.left.equivalent_to(self.right)
+        ) {
             self.operator = self.operator.substr(0, 2);
         }
 
@@ -2290,7 +2317,7 @@ def_optimize(AST_Binary, function(self, compressor) {
             && self.left.definition() === self.right.definition()
             && is_object(self.left.fixed_value())) {
             return make_node(self.operator[0] == "=" ? AST_True : AST_False, self);
-        } else if (self.left.is_32_bit_integer() && self.right.is_32_bit_integer()) {
+        } else if (self.left.is_32_bit_integer(compressor) && self.right.is_32_bit_integer(compressor)) {
             const not = node => make_node(AST_UnaryPrefix, node, {
                 operator: "!",
                 expression: node
@@ -2323,7 +2350,7 @@ def_optimize(AST_Binary, function(self, compressor) {
                 && (mask = and_op === self.left ? self.right : self.left)
                 && and_op.operator === "&"
                 && mask instanceof AST_Number
-                && mask.is_32_bit_integer()
+                && mask.is_32_bit_integer(compressor)
                 && (x =
                     and_op.left.equivalent_to(mask) ? and_op.right
                     : and_op.right.equivalent_to(mask) ? and_op.left : null)
@@ -2566,7 +2593,7 @@ def_optimize(AST_Binary, function(self, compressor) {
             // a + -b => a - b
             if (self.right instanceof AST_UnaryPrefix
                 && self.right.operator == "-"
-                && self.left.is_number(compressor)) {
+                && self.left.is_number_or_bigint(compressor)) {
                 self = make_node(AST_Binary, self, {
                     operator: "-",
                     left: self.left,
@@ -2578,7 +2605,7 @@ def_optimize(AST_Binary, function(self, compressor) {
             if (self.left instanceof AST_UnaryPrefix
                 && self.left.operator == "-"
                 && reversible()
-                && self.right.is_number(compressor)) {
+                && self.right.is_number_or_bigint(compressor)) {
                 self = make_node(AST_Binary, self, {
                     operator: "-",
                     left: self.right,
@@ -2622,8 +2649,9 @@ def_optimize(AST_Binary, function(self, compressor) {
           case "|":
           case "^":
             // a + +b => +b + a
-            if (self.left.is_number(compressor)
-                && self.right.is_number(compressor)
+            if (
+                self.left.is_number_or_bigint(compressor)
+                && self.right.is_number_or_bigint(compressor)
                 && reversible()
                 && !(self.left instanceof AST_Binary
                     && self.left.operator != self.operator
@@ -2640,7 +2668,7 @@ def_optimize(AST_Binary, function(self, compressor) {
                     self = best_of(compressor, self, reversed);
                 }
             }
-            if (associative && self.is_number(compressor)) {
+            if (associative && self.is_number_or_bigint(compressor)) {
                 // a + (b + c) => (a + b) + c
                 if (self.right instanceof AST_Binary
                     && self.right.operator == self.operator) {
@@ -2759,18 +2787,31 @@ def_optimize(AST_Binary, function(self, compressor) {
                 }
             }
 
-            // x ^ x => 0
             // x | x => 0 | x
             // x & x => 0 | x
-            const same_operands = self.left.equivalent_to(self.right) && !self.left.has_side_effects(compressor);
-            if (same_operands) {
-                if (self.operator === "^") {
-                    return make_node(AST_Number, self, { value: 0 });
-                }
-                if (self.operator === "|" || self.operator === "&") {
-                    self.left = make_node(AST_Number, self, { value: 0 });
-                    self.operator = "|";
-                }
+            if (
+                (self.operator === "|" || self.operator === "&")
+                && self.left.equivalent_to(self.right)
+                && !self.left.has_side_effects(compressor)
+                && compressor.in_32_bit_context(true)
+            ) {
+                self.left = make_node(AST_Number, self, { value: 0 });
+                self.operator = "|";
+            }
+
+            // ~x ^ ~y => x ^ y
+            if (
+                self.operator === "^"
+                && self.left instanceof AST_UnaryPrefix
+                && self.left.operator === "~"
+                && self.right instanceof AST_UnaryPrefix
+                && self.right.operator === "~"
+            ) {
+                self = make_node(AST_Binary, self, {
+                    operator: "^",
+                    left: self.left.expression,
+                    right: self.right.expression
+                });
             }
 
 
@@ -2794,7 +2835,7 @@ def_optimize(AST_Binary, function(self, compressor) {
             if (
                 zero_side
                 && (self.operator === "|" || self.operator === "^")
-                && (non_zero_side.is_32_bit_integer() || compressor.in_32_bit_context())
+                && (non_zero_side.is_32_bit_integer(compressor) || compressor.in_32_bit_context(true))
             ) {
                 return non_zero_side;
             }
@@ -2804,65 +2845,48 @@ def_optimize(AST_Binary, function(self, compressor) {
                 zero_side
                 && self.operator === "&"
                 && !non_zero_side.has_side_effects(compressor)
+                && non_zero_side.is_32_bit_integer(compressor)
             ) {
                 return zero_side;
             }
 
+            // ~0 is all ones, as well as -1.
+            // We can ellide some operations with it.
             const is_full_mask = (node) =>
                 node instanceof AST_Number && node.value === -1
                 ||
-                    node instanceof AST_UnaryPrefix && (
-                        node.operator === "-"
-                            && node.expression instanceof AST_Number
-                            && node.expression.value === 1
-                        || node.operator === "~"
-                            && node.expression instanceof AST_Number
-                            && node.expression.value === 0);
+                    node instanceof AST_UnaryPrefix
+                    && node.operator === "-"
+                    && node.expression instanceof AST_Number
+                    && node.expression.value === 1;
 
             const full_mask = is_full_mask(self.right) ? self.right
                 : is_full_mask(self.left) ? self.left
                 : null;
-            const non_full_mask_side = full_mask && (full_mask === self.right ? self.left : self.right);
+            const other_side = (full_mask === self.right ? self.left : self.right);
 
-            switch (self.operator) {
-              case "|":
-                // {anything} | -1 => -1
-                if (full_mask && !non_full_mask_side.has_side_effects(compressor)) {
-                    return full_mask;
-                }
+            // {32 bit integer} & -1 => {32 bit integer}
+            if (
+                full_mask
+                && self.operator === "&"
+                && (
+                    other_side.is_32_bit_integer(compressor)
+                    || compressor.in_32_bit_context(true)
+                )
+            ) {
+                return other_side;
+            }
 
-                break;
-              case "&":
-                // {32 bit integer} & -1 => {32 bit integer}
-                if (
-                    full_mask
-                    && (non_full_mask_side.is_32_bit_integer() || compressor.in_32_bit_context())
-                ) {
-                    return non_full_mask_side;
-                }
-
-                break;
-              case "^":
-                // {anything} ^ -1 => ~{anything}
-                if (full_mask) {
-                    return non_full_mask_side.bitwise_negate(compressor.in_32_bit_context());
-                }
-
-                // ~x ^ ~y => x ^ y
-                if (
-                    self.left instanceof AST_UnaryPrefix
-                    && self.left.operator === "~"
-                    && self.right instanceof AST_UnaryPrefix
-                    && self.right.operator === "~"
-                ) {
-                    self = make_node(AST_Binary, self, {
-                        operator: "^",
-                        left: self.left.expression,
-                        right: self.right.expression
-                    });
-                }
-
-                break;
+            // {anything} ^ -1 => ~{anything}
+            if (
+                full_mask
+                && self.operator === "^"
+                && (
+                    other_side.is_32_bit_integer(compressor)
+                    || compressor.in_32_bit_context(true)
+                )
+            ) {
+                return other_side.bitwise_negate(compressor);
             }
         }
     }
@@ -3485,6 +3509,7 @@ function safe_to_flatten(value, compressor) {
 AST_PropAccess.DEFMETHOD("flatten_object", function(key, compressor) {
     if (!compressor.option("properties")) return;
     if (key === "__proto__") return;
+    if (this instanceof AST_DotHash) return;
 
     var arrows = compressor.option("unsafe_arrows") && compressor.option("ecma") >= 2015;
     var expr = this.expression;
@@ -3497,7 +3522,7 @@ AST_PropAccess.DEFMETHOD("flatten_object", function(key, compressor) {
             if ("" + (prop instanceof AST_ConciseMethod ? prop.key.name : prop.key) == key) {
                 const all_props_flattenable = props.every((p) =>
                     (p instanceof AST_ObjectKeyVal
-                        || arrows && p instanceof AST_ConciseMethod && !p.is_generator
+                        || arrows && p instanceof AST_ConciseMethod && !p.value.is_generator
                     )
                     && !p.computed_key()
                 );
@@ -3672,7 +3697,15 @@ def_optimize(AST_Chain, function (self, compressor) {
         }
         return make_node(AST_Undefined, self);
     }
-    return self;
+    if (
+        self.expression instanceof AST_PropAccess
+        || self.expression instanceof AST_Call
+    ) {
+        return self;
+    } else {
+        // Keep the AST valid, in case the child swapped itself
+        return self.expression;
+    }
 });
 
 def_optimize(AST_Dot, function(self, compressor) {
@@ -3904,7 +3937,7 @@ def_optimize(AST_TemplateString, function(self, compressor) {
         && segments[1] instanceof AST_Node
         && (
             segments[1].is_string(compressor)
-            || segments[1].is_number(compressor)
+            || segments[1].is_number_or_bigint(compressor)
             || is_nullish(segments[1], compressor)
             || compressor.option("unsafe")
         )
@@ -3975,7 +4008,7 @@ def_optimize(AST_ConciseMethod, function(self, compressor) {
     // p(){return x;} ---> p:()=>x
     if (compressor.option("arrows")
         && compressor.parent() instanceof AST_Object
-        && !self.is_generator
+        && !self.value.is_generator
         && !self.value.uses_arguments
         && !self.value.pinned()
         && self.value.body.length == 1
@@ -3983,8 +4016,8 @@ def_optimize(AST_ConciseMethod, function(self, compressor) {
         && self.value.body[0].value
         && !self.value.contains_this()) {
         var arrow = make_node(AST_Arrow, self.value, self.value);
-        arrow.async = self.async;
-        arrow.is_generator = self.is_generator;
+        arrow.async = self.value.async;
+        arrow.is_generator = self.value.is_generator;
         return make_node(AST_ObjectKeyVal, self, {
             key: self.key instanceof AST_SymbolMethod ? self.key.name : self.key,
             value: arrow,
@@ -4012,8 +4045,6 @@ def_optimize(AST_ObjectKeyVal, function(self, compressor) {
             && !value.contains_this();
         if ((is_arrow_with_block || value instanceof AST_Function) && !value.name) {
             return make_node(AST_ConciseMethod, self, {
-                async: value.async,
-                is_generator: value.is_generator,
                 key: key instanceof AST_Node ? key : make_node(AST_SymbolMethod, self, {
                     name: key,
                 }),

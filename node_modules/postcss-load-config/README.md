@@ -83,6 +83,9 @@ plugins:
   postcss-plugin: {}
 ```
 
+> [!NOTE]
+> For YAML configs, you must have [yaml](https://www.npmjs.com/package/yaml) installed as a peer dependency.
+
 ### `.postcssrc.js` or `postcss.config.js`
 
 You may need some logic within your config.
@@ -100,7 +103,7 @@ In this case create JS/TS file named:
 - `postcss.config.mts`
 - `postcss.config.cts`
 
-> [!NOTE]  
+> [!NOTE]
 > For TypeScript configs, you must have [tsx](https://www.npmjs.com/package/tsx) or [jiti](https://www.npmjs.com/package/jiti) installed as a peer dependency.
 
 ```

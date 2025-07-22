@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFeed = void 0;
+exports.getFeed = getFeed;
 var stringify_js_1 = require("./stringify.js");
 var legacy_js_1 = require("./legacy.js");
 /**
@@ -18,7 +18,6 @@ function getFeed(doc) {
             ? getAtomFeed(feedRoot)
             : getRssFeed(feedRoot);
 }
-exports.getFeed = getFeed;
 /**
  * Parse an Atom feed.
  *

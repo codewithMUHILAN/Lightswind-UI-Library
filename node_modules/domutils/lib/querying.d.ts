@@ -1,4 +1,4 @@
-import { Element, AnyNode } from "domhandler";
+import { Element, AnyNode, ParentNode } from "domhandler";
 /**
  * Search a node and its children for nodes passing a test function. If `node` is not an array, it will be wrapped in one.
  *
@@ -20,7 +20,7 @@ export declare function filter(test: (elem: AnyNode) => boolean, node: AnyNode |
  * @param limit Maximum number of nodes to return.
  * @returns All nodes passing `test`.
  */
-export declare function find(test: (elem: AnyNode) => boolean, nodes: AnyNode[], recurse: boolean, limit: number): AnyNode[];
+export declare function find(test: (elem: AnyNode) => boolean, nodes: AnyNode[] | ParentNode, recurse: boolean, limit: number): AnyNode[];
 /**
  * Finds the first element inside of an array that matches a test function. This is an alias for `Array.prototype.find`.
  *
@@ -40,7 +40,7 @@ export declare function findOneChild<T>(test: (elem: T) => boolean, nodes: T[]):
  * @param recurse Also consider child nodes.
  * @returns The first node that passes `test`.
  */
-export declare function findOne(test: (elem: Element) => boolean, nodes: AnyNode[], recurse?: boolean): Element | null;
+export declare function findOne(test: (elem: Element) => boolean, nodes: AnyNode[] | ParentNode, recurse?: boolean): Element | null;
 /**
  * Checks if a tree of nodes contains at least one node passing a test.
  *
@@ -49,7 +49,7 @@ export declare function findOne(test: (elem: Element) => boolean, nodes: AnyNode
  * @param nodes Array of nodes to search.
  * @returns Whether a tree of nodes contains at least one node passing the test.
  */
-export declare function existsOne(test: (elem: Element) => boolean, nodes: AnyNode[]): boolean;
+export declare function existsOne(test: (elem: Element) => boolean, nodes: AnyNode[] | ParentNode): boolean;
 /**
  * Search an array of nodes and their children for elements passing a test function.
  *
@@ -60,5 +60,5 @@ export declare function existsOne(test: (elem: Element) => boolean, nodes: AnyNo
  * @param nodes Array of nodes to search.
  * @returns All nodes passing `test`.
  */
-export declare function findAll(test: (elem: Element) => boolean, nodes: AnyNode[]): Element[];
+export declare function findAll(test: (elem: Element) => boolean, nodes: AnyNode[] | ParentNode): Element[];
 //# sourceMappingURL=querying.d.ts.map

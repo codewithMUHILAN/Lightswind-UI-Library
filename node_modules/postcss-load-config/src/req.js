@@ -8,7 +8,7 @@ let tsx
 
 let jiti
 
-let importError
+let importError = []
 
 /**
  * @param {string} name
@@ -28,9 +28,11 @@ async function req(name, rootFile = __filename) {
   }
 
   if (tsx === undefined) {
-    tsx = await import('tsx/cjs/api').catch(error => {
-      importError = error
-    })
+    try {
+      tsx = await import('tsx/cjs/api')
+    } catch (error) {
+      importError.push(error)
+    }
   }
 
   if (tsx) {
@@ -39,12 +41,11 @@ async function req(name, rootFile = __filename) {
   }
 
   if (jiti === undefined) {
-    jiti = await import('jiti').then(
-      m => m.default,
-      error => {
-        importError = importError ?? error
-      }
-    )
+    try {
+      jiti = (await import('jiti')).default
+    } catch (error) {
+      importError.push(error)
+    }
   }
 
   if (jiti) {
@@ -52,7 +53,9 @@ async function req(name, rootFile = __filename) {
   }
 
   throw new Error(
-    `'tsx' or 'jiti' is required for the TypeScript configuration files. Make sure it is installed\nError: ${importError.message}`
+    `'tsx' or 'jiti' is required for the TypeScript configuration files. Make sure it is installed\nError: ${importError
+      .map(error => error.message)
+      .join('\n')}`
   )
 }
 

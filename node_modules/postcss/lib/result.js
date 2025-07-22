@@ -3,12 +3,16 @@
 let Warning = require('./warning')
 
 class Result {
+  get content() {
+    return this.css
+  }
+
   constructor(processor, root, opts) {
     this.processor = processor
     this.messages = []
     this.root = root
     this.opts = opts
-    this.css = undefined
+    this.css = ''
     this.map = undefined
   }
 
@@ -31,10 +35,6 @@ class Result {
 
   warnings() {
     return this.messages.filter(i => i.type === 'warning')
-  }
-
-  get content() {
-    return this.css
   }
 }
 

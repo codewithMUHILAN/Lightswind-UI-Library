@@ -1,5 +1,83 @@
 # Change Log
 
+## 0.8.0-beta.0
+
+### Breaking changes
+
+* [#350](https://github.com/mozilla/source-map/pull/350) -
+  Change browser detection logic for WASM loading.
+* [#363](https://github.com/mozilla/source-map/pull/363) -
+  Change WASM loading detection to rely on `package.json#browser` field.
+* [#362](https://github.com/mozilla/source-map/pull/362) -
+  Remove the `dist/` bundle.
+* [#371](https://github.com/mozilla/source-map/pull/371) -
+  Reimplement sourcemap URL processing using the WHATWG URL API.
+
+### Nonbreaking changes:
+
+* [#339](https://github.com/mozilla/source-map/pull/339) -
+  Allow initializing the consumer `mappings.wasm` file as an `ArrayBuffer`.
+
+### Internal Improvements:
+
+* [#347](https://github.com/mozilla/source-map/pull/347) -
+  Improve tests.
+* [#352](https://github.com/mozilla/source-map/pull/352) -
+  Improve documentation.
+* [#361](https://github.com/mozilla/source-map/pull/361) -
+  Use newer Webpack CLI when bundling.
+* [#364](https://github.com/mozilla/source-map/pull/364) -
+  Convert `IndexedSourceMapConsumer` implementation to pass more through
+    to `BasicSourceMapConsumer`.
+* [#366](https://github.com/mozilla/source-map/pull/366) -
+  Normalize internal URL representation to be easier to follow.
+* [#341](https://github.com/mozilla/source-map/pull/341) -
+  Use async functions to simplify `SourceMapConsumer.with` implementation.
+
+
+## 0.7.3
+
+* Fix a bug where nested uses of `SourceMapConsumer` could result in a
+  `TypeError`. [#338](https://github.com/mozilla/source-map/issues/338)
+  [#330](https://github.com/mozilla/source-map/issues/330)
+  [#319](https://github.com/mozilla/source-map/issues/319)
+
+## 0.7.2
+
+* Another 3x speed up in `SourceMapConsumer`. Read about it here:
+  http://fitzgeraldnick.com/2018/02/26/speed-without-wizardry.html
+
+## 0.7.1
+
+* Updated TypeScript typings. [#321][]
+
+[#321]: https://github.com/mozilla/source-map/pull/321
+
+## 0.7.0
+
+* `SourceMapConsumer` now uses WebAssembly, and is **much** faster! Read about
+  it here:
+  https://hacks.mozilla.org/2018/01/oxidizing-source-maps-with-rust-and-webassembly/
+
+* **Breaking change:** `new SourceMapConsumer` now returns a `Promise` object
+  that resolves to the newly constructed `SourceMapConsumer` instance, rather
+  than returning the new instance immediately.
+
+* **Breaking change:** when you're done using a `SourceMapConsumer` instance,
+  you must call `SourceMapConsumer.prototype.destroy` on it. After calling
+  `destroy`, you must not use the instance again.
+
+* **Breaking change:** `SourceMapConsumer` used to be able to handle lines,
+  columns numbers and source and name indices up to `2^53 - 1` (aka
+  `Number.MAX_SAFE_INTEGER`). It can now only handle them up to `2^32 - 1`.
+
+* **Breaking change:** The `source-map` library now uses modern ECMAScript-isms:
+  `let`, arrow functions, `async`, etc. Use Babel to compile it down to
+  ECMAScript 5 if you need to support older JavaScript environments.
+
+* **Breaking change:** Drop support for Node < 8. If you want to support older
+versions of node, please use v0.6 or below.
+
 ## 0.5.6
 
 * Fix for regression when people were using numbers as names in source maps. See

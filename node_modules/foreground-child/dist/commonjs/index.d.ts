@@ -1,5 +1,3 @@
-/// <reference types="node" />
-/// <reference types="node" />
 import { ChildProcessByStdio, SpawnOptions, ChildProcess } from 'child_process';
 /**
  * The signature for the cleanup method.
@@ -41,12 +39,7 @@ export type FgArgs = [program: string | [cmd: string, ...args: string[]], cleanu
  *
  * @internal
  */
-export declare const normalizeFgArgs: (fgArgs: FgArgs) => [
-    program: string,
-    args: string[],
-    spawnOpts: SpawnOptions,
-    cleanup: Cleanup
-];
+export declare const normalizeFgArgs: (fgArgs: FgArgs) => [program: string, args: string[], spawnOpts: SpawnOptions, cleanup: Cleanup];
 /**
  * Spawn the specified program as a "foreground" process, or at least as
  * close as is possible given node's lack of exec-without-fork.

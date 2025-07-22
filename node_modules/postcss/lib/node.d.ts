@@ -1,5 +1,4 @@
 import AtRule = require('./at-rule.js')
-
 import { AtRuleProps } from './at-rule.js'
 import Comment, { CommentProps } from './comment.js'
 import Container, { NewChild } from './container.js'
@@ -66,6 +65,22 @@ declare namespace Node {
     /**
      * The inclusive ending position for the source
      * code of a node.
+     *
+     * However, `end.offset` of a non `Root` node is the exclusive position.
+     * See https://github.com/postcss/postcss/pull/1879 for details.
+     *
+     * ```js
+     * const root = postcss.parse('a { color: black }')
+     * const a = root.first
+     * const color = a.first
+     *
+     * // The offset of `Root` node is the inclusive position
+     * css.source.end   // { line: 1, column: 19, offset: 18 }
+     *
+     * // The offset of non `Root` node is the exclusive position
+     * a.source.end     // { line: 1, column: 18, offset: 18 }
+     * color.source.end // { line: 1, column: 16, offset: 16 }
+     * ```
      */
     end?: Position
 
@@ -233,14 +248,6 @@ declare abstract class Node_ {
   type: string
 
   constructor(defaults?: object)
-
-  /**
-   * If this node isn't already dirty, marks it and its ancestors as such. This
-   * indicates to the LazyResult processor that the {@link Root} has been
-   * modified by the current plugin and may need to be processed again by other
-   * plugins.
-   */
-  protected markDirty(): void
 
   /**
    * Insert new node after current node to current node’s parent.
@@ -432,7 +439,7 @@ declare abstract class Node_ {
    * @return Range.
    */
   rangeBy(
-    opts?: Pick<WarningOptions, 'endIndex' | 'index' | 'word'>
+    opts?: Pick<WarningOptions, 'end' | 'endIndex' | 'index' | 'start' | 'word'>
   ): Node.Range
 
   /**
@@ -534,6 +541,14 @@ declare abstract class Node_ {
    * @return `Warning` instance is returned
    */
   warn(result: Result, message: string, options?: WarningOptions): Warning
+
+  /**
+   * If this node isn't already dirty, marks it and its ancestors as such. This
+   * indicates to the LazyResult processor that the {@link Root} has been
+   * modified by the current plugin and may need to be processed again by other
+   * plugins.
+   */
+  protected markDirty(): void
 }
 
 declare class Node extends Node_ {}

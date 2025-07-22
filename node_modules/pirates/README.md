@@ -2,6 +2,10 @@
 
 ### Properly hijack require
 
+This library allows to add custom require hooks, which do not interfere with other require hooks.
+
+This library only works with commonJS.
+
 [codecov-badge]: https://img.shields.io/codecov/c/github/danez/pirates/master.svg?style=flat "codecov"
 [codecov-link]: https://codecov.io/gh/danez/pirates "codecov"
 

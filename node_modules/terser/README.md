@@ -647,7 +647,7 @@ console.log(result.map);  // source map
 Note that the source map is not saved in a file, it's just returned in
 `result.map`.  The value passed for `sourceMap.url` is only used to set
 `//# sourceMappingURL=out.js.map` in `result.code`. The value of
-`filename` is only used to set `file` attribute (see [the spec][sm-spec])
+`filename` is only used to set `file` attribute (see [the spec](https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k))
 in source map file.
 
 You can set option `sourceMap.url` to be `"inline"` and source map will
@@ -871,7 +871,8 @@ If you happen to need the source map as a raw object, set `sourceMap.asObject` t
   allow improved compression. This might be unsafe when an at least one of two
   operands is an object with computed values due the use of methods like `get`,
   or `valueOf`. This could cause change in execution order after operands in the
-  comparison are switching. Compression only works if both `comparisons` and
+  comparison are switching. Or if one of two operands is `NaN`, the result is always
+  `false`. Compression only works if both `comparisons` and
   `unsafe_comps` are both set to true.
 
 - `unsafe_Function` (default: `false`) -- compress and mangle `Function(args, code)`
@@ -1069,7 +1070,7 @@ as "output options".
   function expressions. See
   [#640](https://github.com/mishoo/UglifyJS2/issues/640) for more details.
 
-- `wrap_func_args` (default `true`) -- pass `false` if you do not want to wrap
+- `wrap_func_args` (default `false`) -- pass `true` in order to wrap
   function expressions that are passed as arguments, in parenthesis. See
   [OptimizeJS](https://github.com/nolanlawson/optimize-js) for more details.
 
@@ -1233,7 +1234,7 @@ Terser has its own abstract syntax tree format; for
 we can't easily change to using the SpiderMonkey AST internally.  However,
 Terser now has a converter which can import a SpiderMonkey AST.
 
-For example [Acorn][acorn] is a super-fast parser that produces a
+For example [Acorn](https://github.com/acornjs/acorn) is a super-fast parser that produces a
 SpiderMonkey AST.  It has a small CLI utility that parses one file and dumps
 the AST in JSON on the standard output.  To use Terser to mangle and
 compress that:
@@ -1256,9 +1257,6 @@ the parsing.  If you pass this option, Terser will `require("acorn")`.
 Acorn is really fast (e.g. 250ms instead of 380ms on some 650K code), but
 converting the SpiderMonkey tree that Acorn produces takes another 150ms so
 in total it's a bit more than just using Terser's own parser.
-
-[acorn]: https://github.com/ternjs/acorn
-[sm-spec]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k
 
 ### Terser Fast Minify Mode
 

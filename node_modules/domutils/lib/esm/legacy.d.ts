@@ -55,6 +55,17 @@ export declare function getElementById(id: string | ((id: string) => boolean), n
  */
 export declare function getElementsByTagName(tagName: string | ((name: string) => boolean), nodes: AnyNode | AnyNode[], recurse?: boolean, limit?: number): Element[];
 /**
+ * Returns all nodes with the supplied `className`.
+ *
+ * @category Legacy Query Functions
+ * @param className Class name to search for.
+ * @param nodes Nodes to search through.
+ * @param recurse Also consider child nodes.
+ * @param limit Maximum number of nodes to return.
+ * @returns All nodes with the supplied `className`.
+ */
+export declare function getElementsByClassName(className: string | ((name: string) => boolean), nodes: AnyNode | AnyNode[], recurse?: boolean, limit?: number): Element[];
+/**
  * Returns all nodes with the supplied `type`.
  *
  * @category Legacy Query Functions

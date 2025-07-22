@@ -25,7 +25,7 @@ export function filter(test, node, recurse = true, limit = Infinity) {
 export function find(test, nodes, recurse, limit) {
     const result = [];
     /** Stack of the arrays we are looking at. */
-    const nodeStack = [nodes];
+    const nodeStack = [Array.isArray(nodes) ? nodes : [nodes]];
     /** Stack of the indices within the arrays. */
     const indexStack = [0];
     for (;;) {
@@ -79,20 +79,19 @@ export function findOneChild(test, nodes) {
  * @returns The first node that passes `test`.
  */
 export function findOne(test, nodes, recurse = true) {
-    let elem = null;
-    for (let i = 0; i < nodes.length && !elem; i++) {
-        const node = nodes[i];
-        if (!isTag(node)) {
-            continue;
+    const searchedNodes = Array.isArray(nodes) ? nodes : [nodes];
+    for (let i = 0; i < searchedNodes.length; i++) {
+        const node = searchedNodes[i];
+        if (isTag(node) && test(node)) {
+            return node;
         }
-        else if (test(node)) {
-            elem = node;
-        }
-        else if (recurse && node.children.length > 0) {
-            elem = findOne(test, node.children, true);
+        if (recurse && hasChildren(node) && node.children.length > 0) {
+            const found = findOne(test, node.children, true);
+            if (found)
+                return found;
         }
     }
-    return elem;
+    return null;
 }
 /**
  * Checks if a tree of nodes contains at least one node passing a test.
@@ -103,8 +102,8 @@ export function findOne(test, nodes, recurse = true) {
  * @returns Whether a tree of nodes contains at least one node passing the test.
  */
 export function existsOne(test, nodes) {
-    return nodes.some((checked) => isTag(checked) &&
-        (test(checked) || existsOne(test, checked.children)));
+    return (Array.isArray(nodes) ? nodes : [nodes]).some((node) => (isTag(node) && test(node)) ||
+        (hasChildren(node) && existsOne(test, node.children)));
 }
 /**
  * Search an array of nodes and their children for elements passing a test function.
@@ -118,7 +117,7 @@ export function existsOne(test, nodes) {
  */
 export function findAll(test, nodes) {
     const result = [];
-    const nodeStack = [nodes];
+    const nodeStack = [Array.isArray(nodes) ? nodes : [nodes]];
     const indexStack = [0];
     for (;;) {
         if (indexStack[0] >= nodeStack[0].length) {
@@ -132,11 +131,9 @@ export function findAll(test, nodes) {
             continue;
         }
         const elem = nodeStack[0][indexStack[0]++];
-        if (!isTag(elem))
-            continue;
-        if (test(elem))
+        if (isTag(elem) && test(elem))
             result.push(elem);
-        if (elem.children.length > 0) {
+        if (hasChildren(elem) && elem.children.length > 0) {
             indexStack.unshift(0);
             nodeStack.unshift(elem.children);
         }

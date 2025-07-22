@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { type ChildProcess } from 'child_process';
 /**
  * Starts forwarding signals to `child` through `parent`.

@@ -383,14 +383,18 @@ AST_ObjectSetter.prototype._size = function () {
 };
 
 AST_ConciseMethod.prototype._size = function () {
-    return static_size(this.static) + key_size(this.key) + lambda_modifiers(this);
+    return static_size(this.static) + key_size(this.key);
 };
 
 AST_PrivateMethod.prototype._size = function () {
     return AST_ConciseMethod.prototype._size.call(this) + 1;
 };
 
-AST_PrivateGetter.prototype._size = AST_PrivateSetter.prototype._size = function () {
+AST_PrivateGetter.prototype._size = function () {
+    return AST_ConciseMethod.prototype._size.call(this) + 4;
+};
+
+AST_PrivateSetter.prototype._size = function () {
     return AST_ConciseMethod.prototype._size.call(this) + 4;
 };
 

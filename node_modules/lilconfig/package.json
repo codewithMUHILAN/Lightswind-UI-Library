@@ -1,6 +1,6 @@
 {
   "name": "lilconfig",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "A zero-dependency alternative to cosmiconfig",
   "main": "src/index.js",
   "types": "src/index.d.ts",

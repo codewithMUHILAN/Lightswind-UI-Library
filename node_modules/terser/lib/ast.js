@@ -2009,6 +2009,11 @@ var AST_Object = DEFNODE("Object", "properties", function AST_Object(props) {
     },
 });
 
+/* -----[ OBJECT/CLASS PROPERTIES ]----- */
+
+/**
+ * Everything inside the curly braces of an object/class is a subclass of AST_ObjectProperty, except for AST_ClassStaticBlock.
+ **/
 var AST_ObjectProperty = DEFNODE("ObjectProperty", "key value", function AST_ObjectProperty(props) {
     if (props) {
         this.key = props.key;
@@ -2023,7 +2028,7 @@ var AST_ObjectProperty = DEFNODE("ObjectProperty", "key value", function AST_Obj
     $documentation: "Base class for literal object properties",
     $propdoc: {
         key: "[string|AST_Node] property name. For ObjectKeyVal this is a string. For getters, setters and computed property this is an AST_Node.",
-        value: "[AST_Node] property value.  For getters and setters this is an AST_Accessor."
+        value: "[AST_Node] property value.  For getters, setters and methods this is an AST_Accessor."
     },
     _walk: function(visitor) {
         return visitor._visit(this, function() {
@@ -2035,7 +2040,7 @@ var AST_ObjectProperty = DEFNODE("ObjectProperty", "key value", function AST_Obj
     _children_backwards(push) {
         push(this.value);
         if (this.key instanceof AST_Node) push(this.key);
-    }
+    },
 });
 
 var AST_ObjectKeyVal = DEFNODE("ObjectKeyVal", "quote", function AST_ObjectKeyVal(props) {
@@ -2145,45 +2150,32 @@ var AST_ObjectGetter = DEFNODE("ObjectGetter", "quote static", function AST_Obje
     }
 }, AST_ObjectProperty);
 
-var AST_ConciseMethod = DEFNODE(
-    "ConciseMethod",
-    "quote static is_generator async",
-    function AST_ConciseMethod(props) {
-        if (props) {
-            this.quote = props.quote;
-            this.static = props.static;
-            this.is_generator = props.is_generator;
-            this.async = props.async;
-            this.key = props.key;
-            this.value = props.value;
-            this.start = props.start;
-            this.end = props.end;
-            this._annotations = props._annotations;
-        }
-
-        this.flags = 0;
-    },
-    {
-        $propdoc: {
-            quote: "[string|undefined] the original quote character, if any",
-            static: "[boolean] is this method static (classes only)",
-            is_generator: "[boolean] is this a generator method",
-            async: "[boolean] is this method async",
-        },
-        $documentation: "An ES6 concise method inside an object or class",
-        computed_key() {
-            return !(this.key instanceof AST_SymbolMethod);
-        }
-    },
-    AST_ObjectProperty
-);
-
-var AST_PrivateMethod = DEFNODE("PrivateMethod", "", function AST_PrivateMethod(props) {
+var AST_ConciseMethod = DEFNODE("ConciseMethod", "quote static", function AST_ConciseMethod(props) {
     if (props) {
         this.quote = props.quote;
         this.static = props.static;
-        this.is_generator = props.is_generator;
-        this.async = props.async;
+        this.key = props.key;
+        this.value = props.value;
+        this.start = props.start;
+        this.end = props.end;
+        this._annotations = props._annotations;
+    }
+
+    this.flags = 0;
+}, {
+    $propdoc: {
+        quote: "[string|undefined] the original quote character, if any",
+        static: "[boolean] is this method static (classes only)",
+    },
+    $documentation: "An ES6 concise method inside an object or class",
+    computed_key() {
+        return !(this.key instanceof AST_SymbolMethod);
+    }
+}, AST_ObjectProperty);
+
+var AST_PrivateMethod = DEFNODE("PrivateMethod", "static", function AST_PrivateMethod(props) {
+    if (props) {
+        this.static = props.static;
         this.key = props.key;
         this.value = props.value;
         this.start = props.start;
@@ -2193,7 +2185,13 @@ var AST_PrivateMethod = DEFNODE("PrivateMethod", "", function AST_PrivateMethod(
     this.flags = 0;
 }, {
     $documentation: "A private class method inside a class",
-}, AST_ConciseMethod);
+    $propdoc: {
+        static: "[boolean] is this a static private method",
+    },
+    computed_key() {
+        return false;
+    },
+}, AST_ObjectProperty);
 
 var AST_Class = DEFNODE("Class", "name extends properties", function AST_Class(props) {
     if (props) {
@@ -2217,7 +2215,7 @@ var AST_Class = DEFNODE("Class", "name extends properties", function AST_Class(p
     $propdoc: {
         name: "[AST_SymbolClass|AST_SymbolDefClass?] optional class name.",
         extends: "[AST_Node]? optional parent class",
-        properties: "[AST_ObjectProperty*] array of properties"
+        properties: "[AST_ObjectProperty|AST_ClassStaticBlock]* array of properties or static blocks"
     },
     $documentation: "An ES6 class",
     _walk: function(visitor) {
@@ -2252,7 +2250,10 @@ var AST_Class = DEFNODE("Class", "name extends properties", function AST_Class(p
                 prop.key._walk(visitor);
                 visitor.pop();
             }
-            if ((prop instanceof AST_ClassPrivateProperty || prop instanceof AST_ClassProperty) && prop.static && prop.value) {
+            if (
+                prop instanceof AST_ClassPrivateProperty && prop.static && prop.value
+                || prop instanceof AST_ClassProperty && prop.static && prop.value
+            ) {
                 visitor.push(prop);
                 prop.value._walk(visitor);
                 visitor.pop();
@@ -2262,9 +2263,15 @@ var AST_Class = DEFNODE("Class", "name extends properties", function AST_Class(p
     /** go through the bits that are executed later, when the class is `new`'d or a static method is called */
     visit_deferred_class_parts(visitor) {
         this.properties.forEach((prop) => {
-            if (prop instanceof AST_ConciseMethod) {
+            if (
+                prop instanceof AST_ConciseMethod
+                || prop instanceof AST_PrivateMethod
+            ) {
                 prop.walk(visitor);
-            } else if (prop instanceof AST_ClassProperty && !prop.static && prop.value) {
+            } else if (
+                prop instanceof AST_ClassProperty && !prop.static && prop.value
+                || prop instanceof AST_ClassPrivateProperty && !prop.static && prop.value
+            ) {
                 visitor.push(prop);
                 prop.value._walk(visitor);
                 visitor.pop();
@@ -2329,7 +2336,6 @@ var AST_ClassProperty = DEFNODE("ClassProperty", "static quote", function AST_Cl
 var AST_ClassPrivateProperty = DEFNODE("ClassPrivateProperty", "", function AST_ClassPrivateProperty(props) {
     if (props) {
         this.static = props.static;
-        this.quote = props.quote;
         this.key = props.key;
         this.value = props.value;
         this.start = props.start;
@@ -2339,7 +2345,19 @@ var AST_ClassPrivateProperty = DEFNODE("ClassPrivateProperty", "", function AST_
     this.flags = 0;
 }, {
     $documentation: "A class property for a private property",
-}, AST_ClassProperty);
+    _walk: function(visitor) {
+        return visitor._visit(this, function() {
+            if (this.value instanceof AST_Node)
+                this.value._walk(visitor);
+        });
+    },
+    _children_backwards(push) {
+        if (this.value instanceof AST_Node) push(this.value);
+    },
+    computed_key() {
+        return false;
+    },
+}, AST_ObjectProperty);
 
 var AST_PrivateIn = DEFNODE("PrivateIn", "key value", function AST_PrivateIn(props) {
     if (props) {
@@ -2406,7 +2424,9 @@ var AST_ClassStaticBlock = DEFNODE("ClassStaticBlock", "body block_scope", funct
         while (i--) push(this.body[i]);
     },
     clone: clone_block_scope,
-    computed_key: () => false
+    computed_key() {
+        return false;
+    },
 }, AST_Scope);
 
 var AST_ClassExpression = DEFNODE("ClassExpression", null, function AST_ClassExpression(props) {
@@ -2675,12 +2695,12 @@ var AST_SymbolImport = DEFNODE("SymbolImport", null, function AST_SymbolImport(p
     $documentation: "Symbol referring to an imported name",
 }, AST_SymbolBlockDeclaration);
 
-var AST_SymbolImportForeign = DEFNODE("SymbolImportForeign", null, function AST_SymbolImportForeign(props) {
+var AST_SymbolImportForeign = DEFNODE("SymbolImportForeign", "quote", function AST_SymbolImportForeign(props) {
     if (props) {
+        this.quote = props.quote;
         this.scope = props.scope;
         this.name = props.name;
         this.thedef = props.thedef;
-        this.quote = props.quote;
         this.start = props.start;
         this.end = props.end;
     }
@@ -2727,12 +2747,12 @@ var AST_SymbolRef = DEFNODE("SymbolRef", null, function AST_SymbolRef(props) {
     $documentation: "Reference to some symbol (not definition/declaration)",
 }, AST_Symbol);
 
-var AST_SymbolExport = DEFNODE("SymbolExport", null, function AST_SymbolExport(props) {
+var AST_SymbolExport = DEFNODE("SymbolExport", "quote", function AST_SymbolExport(props) {
     if (props) {
+        this.quote = props.quote;
         this.scope = props.scope;
         this.name = props.name;
         this.thedef = props.thedef;
-        this.quote = props.quote;
         this.start = props.start;
         this.end = props.end;
     }
@@ -2742,12 +2762,12 @@ var AST_SymbolExport = DEFNODE("SymbolExport", null, function AST_SymbolExport(p
     $documentation: "Symbol referring to a name to export",
 }, AST_SymbolRef);
 
-var AST_SymbolExportForeign = DEFNODE("SymbolExportForeign", null, function AST_SymbolExportForeign(props) {
+var AST_SymbolExportForeign = DEFNODE("SymbolExportForeign", "quote", function AST_SymbolExportForeign(props) {
     if (props) {
+        this.quote = props.quote;
         this.scope = props.scope;
         this.name = props.name;
         this.thedef = props.thedef;
-        this.quote = props.quote;
         this.start = props.start;
         this.end = props.end;
     }
@@ -2862,9 +2882,10 @@ var AST_Number = DEFNODE("Number", "value raw", function AST_Number(props) {
     }
 }, AST_Constant);
 
-var AST_BigInt = DEFNODE("BigInt", "value", function AST_BigInt(props) {
+var AST_BigInt = DEFNODE("BigInt", "value raw", function AST_BigInt(props) {
     if (props) {
         this.value = props.value;
+        this.raw = props.raw;
         this.start = props.start;
         this.end = props.end;
     }
@@ -2873,7 +2894,8 @@ var AST_BigInt = DEFNODE("BigInt", "value", function AST_BigInt(props) {
 }, {
     $documentation: "A big int literal",
     $propdoc: {
-        value: "[string] big int value"
+        value: "[string] big int value, represented as a string",
+        raw: "[string] the original format preserved"
     }
 }, AST_Constant);
 
@@ -3154,6 +3176,28 @@ class TreeWalker {
             var x = stack[i];
             if (x instanceof type) return x;
         }
+    }
+
+    is_within_loop() {
+        let i = this.stack.length - 1;
+        let child = this.stack[i];
+        while (i--) {
+            const node = this.stack[i];
+
+            if (node instanceof AST_Lambda) return false;
+            if (
+                node instanceof AST_IterationStatement
+                // exclude for-loop bits that only run once
+                && !((node instanceof AST_For) && child === node.init)
+                && !((node instanceof AST_ForIn || node instanceof AST_ForOf) && child === node.object)
+            ) {
+                return true;
+            }
+
+            child = node;
+        }
+
+        return false;
     }
 
     find_scope() {

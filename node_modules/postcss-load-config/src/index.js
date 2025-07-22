@@ -2,7 +2,6 @@
 const { resolve } = require('node:path')
 
 const config = require('lilconfig')
-const yaml = require('yaml')
 
 const loadOptions = require('./options.js')
 const loadPlugins = require('./plugins.js')
@@ -75,6 +74,21 @@ async function loader(filepath) {
   return req(filepath)
 }
 
+let yaml
+async function yamlLoader(_, content) {
+  if (!yaml) {
+    try {
+      yaml = await import('yaml')
+    } catch (e) {
+      /* c8 ignore start */
+      throw new Error(
+        `'yaml' is required for the YAML configuration files. Make sure it is installed\nError: ${e.message}`
+      )
+    }
+  }
+  return yaml.parse(content);
+}
+
 /** @return {import('lilconfig').Options} */
 const withLoaders = (options = {}) => {
   let moduleName = 'postcss'
@@ -89,8 +103,8 @@ const withLoaders = (options = {}) => {
       '.mjs': loader,
       '.mts': loader,
       '.ts': loader,
-      '.yaml': (_, content) => yaml.parse(content),
-      '.yml': (_, content) => yaml.parse(content)
+      '.yaml': yamlLoader,
+      '.yml': yamlLoader
     },
     searchPlaces: [
       ...(options.searchPlaces || []),

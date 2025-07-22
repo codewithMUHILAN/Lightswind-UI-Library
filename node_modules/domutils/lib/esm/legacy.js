@@ -124,6 +124,19 @@ export function getElementsByTagName(tagName, nodes, recurse = true, limit = Inf
     return filter(Checks["tag_name"](tagName), nodes, recurse, limit);
 }
 /**
+ * Returns all nodes with the supplied `className`.
+ *
+ * @category Legacy Query Functions
+ * @param className Class name to search for.
+ * @param nodes Nodes to search through.
+ * @param recurse Also consider child nodes.
+ * @param limit Maximum number of nodes to return.
+ * @returns All nodes with the supplied `className`.
+ */
+export function getElementsByClassName(className, nodes, recurse = true, limit = Infinity) {
+    return filter(getAttribCheck("class", className), nodes, recurse, limit);
+}
+/**
  * Returns all nodes with the supplied `type`.
  *
  * @category Legacy Query Functions

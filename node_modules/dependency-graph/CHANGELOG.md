@@ -1,5 +1,11 @@
 # Dependency Graph Changelog
 
+## 1.0.0 (Dec 5, 2023)
+
+- Switched to use `Map`/`Set` rather than using raw objects as pseudo-Maps/Sets. (Fixes #46)
+  - This is also the reason for the major version bump. While there are no functional changes, this library previously did not have any special requirements of the runtime. It now requires a runtime that supports `Map`/`Set` (which should be almost everything now in 2023).
+- Ensure `circular` property is cloned during clone - thanks [andrew-healey](https://github.com/andrew-healey) and [tintinthong](https://github.com/tintinthong)!
+
 ## 0.11.0 (March 5, 2021)
 
 - Add `entryNodes` method that returns the nodes that nothing depends on - thanks [amcdnl](https://github.com/amcdnl)!

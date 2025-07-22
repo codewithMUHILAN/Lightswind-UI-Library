@@ -70,7 +70,6 @@ async function plugins(config, file) {
       }
 
       if (
-        // eslint-disable-next-line
         !(
           (typeof plugin === 'object' && Array.isArray(plugin.plugins)) ||
           (typeof plugin === 'object' && plugin.postcssPlugin) ||

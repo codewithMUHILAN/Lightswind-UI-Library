@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { ChildProcess } from 'child_process';
 /**
  * Pass in a ChildProcess, and this will spawn a watchdog process that
