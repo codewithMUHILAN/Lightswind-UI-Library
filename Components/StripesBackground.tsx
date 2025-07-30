@@ -1,8 +1,8 @@
-// components/ui/StripedBackground.tsx
+// components/ui/StripesBackground.tsx
 import React from "react";
 import clsx from "clsx";
 
-interface StripedBackgroundProps {
+interface StripesBackgroundProps {
   className?: string;
   position?: "left" | "right" | "top" | "bottom" | "full";
   width?: string;
@@ -10,7 +10,7 @@ interface StripedBackgroundProps {
   opacity?: string;
 }
 
-const StripedBackground: React.FC<StripedBackgroundProps> = ({
+const StripesBackground: React.FC<StripesBackgroundProps> = ({
   className,
   position = "right",
   width = "w-full",
@@ -41,4 +41,4 @@ const StripedBackground: React.FC<StripedBackgroundProps> = ({
   );
 };
 
-export default StripedBackground;
+export default StripesBackground;
