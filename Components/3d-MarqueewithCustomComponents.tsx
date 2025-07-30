@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import React from "react";
-import { BorderBeam } from "./border-beam";
 
 // Interface for each item in the marquee
 export interface CompMarqueeItem {

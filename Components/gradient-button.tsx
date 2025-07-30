@@ -92,6 +92,7 @@ export function GradientButton({
       <button
         className={`
           btn-gradient relative bg-black dark:bg-white text-white dark:text-black 
+          hover:bg-primary dark:hover:bg-primary/90
           flex items-center
            justify-center 
           border-[0.15rem] Z-20 ${borderStyles[variant]} ${sizeClasses[size]} 

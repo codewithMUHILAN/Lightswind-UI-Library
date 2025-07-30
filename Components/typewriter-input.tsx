@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { cn } from '../lib/utils';
-import { Input } from '../ui/input';
+import { Input } from './input';
 
 export interface TypewriterInputProps {
   /** The value of the input */

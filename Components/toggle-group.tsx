@@ -1,7 +1,6 @@
 
 import * as React from "react";
 import { cn } from "../lib/utils";
-import { toggleVariants } from "../ui/toggle";
 
 interface ToggleGroupContextValue {
   type: "single" | "multiple";

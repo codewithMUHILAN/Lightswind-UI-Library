@@ -7,7 +7,7 @@ const alertVariants = {
   variant: {
     default: "bg-white dark:bg-black text-foreground",
     destructive:
-      " border-gray-400 dark:border-gray-700/50 text-destructive  [&>svg]:text-destructive",
+      " border-gray-400 dark:border-gray-700/50 text-red-500  [&>svg]:text-destructive",
     success:
       "border-green-500/50 text-green-700 dark:text-green-500 [&>svg]:text-green-500",
     warning:

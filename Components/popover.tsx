@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "../lib/utils";
-import { BadgeX, X } from "lucide-react";
+import { BadgeX, CircleXIcon, FolderClosedIcon, X } from "lucide-react";
 
 interface PopoverContextType {
   open: boolean;
@@ -69,6 +69,20 @@ const Popover: React.FC<PopoverProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open, setOpen]);
+
+  // Hide/show body scrollbar based on popover open state
+  React.useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = ""; // Reset to default
+    }
+
+    // Cleanup function to ensure scrollbar is restored if component unmounts
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <PopoverContext.Provider value={{ open, setOpen }}>
@@ -153,7 +167,9 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
           ref={ref}
           data-popover-content
           className={cn(
-            "fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-[90vw] rounded-md border   bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+            "fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-[90vw] rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+            // Added styles for scrollable content and max height within viewport
+            "max-h-[calc(100vh-2rem)] overflow-y-auto", // Max height: 100vh minus 2rem (for padding/margin)
             className
           )}
           {...props}
@@ -161,9 +177,12 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
           {/* Close Icon */}
           <button
             onClick={() => setOpen(false)}
-            className="absolute top-2 right-2 text-gray-500 hover:text-gray-900 dark:hover:text-white"
+            className="absolute top-2 right-2 z-10 group-hover:opacity-100
+            p-1 bg-gray-200/20
+            backdrop-blur-sm rounded-full
+            shadow-md hover:bg-background hover:scale-110 transition-all duration-200"
           >
-            <BadgeX className="w-5 h-5" />
+            <CircleXIcon className="w-6 h-6" />
           </button>
           {props.children}
         </div>

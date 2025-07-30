@@ -1,7 +1,6 @@
 
 import * as React from "react";
 import { cn } from "../lib/utils";
-import { Circle } from "lucide-react";
 
 interface RadioGroupContextType {
   value: string;

@@ -10,7 +10,7 @@ interface DotPatternProps {
   cy?: number;
   cr?: number;
   className?: string;
-  [key: string]: any; 
+  [key: string]: any;
 }
 
 export function DotPattern({

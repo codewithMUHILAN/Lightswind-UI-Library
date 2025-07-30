@@ -9,7 +9,9 @@ interface DrawerContextValue {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DrawerContext = React.createContext<DrawerContextValue | undefined>(undefined);
+const DrawerContext = React.createContext<DrawerContextValue | undefined>(
+  undefined
+);
 
 function useDrawerContext() {
   const context = React.useContext(DrawerContext);
@@ -26,22 +28,30 @@ interface DrawerProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-const Drawer = ({ children, defaultOpen = false, open: controlledOpen, onOpenChange }: DrawerProps) => {
+const Drawer = ({
+  children,
+  defaultOpen = false,
+  open: controlledOpen,
+  onOpenChange,
+}: DrawerProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
 
   const isControlled = controlledOpen !== undefined;
   const open = isControlled ? controlledOpen : uncontrolledOpen;
 
-  const setOpen = React.useCallback((value: React.SetStateAction<boolean>) => {
-    if (!isControlled) {
-      setUncontrolledOpen(value);
-    }
+  const setOpen = React.useCallback(
+    (value: React.SetStateAction<boolean>) => {
+      if (!isControlled) {
+        setUncontrolledOpen(value);
+      }
 
-    if (onOpenChange) {
-      const nextValue = typeof value === "function" ? value(open) : value;
-      onOpenChange(nextValue);
-    }
-  }, [isControlled, onOpenChange, open]);
+      if (onOpenChange) {
+        const nextValue = typeof value === "function" ? value(open) : value;
+        onOpenChange(nextValue);
+      }
+    },
+    [isControlled, onOpenChange, open]
+  );
 
   return (
     <DrawerContext.Provider value={{ open, setOpen }}>
@@ -50,7 +60,8 @@ const Drawer = ({ children, defaultOpen = false, open: controlledOpen, onOpenCha
   );
 };
 
-interface DrawerTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface DrawerTriggerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
 }
 
@@ -59,12 +70,7 @@ const DrawerTrigger = React.forwardRef<HTMLButtonElement, DrawerTriggerProps>(
     const { setOpen } = useDrawerContext();
 
     return (
-      <button
-        ref={ref}
-        type="button"
-        onClick={() => setOpen(true)}
-        {...props}
-      >
+      <button ref={ref} type="button" onClick={() => setOpen(true)} {...props}>
         {children}
       </button>
     );
@@ -73,20 +79,45 @@ const DrawerTrigger = React.forwardRef<HTMLButtonElement, DrawerTriggerProps>(
 DrawerTrigger.displayName = "DrawerTrigger";
 
 // Define a type that omits conflicting HTML attributes for Framer Motion
-type OmittedDrawerContentHTMLAttributes = Omit<React.HTMLAttributes<HTMLDivElement>,
-  'onAnimationStart' | 'onAnimationEnd' | 'onAnimationIteration' |
-  'onTransitionEnd' | 'onDrag' | 'onDragEnd' | 'onDragEnter' |
-  'onDragExit' | 'onDragLeave' | 'onDragOver' | 'onDragStart' |
-  'onDrop' | 'onMouseDown' | 'onMouseEnter' | 'onMouseLeave' |
-  'onMouseMove' | 'onMouseOut' | 'onMouseOver' | 'onMouseUp' |
-  'onTouchCancel' | 'onTouchEnd' | 'onTouchMove' | 'onTouchStart' |
-  'onPointerDown' | 'onPointerMove' | 'onPointerUp' | 'onPointerCancel' |
-  'onPointerEnter' | 'onPointerLeave' | 'onPointerOver' | 'onPointerOut' |
-  'onGotPointerCapture' | 'onLostPointerCapture'
+type OmittedDrawerContentHTMLAttributes = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  | "onAnimationStart"
+  | "onAnimationEnd"
+  | "onAnimationIteration"
+  | "onTransitionEnd"
+  | "onDrag"
+  | "onDragEnd"
+  | "onDragEnter"
+  | "onDragExit"
+  | "onDragLeave"
+  | "onDragOver"
+  | "onDragStart"
+  | "onDrop"
+  | "onMouseDown"
+  | "onMouseEnter"
+  | "onMouseLeave"
+  | "onMouseMove"
+  | "onMouseOut"
+  | "onMouseOver"
+  | "onMouseUp"
+  | "onTouchCancel"
+  | "onTouchEnd"
+  | "onTouchMove"
+  | "onTouchStart"
+  | "onPointerDown"
+  | "onPointerMove"
+  | "onPointerUp"
+  | "onPointerCancel"
+  | "onPointerEnter"
+  | "onPointerLeave"
+  | "onPointerOver"
+  | "onPointerOut"
+  | "onGotPointerCapture"
+  | "onLostPointerCapture"
 >;
 
-
-interface DrawerContentProps extends OmittedDrawerContentHTMLAttributes { // Use the new type here
+interface DrawerContentProps extends OmittedDrawerContentHTMLAttributes {
+  // Use the new type here
   className?: string;
 }
 
@@ -114,8 +145,8 @@ const DrawerContent = React.forwardRef<HTMLDivElement, DrawerContentProps>(
             <motion.div
               ref={ref}
               initial={{ y: "100%" }} // Start off-screen at the bottom
-              animate={{ y: "0%" }}    // Slide up to its natural position
-              exit={{ y: "100%" }}     // Slide back down off-screen on exit
+              animate={{ y: "0%" }} // Slide up to its natural position
+              exit={{ y: "100%" }} // Slide back down off-screen on exit
               transition={{ type: "spring", stiffness: 300, damping: 30 }} // A spring-like animation
               className={cn(
                 "relative z-50 w-full mx-auto rounded-t-md bg-background shadow-lg", // Max-width added for better visual on larger screens
@@ -123,7 +154,7 @@ const DrawerContent = React.forwardRef<HTMLDivElement, DrawerContentProps>(
               )}
               role="dialog"
               aria-modal="true"
-              {...(props as HTMLMotionProps<'div'>)} // Cast props to HTMLMotionProps<'div'>
+              {...(props as HTMLMotionProps<"div">)} // Cast props to HTMLMotionProps<'div'>
             >
               <div className="mx-auto my-2 h-1.5 w-16 rounded-full bg-muted" />
               {children}
@@ -153,12 +184,7 @@ const DrawerClose = React.forwardRef<
   const { setOpen } = useDrawerContext();
 
   return (
-    <button
-      ref={ref}
-      type="button"
-      onClick={() => setOpen(false)}
-      {...props}
-    >
+    <button ref={ref} type="button" onClick={() => setOpen(false)} {...props}>
       {children}
     </button>
   );
@@ -225,5 +251,5 @@ export {
   DrawerHeader,
   DrawerFooter,
   DrawerTitle,
-  DrawerDescription
+  DrawerDescription,
 };

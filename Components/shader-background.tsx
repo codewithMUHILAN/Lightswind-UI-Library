@@ -6,7 +6,7 @@ const vertexShaderSource = `
   void main() {
     gl_Position = a_position;
   }
-`; 
+`;
 
 const fragmentShaderSource = `
 precision mediump float;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { cn } from "../lib/utils";
-import { Input, InputProps  } from "../ui/input";
-import { Label } from "../ui/label";
+import { Input, InputProps  } from "./input";
+import { Label } from "./label";
 import { Eye, EyeOff, Check, X } from "lucide-react";
 
 export type StrengthLevel = "empty" | "weak" | "medium" | "strong" | "very-strong";

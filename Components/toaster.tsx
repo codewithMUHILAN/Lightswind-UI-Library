@@ -8,7 +8,7 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "../ui/toast";
+} from "./toast";
 import { X } from "lucide-react";
 
 export function Toaster() {

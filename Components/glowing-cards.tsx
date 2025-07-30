@@ -145,7 +145,7 @@ export const GlowingCards: React.FC<GlowingCardsProps> = ({
         ref={containerRef}
         className={cn(
           "relative max-w-[var(--max-width)] mx-auto ",
-          "px-6 py-12"
+          "px-6 py-2"
         )}
         style={{ padding: "var(--padding)" }} // String literal
       >

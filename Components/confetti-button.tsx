@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { cn } from "../lib/utils";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 // Confetti type
@@ -38,7 +38,7 @@ const confettiButtonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
-        outline: "border   bg-background hover:bg-accent hover:text-accent-foreground",
+        outline: "border bg-background hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         gradient: "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700",
@@ -117,7 +117,6 @@ const ConfettiButton = React.forwardRef<HTMLButtonElement, ConfettiButtonProps>(
         document.body.appendChild(script);
 
         return () => {
-          // Remove only if still present in DOM
           if (script.parentNode) {
             script.parentNode.removeChild(script);
           }
@@ -127,7 +126,7 @@ const ConfettiButton = React.forwardRef<HTMLButtonElement, ConfettiButtonProps>(
       }
     }, []);
 
-    // Auto-trigger confetti if needed
+    // Auto confetti on mount if needed
     useEffect(() => {
       if (scriptLoaded && autoConfetti && window.confetti && buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
@@ -142,7 +141,7 @@ const ConfettiButton = React.forwardRef<HTMLButtonElement, ConfettiButtonProps>(
     }, [scriptLoaded, autoConfetti, confettiOptions]);
 
     const triggerConfetti = () => {
-      if (window.confetti && buttonRef.current) {
+      if (scriptLoaded && window.confetti && buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
         const x = (rect.left + rect.width / 2) / window.innerWidth;
         const y = (rect.top + rect.height / 2) / window.innerHeight;
@@ -163,7 +162,9 @@ const ConfettiButton = React.forwardRef<HTMLButtonElement, ConfettiButtonProps>(
         }}
         className={cn(confettiButtonVariants({ variant, size, animation }), className)}
         onClick={(e) => {
-          triggerConfetti();
+          if (scriptLoaded) {
+            triggerConfetti();
+          }
           props.onClick?.(e);
         }}
         onMouseEnter={triggerOnHover ? () => triggerConfetti() : undefined}

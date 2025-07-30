@@ -1,11 +1,9 @@
 import * as React from "react";
 import { cn } from "../lib/utils";
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent } from "./dialog";
 import {
   Search,
   Loader2,
-  Command as CommandIcon,
-  ChevronRight,
 } from "lucide-react";
 
 interface CommandContextType {

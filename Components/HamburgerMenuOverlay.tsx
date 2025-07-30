@@ -145,19 +145,19 @@ export const HamburgerMenuOverlay: React.FC<HamburgerMenuOverlayProps> = ({
   }, [isOpen, onClose]);
 
   return (
-    <div ref={containerRef} className={cn("relative w-full h-full", className)}>
+    <div ref={containerRef} className={cn("absolute w-full h-full", className)}>
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Krona+One:wght@400&display=swap');
           
           .hamburger-overlay-${zIndex} {
-            position: absolute;
+            position: relative;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             display: flex;
-            justify-content: center;
+            justify-content: start;
             align-items: center;
             background: ${overlayBackground};
             z-index: ${zIndex};
@@ -296,13 +296,14 @@ export const HamburgerMenuOverlay: React.FC<HamburgerMenuOverlayProps> = ({
       {/* Navigation Overlay */}
       <div
         ref={navRef}
-        className={cn(`hamburger-overlay-${zIndex}`, isOpen && "open")}
+        className={cn(`flex flex-col items-center justify-center h-full
+           hamburger-overlay-${zIndex}`, isOpen && "open")}
         aria-hidden={!isOpen}
       >
         <ul
           className={cn(
-            `menu-items-${zIndex}`,
-            menuDirection === "horizontal" && "flex flex-wrap"
+            `mt-20 menu-items-${zIndex}`,
+            menuDirection === "horizontal" && "flex flex-wrap "
           )}
         >
           {items.map((item, index) => (

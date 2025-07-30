@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence, TargetAndTransition, VariantLabels } from 'framer-motion';
+import { motion, AnimatePresence, TargetAndTransition} from 'framer-motion';
 import { cn } from '../lib/utils'; // Assuming this utility correctly merges class names
 
 export interface TeamMember {
@@ -303,7 +303,8 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
   return (
     <div
       id="team-carousel-container"
-      className={cn(`min-h-screen flex flex-col items-center justify-center overflow-hidden relative bg-background`, className)}
+      className={cn(`min-h-screen flex flex-col items-center justify-center overflow-hidden relative 
+        transparent`, className)}
       style={{ background: background }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

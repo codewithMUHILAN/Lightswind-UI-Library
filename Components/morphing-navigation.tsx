@@ -50,7 +50,17 @@ export const MorphingNavigation: React.FC<MorphingNavigationProps> = ({
 }) => {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const getThemeStyles = useCallback(() => {
     switch (theme) {
@@ -85,19 +95,30 @@ export const MorphingNavigation: React.FC<MorphingNavigationProps> = ({
   const themeStyles = getThemeStyles();
 
   useEffect(() => {
-    if (disableAutoMorph) return;
+    if (disableAutoMorph && !isMobile) return;
     const handleScroll = () => {
-      setIsMenuOpen(false);
-      setIsSticky(window.scrollY >= scrollThreshold);
+      if (isMobile) {
+        setIsSticky(true);
+        setIsMenuOpen(false);
+      } else {
+        setIsSticky(window.scrollY >= scrollThreshold);
+        setIsMenuOpen(false);
+      }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [scrollThreshold, disableAutoMorph]);
+  }, [scrollThreshold, disableAutoMorph, isMobile]);
 
   const handleMenuToggle = () => {
     const open = !isMenuOpen;
     setIsMenuOpen(open);
-    setIsSticky(false);
+    if (isMobile && open) {
+      setIsSticky(true);
+    } else if (isMobile && !open) {
+      setIsSticky(window.scrollY >= scrollThreshold);
+    } else {
+      setIsSticky(false);
+    }
     onMenuToggle?.(open);
   };
 
@@ -107,18 +128,20 @@ export const MorphingNavigation: React.FC<MorphingNavigationProps> = ({
     onLinkClick?.(link);
     if (enableSmoothTransitions) {
       const target = document.querySelector(link.href);
-      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
   };
 
   useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(e.target as Node) && isMenuOpen) {
         setIsMenuOpen(false);
       }
     };
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [isMenuOpen]);
 
   const customStyles = {
@@ -141,30 +164,35 @@ export const MorphingNavigation: React.FC<MorphingNavigationProps> = ({
       </AnimatePresence>
 
       <motion.header
-        className={cn("fixed z-50 w-full", className)}
+        className={cn("fixed top-4 z-50 w-full", className)}
         initial={false}
         animate={{
-          top: isSticky ? compactTop : initialTop,
+          top: isMobile ? compactTop : isSticky ? compactTop : initialTop,
         }}
         transition={{ duration: animationDuration }}
       >
         <motion.nav
           ref={navRef}
           className={cn(
-            "flex justify-center items-center mx-auto backdrop-blur-md border fixed left-0 right-0",
+            "flex justify-center items-center mx-auto backdrop-blur-md border fixed",
             themeStyles.nav,
-            themeStyles.text
+            themeStyles.text,
+            {
+              "left-1/2 -translate-x-1/2": !isMobile && !isSticky,
+              "left-0 right-0": isMobile || isSticky,
+              "sm:w-[70px] sm:h-[70px] sm:rounded-full": isMobile,
+            }
           )}
           animate={{
-            height: isSticky ? 90 : 100,
-            width: isSticky ? 90 : 500,
+            height: isMobile ? 70 : isSticky ? 90 : 100,
+            width: isMobile ? 70 : isSticky ? 90 : 500,
             borderRadius: 9999,
           }}
           transition={{ duration: animationDuration }}
           style={{ top: 0, ...customStyles }}
         >
           <AnimatePresence>
-            {!isSticky &&
+            {!isMobile && !isSticky &&
               links.map((link, i) => (
                 <motion.a
                   key={link.id}
@@ -174,7 +202,7 @@ export const MorphingNavigation: React.FC<MorphingNavigationProps> = ({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className={cn("px-5 py-2.5 text-sm font-bold lowercase tracking-wide")}
+                  className="px-5 py-2.5 text-sm font-bold lowercase tracking-wide"
                 >
                   {link.icon && <span className="mr-2 inline-block">{link.icon}</span>}
                   {link.label}
@@ -186,13 +214,18 @@ export const MorphingNavigation: React.FC<MorphingNavigationProps> = ({
             onClick={handleMenuToggle}
             className={cn(
               "absolute w-[60px] h-[60px] rounded-full outline-none border cursor-pointer",
-              themeStyles.button
+              themeStyles.button,
+              {
+                hidden: !isSticky && !isMobile,
+                block: isMobile || isSticky,
+              }
             )}
-            animate={{ scale: isSticky ? 1 : 0 }}
-            transition={{ delay: isSticky ? 0.2 : 0 }}
+            animate={{ scale: isMobile || isSticky ? 1 : 0 }}
+            transition={{ delay: isMobile || isSticky ? 0.2 : 0 }}
           >
             {customHamburgerIcon || (
               <div className="flex flex-col items-center justify-center h-full">
+                <span className="block w-4 h-0.5 bg-current my-1"></span>
                 <span className="block w-4 h-0.5 bg-current my-1"></span>
                 <span className="block w-4 h-0.5 bg-current my-1"></span>
               </div>
@@ -212,7 +245,7 @@ export const MorphingNavigation: React.FC<MorphingNavigationProps> = ({
           >
             <motion.div
               className={cn(
-                "p-8 rounded-2xl backdrop-blur-md border",
+                "p-8 rounded-2xl backdrop-blur-md border w-11/12 max-w-sm",
                 themeStyles.nav,
                 themeStyles.text
               )}

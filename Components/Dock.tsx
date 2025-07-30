@@ -88,7 +88,7 @@ function DockItem({
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
       className="relative inline-flex items-center justify-center rounded-full 
-      bg-background border-2 border   shadow-md  "
+      bg-background    shadow-md  "
       tabIndex={0}
       role="button"
       aria-haspopup="true"

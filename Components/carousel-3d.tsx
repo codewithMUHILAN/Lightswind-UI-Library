@@ -9,7 +9,7 @@ import React, {
   ReactNode,
 } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { Card, CardContent } from "@component2/ui/card";
+import { Card, CardContent } from "@/app/component2/ui/card";
 import { useIsMobile } from "../hooks/use-mobile";
 import Link from "next/link";
 
@@ -99,10 +99,15 @@ const Carousel3D = ({
   };
 
   return (
-    <section id="carousel3d" className="bg-background min-w-full mx-auto">
-      <div className="w-full px-4 sm:px-6 lg:px-8 
-      min-w-[350px] md:min-w-[1000px] max-w-7xl  ">
-
+    <section
+      id="carousel3d"
+      className="bg-transparent min-w-full mx-aut 
+    flex items-center justify-center"
+    >
+      <div
+        className="w-full px-4 sm:px-6 lg:px-8 
+      min-w-[350px] md:min-w-[1000px] max-w-7xl  "
+      >
         <div
           className="relative overflow-hidden h-[550px] "
           onMouseEnter={() => setIsHovering(true)}
@@ -120,8 +125,10 @@ const Carousel3D = ({
                   index
                 )}`}
               >
-                <Card className={`overflow-hidden bg-background h-[${cardHeight}px] border shadow-sm 
-                hover:shadow-md flex flex-col`}>
+                <Card
+                  className={`overflow-hidden bg-background h-[${cardHeight}px] border shadow-sm 
+                hover:shadow-md flex flex-col`}
+                >
                   <div
                     className="relative bg-black p-6 flex items-center justify-center h-48 overflow-hidden"
                     style={{
@@ -132,16 +139,24 @@ const Carousel3D = ({
                   >
                     <div className="absolute inset-0 bg-black/50" />
                     <div className="relative z-10 text-center text-white">
-                      <h3 className="text-2xl font-bold mb-2">{item.brand.toUpperCase()}</h3>
+                      <h3 className="text-2xl font-bold mb-2">
+                        {item.brand.toUpperCase()}
+                      </h3>
                       <div className="w-12 h-1 bg-white mx-auto mb-2" />
                       <p className="text-sm ">{item.title}</p>
                     </div>
                   </div>
 
                   <CardContent className="p-6 flex flex-col flex-grow">
-                    <h3 className="text-xl font-bold mb-1 text-foreground">{item.title}</h3>
-                    <p className="text-gray-500 text-sm font-medium mb-2">{item.brand}</p>
-                    <p className="text-gray-600 text-sm flex-grow">{item.description}</p>
+                    <h3 className="text-xl font-bold mb-1 text-foreground">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-500 text-sm font-medium mb-2">
+                      {item.brand}
+                    </p>
+                    <p className="text-gray-600 text-sm flex-grow">
+                      {item.description}
+                    </p>
 
                     <div className="mt-4">
                       <div className="flex flex-wrap gap-2 mb-4">
@@ -179,7 +194,9 @@ const Carousel3D = ({
             <>
               <button
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-gray-500 hover:bg-white z-30 shadow-md transition-all hover:scale-110"
-                onClick={() => setActive((prev) => (prev - 1 + items.length) % items.length)}
+                onClick={() =>
+                  setActive((prev) => (prev - 1 + items.length) % items.length)
+                }
                 aria-label="Previous"
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -199,7 +216,9 @@ const Carousel3D = ({
               <button
                 key={idx}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  active === idx ? "bg-gray-500 w-5" : "bg-gray-200 hover:bg-gray-300"
+                  active === idx
+                    ? "bg-gray-500 w-5"
+                    : "bg-gray-200 hover:bg-gray-300"
                 }`}
                 onClick={() => setActive(idx)}
                 aria-label={`Go to item ${idx + 1}`}
