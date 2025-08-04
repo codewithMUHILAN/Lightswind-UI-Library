@@ -8,7 +8,8 @@
     <div align="center">
   <img src="https://codewithmuhilan.com/Extra-Assets/lightwind-logo.png" alt="Lightswind UI Logo" width="180" />
   
-  <h1 align="center">Lightswind UI 3.0.0</h1>
+  <h1 align="center">Lightswind UI 3.0.0
+Animated React Components</h1>
   
   <p align="center">
     <b>Create stunning web applications effortlessly with Lightwind UI. Access 100+ customizable cli components, blocks, and templates for various applications—from dashboards to resource pages and catalog displays. Available in React, these pre-built animated elements are fully customizable, helping you craft user-friendly, visually appealing apps without starting from scratch.</b>
