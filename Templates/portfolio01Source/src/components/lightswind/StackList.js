@@ -1,0 +1,11 @@
+"use client";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+export default function StackList({ items, initialVisible = 1, className = "", }) {
+    const [expanded, setExpanded] = useState(false);
+    const visibleItems = expanded ? items : items.slice(0, initialVisible);
+    return (_jsxs("div", { className: `bg-transparent text-foreground mx-auto  
+         overflow-hidden ${className}`, children: [_jsx("div", { className: "flex flex-col gap-4 relative", children: _jsx(AnimatePresence, { initial: false, children: visibleItems.map((item, index) => (_jsxs(motion.div, { initial: { opacity: 0, y: 20, scale: 0.95 }, animate: { opacity: 1, y: 0, scale: 1 }, exit: { opacity: 0, y: -20, scale: 0.95 }, transition: { duration: 0.3, delay: index * 0.05 }, className: "flex items-center gap-4 p-4 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-sm", children: [_jsx("div", { className: "w-12 h-12 bg-background rounded-xl \r\n              flex items-center justify-center text-foreground", children: item.icon }), _jsxs("div", { className: "flex-1", children: [_jsx("div", { className: "text-xs xl:text-sm font-semibold text-gray-900 dark:text-white", children: item.title }), _jsx("div", { className: "text-xs xl:text-sm text-gray-500 dark:text-gray-400", children: item.subtitle })] }), _jsx("div", { className: "text-xs xl:text-sm text-gray-400", children: item.date })] }, item.title + index))) }) }), items.length > initialVisible && (_jsxs("button", { onClick: () => setExpanded((prev) => !prev), className: "mt-4 mx-auto flex items-center justify-center gap-2 px-4 py-2\r\n           border border-gray-300 dark:border-gray-700 rounded-full \r\n           text-xs xl:text-sm font-medium text-gray-600 dark:text-gray-300 transition \r\n           hover:bg-gray-100 dark:hover:bg-neutral-800", children: [_jsx("span", { children: expanded ? "Hide" : "Show All" }), _jsx(motion.div, { animate: { rotate: expanded ? 180 : 0 }, transition: { duration: 0.3 }, children: _jsx(ChevronDown, { className: "w-4 h-4" }) })] }))] }));
+}

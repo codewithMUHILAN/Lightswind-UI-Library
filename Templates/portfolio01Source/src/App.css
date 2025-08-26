@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+}
+
+@import "./components/lightswind.css";
+
+
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("../node_modules/@vercel/fonts/geist-sans/GeistSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("../node_modules/@vercel/fonts/geist-sans/GeistSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("../node_modules/@vercel/fonts/geist-sans/GeistSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+* {
+  font-family: "Geist Sans", sans-serif !important;
+}
+
+
+
+
