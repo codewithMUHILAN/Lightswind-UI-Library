@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "exports": {
-    ".": "./dist/index.js", 
+    ".": "./dist/index.js",
     "./plugin": "./plugin.js",
     "./styles.css": "./dist/styles.css"
   },
