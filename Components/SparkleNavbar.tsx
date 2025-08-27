@@ -282,7 +282,9 @@ const SparkleNavbar: React.FC<SparkleNavbarProps> = ({
           {items.map((item, index) => (
             <li key={item} className={index === activeIndex ? "active" : ""}>
               <button
-                ref={(el) => (buttonRefs.current[index] = el)}
+                ref={(el) => {
+                  buttonRefs.current[index] = el;
+                }}
                 onClick={() => handleClick(index)}
               >
                 {item}
