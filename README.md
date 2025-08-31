@@ -122,104 +122,194 @@ Lightswind UI includes a comprehensive set of components:
 ### Our Components List
 
 <ul className="space-y-4">
-  <li>
-    <h3 className="text-xl font-bold mb-2">Get Started</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Installation Guide</li>
-      <li>Quick Start</li>
-      <li>Folder Structure</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Get Started</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Introduction</li>
+      <li>Installation</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">Background</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Aurora Background</li>
-      <li>Animated Gradient</li>
-      <li>Parallax Scroll</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Background</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Animated Wave</li>
+      <li>Animated Bubble Particles</li>
+      <li>Aurora Shader</li>
+      <li>Grid & Dot Backgrounds</li>
+      <li>Gradient Background</li>
+      <li>Hell Background</li>
+      <li>Particles Background</li>
+      <li>Reflect Background</li>
+      <li>Smokey Background</li>
+      <li>Shader Background</li>
+      <li>Sparkle Particles</li>
+      <li>Stripes Background</li>
+      <li>Wave Background</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">Text</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Typewriter Effect</li>
-      <li>Glitch Text</li>
-      <li>3D Text Flip</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Button</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Border Beam</li>
+      <li>Confetti Button</li>
+      <li>Gradient Button</li>
+      <li>Ripple Button</li>
+      <li>Shine Button</li>
+      <li>Trial Button</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">Button</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Hover Button</li>
-      <li>Magnetic Button</li>
-      <li>Slide Reveal Button</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Text</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Aurora Text</li>
+      <li>Scroll Reveal</li>
+      <li>Shiny Text</li>
+      <li>Text Scroll Marquee</li>
+      <li>Typewriter Input</li>
+      <li>Typing Text</li>
+      <li>Video Text</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">3D Elements</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>3D Hover Card</li>
-      <li>Image Ring</li>
-      <li>Perspective Scroll</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">3D Elements</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>3d Image Ring</li>
+      <li>3D Carousel</li>
+      <li>3D Hover Gallery</li>
+      <li>3D Marquee</li>
+      <li>3D Model Viewer</li>
+      <li>3D Perspective Card</li>
+      <li>3D Scroll Trigger</li>
+      <li>Scroll Carousel</li>
+      <li>Sparkle Navbar</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">Cursor</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Blob Cursor</li>
-      <li>Interactive Cursor</li>
-      <li>Cursor Trail</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Cursor</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Canvas Confetti Cursor</li>
+      <li>Particle Orbit Effect</li>
+      <li>Smokey Cursor</li>
+      <li>Smooth Cursor</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">Components</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Animated Card</li>
-      <li>Reveal Box</li>
-      <li>Hover Overlay</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Components</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Animated Notification</li>
+      <li>Bento Grid</li>
+      <li>Code Hover Cards</li>
+      <li>Count Up</li>
+      <li>Dock</li>
+      <li>Drag Order List</li>
+      <li>Dynamic Navigation</li>
+      <li>Glass Folder</li>
+      <li>Globe</li>
+      <li>Glowing Cards</li>
+      <li>Hamburger Menu Overlay</li>
+      <li>Image Reveal</li>
+      <li>Image Trail Effect</li>
+      <li>Interactive Card</li>
+      <li>Interactive Gradient Card</li>
+      <li>Lens</li>
+      <li>Magic Loader</li>
+      <li>Morphing Navigation</li>
+      <li>Orbit Card</li>
+      <li>Password Strength Indicator</li>
+      <li>Scroll List</li>
+      <li>Scroll Stack</li>
+      <li>Scroll Timeline</li>
+      <li>Seasonal Hover Cards</li>
+      <li>Sliding Cards</li>
+      <li>Sliding Logo Marquee</li>
+      <li>Stack List</li>
+      <li>Team Carousel</li>
+      <li>Terminal Card</li>
+      <li>Top Loader</li>
+      <li>Top Sticky Bar</li>
+      <li>Trusted Users</li>
+      <li>Ripple Loader</li>
+      <li>Woofy Hover Image</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">Layout</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Sticky Sections</li>
-      <li>Grid Layout</li>
-      <li>Flex Panels</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Layout</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Accordion</li>
+      <li>Aspect Ratio</li>
+      <li>Resizable</li>
+      <li>Scroll Area</li>
+      <li>Separator</li>
+      <li>Tabs</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">UI Elements</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Accordion</li>
-      <li>Tabs</li>
-      <li>Modal</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">UI Elements</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Alert</li>
+      <li>Alert Dialog</li>
+      <li>Avatar</li>
+      <li>Badge</li>
+      <li>Button</li>
+      <li>Card</li>
+      <li>Carousel</li>
+      <li>Chart</li>
+      <li>Collapsible</li>
+      <li>Context Menu</li>
+      <li>Dialog</li>
+      <li>Drawer</li>
+      <li>Dropdown Menu</li>
+      <li>Hover Card</li>
+      <li>Popover</li>
+      <li>Progress</li>
+      <li>Sheet</li>
+      <li>Skeleton</li>
+      <li>Table</li>
+      <li>Toast</li>
+      <li>Tooltip</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">Form Controls</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Animated Input</li>
-      <li>Custom Checkbox</li>
-      <li>Form Wizard</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Form Controls</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Calendar</li>
+      <li>Checkbox</li>
+      <li>Command</li>
+      <li>Form</li>
+      <li>Input</li>
+      <li>Input OTP</li>
+      <li>Label</li>
+      <li>Radio Group</li>
+      <li>Select</li>
+      <li>Slider</li>
+      <li>Switch</li>
+      <li>Textarea</li>
+      <li>Toggle</li>
+      <li>Toggle Group</li>
+    </ul>
+  </li>
 
-  <li>
-    <h3 className="text-xl font-bold mb-2">Navigation</h3>
-    <ul className="ml-4 list-disc text-sm text-muted-foreground">
-      <li>Sticky Header</li>
-      <li>Sidebar Menu</li>
-      <li>Mobile Drawer</li>
-    </ul>
-  </li>
+  <li>
+    <h3 className="text-xl font-bold mb-2">Navigation</h3>
+    <ul className="ml-4 list-disc text-sm text-muted-foreground">
+      <li>Breadcrumb</li>
+      <li>Command</li>
+      <li>Menubar</li>
+      <li>Navigation Menu</li>
+      <li>Pagination</li>
+      <li>Sidebar</li>
+    </ul>
+  </li>
+
 </ul>
 
 
