@@ -200,7 +200,6 @@ const SparkleNavbar: React.FC<SparkleNavbarProps> = ({
           padding: 0;
           margin: 0;
           list-style: 22px;
-          color: #fff;
           transition: color 0.25s;
         }
 
@@ -222,7 +221,7 @@ const SparkleNavbar: React.FC<SparkleNavbarProps> = ({
           height: 3px;
           width: 36px;
           border-radius: 2px;
-          background-color: #fff;
+          background-color: ${color};
           opacity: var(--active-element-show);
         }
 
@@ -286,6 +285,7 @@ const SparkleNavbar: React.FC<SparkleNavbarProps> = ({
                   buttonRefs.current[index] = el;
                 }}
                 onClick={() => handleClick(index)}
+                className="text-foreground"
               >
                 {item}
               </button>
