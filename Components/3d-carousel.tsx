@@ -1,4 +1,4 @@
-// components/Carousel3D.tsx
+// components/ThreeDCarousel.tsx
 "use client";
 
 import React, {
@@ -6,14 +6,13 @@ import React, {
   useEffect,
   useState,
   TouchEvent,
-  ReactNode,
 } from "react";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/app/component2/ui/card";
 import { useIsMobile } from "../hooks/use-mobile";
 import Link from "next/link";
 
-export interface Carousel3DItem {
+export interface ThreeDCarouselItem {
   id: number;
   title: string;
   brand: string;
@@ -23,8 +22,8 @@ export interface Carousel3DItem {
   link: string;
 }
 
-interface Carousel3DProps {
-  items: Carousel3DItem[];
+interface ThreeDCarouselProps {
+  items: ThreeDCarouselItem[];
   autoRotate?: boolean;
   rotateInterval?: number;
   cardHeight?: number;
@@ -34,7 +33,7 @@ interface Carousel3DProps {
   isMobileSwipe?: boolean;
 }
 
-const Carousel3D = ({
+const ThreeDCarousel = ({
   items,
   autoRotate = true,
   rotateInterval = 4000,
@@ -43,7 +42,7 @@ const Carousel3D = ({
   subtitle = "Customer Cases",
   tagline = "Explore how our textile sensor technology is revolutionizing multiple industries with intelligent fabric solutions tailored to specific needs.",
   isMobileSwipe = true,
-}: Carousel3DProps) => {
+}: ThreeDCarouselProps) => {
   const [active, setActive] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
@@ -100,7 +99,7 @@ const Carousel3D = ({
 
   return (
     <section
-      id="carousel3d"
+      id="ThreeDCarousel"
       className="bg-transparent min-w-full mx-aut 
     flex items-center justify-center"
     >
@@ -170,7 +169,7 @@ const Carousel3D = ({
                         ))}
                       </div>
 
-                      <Link
+                      <a
                         href={item.link}
                         className="text-gray-500 flex items-center hover:underline relative group"
                         onClick={() => {
@@ -182,7 +181,7 @@ const Carousel3D = ({
                         <span className="relative z-10">Learn more</span>
                         <ArrowRight className="ml-2 w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
                         <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-gray-500 transition-all duration-300 group-hover:w-full"></span>
-                      </Link>
+                      </a>
                     </div>
                   </CardContent>
                 </Card>
@@ -231,4 +230,4 @@ const Carousel3D = ({
   );
 };
 
-export default Carousel3D;
+export default ThreeDCarousel;

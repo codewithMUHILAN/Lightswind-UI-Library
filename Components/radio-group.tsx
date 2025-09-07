@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { cn } from "../lib/utils";
 
@@ -9,7 +8,9 @@ interface RadioGroupContextType {
   orientation?: "horizontal" | "vertical";
 }
 
-const RadioGroupContext = React.createContext<RadioGroupContextType | undefined>(undefined);
+const RadioGroupContext = React.createContext<
+  RadioGroupContextType | undefined
+>(undefined);
 
 interface RadioGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string;
@@ -21,8 +22,21 @@ interface RadioGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
-  ({ className, value, defaultValue, onValueChange, name, orientation = "vertical", ...props }, ref) => {
-    const [selectedValue, setSelectedValue] = React.useState(value || defaultValue || "");
+  (
+    {
+      className,
+      value,
+      defaultValue,
+      onValueChange,
+      name,
+      orientation = "vertical",
+      ...props
+    },
+    ref
+  ) => {
+    const [selectedValue, setSelectedValue] = React.useState(
+      value || defaultValue || ""
+    );
 
     React.useEffect(() => {
       if (value !== undefined) {
@@ -42,16 +56,23 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
 
     return (
       <RadioGroupContext.Provider
-        value={{ value: selectedValue, onValueChange: handleValueChange, name, orientation }}
+        value={{
+          value: selectedValue,
+          onValueChange: handleValueChange,
+          name,
+          orientation,
+        }}
       >
-        <div 
-          ref={ref} 
+        <div
+          ref={ref}
           className={cn(
-            orientation === "horizontal" ? "flex items-center space-x-4" : "grid gap-2", 
+            orientation === "horizontal"
+              ? "flex items-center space-x-4"
+              : "grid gap-2",
             className
-          )} 
-          role="radiogroup" 
-          {...props} 
+          )}
+          role="radiogroup"
+          {...props}
         />
       </RadioGroupContext.Provider>
     );
@@ -59,7 +80,8 @@ const RadioGroup = React.forwardRef<HTMLDivElement, RadioGroupProps>(
 );
 RadioGroup.displayName = "RadioGroup";
 
-interface RadioGroupItemProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value"> {
+interface RadioGroupItemProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value"> {
   value: string;
   customSize?: "sm" | "md" | "lg";
 }
@@ -80,7 +102,7 @@ const RadioGroupItem = React.forwardRef<HTMLDivElement, RadioGroupItemProps>(
     const sizeMap = {
       sm: { outer: "h-3.5 w-3.5", inner: "h-1.5 w-1.5", icon: "h-2 w-2" },
       md: { outer: "h-4 w-4", inner: "h-2 w-2", icon: "h-2.5 w-2.5" },
-      lg: { outer: "h-5 w-5", inner: "h-2.5 w-2.5", icon: "h-3 w-3" }
+      lg: { outer: "h-5 w-5", inner: "h-2.5 w-2.5", icon: "h-3 w-3" },
     };
 
     const itemSize = sizeMap[customSize];
@@ -109,16 +131,19 @@ const RadioGroupItem = React.forwardRef<HTMLDivElement, RadioGroupItemProps>(
           />
           <div
             className={cn(
-              "relative flex items-center justify-center rounded-full border   ring-offset-background transition-all duration-200",
-              checked && "border-primary",
+              `relative flex items-center justify-center rounded-full border
+              border-gray-300 dark:border-gray-800 ring-foreground transition-all duration-200`,
+              checked && "border-foreground",
               focused && "ring-2 ring-ring ring-offset-2",
-              props.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+              props.disabled
+                ? "cursor-not-allowed opacity-50"
+                : "cursor-pointer",
               itemSize.outer,
               className
             )}
             onClick={() => radioRef.current?.click()}
           >
-            <div 
+            <div
               className={cn(
                 "absolute rounded-full bg-primary scale-0 transition-transform duration-200 ease-in-out",
                 checked && "scale-100",

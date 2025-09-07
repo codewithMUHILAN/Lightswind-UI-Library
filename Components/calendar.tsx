@@ -1,28 +1,36 @@
 import React, { useState } from "react";
 import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/dist/style.css";
-import { enUS } from "date-fns/locale";
-import { addDays } from "date-fns";
-
-// Import Select components from Lightswind UI
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "lightswind";
+} from "./select";
+
+// --- Helper function to replace date-fns/addDays ---
+// Uses native JavaScript Date methods to add days to a given date.
+const addDays = (date: Date, days: number): Date => {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
 
 const Calendar = () => {
   const [mode, setMode] = useState<"single" | "multiple" | "range">("single");
 
   const today = new Date();
-  const nextMonth = addDays(today, 30); // Using addDays for consistency with original code
+  // Use our new helper function instead of the one from date-fns
+  const nextMonth = addDays(today, 30);
 
   const [singleDate, setSingleDate] = useState<Date | undefined>(today);
-  const [multipleDates, setMultipleDates] = useState<Date[] | undefined>([today]);
+  const [multipleDates, setMultipleDates] = useState<Date[] | undefined>([
+    today,
+  ]);
   const [range, setRange] = useState<DateRange | undefined>({
     from: today,
+    // Use our new helper function here as well
     to: addDays(today, 7),
   });
 
@@ -30,8 +38,9 @@ const Calendar = () => {
     setMode(value);
   };
 
+  // This logic uses native Date methods, so it doesn't need to change.
   const disabledDays = [
-    new Date(2025, 6, 25), // July 25, 2025
+    new Date(2025, 6, 25), // July 25, 2025 (Month is 0-indexed)
     new Date(2025, 6, 26), // July 26, 2025
     {
       from: new Date(2025, 6, 28), // July 28, 2025
@@ -43,7 +52,7 @@ const Calendar = () => {
   const commonDayPickerProps = {
     className: "rounded-lg border p-4",
     weekStartsOn: 1 as const, // Monday
-    locale: enUS,
+    // locale: enUS, // This is removed as react-day-picker defaults to English
     defaultMonth: today,
     fromDate: today,
     toDate: nextMonth,
@@ -102,6 +111,7 @@ const Calendar = () => {
         {mode === "single" && singleDate && (
           <p>
             Selected:{" "}
+            {/* toLocaleDateString is a native method, so this works perfectly */}
             <strong>{singleDate.toLocaleDateString("en-US")}</strong>
           </p>
         )}
@@ -119,8 +129,7 @@ const Calendar = () => {
           <p>
             From:{" "}
             <strong>{range.from?.toLocaleDateString("en-US") || "—"}</strong>{" "}
-            to:{" "}
-            <strong>{range.to?.toLocaleDateString("en-US") || "—"}</strong>
+            to: <strong>{range.to?.toLocaleDateString("en-US") || "—"}</strong>
           </p>
         )}
       </div>

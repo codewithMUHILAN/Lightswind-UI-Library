@@ -74,7 +74,7 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = ({
   const allImages = [...images, ...images]; // Duplicate images for seamless scroll
 
   return (
-    <div className="overflow-hidden w-full relative">
+    <div className=" w-full relative">
       <div
         ref={containerRef}
         className="flex w-max" // w-max ensures the flex container takes the width of all its children

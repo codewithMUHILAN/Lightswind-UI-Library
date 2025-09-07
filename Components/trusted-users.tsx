@@ -65,7 +65,7 @@ export const TrustedUsers: React.FC<TrustedUsersProps> = ({
             suffix="+"
             colorScheme="gradient"
           />
-          users
+          <a className="underline text-primarylw dark:text-greedy" href="/pricing">Pro users</a>
         </span>
       </div>
     </div>

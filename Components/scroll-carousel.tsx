@@ -7,23 +7,10 @@ import React, {
 } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion } from "framer-motion";
-import {
-  LucideIcon,
-  Send,
-  Globe,
-  Shield,
-  CreditCard,
-  Zap,
-  Lock,
-  Smartphone,
-  TrendingUp,
-} from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
 // Assuming these are external, import them
 import { cn } from "../lib/utils";
-// import RippleLoader from "./ripple-loader";
-// import waves1blur from "../../assets/waves1blur.gif";
 
 gsap.registerPlugin(ScrollTrigger);
 

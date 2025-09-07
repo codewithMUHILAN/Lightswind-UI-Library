@@ -15,7 +15,7 @@ const StripesBackground: React.FC<StripesBackgroundProps> = ({
   position = "right",
   width = "w-full",
   height = "h-full",
-  opacity = "opacity-70", // This opacity applies to the div itself
+  opacity = "opacity-30", // This opacity applies to the div itself
 }) => {
   const positionStyles = {
     right: "absolute top-0 right-0",
@@ -28,14 +28,14 @@ const StripesBackground: React.FC<StripesBackgroundProps> = ({
   return (
     <div
       className={clsx(
-        "pointer-events-none",
-        // More visible stripes in both modes
-        "bg-[repeating-linear-gradient(45deg,_#00000066_0px,_#00000066_1px,_transparent_1px,_transparent_6px)] opacity-50",
+        "pointer-events-none z-10",
+        "bg-[repeating-linear-gradient(45deg,_#00000066_0px,_#00000066_1px,_transparent_1px,_transparent_6px)]",
         "dark:bg-[repeating-linear-gradient(45deg,_#ffffff66_0px,_#ffffff66_1px,_transparent_1px,_transparent_6px)]",
         positionStyles[position],
         width,
         height,
-        className // now `opacity-50` will apply more obviously
+        opacity,
+        className
       )}
     />
   );

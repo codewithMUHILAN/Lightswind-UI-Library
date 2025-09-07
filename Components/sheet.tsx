@@ -2,7 +2,7 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { cn } from "../lib/utils";
-import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SheetContextValue {
   open: boolean;
@@ -47,55 +47,55 @@ interface SheetTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 }
 
 const SheetTrigger = React.forwardRef<HTMLButtonElement, SheetTriggerProps>(
-  ({ children, ...props }, forwardedRef) => { // Renamed ref to forwardedRef for clarity
-    const { setOpen } = React.useContext(SheetContext) || { setOpen: () => { } };
+  ({ children, asChild, ...props }, forwardedRef) => {
+    const { setOpen } = React.useContext(SheetContext) || { setOpen: () => {} };
 
-    if (props.asChild) {
-      // Ensure children is a single React element for asChild functionality
-      const child = React.Children.only(children); // React.Children.only will throw if not single
+    // Derive dependencies for the hook before the hook itself.
+    // This logic can be conditional as it does not involve hooks.
+    const child = asChild ? React.Children.only(children) : null;
+    const childRef = child && React.isValidElement(child) ? (child as any).ref : undefined;
 
-      // Type check the child element to ensure it's valid for cloning
+    // Call the hook unconditionally at the top level of the component.
+    const mergedRef = React.useCallback(
+      (node: HTMLElement | null) => {
+        // Call the forwarded ref
+        if (typeof forwardedRef === 'function') {
+          forwardedRef(node as HTMLButtonElement | null);
+        } else if (forwardedRef) {
+          (forwardedRef as React.MutableRefObject<HTMLButtonElement | null>).current = node as HTMLButtonElement | null;
+        }
+
+        // Call the child's original ref
+        if (typeof childRef === 'function') {
+          childRef(node);
+        } else if (childRef) {
+          (childRef as React.MutableRefObject<HTMLElement | null>).current = node;
+        }
+      },
+      [forwardedRef, childRef]
+    );
+
+    if (asChild) {
       if (!React.isValidElement(child)) {
-        // Handle invalid child type, e.g., return null or throw an error
         console.error("SheetTrigger with `asChild` expects a single valid React element child.");
-        return null; // Return null if the child is not a valid element
+        return null;
       }
 
-      // Merge the forwarded ref with the child's existing ref
-      const childRef = (child as any).ref; // Get the ref directly from the child (can be function or object ref)
-
-      const mergedRef = React.useCallback(
-        (node: HTMLElement | null) => {
-          // Call the forwarded ref
-          if (typeof forwardedRef === 'function') {
-            forwardedRef(node as HTMLButtonElement | null); // Ensure type consistency for HTMLButtonElement or null
-          } else if (forwardedRef) {
-            (forwardedRef as React.MutableRefObject<HTMLButtonElement | null>).current = node as HTMLButtonElement | null;
-          }
-
-          // Call the child's original ref
-          if (typeof childRef === 'function') {
-            childRef(node);
-          } else if (childRef) {
-            (childRef as React.MutableRefObject<HTMLElement | null>).current = node;
-          }
-        },
-        [forwardedRef, childRef]
-      );
-
+      // Use the memoized `mergedRef` inside the conditional block.
       return React.cloneElement(child, {
         ...child.props,
+        ...props, // Pass down props like className, etc., to the child
         onClick: (e: React.MouseEvent) => {
           setOpen(true);
-          if (child.props.onClick) child.props.onClick(e); // Call original onClick
+          if (child.props.onClick) child.props.onClick(e);
         },
-        ref: mergedRef, // Assign the merged ref
+        ref: mergedRef,
       });
     }
 
     return (
       <button
-        ref={forwardedRef} // Use the forwardedRef here
+        ref={forwardedRef}
         type="button"
         onClick={() => setOpen(true)}
         {...props}
@@ -106,6 +106,7 @@ const SheetTrigger = React.forwardRef<HTMLButtonElement, SheetTriggerProps>(
   }
 );
 SheetTrigger.displayName = "SheetTrigger";
+
 
 const SheetClose = React.forwardRef<
   HTMLButtonElement,
@@ -138,19 +139,18 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { setOpen } = React.useContext(SheetContext) || { setOpen: () => { } };
 
-  // Destructure props to exclude common drag-related events and onAnimationStart
-  const { 
-    onDrag: _, 
-    onDragEnd: __, 
-    onDragStart: ___, // Added onDragStart
-    onDragExit: ____, // Added onDragExit (if it applies)
-    onDragEnter: _____, // Added onDragEnter (if it applies)
-    onDragLeave: ______, // Added onDragLeave (if it applies)
-    onDragOver: _______, // Added onDragOver (if it applies)
-    onDrop: ________, // Added onDrop (if it applies)
-    onAnimationStart: _________, // Keep onAnimationStart
-    ...restProps 
-  } = props; 
+  const {
+    onDrag: _,
+    onDragEnd: __,
+    onDragStart: ___,
+    onDragExit: ____,
+    onDragEnter: _____,
+    onDragLeave: ______,
+    onDragOver: _______,
+    onDrop: ________,
+    onAnimationStart: _________,
+    ...restProps
+  } = props;
 
   return (
     <motion.div
@@ -164,7 +164,7 @@ const SheetOverlay = React.forwardRef<
         className
       )}
       onClick={() => setOpen(false)}
-      {...restProps} // Use restProps here
+      {...restProps}
     />
   );
 });
@@ -175,7 +175,6 @@ interface SheetContentProps
   side?: "top" | "right" | "bottom" | "left";
 }
 
-// DEFINE sideVariants OUTSIDE of SheetContent
 const sideVariants = {
   top: {
     initial: { y: "-100%" },
@@ -202,14 +201,10 @@ const sideVariants = {
 const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
   ({ side = "right", className, children, ...props }, ref) => {
     const { open, setOpen } = React.useContext(SheetContext) || { open: false, setOpen: () => { } };
-
-    const contentLocalRef = React.useRef<HTMLDivElement | null>(null); // Initialize with null
+    const contentLocalRef = React.useRef<HTMLDivElement | null>(null);
 
     const combinedRef = React.useCallback((node: HTMLDivElement | null) => {
-      // Set the internal ref for click outside logic
       contentLocalRef.current = node;
-
-      // Set the external ref passed to forwardRef
       if (typeof ref === 'function') {
         ref(node);
       } else if (ref) {
@@ -241,18 +236,17 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
       };
     }, [open, setOpen]);
 
-    // Destructure props to exclude common drag-related events and onAnimationStart for Framer Motion compatibility
-    const { 
-      onDrag: _, 
-      onDragEnd: __, 
-      onDragStart: ___, 
-      onDragExit: ____, 
-      onDragEnter: _____, 
-      onDragLeave: ______, 
-      onDragOver: _______, 
-      onDrop: ________, 
-      onAnimationStart: _________, 
-      ...restProps 
+    const {
+      onDrag: _,
+      onDragEnd: __,
+      onDragStart: ___,
+      onDragExit: ____,
+      onDragEnter: _____,
+      onDragLeave: ______,
+      onDragOver: _______,
+      onDrop: ________,
+      onAnimationStart: _________,
+      ...restProps
     } = props;
 
     return createPortal(
@@ -260,7 +254,6 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
         {open && (
           <SheetPortal>
             <SheetOverlay />
-
             <motion.div
               ref={combinedRef}
               key="sheet-content"
@@ -270,13 +263,13 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className={cn(
                 "fixed z-50 gap-4 bg-background p-6 shadow-lg",
-                side === "top" && "inset-x-0 top-0 border-b  ",
-                side === "bottom" && "inset-x-0 bottom-0 border-t  ",
-                side === "left" && "inset-y-0 left-0 h-full w-3/4 border-r   sm:max-w-sm",
-                side === "right" && "inset-y-0 right-0 h-full w-3/4 border-l   sm:max-w-sm",
+                side === "top" && "inset-x-0 top-0 border-b  border-gray-200 dark:border-gray-800/40",
+                side === "bottom" && "inset-x-0 bottom-0 border-t border-gray-200 dark:border-gray-800/40 ",
+                side === "left" && "inset-y-0 left-0 h-full w-3/4 border-r border-gray-200 dark:border-gray-800/40  sm:max-w-sm",
+                side === "right" && "inset-y-0 right-0 h-full w-3/4 border-l border-gray-200 dark:border-gray-800/40  sm:max-w-sm",
                 className
               )}
-              {...restProps} // Use restProps here
+              {...restProps}
             >
               {children}
               <SheetClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">

@@ -59,7 +59,7 @@ module.exports = plugin(
       "--background": "0 0% 0%",
       "--foreground": "0 0% 100%",
 
-      "--card": "0 0% 5%",
+      "--card": "#0a0a0a",
       "--card-foreground": "0 0% 100%",
 
       "--popover": "0 0% 5%",
@@ -88,7 +88,39 @@ module.exports = plugin(
       "--scrollbar-track": "0 0% 10%",
       "--scrollbar-hover": "0 0% 35%",
     },
- 
+      // autota text aniamtion
+      "@keyframes aurora-1": {
+        "0%": { top: "0", right: "0" },
+        "50%": { top: "100%", right: "75%" },
+        "75%": { top: "100%", right: "25%" },
+        "100%": { top: "0", right: "0" },
+      },
+      "@keyframes aurora-2": {
+        "0%": { top: "-50%", left: "0%" },
+        "60%": { top: "100%", left: "75%" },
+        "85%": { top: "100%", left: "25%" },
+        "100%": { top: "-50%", left: "0%" },
+      },
+      "@keyframes aurora-3": {
+        "0%": { bottom: "0", left: "0" },
+        "40%": { bottom: "100%", left: "75%" },
+        "65%": { bottom: "40%", left: "50%" },
+        "100%": { bottom: "0", left: "0" },
+      },
+      "@keyframes aurora-4": {
+        "0%": { bottom: "-50%", right: "0" },
+        "50%": { bottom: "0%", right: "40%" },
+        "90%": { bottom: "50%", right: "25%" },
+        "100%": { bottom: "-50%", right: "0" },
+      },
+      "@keyframes aurora-border": {
+        "0%": { borderRadius: "37% 29% 27% 27% / 28% 25% 41% 37%" },
+        "25%": { borderRadius: "47% 29% 39% 49% / 61% 19% 66% 26%" },
+        "50%": { borderRadius: "57% 23% 47% 72% / 63% 17% 66% 33%" },
+        "75%": { borderRadius: "28% 49% 29% 100% / 93% 20% 64% 25%" },
+        "100%": { borderRadius: "37% 29% 27% 27% / 28% 25% 41% 37%" },
+      },
+
 
       // neon Button Animation
       "@keyframes neon-pulse": {
@@ -215,21 +247,37 @@ module.exports = plugin(
       transition: "backdrop-filter 0.2s ease",
     },
   ".dark .border": {
-    borderColor: "hsl(var(--border))",
+  borderColor: '#1a1b1b',
   },
  '.border': {
       borderWidth: '1px',
       borderColor: colors.gray[200],
     },
     '.dark .border': {
-      borderColor: colors.gray[800],
+  borderColor: '#1a1b1b',
     },
 
     });
 
     // Add custom utilities for animations
     addUtilities({
-  
+      // aurora Button Animation-class
+      ".aurora-animation-1": {
+        animation: "aurora-1 5s ease-in-out infinite alternate",
+      },
+      ".aurora-animation-2": {
+        animation: "aurora-2 5s ease-in-out infinite alternate",
+      },
+      ".aurora-animation-3": {
+        animation: "aurora-3 3s ease-in-out infinite alternate",
+      },
+      ".aurora-animation-4": {
+        animation: "aurora-4 13s ease-in-out infinite alternate",
+      },
+      ".aurora-border-animation": {
+        animation: "aurora-border 6s ease-in-out infinite",
+      },
+
       // neon Button Animation-class
       ".neon-pulse-animation": {
         animation: "neon-pulse 0.6s ease-in-out infinite",
@@ -452,6 +500,37 @@ module.exports = plugin(
       "0%": { transform: "translateY(0)", opacity: "1" },
       "100%": { transform: "translateY(-100%)", opacity: "0" },
     },
+    "@keyframes aurora-1": {
+      "0%": { top: "0", right: "0" },
+      "50%": { top: "100%", right: "75%" },
+      "75%": { top: "100%", right: "25%" },
+      "100%": { top: "0", right: "0" },
+    },
+    "@keyframes aurora-2": {
+      "0%": { top: "-50%", left: "0%" },
+      "60%": { top: "100%", left: "75%" },
+      "85%": { top: "100%", left: "25%" },
+      "100%": { top: "-50%", left: "0%" },
+    },
+    "@keyframes aurora-3": {
+      "0%": { bottom: "0", left: "0" },
+      "40%": { bottom: "100%", left: "75%" },
+      "65%": { bottom: "40%", left: "50%" },
+      "100%": { bottom: "0", left: "0" },
+    },
+    "@keyframes aurora-4": {
+      "0%": { bottom: "-50%", right: "0" },
+      "50%": { bottom: "0%", right: "40%" },
+      "90%": { bottom: "50%", right: "25%" },
+      "100%": { bottom: "-50%", right: "0" },
+    },
+    "@keyframes aurora-border": {
+      "0%": { borderRadius: "37% 29% 27% 27% / 28% 25% 41% 37%" },
+      "25%": { borderRadius: "47% 29% 39% 49% / 61% 19% 66% 26%" },
+      "50%": { borderRadius: "57% 23% 47% 72% / 63% 17% 66% 33%" },
+      "75%": { borderRadius: "28% 49% 29% 100% / 93% 20% 64% 25%" },
+      "100%": { borderRadius: "37% 29% 27% 27% / 28% 25% 41% 37%" },
+    },
     });
 
 
@@ -646,11 +725,10 @@ module.exports = plugin(
         },
 colors: {
   // Custom color namespaces
-        // custom color here
-      greedy: "#07eae6ff",
-      primarylw: "#173eff",
-      primarylw2: "#3758f9",
-
+  primarylw: {
+    DEFAULT: "var(--primarylw)",
+    "2": "var(--primarylw-2)",
+  },
   darklw: {
     DEFAULT: "var(--darklw)",
     "2": "var(--darklw-2)",
@@ -682,7 +760,7 @@ colors: {
   "destructive-foreground": "hsl(var(--destructive-foreground))",
 
     border: {
-    DEFAULT: "hsl(var(--border))",
+    DEFAULT:'#1a1b1b',
     "2": "var(--darklw-2)",
   },
   input: "hsl(var(--input))",

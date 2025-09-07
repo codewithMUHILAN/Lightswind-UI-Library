@@ -1,6 +1,5 @@
 import React, { useLayoutEffect } from 'react';
 
-// ✅ Add global declaration for particlesJS
 declare global {
   interface Window {
     particlesJS: any;

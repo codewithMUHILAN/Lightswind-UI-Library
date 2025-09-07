@@ -312,7 +312,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
     >
       {/* Title */}
       {title && (
-        <h1
+        <h2
           className={cn(
             "font-black uppercase tracking-tight absolute top-12 left-1/2 transform -translate-x-1/2 pointer-events-none whitespace-nowrap",
             titleSizeClasses[titleSize],
@@ -326,7 +326,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
           }}
         >
           {title}
-        </h1>
+        </h2>
       )}
 
       {/* Carousel Container */}

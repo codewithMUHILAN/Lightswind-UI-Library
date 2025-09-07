@@ -296,7 +296,7 @@ export function SidebarContent({
       )}
       {...props}
     >
-      <div ref={scrollRef} className="h-full pb-12 overflow-auto scrollbar-hide ">
+      <div ref={scrollRef} className="h-full pb-12 overflow-auto  ">
         {children}
       </div>
     </div>
@@ -460,7 +460,7 @@ export function SidebarMenuItem({
       className={cn("mb-1 scrollbar-hide", className)}
       data-value={menuItemId}
       data-state={isActive ? "active" : "inactive"}
-      initial={{ scale: 1, opacity: 0.5, x: -0 }}
+      // initial={{ scale: 1, opacity: 0.5, x: -0 }}
       animate={{
         scale: isInView ? 1 : 0.6,
         opacity: isInView ? 1 : 0.5,

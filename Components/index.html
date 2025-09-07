@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+        --bg: hsl(246 44% 4%);
+        --card-bg: hsl(235 40% 2%);
+        --color: hsl(240 18% 80%);
+
+        --border-size: -3px;
+        --card-size: 280px;
+        --border-radius: 20px;
+        --outer-border-radius: 22px;
+        --shadow: 0 10px 20px black;
+        --spotlight-size: 150;
+
+        --active: 1;
+
+        --hue-val: 0;
+        --hue-sat: 25;
+        --hue-lum: 50;
+      }
+
+      *,
+      *:after,
+      *:before {
+        box-sizing: border-box;
+      }
+
+      @layer base, card;
+
+      @layer base {
+        body {
+          font-family: sans-serif;
+          color: var(--color);
+          min-height: 100vh;
+          display: grid;
+          place-items: center;
+          overflow: hidden;
+          position: relative;
+
+          background: var(--bg);
+        }
+
+        main {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 30px;
+        }
+
+        .ric-link {
+          position: absolute;
+          top: 1.5rem;
+          left: 1.5rem;
+        }
+
+        a svg {
+          width: 60px;
+          heigth: auto;
+
+          transition:
+            transform 0.2s,
+            filter 0.2s;
+        }
+
+        a svg:hover {
+          transform: scale(1.2) rotate(-10deg);
+          filter: drop-shadow(rgba(255 255 255 / 0.2) 0 2px 10px);
+        }
+      }
+
+      @layer cards {
+        .cards {
+          display: flex;
+          gap: 3rem;
+          position: relative;
+        }
+
+        .card-1 {
+          --hue-val: 220;
+        }
+
+        .card-2 {
+          --hue-val: 50;
+        }
+
+        .card-3 {
+          --hue-val: 170;
+        }
+
+        .card {
+          --alpha: calc(var(--active, 0) * 0.15);
+          --radial-bg: radial-gradient(
+            circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
+            hsl(
+              var(--hue-val, 240) calc(var(--hue-sat, 0) * 1%)
+                calc(var(--hue-lum, 100) * 1%) / var(--alpha)
+            ),
+            transparent calc(var(--spotlight-size) * 1px)
+          );
+          width: var(--card-size);
+          aspect-ratio: 4 / 5;
+
+          background: var(--radial-bg), var(--card-bg);
+          background-attachment: fixed;
+          position: relative;
+
+          display: flex;
+          flex-direction: column;
+          padding: 8px 20px;
+          justify-content: space-evenly;
+
+          border-radius: var(--border-radius);
+        }
+
+        .card::before {
+          content: "";
+          inset: var(--border-size);
+          position: absolute;
+          z-index: -1;
+          border-radius: var(--outer-border-radius);
+
+          background: radial-gradient(
+            circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
+            hsl(
+              var(--hue-val, 240) calc(var(--hue-sat, 0) * 1.5%)
+                calc(var(--hue-lum, 100) * 1.5%) / 0.5
+            ),
+            transparent calc(var(--spotlight-size) * 1px)
+          );
+          background-attachment: fixed;
+
+          box-shadow: var(--shadow);
+        }
+
+        .card::after {
+          --alpha: 0.5;
+          content: "";
+          inset: 0;
+          position: absolute;
+          z-index: -1;
+          border-radius: var(--outer-border-radius);
+
+          background: radial-gradient(
+            circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
+            hsl(
+              var(--hue-val, 240) calc(var(--hue-sat, 0) * 1.5%)
+                calc(var(--hue-lum, 100) * 1%) / 0.5
+            ),
+            transparent calc(var(--spotlight-size) * 1px)
+          );
+          background-attachment: fixed;
+
+          filter: blur(1.5rem);
+        }
+
+        .card-heading {
+          display: flex;
+          flex-direction: column;
+          gap: 30px;
+        }
+
+        .card-title {
+          font-weight: 600;
+          font-size: 14px;
+          font-color: silver;
+        }
+
+        .card-subtitle {
+          display: flex;
+          flex-direction: column;
+          gap: 30px;
+        }
+
+        .card-price {
+          display: flex;
+          gap: 4px;
+          align-items: flex-start;
+          font-weight: 600;
+          font-size: 3rem;
+        }
+
+        .price {
+          line-height: 0.9;
+        }
+
+        .currency {
+          font-size: 1.5rem;
+          font-weight: 500;
+        }
+
+        .card-content {
+          padding-top: 20px;
+        }
+
+        .benefits-list {
+          padding: 0;
+          margin: 0;
+
+          list-style: none;
+        }
+
+        .benefits-list li {
+          font-size: 0.85rem;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .separator {
+          border: none;
+          margin: 12px;
+          border-bottom: 1px solid rgba(255 255 255 / 0.1);
+          width: 90%;
+        }
+
+        .card button {
+          --alpha: calc(var(--button-active, 0) * 0.9);
+          border: none;
+          color: lightgrey;
+          padding: 8px;
+          border-radius: 30px;
+
+          border: 1px solid rgba(255 255 255 / 0.2);
+          box-shadow: 0 2px 10px black;
+          background:
+            radial-gradient(
+              circle at calc(var(--x) * 1px) calc(var(--y) * 1px),
+              hsl(var(--hue-val, 240) 50% 50% / var(--alpha)),
+              transparent 100px
+            ),
+            var(--bg);
+          background-attachment: fixed;
+          cursor: pointer;
+        }
+
+        .card button:hover {
+          --button-active: 1;
+        }
+
+        .badge {
+          position: absolute;
+          right: 1rem;
+          top: 1rem;
+
+          font-size: 0.75rem;
+          border: 1px solid rgba(255 255 255 / 0.2);
+          padding: 4px 10px;
+          border-radius: 30px;
+          background: linear-gradient(
+            150deg,
+            rgba(255 255 255 / 0.1) 30%,
+            rgba(255 255 255 / 0.2)
+          );
+          pointer-events: none;
+        }
+
+        .card-2 .card-title {
+          color: hsl(50 60% 50%);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Pricing</h1>
+      <div class="cards">
+        <article class="card card-1">
+          <div class="card-heading">
+            <div class="card-title">SILVER</div>
+            <div class="card-subtitle">
+              <div class="card-price">
+                <span class="currency">$</span>
+                <span class="price">0</span>
+              </div>
+              <button class="button">Get Started</button>
+            </div>
+          </div>
+          <div class="card-content">
+            <ul class="benefits-list">
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                100 requests/day
+              </li>
+              <li>
+                <hr class="separator" />
+              </li>
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                Free trial feature access
+              </li>
+              <li>
+                <hr class="separator" />
+              </li>
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                Limited API access
+              </li>
+            </ul>
+          </div>
+        </article>
+        <article class="card card-2">
+          <div class="card-heading">
+            <div class="badge">Popular</div>
+            <div class="card-title">GOLD</div>
+            <div class="card-subtitle">
+              <div class="card-price">
+                <span class="currency">$</span>
+                <span class="price">9.99</span>
+              </div>
+              <button class="button">Get Started</button>
+            </div>
+          </div>
+          <div class="card-content">
+            <ul class="benefits-list">
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                Unlimited requests
+              </li>
+              <li>
+                <hr class="separator" />
+              </li>
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                Full new feature access
+              </li>
+              <li>
+                <hr class="separator" />
+              </li>
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                Priority support
+              </li>
+            </ul>
+          </div>
+        </article>
+        <article class="card card-3">
+          <div class="card-heading">
+            <div class="card-title">DIAMOND</div>
+            <div class="card-subtitle">
+              <div class="card-price">
+                <span class="currency">$</span>
+                <span class="price">30</span>
+              </div>
+              <button class="button">Get Started</button>
+            </div>
+          </div>
+          <div class="card-content">
+            <ul class="benefits-list">
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                Unlimited requests
+              </li>
+              <li>
+                <hr class="separator" />
+              </li>
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                Up to 5 team members
+              </li>
+              <li>
+                <hr class="separator" />
+              </li>
+              <li>
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="icon icon-tabler icons-tabler-filled icon-tabler-circle-check"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
+                    />
+                  </svg>
+                </span>
+                Specialized trainings
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <script type="module">
+      import { Pane } from "https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.js";
+
+      // ----------------- TWEAKPANE ------------------
+      const PARAMS = {
+        disableSpotlight: false,
+        spotlightSize: 150,
+        spotlightSaturation: 25,
+        spotlightLuminosity: 50,
+        boxShadow: true,
+      };
+
+      // ----------------- TWEAKPANE ------------------
+
+      // cursor position variable injection
+      const injectCursorPosition = ({ x, y }) => {
+        document.documentElement.style.setProperty("--x", x.toFixed(2));
+        document.documentElement.style.setProperty("--y", y.toFixed(2));
+      };
+
+      document.body.addEventListener("pointermove", injectCursorPosition);
+    </script>
+  </body>
+</html>

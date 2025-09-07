@@ -1,6 +1,8 @@
 import * as React from "react";
 import { cn } from "../lib/utils";
-import { BadgeX, CircleXIcon, FolderClosedIcon, X } from "lucide-react";
+import { CircleXIcon } from "lucide-react";
+
+// --- Context and Props (with the new prop added) ---
 
 interface PopoverContextType {
   open: boolean;
@@ -16,13 +18,17 @@ interface PopoverProps {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  closeOnOutsideClick?: boolean; // New prop for controlling outside click behavior
 }
+
+// --- The Updated Popover Component ---
 
 const Popover: React.FC<PopoverProps> = ({
   children,
   defaultOpen = false,
   open: controlledOpen,
   onOpenChange,
+  closeOnOutsideClick = true, // <-- CHANGE #1: Destructure the prop with a default value of 'true'
 }) => {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
 
@@ -42,12 +48,15 @@ const Popover: React.FC<PopoverProps> = ({
     [isControlled, onOpenChange, open]
   );
 
-  // Close popover when clicking outside
+  // Close popover when clicking outside (now conditional)
   React.useEffect(() => {
-    if (!open) return;
+    // <-- CHANGE #2: The entire effect is now conditional
+    // If the prop is false, we don't add the event listener at all.
+    if (!open || !closeOnOutsideClick) {
+      return;
+    }
 
     const handleClickOutside = (event: MouseEvent) => {
-      // Check if the click is outside any popover content
       const popoverContents = document.querySelectorAll(
         "[data-popover-content]"
       );
@@ -68,17 +77,16 @@ const Popover: React.FC<PopoverProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [open, setOpen]);
+    // <-- CHANGE #3: Add the new prop to the dependency array
+  }, [open, setOpen, closeOnOutsideClick]);
 
   // Hide/show body scrollbar based on popover open state
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ""; // Reset to default
+      document.body.style.overflow = "";
     }
-
-    // Cleanup function to ensure scrollbar is restored if component unmounts
     return () => {
       document.body.style.overflow = "";
     };
@@ -90,6 +98,9 @@ const Popover: React.FC<PopoverProps> = ({
     </PopoverContext.Provider>
   );
 };
+
+// --- PopoverTrigger and PopoverContent remain the same ---
+// (No changes needed for the other components)
 
 interface PopoverTriggerProps {
   asChild?: boolean;
@@ -168,19 +179,14 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
           data-popover-content
           className={cn(
             "fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-[90vw] rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-            // Added styles for scrollable content and max height within viewport
-            "max-h-[calc(100vh-2rem)] overflow-y-auto", // Max height: 100vh minus 2rem (for padding/margin)
+            "max-h-[calc(100vh-2rem)] overflow-y-auto",
             className
           )}
           {...props}
         >
-          {/* Close Icon */}
           <button
             onClick={() => setOpen(false)}
-            className="absolute top-2 right-2 z-10 group-hover:opacity-100
-            p-1 bg-gray-200/20
-            backdrop-blur-sm rounded-full
-            shadow-md hover:bg-background hover:scale-110 transition-all duration-200"
+            className="absolute top-2 right-2 z-10 p-1 bg-gray-200/20 backdrop-blur-sm rounded-full shadow-md hover:bg-background hover:scale-110 transition-all duration-200"
           >
             <CircleXIcon className="w-6 h-6" />
           </button>

@@ -95,7 +95,7 @@ export function AuroraTextEffect({
     >
       <style>{keyframes /* This injects the keyframes into the DOM */}</style>
       <div className="text-center">
-        <h1
+        <h2
           className={cn(
             // Added theme-aware text color for visibility
             "font-extrabold tracking-tight relative overflow-hidden text-black dark:text-white",
@@ -172,7 +172,7 @@ export function AuroraTextEffect({
               }}
             />
           </div>
-        </h1>
+        </h2>
       </div>
     </div>
   );

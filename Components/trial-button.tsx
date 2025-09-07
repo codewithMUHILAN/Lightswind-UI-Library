@@ -202,7 +202,8 @@ export const TrialButton: React.FC<TrialButtonProps> = ({
           bg-white dark:bg-black /* Requested background colors */
           active:translate-y-px /* Active state for a subtle press effect */
           flex items-center justify-center /* Center children */
-        "
+        
+"
         {...props}
       >
         <span className="">{children}</span>

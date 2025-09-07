@@ -8,7 +8,7 @@ import {
   motion,
   animate,
   DragControls,
-} from "motion/react";
+} from "framer-motion";
 import { GripVertical } from "lucide-react";
 
 export interface DragItem {

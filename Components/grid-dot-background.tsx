@@ -26,15 +26,21 @@ export const GridBackground = ({
   const [currentGridColor, setCurrentGridColor] = useState(gridColor);
 
   useEffect(() => {
-    const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDarkModeActive = document.documentElement.classList.contains('dark') || prefersDarkMode;
+    const prefersDarkMode =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDarkModeActive =
+      document.documentElement.classList.contains("dark") || prefersDarkMode;
     setCurrentGridColor(isDarkModeActive ? darkGridColor : gridColor);
 
     const observer = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
-        if (mutation.attributeName === 'class') {
-          const updatedIsDarkModeActive = document.documentElement.classList.contains('dark');
-          setCurrentGridColor(updatedIsDarkModeActive ? darkGridColor : gridColor);
+        if (mutation.attributeName === "class") {
+          const updatedIsDarkModeActive =
+            document.documentElement.classList.contains("dark");
+          setCurrentGridColor(
+            updatedIsDarkModeActive ? darkGridColor : gridColor
+          );
         }
       });
     });
@@ -49,7 +55,7 @@ export const GridBackground = ({
   return (
     <div
       className={cn(
-        "absolute flex h-[50rem] w-full items-center justify-center bg-white dark:bg-black",
+        "relative flex h-[50rem] w-full items-center justify-center bg-transparent",
         className
       )}
       {...props}
@@ -59,8 +65,12 @@ export const GridBackground = ({
         style={{
           backgroundSize: gridSize + "px " + gridSize + "px", // String concatenation
           backgroundImage:
-            "linear-gradient(to right, " + currentGridColor + " 1px, transparent 1px), " +
-            "linear-gradient(to bottom, " + currentGridColor + " 1px, transparent 1px)", // String concatenation
+            "linear-gradient(to right, " +
+            currentGridColor +
+            " 1px, transparent 1px), " +
+            "linear-gradient(to bottom, " +
+            currentGridColor +
+            " 1px, transparent 1px)", // String concatenation
         }}
       />
 
@@ -69,16 +79,18 @@ export const GridBackground = ({
           className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white dark:bg-black"
           style={{
             maskImage:
-              "radial-gradient(ellipse at center, transparent " + fadeIntensity + "%, black)", // String concatenation
+              "radial-gradient(ellipse at center, transparent " +
+              fadeIntensity +
+              "%, black)", // String concatenation
             WebkitMaskImage:
-              "radial-gradient(ellipse at center, transparent " + fadeIntensity + "%, black)", // String concatenation
+              "radial-gradient(ellipse at center, transparent " +
+              fadeIntensity +
+              "%, black)", // String concatenation
           }}
         />
       )}
 
-      <div className="relative z-20">
-        {children}
-      </div>
+      <div className="relative z-20">{children}</div>
     </div>
   );
 };
@@ -108,14 +120,18 @@ export const DotBackground = ({
   const [currentDotColor, setCurrentDotColor] = useState(dotColor);
 
   useEffect(() => {
-    const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDarkModeActive = document.documentElement.classList.contains('dark') || prefersDarkMode;
+    const prefersDarkMode =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDarkModeActive =
+      document.documentElement.classList.contains("dark") || prefersDarkMode;
     setCurrentDotColor(isDarkModeActive ? darkDotColor : dotColor);
 
     const observer = new MutationObserver(function (mutations) {
       mutations.forEach(function (mutation) {
-        if (mutation.attributeName === 'class') {
-          const updatedIsDarkModeActive = document.documentElement.classList.contains('dark');
+        if (mutation.attributeName === "class") {
+          const updatedIsDarkModeActive =
+            document.documentElement.classList.contains("dark");
           setCurrentDotColor(updatedIsDarkModeActive ? darkDotColor : dotColor);
         }
       });
@@ -131,7 +147,7 @@ export const DotBackground = ({
   return (
     <div
       className={cn(
-        "absolute flex h-[50rem] w-full items-center justify-center bg-white dark:bg-black",
+        "relative flex h-[50rem] w-full items-center justify-center bg-white dark:bg-black",
         className
       )}
       {...props}
@@ -141,7 +157,13 @@ export const DotBackground = ({
         style={{
           backgroundSize: spacing + "px " + spacing + "px", // String concatenation
           backgroundImage:
-            "radial-gradient(" + currentDotColor + " " + dotSize + "px, transparent " + dotSize + "px)", // String concatenation
+            "radial-gradient(" +
+            currentDotColor +
+            " " +
+            dotSize +
+            "px, transparent " +
+            dotSize +
+            "px)", // String concatenation
         }}
       />
 
@@ -150,16 +172,18 @@ export const DotBackground = ({
           className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white dark:bg-black"
           style={{
             maskImage:
-              "radial-gradient(ellipse at center, transparent " + fadeIntensity + "%, black)", // String concatenation
+              "radial-gradient(ellipse at center, transparent " +
+              fadeIntensity +
+              "%, black)", // String concatenation
             WebkitMaskImage:
-              "radial-gradient(ellipse at center, transparent " + fadeIntensity + "%, black)", // String concatenation
+              "radial-gradient(ellipse at center, transparent " +
+              fadeIntensity +
+              "%, black)", // String concatenation
           }}
         />
       )}
 
-      <div className="relative z-20">
-        {children}
-      </div>
+      <div className="relative z-20">{children}</div>
     </div>
   );
 };

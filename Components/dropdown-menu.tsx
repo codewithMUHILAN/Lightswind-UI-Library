@@ -203,7 +203,8 @@ const DropdownMenuTrigger = React.forwardRef<
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
 
 const dropdownMenuContentVariants = cva(
-  "z-50 min-w-[8rem] overflow-hidden rounded-md border   bg-popover p-1 text-popover-foreground shadow-md",
+  `z-50 min-w-[8rem] overflow-hidden rounded-md border  
+   bg-popover p-1 text-popover-foreground shadow-md`,
   {
     variants: {
       variant: {
@@ -446,7 +447,7 @@ const DropdownMenuContent = React.forwardRef<
             className={cn(
               dropdownMenuContentVariants({ variant }),
               "dropdown-scrollbar",
-               "scrollbar-hide",
+              // "scrollbar-hide",
               className
             )}
             style={{
