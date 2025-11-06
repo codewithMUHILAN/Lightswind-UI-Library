@@ -27,7 +27,7 @@ const defaultBackgrounds = [
 
 const ScrollStack: React.FC<ScrollStackProps> = ({
   cards,
-  backgroundColor = "bg-background", // Changed default to "bg-background"
+  backgroundColor = "bg-background",
   cardHeight = "60vh",
   animationDuration = "0.5s",
   sectionHeightMultiplier = 3,
@@ -39,6 +39,9 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [isIntersecting, setIsIntersecting] = useState(false);
+  const [isScrollLocked, setIsScrollLocked] = useState(false);
+  const [hasCompletedScroll, setHasCompletedScroll] = useState(false);
+  const scrollPositionRef = useRef(0);
   const ticking = useRef(false);
   const cardCount = Math.min(cards.length, 5);
 
@@ -50,11 +53,127 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     willChange: "transform, opacity",
   };
 
+  // Prevent body scroll when locked
+  useEffect(() => {
+    const preventScroll = (e: WheelEvent | TouchEvent) => {
+      if (isScrollLocked) {
+        e.preventDefault();
+      }
+    };
+
+    if (isScrollLocked) {
+      // Prevent wheel scroll
+      window.addEventListener('wheel', preventScroll, { passive: false });
+      window.addEventListener('touchmove', preventScroll, { passive: false });
+      
+      // Save current scroll position
+      scrollPositionRef.current = window.pageYOffset;
+      
+      // Add fixed position to body to prevent scrolling but keep scrollbar visible
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPositionRef.current}px`;
+      document.body.style.width = '100%';
+    } else {
+      // Restore scroll position
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollPositionRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('wheel', preventScroll);
+      window.removeEventListener('touchmove', preventScroll);
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+    };
+  }, [isScrollLocked]);
+
+  // Handle scroll locking logic with wheel events
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (!sectionRef.current || !scrollableSectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const isInView = rect.top <= 100 && rect.bottom >= window.innerHeight * 0.5;
+
+      if (isInView && !hasCompletedScroll) {
+        const scrollContainer = scrollableSectionRef.current;
+        const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+        const currentScroll = scrollContainer.scrollTop;
+
+        // Handle downward scroll
+        if (e.deltaY > 0) {
+          e.preventDefault();
+          setIsScrollLocked(true);
+          
+          scrollContainer.scrollTop += e.deltaY;
+
+          // Check if we've reached the end
+          if (scrollContainer.scrollTop >= maxScroll - 5) {
+            setHasCompletedScroll(true);
+            setIsScrollLocked(false);
+          }
+        } 
+        // Handle upward scroll
+        else if (e.deltaY < 0) {
+          // If at the top of scroll stack, allow normal page scroll
+          if (currentScroll <= 5) {
+            setIsScrollLocked(false);
+            return;
+          }
+          
+          e.preventDefault();
+          setIsScrollLocked(true);
+          scrollContainer.scrollTop += e.deltaY;
+        }
+      }
+      // Handle scrolling back up after completion
+      else if (isInView && hasCompletedScroll && e.deltaY < 0) {
+        const scrollContainer = scrollableSectionRef.current;
+        const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+        
+        // If user scrolls up after completing, re-engage the scroll stack
+        if (scrollContainer.scrollTop >= maxScroll - 10) {
+          e.preventDefault();
+          setIsScrollLocked(true);
+          setHasCompletedScroll(false);
+          scrollContainer.scrollTop += e.deltaY;
+        }
+      }
+    };
+
+    if (isIntersecting) {
+      window.addEventListener('wheel', handleWheel, { passive: false });
+    }
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, [isIntersecting, hasCompletedScroll]);
+
+  // Intersection observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         setIsIntersecting(entry.isIntersecting);
+
+        // Reset when scrolling away from the component
+        if (!entry.isIntersecting) {
+          if (entry.boundingClientRect.top > 0) {
+            // Scrolled back up past the component
+            setHasCompletedScroll(false);
+            setIsScrollLocked(false);
+            if (scrollableSectionRef.current) {
+              scrollableSectionRef.current.scrollTop = 0;
+            }
+          } else if (entry.boundingClientRect.bottom < 0) {
+            // Scrolled down past the component
+            setIsScrollLocked(false);
+          }
+        }
       },
       { threshold: intersectionThreshold }
     );
@@ -63,26 +182,24 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       observer.observe(sectionRef.current);
     }
 
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, [intersectionThreshold]);
+
+  // Handle internal scroll for card animation
+  useEffect(() => {
     const handleScroll = () => {
       if (!ticking.current) {
         requestAnimationFrame(() => {
           if (!sectionRef.current || !cardsContainerRef.current) return;
 
-          const sectionRect = sectionRef.current.getBoundingClientRect();
-          const parentRect =
-            scrollableSectionRef.current?.getBoundingClientRect();
-          const viewportHeight = parentRect?.height ?? window.innerHeight;
+          const scrollContainer = scrollableSectionRef.current;
+          if (!scrollContainer) return;
 
-          const sectionTop = sectionRect.top - (parentRect?.top ?? 0);
-          const sectionHeight = sectionRef.current.offsetHeight;
-          const scrollableDistance = sectionHeight - viewportHeight;
-
-          let progress = 0;
-          if (sectionTop <= 0 && Math.abs(sectionTop) <= scrollableDistance) {
-            progress = Math.abs(sectionTop) / scrollableDistance;
-          } else if (sectionTop <= 0) {
-            progress = 1;
-          }
+          const scrollTop = scrollContainer.scrollTop;
+          const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+          const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
 
           let newActiveIndex = 0;
           const progressPerCard = 1 / cardCount;
@@ -105,9 +222,8 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
     return () => {
       scrollElement?.removeEventListener("scroll", handleScroll);
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
-  }, [cardCount, sectionHeightMultiplier, intersectionThreshold]);
+  }, [cardCount]);
 
   const getCardTransform = (index: number) => {
     const isVisible = isIntersecting && activeCardIndex >= index;
@@ -129,17 +245,26 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   return (
     <section
       ref={scrollableSectionRef}
-      className="relative max-h-screen w-full lg:w-[100%] overflow-y-scroll 
-      scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-300"
+      className="relative w-full h-screen overflow-y-scroll"
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}
     >
+      <style jsx>{`
+        section::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
+      
       <div
         ref={sectionRef}
         className={`relative ${className}`}
-        style={{ height: `${sectionHeightMultiplier * 85}vh` }}
+        style={{ height: `${sectionHeightMultiplier * 100}vh` }}
       >
         <div
           className={`sticky top-0 w-full h-screen flex items-center 
-            justify-center overflow-hidden ${backgroundColor}`} // Applied as a Tailwind class
+            justify-center overflow-hidden ${backgroundColor}`}
         >
           <div className="container px-6 lg:px-8 mx-auto h-full flex flex-col justify-center">
             <div
