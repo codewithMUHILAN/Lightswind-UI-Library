@@ -89,7 +89,7 @@ interface ThreeDScrollTriggerRowProps
   children: React.ReactNode;
   baseVelocity?: number; // pixels relative multiplier
   direction?: 1 | -1;
-  resetIntervalMs?: number; // <-- NEW: interval for rebasing (default 5000)
+  resetIntervalMs?: number;
 }
 
 /* --------------------------
@@ -136,7 +136,7 @@ function ThreeDScrollTriggerRowImpl({
       unitWidthRef.current = block.scrollWidth;
       // keep just enough to cover the viewport + 1
       const containerWidth = container.offsetWidth;
-      const needed = Math.max(2, Math.ceil(containerWidth / unitWidthRef.current) + 1);
+      const needed = Math.max(3, Math.ceil(containerWidth / unitWidthRef.current) + 2);
       setNumCopies(needed);
     }
   }, [childrenArray]);
@@ -159,12 +159,17 @@ function ThreeDScrollTriggerRowImpl({
     const moveBy = currentDirection * pixelsPerSecond * (1 + speedMultiplier) * dt;
 
     const newX = baseXRef.current + moveBy;
-    // ✅ instead of wrap, shift back when > unitWidth
-    if (newX > unitWidth) {
-      baseXRef.current = newX - unitWidth;
-    } else if (newX < -unitWidth) {
-      baseXRef.current = newX + unitWidth;
-    } else {
+    
+    // ✅ FIXED: Proper wrapping in both directions
+    // When moving right (positive newX), wrap back
+    if (newX >= unitWidth) {
+      baseXRef.current = newX % unitWidth;
+    } 
+    // When moving left (negative newX), wrap forward
+    else if (newX <= 0) {
+      baseXRef.current = unitWidth + (newX % unitWidth);
+    } 
+    else {
       baseXRef.current = newX;
     }
 
