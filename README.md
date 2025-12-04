@@ -9,7 +9,7 @@
     <div align="center">
   <img src="https://codewithmuhilan.com/Extra-Assets/lightwind-logo.png" alt="Lightswind UI Logo" width="180" />
   
-  <h1 align="center">Lightswind UI 3.1.16</h1>
+  <h1 align="center">Lightswind UI 3.1.20</h1>
   
   <p align="center">
     <b>A collection of beautifully crafted React Components, Blocks & Templates built with Tailwind CSS. Create stunning web applications effortlessly by using our 100+ professional and animated react components.</b>
@@ -91,98 +91,624 @@ pnpm add lightswind
 
 
 <h2>Step 3: Initialize Components</h2>
-<p>Set up Lightswind UI components in your project structure.</p>
+<p>Set up Lightswind UI components in your project structure using our smart CLI tool.</p>
 
-<h3>Full Setup</h3>
-<p>Our CLI tool will automatically install all components, utilities, and styles to your project.</p>
+<h3>🎯 Smart Dependency Management</h3>
+<p>Lightswind CLI automatically detects which dependencies your chosen components need and prompts you to install only those packages. This keeps your project lean!</p>
+
+<h3>Full Setup - Install All Components</h3>
+<p>Our CLI tool will install all components, utilities, and styles to your project.</p>
 
 ```bash
-npx create-lightswind
+npx lightswind@latest init
 ```
 
 <span>
-What this command does?
+What this command does:
 
-Creates src/components/lightswind src/components/lightswind folder
-All UI components are organized in this directory.
+✓ Installs ALL components to src/components/lightswind
+All 100+ UI components are organized in this directory.
 
-Sets up src/lib folder
+✓ Sets up src/lib folder
 Contains utilities and helpers for component functionality.
 
-Configures theme settings
-Sets up custom theme variables and Tailwind configuration.
+✓ Installs hooks to src/components/hooks
+Custom React hooks used by components.
 
-Adds TypeScript types
-Includes comprehensive type definitions for all components.
-
-Copies CSS styles
+✓ Copies CSS styles
 Places the `lightswind.css` file in `src/components/lightswind.css`.
+
+✓ Lists all required dependencies
+Shows you all packages needed across all components and prompts for installation.
 </span>
 
-<h3>Individual Component</h3>
-<p>Use the CLI to install only the components you need. Replace `[component-name]` with the desired component (e.g., `button`, `card`, `dialog`).</p>
+<h3>Individual Component - Install What You Need</h3>
+<p>Install only the components you need with smart dependency detection. Replace `[component-name]` with the desired component (e.g., `button`, `globe`, `chart`).</p>
 
 ```bash
-npx create-lightswind button
+# Install a basic component (no extra dependencies)
+npx lightswind@latest add button
+
+# Install a specialized component (CLI auto-detects dependencies)
+npx lightswind@latest add globe
+```
+
+**Example output:**
+```
+📦 globe requires: cobe
+Install dependencies? (Y/n): Y
+⏳ Installing cobe...
+✅ Dependencies installed
+✅ Installed globe component
 ```
 
 <span>
-What this command does?
+What this command does:
 
-Copies the component file to src/components/lightswind
-The selected component's source code will be available in this directory.
+✓ Checks component dependencies
+Reads which npm packages this component needs.
 
-Copies associated utility files to src/lib
-Any necessary helper functions or utilities for the component are included.
+✓ Detects missing packages
+Compares with your package.json to find what's missing.
 
-Copies the main Lightswind CSS to src/components/lightswind.css
-The core styles for Lightswind UI are provided.
+✓ Prompts for installation
+Asks before installing - you stay in control!
+
+✓ Copies the component file
+Places it in src/components/lightswind/[component].tsx
+
+✓ Copies shared utilities
+Includes lib, hooks, and styles automatically.
+
+**No bloat!** Installing `button` won't add `cobe`, `recharts`, or `@react-three/fiber`. You only get what you need.
 </span>
+
+<h3>Category-Based Installation - NEW! 🆕</h3>
+<p><strong>Install all components from a specific category at once with intelligent dependency management.</strong></p>
+
+This powerful feature allows you to install entire groups of related components in one command, perfect for when you know you'll need multiple components of the same type.
+
+**Command Syntax:**
+```bash
+npx lightswind@latest add --category <category-name>
+
+# Short form
+npx lightswind@latest add -c <category-name>
+```
+
+<h4>📦 Available Categories</h4>
+
+<table>
+<tr>
+<th>Category</th>
+<th>Description</th>
+<th>Dependencies</th>
+<th>Command</th>
+</tr>
+<tr>
+<td><code>basic</code></td>
+<td>Basic UI components</td>
+<td>None</td>
+<td><code>add -c basic</code></td>
+</tr>
+<tr>
+<td><code>ui</code></td>
+<td>Standard UI elements</td>
+<td>lucide-react</td>
+<td><code>add -c ui</code></td>
+</tr>
+<tr>
+<td><code>layout</code></td>
+<td>Layout components</td>
+<td>lucide-react</td>
+<td><code>add -c layout</code></td>
+</tr>
+<tr>
+<td><code>form</code></td>
+<td>Form controls</td>
+<td>lucide-react</td>
+<td><code>add -c form</code></td>
+</tr>
+<tr>
+<td><code>navigation</code></td>
+<td>Navigation components</td>
+<td>lucide-react</td>
+<td><code>add -c navigation</code></td>
+</tr>
+<tr>
+<td><code>utility</code></td>
+<td>Utility components</td>
+<td>None</td>
+<td><code>add -c utility</code></td>
+</tr>
+<tr>
+<td><code>background</code></td>
+<td>Background effects</td>
+<td>framer-motion</td>
+<td><code>add -c background</code></td>
+</tr>
+<tr>
+<td><code>button</code></td>
+<td>Animated buttons</td>
+<td>framer-motion</td>
+<td><code>add -c button</code></td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>Text effects</td>
+<td>framer-motion</td>
+<td><code>add -c text</code></td>
+</tr>
+<tr>
+<td><code>cursor</code></td>
+<td>Cursor effects</td>
+<td>framer-motion</td>
+<td><code>add -c cursor</code></td>
+</tr>
+<tr>
+<td><code>components</code></td>
+<td>Complex animated components</td>
+<td>framer-motion</td>
+<td><code>add -c components</code></td>
+</tr>
+<tr>
+<td><code>3d</code></td>
+<td>3D elements</td>
+<td>three, @react-three/fiber</td>
+<td><code>add -c 3d</code></td>
+</tr>
+<tr>
+<td><code>charts</code></td>
+<td>Chart components</td>
+<td>recharts</td>
+<td><code>add -c charts</code></td>
+</tr>
+</table>
+**✅ Use category installation when:**
+- Building a dashboard → `npx lightswind@latest add -c charts`
+- Creating animated landing pages → `npx lightswind@latest add -c animated`
+- Building 3D experiences → `npx lightswind@latest add -c 3d`
+- Need multiple UI components → `npx lightswind@latest add -c ui`
+- Want all basic components → `npx lightswind@latest add -c basic`
+
+**❌ Use individual installation when:**
+- You only need 1-2 specific components
+- Keeping bundle size minimal is critical
+- Testing a specific component
+
+<h4>📚 Example 1: Install All Animated Components</h4>
+
+```bash
+npx lightswind@latest add --category animated
+```
+
+**Output:**
+```
+🎨 Installing Animated Components...
+📦 Detected: Vite
+📁 Installing to: /your-project/src/components/lightswind
+📊 Total components: 30
+
+📦 The following dependencies are required:
+  • framer-motion
+
+Total: 1 packages
+
+Install dependencies? (Y/n): Y
+⏳ Installing framer-motion...
+✅ Dependencies installed successfully
+
+✅ Installed 30 components from Animated Components
+
+🎉 Success! Animated Components ready to use.
+
+Components installed:
+  • 3d-hover-gallery
+  • 3d-marquee
+  • aurora-background
+  • count-up
+  • dock
+  ... and 25 more
+```
+
+<h4>📚 Example 2: Install All 3D Components</h4>
+
+```bash
+npx lightswind@latest add -c 3d
+```
+
+**Output:**
+```
+🌐 Installing 3D Components...
+📦 Detected: Next.js
+📁 Installing to: /your-project/components/lightswind
+📊 Total components: 7
+
+📦 The following dependencies are required:
+  • @react-three/fiber
+  • @react-three/drei
+
+Total: 2 packages
+
+Install dependencies? (Y/n): Y
+⏳ Installing @react-three/fiber @react-three/drei...
+✅ Dependencies installed successfully
+
+✅ Installed 7 components from 3D Components
+
+Components installed:
+  • 3d-image-gallery
+  • 3d-image-ring
+  • 3d-model-viewer
+  ... and 4 more
+```
+
+<h4>📚 Example 3: Install Basic UI (No Dependencies)</h4>
+
+```bash
+npx lightswind@latest add --category basic
+```
+
+**Output:**
+```
+✨ Installing Basic UI...
+📦 Detected: Create React App
+📁 Installing to: /your-project/src/components/lightswind
+📊 Total components: 50
+
+✅ Installed 50 components from Basic UI
+
+🎉 Success! Basic UI ready to use.
+
+Components installed:
+  • badge
+  • button
+  • card
+  • input
+  • label
+  ... and 45 more
+```
+
+<h4>🎯 Category Benefits</h4>
+
+| Benefit | Description |
+|---------|-------------|
+| **Time Saving** | Install 30+ components in one command vs individually |
+| **Smart Dependencies** | Automatically collects unique dependencies from all components |
+| **No Duplicates** | Intelligent deduplication of dependencies across components |
+| **Organized Workflow** | Group components by purpose (animated, 3D, charts, etc.) |
+| **Easy Testing** | Quickly try out all components in a category |
+
+<h4>📋 Complete Category List</h4>
+
+**Basic UI Components (No Dependencies)**
+```bash
+npx lightswind@latest add -c basic
+```
+Perfect for foundational UI elements without external package requirements.
+**Includes:** badge, button, card, input, label, progress, separator, skeleton, table, textarea, and ~40 more
+
+**UI Components (Lucide React)**
+```bash
+npx lightswind@latest add -c ui
+```
+Standard UI elements that use icons from lucide-react.
+**Includes:** accordion, alert, breadcrumb, checkbox, dialog, dropdown-menu, select, tabs, toast, and ~20 more
+
+**Animated Components (Framer Motion)**
+```bash
+npx lightswind@latest add -c animated
+```
+Beautiful animated components powered by framer-motion.
+**Includes:** aurora-background, count-up, dock, interactive-card, lens, scroll-reveal, shiny-text, and ~23 more
+
+**3D Components (Three.js)**
+```bash
+npx lightswind@latest add -c 3d
+```
+Immersive 3D components using React Three Fiber.
+**Includes:** 3d-image-gallery, 3d-image-ring, 3d-model-viewer, and more
+
+**Chart Components (Recharts)**
+```bash
+npx lightswind@latest add -c charts
+```
+Data visualization components.
+**Includes:** chart (with multiple chart types)
+
+**Specialized Components**
+```bash
+npx lightswind@latest add -c specialized
+```
+Components with unique or multiple dependencies.
+**Includes:** calendar, carousel, form, globe, particles-background, and more
+
+<h3>List Available Components</h3>
+<p>See all available components grouped by their dependencies.</p>
+
+```bash
+npx lightswind@latest list
+```
 
 <br/>
 
+<h2>📱 Framework Compatibility</h2>
 
-<h2>Step 4: Configure Styles</h2>
-<p>Integrate Lightswind UI's core styles into your project using one of the methods below.</p>
-<h3>Use as Plugin</h3>
-<p>Using the Tailwind CSS plugin is the easiest way to get started and ensures seamless integration and updates.</p>
+<p><strong>Lightswind UI works seamlessly with all major React frameworks!</strong></p>
+
+<h3>✅ Supported Frameworks</h3>
+
+<table>
+<tr>
+<th>Framework</th>
+<th>Auto-Detected</th>
+<th>Directory Structure</th>
+<th>Status</th>
+</tr>
+<tr>
+<td><strong>Vite + React</strong></td>
+<td>✅ Yes</td>
+<td><code>src/components/</code></td>
+<td>✅ Fully Supported</td>
+</tr>
+<tr>
+<td><strong>Next.js (with src/)</strong></td>
+<td>✅ Yes</td>
+<td><code>src/components/</code></td>
+<td>✅ Fully Supported</td>
+</tr>
+<tr>
+<td><strong>Next.js (without src/)</strong></td>
+<td>✅ Yes</td>
+<td><code>components/</code></td>
+<td>✅ Fully Supported</td>
+</tr>
+<tr>
+<td><strong>Create React App</strong></td>
+<td>✅ Yes</td>
+<td><code>src/components/</code></td>
+<td>✅ Fully Supported</td>
+</tr>
+<tr>
+<td><strong>Generic React</strong></td>
+<td>✅ Yes</td>
+<td><code>src/components/</code></td>
+<td>✅ Fully Supported</td>
+</tr>
+</table>
+
+<h3>🤖 Automatic Framework Detection</h3>
+
+<p>The Lightswind CLI automatically detects your framework from <code>package.json</code> and adapts the installation path accordingly. <strong>Zero configuration needed!</strong></p>
+
+**Example Output:**
+```bash
+$ npx lightswind@latest init
+
+🚀 Installing all Lightswind components...
+📦 Detected: Next.js
+📁 Installing to: /your-project/components/lightswind
+
+✅ Installed all components
+```
+
+<h3>📁 Supported Directory Structures</h3>
+
+The CLI intelligently detects and uses the appropriate directory structure for your project:
+
+**Vite / Create React App:**
+```
+your-project/
+├── src/
+│   ├── components/
+│   │   ├── lightswind/     ← Components installed here
+│   │   ├── lib/            ← Utilities
+│   │   ├── hooks/          ← Custom hooks
+│   │   └── lightswind.css  ← Styles
+│   └── App.tsx
+└── package.json
+```
+
+**Next.js (with src/ directory):**
+```
+your-next-app/
+├── src/
+│   ├── app/
+│   └── components/
+│       ├── lightswind/     ← Components installed here
+│       ├── lib/            ← Utilities
+│       ├── hooks/          ← Custom hooks
+│       └── lightswind.css  ← Styles
+└── package.json
+```
+
+**Next.js (without src/ directory):**
+```
+your-next-app/
+├── app/
+├── components/
+│   ├── lightswind/         ← Components installed here
+│   ├── lib/                ← Utilities
+│   ├── hooks/              ← Custom hooks
+│   └── lightswind.css      ← Styles
+└── package.json
+```
+
+<h3>🎯 How Detection Works</h3>
+
+1. **Checks existing directories** - If you already have a `components/` folder, uses that
+2. **Detects framework** - Reads `package.json` to identify Vite, Next.js, or CRA
+3. **Chooses path** - Selects the appropriate path based on framework and structure
+4. **Creates directories** - Automatically creates folders if they don't exist
+
+**You don't need to configure anything - it just works!** ✨
+
+
+<h2>Step 4: Configure Tailwind Plugin - Automated! ✨</h2>
+
+<p><strong>Good news! The Lightswind CLI automatically configures the Tailwind plugin for you.</strong></p>
+
+When you install components using any of these commands:
+- `npx lightswind@latest init`
+- `npx lightswind@latest add <component>`
+- `npx lightswind@latest add --category <name>`
+
+The CLI will:
+1. **Detect your Tailwind CSS version** from `package.json`
+2. **Auto-configure the plugin** based on your version
+3. **Show you confirmation** when done
+
+<h3>🤖 Automatic Configuration</h3>
+
+**For Tailwind CSS v3.x:**
+
+The CLI automatically adds the plugin to your `tailwind.config.js`:
 
 ```bash
-For Tailwind CSS v4.x (Alpha)
-----------------------
+$ npx lightswind@latest init
 
-/* In your main CSS file (e.g., globals.css) */
-@import 'tailwindcss';
-@plugin 'lightswind/plugin'; /* <-- Add this line */
+✅ Installed all components
+✅ Installed shared utilities
 
-/* Your custom styles below */
+🔧 Configuring Lightswind for Tailwind CSS v3...
+✅ Added Lightswind plugin to tailwind.config
 
+🎉 Success! Ready to use.
+```
 
-
-For Tailwind CSS v3.x
-----------------------
-
-// tailwind.config.js
+**Your `tailwind.config.js` will be updated:**
+```javascript
 module.exports = {
-  // ...
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {},
+  },
   plugins: [
-    require('lightswind/plugin'),
-    // ...
+    require('lightswind/plugin'),  // ← Automatically added!
   ],
 }
 ```
 
-<h3>Import CSS File</h3>
-<p>This method requires you to manually import the static CSS file generated by the CLI. This is not recommended if you plan to use the plugin system.</p>
+---
+
+**For Tailwind CSS v4.x (Alpha):**
+
+The CLI automatically adds the plugin to your main CSS file:
 
 ```bash
-/* Add to your main CSS file (e.g., globals.css) */
-@import "./src/components/lightswind.css";
+$ npx lightswind@latest init
 
-                      (or)
+✅ Installed all components
+✅ Installed shared utilities
 
-@import "@/components/lightswind/lightswind.css";
+🔧 Configuring Lightswind for Tailwind CSS v4...
+✅ Added Lightswind plugin to globals.css
+
+🎉 Success! Ready to use.
 ```
+
+**Your CSS file (e.g., `globals.css`) will be updated:**
+```css
+@import 'tailwindcss';
+@plugin 'lightswind/plugin';  /* ← Automatically added! */
+
+/* Your custom styles below */
+```
+
+<h3>📋 Supported Config Files</h3>
+
+The CLI automatically detects and modifies these files:
+
+**For Tailwind v3:**
+- `tailwind.config.js`
+- `tailwind.config.ts`
+- `tailwind.config.mjs`
+- `tailwind.config.cjs`
+
+**For Tailwind v4:**
+- `src/app/globals.css`
+- `src/globals.css`
+- `app/globals.css`
+- `src/styles/globals.css`
+- `src/index.css`
+- `src/App.css`
+- `styles/globals.css`
+
+<h3>⚠️ Fallback Scenarios</h3>
+
+**If Tailwind is not installed:**
+```bash
+⚠️  Tailwind CSS not found in package.json
+💡 Install Tailwind CSS first:
+   npm install -D tailwindcss
+```
+**Action:** Install Tailwind, then run the CLI again.
+
+---
+
+**If config file is not found (v3):**
+```bash
+⚠️  Tailwind config not found
+💡 Add Lightswind plugin manually to tailwind.config.js:
+   plugins: [require('lightswind/plugin')]
+```
+**Action:** Create `tailwind.config.js` or add the plugin manually.
+
+---
+
+**If CSS file is not found (v4):**
+```bash
+⚠️  Main CSS file not found
+💡 Add Lightswind plugin manually to your CSS file:
+   @import 'tailwindcss';
+   @plugin 'lightswind/plugin';
+```
+**Action:** Add the plugin line to your main CSS file.
+
+<h3>🔧 Manual Configuration (If Needed)</h3>
+
+If automatic configuration doesn't work, you can configure manually:
+
+**For Tailwind CSS v3.x:**
+```javascript
+// tailwind.config.js
+module.exports = {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [
+    require('lightswind/plugin'),
+  ],
+}
+```
+
+**For Tailwind CSS v4.x:**
+```css
+/* In your main CSS file (e.g., globals.css) */
+@import 'tailwindcss';
+@plugin 'lightswind/plugin';
+
+/* Your custom styles */
+```
+
+<h3>✅ Verify Configuration</h3>
+
+After installation, check that the plugin is added:
+
+**For v3:**
+```bash
+# Check your tailwind.config.js
+cat tailwind.config.js | grep lightswind
+```
+
+**For v4:**
+```bash
+# Check your CSS file
+cat src/app/globals.css | grep lightswind
+```
+
+You should see the Lightswind plugin referenced!
 
 <br/>
 
@@ -197,34 +723,6 @@ src/
 │   ├── lightswind/
 │   │   ├── button.tsx
 │   │   ├── card.tsx
-│   │   ├── dialog.tsx
-│   │   └── ... more components
-│   └── ... your components
-├── lib/
-│   ├── utils.ts
-│   └── theme.ts
-├── components/lightswind.css  <-- Lightswind UI core styles
-└── ... rest of your project
-```
-
-<h3>Ready to go!</h3>
-<p>You've successfully installed and set up Lightswind UI components in your project.</p>
-
- <h2>🔗 View Full Installation Guide</h2>
-  <p>
-    For a complete setup walkthrough with examples and configuration tips, visit:
-    <a href="https://lightswind.com/components/installation" target="_blank" rel="noopener noreferrer">
-      https://lightswind.com/components/installation
-    </a>
-  </p>
-```
-
-<h3>Start building your interface with Lightswind UI components</h3>
-
-## 🔧 Requirements
-
-- React 18+
-- Tailwind CSS 3+
 - TypeScript 4.9+ (for TypeScript users)
 
 ## 🚀 Quick Start
