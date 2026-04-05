@@ -1,7 +1,8 @@
+"use client";
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SheetContextValue {

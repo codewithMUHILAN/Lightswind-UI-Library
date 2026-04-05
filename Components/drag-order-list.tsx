@@ -57,7 +57,7 @@ function DragOrderItem({ item }: { item: DragItem }) {
       dragListener={false}
       dragControls={dragControls}
       className="flex justify-between items-start p-4 bg-background 
-     text-foreground rounded-xl border shadow-sm"
+     text-foreground rounded-xl border border-border shadow-sm"
     >
       <div className="flex flex-col space-y-1 flex-1">
         <h2 className="text-lg font-semibold">{item.title}</h2>

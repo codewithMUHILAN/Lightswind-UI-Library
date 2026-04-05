@@ -1,5 +1,6 @@
+"use client";
 import * as React from "react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { X } from "lucide-react";
 import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion"; // Import motion, AnimatePresence, and HTMLMotionProps
 

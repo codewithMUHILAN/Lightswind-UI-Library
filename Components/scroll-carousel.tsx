@@ -1,3 +1,4 @@
+"use client";
 import React, {
   useEffect,
   useRef,
@@ -10,7 +11,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LucideIcon } from "lucide-react";
 
 // Assuming these are external, import them
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 

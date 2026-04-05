@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { cn } from "../lib/utils"; // Optional utility for className merging
+import { cn } from "../../lib/utils"; // Optional utility for className merging
 
 export type CardContent = {
   id: string | number;

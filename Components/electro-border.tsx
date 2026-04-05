@@ -1,3 +1,5 @@
+"use client";
+
 import React, {
     useRef,
     useLayoutEffect,
@@ -10,19 +12,49 @@ import React, {
 /* -----------------------------
    🔧 Utility: HEX → RGBA
 ------------------------------ */
-const toRGBA = (hex: string, alpha = 1): string => {
-    if (!hex) return `rgba(0,0,0,${alpha})`;
-    const ctx = document.createElement("canvas").getContext("2d");
-    if (!ctx) return `rgba(0,0,0,${alpha})`;
-    ctx.fillStyle = hex;
-    const computed = ctx.fillStyle;
-    if (computed.startsWith("rgba")) {
-        return computed.replace(/[\d.]+\)$/g, `${alpha})`);
+const toRGBA = (color: string, alpha = 1): string => {
+    if (!color) return `rgba(0,0,0,${alpha})`;
+
+    // Isomorphic Hex handling (Works on Server & Client)
+    if (color.startsWith("#")) {
+        const hex = color.length === 4
+            ? `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`
+            : color;
+
+        if (hex.length === 7) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
     }
-    if (computed.startsWith("rgb")) {
-        return computed.replace("rgb", "rgba").replace(")", `,${alpha})`);
+
+    if (typeof window === "undefined") return color;
+
+    // Canvas fallback for color names, hsl, etc. (Client Only)
+    try {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return color;
+        ctx.fillStyle = color;
+        const computed = ctx.fillStyle;
+
+        if (computed.startsWith("rgba")) {
+            return computed.replace(/[\d.]+\)$/g, `${alpha})`);
+        }
+        if (computed.startsWith("rgb")) {
+            return computed.replace("rgb", "rgba").replace(")", `, ${alpha})`);
+        }
+        if (computed.startsWith("#")) {
+            const r = parseInt(computed.slice(1, 3), 16);
+            const g = parseInt(computed.slice(3, 5), 16);
+            const b = parseInt(computed.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+    } catch (e) {
+        return color;
     }
-    return computed;
+    return color;
 };
 
 /* -----------------------------

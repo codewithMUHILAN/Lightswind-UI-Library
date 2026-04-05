@@ -1,5 +1,6 @@
+"use client";
 import * as React from "react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { CircleXIcon } from "lucide-react";
 
 // --- Context and Props (with the new prop added) ---

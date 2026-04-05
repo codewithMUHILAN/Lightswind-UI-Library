@@ -1,6 +1,7 @@
+"use client";
 
 import * as React from "react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
 interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Current progress value */

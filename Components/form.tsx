@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import {
   Controller,
@@ -9,7 +10,7 @@ import {
 } from "react-hook-form";
 import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion"; // Import HTMLMotionProps
 
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { Label } from "./label";
 
 const Form = FormProvider;

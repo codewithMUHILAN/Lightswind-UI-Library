@@ -1,5 +1,6 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 import { Input, InputProps  } from "./input";
 import { Label } from "./label";
 import { Eye, EyeOff, Check, X } from "lucide-react";

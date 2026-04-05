@@ -1,3 +1,4 @@
+"use client";
 'use client';
 
 import { useRef, useEffect } from 'react';
@@ -11,7 +12,7 @@ import {
   useMotionValue,
 } from 'motion/react';
 import { wrap } from '@motionone/utils';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 interface TextScrollMarqueeProps {
   children: string;

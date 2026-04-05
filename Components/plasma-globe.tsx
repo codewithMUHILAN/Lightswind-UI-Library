@@ -5,8 +5,8 @@ import React, { useEffect, useRef } from "react";
 import { Renderer, Program, Mesh, Triangle } from "ogl";
 
 interface PlasmaGlobeProps {
-    speed?: number; // global time speed multiplier
-    intensity?: number; // color intensity multiplier
+  speed?: number; // global time speed multiplier
+  intensity?: number; // color intensity multiplier
 }
 
 const VERTEX_SHADER = `#version 300 es
@@ -239,86 +239,86 @@ void main(){
 `;
 
 export default function PlasmaGlobe({
-    speed = 1.0,
-    intensity = 1.0,
+  speed = 1.0,
+  intensity = 1.0,
 }: PlasmaGlobeProps) {
-    const containerRef = useRef<HTMLDivElement | null>(null);
-    const mouseRef = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
 
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-        // create renderer
-        const renderer = new Renderer({ alpha: true, antialias: true });
-        const gl = renderer.gl;
-        gl.clearColor(0, 0, 0, 0);
-        gl.enable(gl.BLEND);
-        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    // create renderer
+    const renderer = new Renderer({ alpha: true, antialias: true });
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-        // geometry
-        const geometry = new Triangle(gl);
+    // geometry
+    const geometry = new Triangle(gl);
 
-        // program
-        const program = new Program(gl, {
-            vertex: VERTEX_SHADER,
-            fragment: FRAGMENT_SHADER,
-            uniforms: {
-                uTime: { value: 0 },
-                uResolution: { value: [container.offsetWidth, container.offsetHeight] },
-                uMouse: { value: [0, 0] },
-                uSpeed: { value: speed },
-                uIntensity: { value: intensity },
-            },
-        });
+    // program
+    const program = new Program(gl, {
+      vertex: VERTEX_SHADER,
+      fragment: FRAGMENT_SHADER,
+      uniforms: {
+        uTime: { value: 0 },
+        uResolution: { value: [container.offsetWidth, container.offsetHeight] },
+        uMouse: { value: [0, 0] },
+        uSpeed: { value: speed },
+        uIntensity: { value: intensity },
+      },
+    });
 
-        const mesh = new Mesh(gl, { geometry, program });
-        container.appendChild(gl.canvas);
+    const mesh = new Mesh(gl, { geometry, program });
+    container.appendChild(gl.canvas);
 
-        // resize
-        const resize = () => {
-            const width = container.offsetWidth;
-            const height = container.offsetHeight;
-            renderer.setSize(width, height);
-            program.uniforms.uResolution.value = [width, height];
-        };
-        window.addEventListener("resize", resize);
-        resize();
+    // resize
+    const resize = () => {
+      const width = container.offsetWidth;
+      const height = container.offsetHeight;
+      renderer.setSize(width, height);
+      program.uniforms.uResolution.value = [width, height];
+    };
+    window.addEventListener("resize", resize);
+    resize();
 
-        // mouse smoothing
-        const onMouse = (e: MouseEvent) => {
-            mouseRef.current.x += (e.clientX - mouseRef.current.x) * 0.08;
-            mouseRef.current.y += (e.clientY - mouseRef.current.y) * 0.08;
-        };
-        window.addEventListener("mousemove", onMouse);
+    // mouse smoothing
+    const onMouse = (e: MouseEvent) => {
+      mouseRef.current.x += (e.clientX - mouseRef.current.x) * 0.08;
+      mouseRef.current.y += (e.clientY - mouseRef.current.y) * 0.08;
+    };
+    window.addEventListener("mousemove", onMouse);
 
-        let rafId = 0;
-        const loop = (t: number) => {
-            rafId = requestAnimationFrame(loop);
-            // uTime passed in seconds, multiplied by speed
-            program.uniforms.uTime.value = (t * 0.001) * speed;
-            program.uniforms.uMouse.value = [mouseRef.current.x, mouseRef.current.y];
-            program.uniforms.uIntensity.value = intensity;
-            renderer.render({ scene: mesh });
-        };
-        rafId = requestAnimationFrame(loop);
+    let rafId = 0;
+    const loop = (t: number) => {
+      rafId = requestAnimationFrame(loop);
+      // uTime passed in seconds, multiplied by speed
+      program.uniforms.uTime.value = (t * 0.001) * speed;
+      program.uniforms.uMouse.value = [mouseRef.current.x, mouseRef.current.y];
+      program.uniforms.uIntensity.value = intensity;
+      renderer.render({ scene: mesh });
+    };
+    rafId = requestAnimationFrame(loop);
 
-        return () => {
-            cancelAnimationFrame(rafId);
-            window.removeEventListener("resize", resize);
-            window.removeEventListener("mousemove", onMouse);
-            if (gl.canvas.parentNode === container) container.removeChild(gl.canvas);
-            gl.getExtension("WEBGL_lose_context")?.loseContext();
-        };
-    }, [speed, intensity]);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", onMouse);
+      if (gl.canvas.parentNode === container) container.removeChild(gl.canvas);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+    };
+  }, [speed, intensity]);
 
-    return (
-        <div
-            ref={containerRef}
-            className="w-full h-full absolute inset-0 pointer-events-none 
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full absolute inset-0 pointer-events-none 
             !rounded-xl !bg-transparent"
-            style={{ transform: "scale(0.50)", borderRadius: '50px' }} // 0.75 = 75%
-        />
+      style={{ transform: "scale(0.50)", borderRadius: '50px' }} // 0.75 = 75%
+    />
 
-    );
+  );
 }

@@ -1,5 +1,6 @@
+"use client";
 import * as React from "react";
-import { cn } from "../lib/utils"; // Ensure this utility is present or replace with className logic
+import { cn } from "../../lib/utils"; // Ensure this utility is present or replace with className logic
 import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion"; // Import HTMLMotionProps
 
 interface HoverCardContextType {

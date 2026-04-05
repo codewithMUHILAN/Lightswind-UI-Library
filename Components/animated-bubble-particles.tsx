@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { cn } from "../lib/utils"; // Assuming this is a utility like clsx or classnames
+import { cn } from "../../lib/utils"; // Assuming this is a utility like clsx or classnames
 
 export interface ParticleConfig {
   x: number;

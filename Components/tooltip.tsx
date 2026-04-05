@@ -1,5 +1,6 @@
+"use client";
 import * as React from "react";
-import { cn } from "../lib/utils"; // Assuming utils.ts is in lib/
+import { cn } from "../../lib/utils"; // Assuming utils.ts is in lib/
 import { motion, AnimatePresence, Variants, Easing } from "framer-motion"; // Import Variants and Easing
 
 // --- Context Types ---

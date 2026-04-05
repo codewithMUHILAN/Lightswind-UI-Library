@@ -1,8 +1,9 @@
+"use client";
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Check, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
-import { cn } from "../lib/utils"; // Assuming you have this utility function
+import { cn } from "../../lib/utils"; // Assuming you have this utility function
 
 interface SelectContextType {
   value: string;

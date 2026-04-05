@@ -1,6 +1,7 @@
+"use client";
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, useMotionTemplate } from "framer-motion";
-import { cn } from "../lib/utils"; // Assuming cn is a utility for conditionally joining class names
+import { cn } from "../../lib/utils"; // Assuming cn is a utility for conditionally joining class names
 
 export const InteractiveCard = ({
   children,

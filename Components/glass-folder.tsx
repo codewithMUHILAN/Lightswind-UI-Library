@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { cn } from "../lib/utils"; // Optional: For class merging utility
+import { cn } from "../../lib/utils"; // Optional: For class merging utility
 
 type GlassFolderProps = {
   icon?: React.ReactNode;

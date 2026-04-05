@@ -1,6 +1,6 @@
 import React from "react";
 import { Star } from "lucide-react";
-import { cn } from "../lib/utils"; // Adjust path if needed
+import { cn } from "../../lib/utils"; // Adjust path if needed
 import { CountUp } from "./count-up";
 
 interface TrustedUsersProps {

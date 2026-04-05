@@ -1,5 +1,6 @@
+"use client";
 import * as React from "react";
-import { cn } from "../lib/utils"; // Assuming this is a utility like classnames
+import { cn } from "../../lib/utils"; // Assuming this is a utility like classnames
 
 interface SliderProps {
   defaultValue?: number[];

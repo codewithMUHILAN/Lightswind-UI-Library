@@ -211,7 +211,7 @@ const InteractiveGridBackground: React.FC<InteractiveGridBackgroundProps> = ({
     <div
       ref={containerRef}
       className={`relative ${className}`}
-      style={{ width: width || "100vw", height: height || "100vh" }}
+      style={{ width: width || "99vw", height: height || "100vh" }}
       {...props}
     >
       <canvas

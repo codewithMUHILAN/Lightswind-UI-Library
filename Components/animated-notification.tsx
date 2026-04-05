@@ -4,7 +4,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Flipper, Flipped } from 'react-flip-toolkit';
 import { X } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 
 export interface NotificationUser {
   avatarUrl?: string;

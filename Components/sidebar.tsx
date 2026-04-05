@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { motion, useInView, HTMLMotionProps } from "framer-motion";
