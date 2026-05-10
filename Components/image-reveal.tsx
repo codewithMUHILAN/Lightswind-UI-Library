@@ -19,7 +19,7 @@ const visualData: VisualItem[] = [
   {
     key: 2,
     url: "https://images.pexels.com/photos/31622979/pexels-photo-31622979.jpeg",
-    label: "Greedy Model",
+    label: "primarylw Model",
   },
   {
     key: 3,
@@ -93,6 +93,7 @@ const ImageReveal: React.FC = () => {
             {item.label}
           </h2>
           <button
+            aria-label={`View ${item.label}`}
             className={`sm:block hidden p-4 rounded-full transition-all duration-300 ease-out ${
               focusedItem?.key === item.key
                 ? "mix-blend-difference z-20 bg-white text-black"

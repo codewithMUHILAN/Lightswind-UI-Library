@@ -11,210 +11,250 @@ export interface ScrollStackCard {
 
 interface ScrollStackProps {
   cards: ScrollStackCard[];
-  backgroundColor?: string;
-  cardHeight?: string;
-  animationDuration?: string;
-  sectionHeightMultiplier?: number;
-  intersectionThreshold?: number;
+  cardHeight?: number;
+  scrollPerCard?: number;
   className?: string;
 }
 
-const defaultBackgrounds = [
-  "https://images.pexels.com/photos/6985136/pexels-photo-6985136.jpeg",
-  "https://images.pexels.com/photos/6985128/pexels-photo-6985128.jpeg",
-  "https://images.pexels.com/photos/2847648/pexels-photo-2847648.jpeg",
+const defaultBgs = [
+  "https://images.pexels.com/photos/6985136/pexels-photo-6985136.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/6985128/pexels-photo-6985128.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/2847648/pexels-photo-2847648.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/1103970/pexels-photo-1103970.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=1200",
 ];
 
 const ScrollStack: React.FC<ScrollStackProps> = ({
   cards,
-  backgroundColor = "bg-background", // Changed default to "bg-background"
-  cardHeight = "60vh",
-  animationDuration = "0.5s",
-  sectionHeightMultiplier = 3,
-  intersectionThreshold = 0.1,
+  cardHeight = 420,
+  scrollPerCard = 300,
   className = "",
 }) => {
-  const scrollableSectionRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const cardsContainerRef = useRef<HTMLDivElement>(null);
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const ticking = useRef(false);
-  const cardCount = Math.min(cards.length, 5);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stickyPanelRef = useRef<HTMLDivElement>(null); // NEW: Ref for direct DOM manipulation
+  const [scrolled, setScrolled] = useState(0);
+  const [vpH, setVpH] = useState(600);
 
-  const cardStyle = {
-    height: cardHeight,
-    maxHeight: "500px",
-    borderRadius: "20px",
-    transition: `transform ${animationDuration} cubic-bezier(0.19, 1, 0.22, 1), opacity ${animationDuration} cubic-bezier(0.19, 1, 0.22, 1)`,
-    willChange: "transform, opacity",
-  };
+  // Stable refs — measured once on mount / resize
+  const scrollParentRef = useRef<Element | null>(null);
+  const containerOffsetRef = useRef(0);
+
+  const list = cards.slice(0, 5);
+  const N = list.length;
+  const totalScrollZone = N * scrollPerCard;
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        setIsIntersecting(entry.isIntersecting);
-      },
-      { threshold: intersectionThreshold }
-    );
+    const el = containerRef.current;
+    if (!el) return;
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    // ── 1. Find scroll parent ────────────────────────────────────────────────
+    let scrollParent: Element | null = null;
+    let node: Element | null = el.parentElement;
+    while (node) {
+      const s = window.getComputedStyle(node);
+      if (/auto|scroll/.test(s.overflow) || /auto|scroll/.test(s.overflowY)) {
+        scrollParent = node;
+        break;
+      }
+      node = node.parentElement;
     }
+    scrollParentRef.current = scrollParent;
 
-    const handleScroll = () => {
-      if (!ticking.current) {
-        requestAnimationFrame(() => {
-          if (!sectionRef.current || !cardsContainerRef.current) return;
-
-          const sectionRect = sectionRef.current.getBoundingClientRect();
-          const parentRect =
-            scrollableSectionRef.current?.getBoundingClientRect();
-          const viewportHeight = parentRect?.height ?? window.innerHeight;
-
-          const sectionTop = sectionRect.top - (parentRect?.top ?? 0);
-          const sectionHeight = sectionRef.current.offsetHeight;
-          const scrollableDistance = sectionHeight - viewportHeight;
-
-          let progress = 0;
-          if (sectionTop <= 0 && Math.abs(sectionTop) <= scrollableDistance) {
-            progress = Math.abs(sectionTop) / scrollableDistance;
-          } else if (sectionTop <= 0) {
-            progress = 1;
-          }
-
-          let newActiveIndex = 0;
-          const progressPerCard = 1 / cardCount;
-          for (let i = 0; i < cardCount; i++) {
-            if (progress >= progressPerCard * (i + 1)) {
-              newActiveIndex = i + 1;
-            }
-          }
-
-          setActiveCardIndex(Math.min(newActiveIndex, cardCount - 1));
-          ticking.current = false;
-        });
-        ticking.current = true;
+    // ── 2. Measure stable offset in CONTENT SPACE ───────────────────────────
+    const measure = () => {
+      const sp = scrollParentRef.current;
+      const elRect = el.getBoundingClientRect();
+      if (sp) {
+        const spRect = sp.getBoundingClientRect();
+        containerOffsetRef.current = elRect.top - spRect.top + sp.scrollTop;
+        setVpH(sp.clientHeight);
+      } else {
+        containerOffsetRef.current = elRect.top + window.scrollY;
+        setVpH(window.innerHeight);
       }
     };
 
-    const scrollElement = scrollableSectionRef.current;
-    scrollElement?.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    // Slight delay ensures the DOM/Preview div is fully rendered before measuring
+    setTimeout(measure, 100);
 
-    return () => {
-      scrollElement?.removeEventListener("scroll", handleScroll);
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    // ── 3. Hot scroll handler (Direct DOM + React State) ────────────────────
+    let animId: number | null = null;
+    const update = () => {
+      if (animId) cancelAnimationFrame(animId);
+      animId = requestAnimationFrame(() => {
+        const sp = scrollParentRef.current;
+        const scrollTop = sp ? sp.scrollTop : window.scrollY;
+        const currentScrolled = Math.max(0, scrollTop - containerOffsetRef.current);
+
+        // DIRECT DOM MANIPULATION: 
+        // Moves the panel synchronously with the scrollbar, ensuring zero jitter 
+        // and bypassing any CSS overflow: hidden bugs in parent containers.
+        if (stickyPanelRef.current) {
+          const innerTop = Math.min(currentScrolled, totalScrollZone);
+          stickyPanelRef.current.style.transform = `translateY(${innerTop}px)`;
+        }
+
+        // Update React state strictly for card animations (opacity/scale)
+        setScrolled(currentScrolled);
+      });
     };
-  }, [cardCount, sectionHeightMultiplier, intersectionThreshold]);
 
-  const getCardTransform = (index: number) => {
-    const isVisible = isIntersecting && activeCardIndex >= index;
-    const scale = 0.9 + index * 0.05;
-    let translateY = "100px";
-
-    if (isVisible) {
-      translateY = `${90 - index * 30}px`;
+    // ── 4. Collect ALL scroll ancestors ─────────────────────────────────────
+    const targets: (Element | Window)[] = [window];
+    let n: Element | null = el.parentElement;
+    while (n) {
+      const s = window.getComputedStyle(n);
+      if (/auto|scroll/.test(s.overflow) || /auto|scroll/.test(s.overflowY)) {
+        targets.push(n);
+      }
+      n = n.parentElement;
     }
 
-    return {
-      transform: `translateY(${translateY}) scale(${scale})`,
-      opacity: isVisible ? (index === 0 ? 0.9 : 1) : 0,
-      zIndex: 10 + index * 10,
-      pointerEvents: isVisible ? "auto" : "none",
+    targets.forEach((t) => t.addEventListener("scroll", update, { passive: true }));
+    window.addEventListener("resize", () => { measure(); update(); }, { passive: true });
+    update();
+
+    return () => {
+      targets.forEach((t) => t.removeEventListener("scroll", update));
+      if (animId) cancelAnimationFrame(animId);
     };
-  };
+  }, [totalScrollZone]);
+
+  const h = vpH || 600;
 
   return (
-    <section
-      ref={scrollableSectionRef}
-      className="relative max-h-screen w-full lg:w-[100%] overflow-y-scroll 
-      scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-300"
+    <div
+      ref={containerRef}
+      className={`relative w-full ${className}`}
+      style={{ height: h + totalScrollZone }}
     >
+      {/* Bulletproof GSAP-style sticky panel */}
       <div
-        ref={sectionRef}
-        className={`relative ${className}`}
-        style={{ height: `${sectionHeightMultiplier * 85}vh` }}
+        ref={stickyPanelRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: h,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          willChange: "transform", // Hardware acceleration for buttery smoothness
+        }}
       >
+        {/* Card stack — centered */}
         <div
-          className={`sticky top-0 w-full h-screen flex items-center 
-            justify-center overflow-hidden ${backgroundColor}`} // Applied as a Tailwind class
+          style={{
+            position: "relative",
+            width: "100%",
+            maxWidth: "56rem",
+            margin: "0 auto",
+            padding: "0 1rem",
+            height: cardHeight,
+          }}
         >
-          <div className="container px-6 lg:px-8 mx-auto h-full flex flex-col justify-center">
-            <div
-              ref={cardsContainerRef}
-              className="relative w-full max-w-5xl mx-auto flex-shrink-0"
-              style={{ height: cardHeight }}
-            >
-              {cards.slice(0, 5).map((card, index) => {
-                const cardTransform = getCardTransform(index);
-                const backgroundImage =
-                  card.backgroundImage ||
-                  defaultBackgrounds[index % defaultBackgrounds.length];
+          {list.map((card, index) => {
+            const bg = card.backgroundImage ?? defaultBgs[index % defaultBgs.length];
+            const revealAt = index * scrollPerCard;
+            const isVisible = scrolled >= revealAt;
 
-                return (
-                  <div
-                    key={index}
-                    className={`absolute z-50 overflow-hidden shadow-xl 
-                      transition-all duration-300`}
-                    style={{
-                      ...cardStyle,
-                      top: 0,
-                      left: "50%",
-                      transform: `translateX(-50%) ${cardTransform.transform}`,
-                      width: "100%",
-                      maxWidth: "100%",
-                      opacity: cardTransform.opacity,
-                      zIndex: cardTransform.zIndex,
-                      pointerEvents:
-                        cardTransform.pointerEvents as React.CSSProperties["pointerEvents"],
-                    }}
-                  >
-                    <div
-                      className="absolute inset-0 z-0 bg-gradient-to-b from-black/40 to-black/80"
-                      style={{
-                        backgroundImage: `url('${backgroundImage}')`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundBlendMode: "overlay",
-                      }}
-                    />
+            const above = Math.max(
+              0,
+              Math.min(N - 1 - index, Math.floor((scrolled - revealAt) / scrollPerCard))
+            );
 
-                    {card.badge && (
-                      <div className="absolute top-4 right-4 z-20">
-                        <div className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm text-white">
-                          <span className="text-sm font-medium">
-                            {card.badge}
-                          </span>
-                        </div>
-                      </div>
-                    )}
+            const entryProgress = isVisible ? Math.min(1, (scrolled - revealAt) / 80) : 0;
+            const entryY = (1 - entryProgress) * 80;
+            const pushY = above * 12;
+            const scale = 1 - above * 0.03;
+            const opacity = isVisible ? Math.max(0.6, 1 - above * 0.1) : 0;
 
-                    <div className="relative z-10 p-5 sm:p-6 md:p-8 h-full flex items-center">
-                      {card.content ? (
-                        card.content
-                      ) : (
-                        <div className="max-w-lg">
-                          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
-                            {card.title}
-                          </h3>
-                          {card.subtitle && (
-                            <p className="text-lg text-white/80">
-                              {card.subtitle}
-                            </p>
-                          )}
-                        </div>
+            return (
+              <div
+                key={index}
+                className="absolute inset-x-0 overflow-hidden rounded-2xl shadow-2xl"
+                style={{
+                  height: cardHeight,
+                  top: 0,
+                  zIndex: 10 + index,
+                  transform: `translateY(${entryY - pushY}px) scale(${scale})`,
+                  opacity,
+                  transition:
+                    "transform 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease",
+                  willChange: "transform, opacity",
+                  transformOrigin: "center top",
+                }}
+              >
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage: `url('${bg}')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
+                {card.badge && (
+                  <div className="absolute top-5 right-5 z-10">
+                    <span className="px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-white text-sm font-medium border border-white/30">
+                      {card.badge}
+                    </span>
+                  </div>
+                )}
+
+                <div className="absolute inset-0 flex items-end p-6 sm:p-10 z-10">
+                  {card.content ?? (
+                    <div className="max-w-lg">
+                      <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">
+                        {card.title}
+                      </h3>
+                      {card.subtitle && (
+                        <p className="text-white/70 text-sm sm:text-base leading-relaxed line-clamp-3">
+                          {card.subtitle}
+                        </p>
                       )}
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+                  )}
+                </div>
+
+                <div className="absolute bottom-5 right-6 z-10 text-white/40 text-xs font-mono tracking-widest">
+                  {String(index + 1).padStart(2, "0")} / {String(N).padStart(2, "0")}
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {/* Progress dots */}
+        <div className="absolute right-5 top-1/2 -translate-y-1/2 flex flex-col gap-2.5 z-50">
+          {list.map((_, i) => {
+            const active = scrolled >= i * scrollPerCard;
+            return (
+              <div
+                key={i}
+                className="rounded-full transition-all duration-300"
+                style={{
+                  width: active ? 8 : 5,
+                  height: active ? 8 : 5,
+                  background: active ? "rgba(255,255,255,0.9)" : "rgba(120,120,120,0.4)",
+                  boxShadow: active ? "0 0 6px rgba(255,255,255,0.5)" : "none",
+                }}
+              />
+            );
+          })}
+        </div>
+
+        {scrolled < 20 && (
+          <div className="absolute bottom-8 inset-x-0 flex justify-center z-50 pointer-events-none">
+            <p className="text-xs text-white/40 tracking-[0.2em] uppercase animate-bounce">
+              scroll to explore
+            </p>
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   );
 };
 

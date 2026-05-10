@@ -1,6 +1,5 @@
-"use client";
 import React, { useEffect, useRef, useCallback } from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 export interface ParticleOrbitEffectProps {
   className?: string;
@@ -47,7 +46,7 @@ const ParticleOrbitEffect: React.FC<ParticleOrbitEffectProps> = ({
   particleSize = 2
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({
     x: 0,

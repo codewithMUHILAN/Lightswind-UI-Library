@@ -1,5 +1,5 @@
 
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import * as React from "react";
 
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -91,25 +91,25 @@ function TemplateCardSkeleton() {
       <div className="space-y-3">
         {/* Image placeholder */}
         <Skeleton className="h-48 w-full rounded-t-lg rounded-b-none" shimmer />
-        
+
         {/* Content area */}
         <div className="p-4 space-y-3">
           {/* Title */}
           <Skeleton className="h-6 w-3/4" shimmer />
-          
+
           {/* Description */}
           <div className="space-y-2">
             <Skeleton className="h-4 w-full" shimmer />
             <Skeleton className="h-4 w-5/6" shimmer />
           </div>
-          
+
           {/* Tags */}
           <div className="flex flex-wrap gap-2 pt-2">
             <Skeleton className="h-5 w-16 rounded-full" shimmer />
             <Skeleton className="h-5 w-20 rounded-full" shimmer />
             <Skeleton className="h-5 w-14 rounded-full" shimmer />
           </div>
-          
+
           {/* Price and button */}
           <div className="flex justify-between items-center pt-3">
             <Skeleton className="h-6 w-20" shimmer />

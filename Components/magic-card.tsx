@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, MouseEvent, useId } from "react";
-import { cn } from "@/app/component2/utils";
+import { cn } from "../lib/utils";
 
 interface MagicCardProps extends React.HTMLAttributes<HTMLDivElement> {
     imageUrl: string;

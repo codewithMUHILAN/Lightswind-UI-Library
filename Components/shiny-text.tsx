@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion, type Variants } from "framer-motion"; // Import Variants type
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 export interface ShinyTextProps {
   /** Text content to display */

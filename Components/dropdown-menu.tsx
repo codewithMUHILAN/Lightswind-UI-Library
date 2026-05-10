@@ -1,19 +1,18 @@
-"use client";
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import ReactDOM from "react-dom";
+import { cn } from "../lib/utils";
 import { cva } from "class-variance-authority";
-import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
+import { motion, AnimatePresence } from "framer-motion";
 
 interface DropdownMenuContextType {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   hoverMode?: boolean;
-  triggerRef: React.MutableRefObject<HTMLElement | null>; // Change to MutableRefObject
+  triggerRef: React.MutableRefObject<HTMLElement | null>;
+  timeoutRef: React.MutableRefObject<NodeJS.Timeout | null>;
 }
 
-const DropdownMenuContext = React.createContext<
-  DropdownMenuContextType | undefined
->(undefined);
+const DropdownMenuContext = React.createContext<DropdownMenuContextType | undefined>(undefined);
 
 interface DropdownMenuProps {
   children: React.ReactNode;
@@ -40,19 +39,31 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
     (value: React.SetStateAction<boolean>) => {
       if (!isControlled) {
         setUncontrolledOpen(value);
-      }
-      if (onOpenChange) {
-        const newValue = typeof value === "function" ? value(open) : value;
-        onOpenChange(newValue);
+      } else if (onOpenChange) {
+        const nextOpen = typeof value === "function" ? (value as (p: boolean) => boolean)(controlledOpen ?? false) : value;
+        onOpenChange(nextOpen);
       }
     },
-    [isControlled, onOpenChange, open]
+    [isControlled, onOpenChange, controlledOpen]
   );
 
+  // Notify parent of uncontrolled state changes — outside state updaters to avoid Strict Mode issues
+  React.useEffect(() => {
+    if (!isControlled && onOpenChange) {
+      onOpenChange(uncontrolledOpen);
+    }
+  }, [uncontrolledOpen, isControlled, onOpenChange]);
+
+  const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   return (
-    <DropdownMenuContext.Provider
-      value={{ open, setOpen, hoverMode, triggerRef }}
-    >
+    <DropdownMenuContext.Provider value={{ open: open || false, setOpen, hoverMode, triggerRef, timeoutRef }}>
       {children}
     </DropdownMenuContext.Provider>
   );
@@ -68,101 +79,62 @@ const DropdownMenuTrigger = React.forwardRef<
   DropdownMenuTriggerProps & React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ children, asChild, ...props }, ref) => {
   const context = React.useContext(DropdownMenuContext);
-  if (!context) {
-    throw new Error("DropdownMenuTrigger must be used within a DropdownMenu");
-  }
+  if (!context) throw new Error("DropdownMenuTrigger must be used within a DropdownMenu");
 
-  const { setOpen, hoverMode, triggerRef } = context;
+  const { setOpen, hoverMode, triggerRef, timeoutRef } = context;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    setOpen((prev) => !prev);
-
-    if (props.onClick) {
-      props.onClick(e);
+    if (hoverMode) {
+      // In hover mode, click should only open (not toggle), to avoid
+      // fighting with the hover timers on first interaction
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      setOpen(true);
+    } else {
+      setOpen((prev) => !prev);
     }
+    if (props.onClick) props.onClick(e);
   };
 
-  // New ref for managing hover timeout specifically within the trigger
-  const triggerHoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
-
   React.useImperativeHandle(ref, () => {
-    // Ensure triggerRef.current is not null before returning
-    // This should now correctly refer to the DOM element after the ref callback runs
-    if (!triggerRef.current) {
-      // Fallback or throw an error if triggerRef.current is not set
-      console.warn(
-        "DropdownMenuTrigger ref is null. Ensure children forward their ref when asChild is true."
-      );
-      return document.createElement("button"); // Return a dummy element to satisfy the type
-    }
+    if (!triggerRef.current) return document.createElement("button");
     return triggerRef.current as HTMLButtonElement;
-  }, []);
+  }, [triggerRef]);
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
     if (hoverMode) {
-      if (triggerHoverTimeoutRef.current) {
-        clearTimeout(triggerHoverTimeoutRef.current);
-      }
-      triggerHoverTimeoutRef.current = setTimeout(() => {
-        setOpen(true);
-      }, 100);
-      if (triggerRef.current) {
-        (triggerRef.current as any)._hoverTimeoutRef =
-          triggerHoverTimeoutRef.current;
-      }
+      // Always clear any pending timer (open or close)
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      // Schedule open — setOpen(true) is idempotent if already open
+      timeoutRef.current = setTimeout(() => setOpen(true), 150);
     }
-
-    if (props.onMouseEnter) {
-      props.onMouseEnter(e as React.MouseEvent<HTMLButtonElement>);
-    }
+    if (props.onMouseEnter) props.onMouseEnter(e as React.MouseEvent<HTMLButtonElement>);
   };
 
   const handleMouseLeaveTrigger = (e: React.MouseEvent<HTMLElement>) => {
     if (hoverMode) {
-      if (triggerHoverTimeoutRef.current) {
-        clearTimeout(triggerHoverTimeoutRef.current);
-      }
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setOpen(false), 200);
     }
-    if (props.onMouseLeave) {
-      props.onMouseLeave(e as React.MouseEvent<HTMLButtonElement>);
-    }
+    if (props.onMouseLeave) props.onMouseLeave(e as React.MouseEvent<HTMLButtonElement>);
   };
 
   const { onClick, onMouseEnter, onMouseLeave, ...otherProps } = props;
 
   if (asChild) {
-    const child = React.Children.only(children);
-
-    if (!React.isValidElement(child)) {
-      throw new Error(
-        "DropdownMenuTrigger when asChild is true must have a single valid React element child."
-      );
-    }
-
+    const child = React.Children.only(children) as React.ReactElement<any>;
     return React.cloneElement(child, {
       ...child.props,
       ref: (node: HTMLElement | null) => {
-        // Update the internal triggerRef
         triggerRef.current = node;
+        if (typeof ref === "function") ref(node as HTMLButtonElement);
+        else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node;
 
-        // Handle the forwarded ref from forwardRef
-        if (typeof ref === "function") {
-          ref(node as HTMLButtonElement);
-        } else if (ref) {
-          (ref as React.MutableRefObject<HTMLButtonElement | null>).current =
-            node as HTMLButtonElement;
-        }
-
-        // Handle the original ref of the child element
+        // Handle child's original ref
         const childRef = (child as any).ref;
         if (childRef) {
-          if (typeof childRef === "function") {
-            childRef(node);
-          } else if (childRef.hasOwnProperty("current")) {
-            (childRef as React.MutableRefObject<HTMLElement | null>).current =
-              node;
-          }
+          if (typeof childRef === "function") childRef(node);
+          else if (childRef.hasOwnProperty("current")) childRef.current = node;
         }
       },
       onClick: (e: React.MouseEvent) => {
@@ -174,9 +146,12 @@ const DropdownMenuTrigger = React.forwardRef<
         if (child.props.onMouseEnter) child.props.onMouseEnter(e);
       },
       onMouseLeave: (e: React.MouseEvent) => {
+        // Start a close timer; the content's onMouseEnter will cancel it if
+        // the cursor moves into the portal-rendered dropdown before the timer fires.
         handleMouseLeaveTrigger(e as React.MouseEvent<HTMLElement>);
         if (child.props.onMouseLeave) child.props.onMouseLeave(e);
       },
+      ...otherProps,
     });
   }
 
@@ -184,12 +159,8 @@ const DropdownMenuTrigger = React.forwardRef<
     <button
       ref={(node) => {
         triggerRef.current = node;
-
-        if (typeof ref === "function") {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
+        if (typeof ref === "function") ref(node);
+        else if (ref) ref.current = node;
       }}
       type="button"
       onClick={handleClick}
@@ -204,8 +175,7 @@ const DropdownMenuTrigger = React.forwardRef<
 DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
 
 const dropdownMenuContentVariants = cva(
-  `z-50 min-w-[8rem] overflow-hidden rounded-md border  
-   bg-popover p-1 text-popover-foreground shadow-md`,
+  "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
   {
     variants: {
       variant: {
@@ -219,61 +189,42 @@ const dropdownMenuContentVariants = cva(
   }
 );
 
-interface DropdownMenuContentProps
-  extends Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    | "onAnimationStart" // Omit this
-    | "onAnimationEnd" // Omit this
-    | "onTransitionEnd" // Omit this
-    | "onTransitionCancel" // Omit this
-    | "onDrag"
-    | "onDragEnd"
-    | "onDragEnter"
-    | "onDragExit"
-    | "onDragLeave"
-    | "onDragOver"
-    | "onDragStart"
-    | "onDrop"
-  > {
+interface DropdownMenuContentProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart" | "onAnimationEnd"> {
   align?: "start" | "center" | "end";
   alignOffset?: number;
   side?: "top" | "right" | "bottom" | "left";
   sideOffset?: number;
   variant?: "default" | "contextMenu";
 }
-const DropdownMenuContent = React.forwardRef<
-  HTMLDivElement,
-  DropdownMenuContentProps
->(
-  (
-    {
-      className,
-      children,
-      align = "center",
-      alignOffset = 0,
-      side = "bottom",
-      sideOffset = 4,
-      variant,
-      ...props
-    },
-    ref
-  ) => {
+
+const DropdownMenuContent = React.forwardRef<HTMLDivElement, DropdownMenuContentProps>(
+  ({ className, children, align = "center", alignOffset = 0, side = "bottom", sideOffset = 4, variant, ...props }, ref) => {
     const context = React.useContext(DropdownMenuContext);
-    if (!context) {
-      throw new Error("DropdownMenuContent must be used within a DropdownMenu");
-    }
+    if (!context) throw new Error("DropdownMenuContent must be used within a DropdownMenu");
 
     const { open, setOpen, hoverMode, triggerRef } = context;
     const menuRef = React.useRef<HTMLDivElement | null>(null);
     const [position, setPosition] = React.useState({ top: 0, left: 0 });
-
-    const contentMouseLeaveTimeoutRef = React.useRef<NodeJS.Timeout | null>(
-      null
-    );
+    const [mounted, setMounted] = React.useState(false);
+    const [positioned, setPositioned] = React.useState(false);
 
     React.useEffect(() => {
-      if (!open) return;
+      setMounted(true);
+    }, []);
 
+    // Reset positioned to false ONLY when closed, avoids flickering when children change
+    React.useEffect(() => {
+      if (!open) {
+        setPositioned(false);
+      }
+    }, [open]);
+
+    // Body scroll lock removed
+    // Previous logic was interfering with page navigation
+
+    // Close on click outside
+    React.useEffect(() => {
+      if (!open) return;
       const handleClickOutside = (e: MouseEvent) => {
         if (
           menuRef.current &&
@@ -284,83 +235,39 @@ const DropdownMenuContent = React.forwardRef<
           setOpen(false);
         }
       };
-
       document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
+      return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [open, setOpen, triggerRef]);
 
-    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (hoverMode) {
-        if (contentMouseLeaveTimeoutRef.current) {
-          clearTimeout(contentMouseLeaveTimeoutRef.current);
-        }
-        contentMouseLeaveTimeoutRef.current = setTimeout(() => {
-          setOpen(false);
-        }, 150);
-      }
-
-      if (props.onMouseLeave) {
-        props.onMouseLeave(e);
-      }
-    };
-
-    const handleMouseEnterContent = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (hoverMode) {
-        if (contentMouseLeaveTimeoutRef.current) {
-          clearTimeout(contentMouseLeaveTimeoutRef.current);
-        }
-        if (triggerRef.current) {
-          const triggerAny = triggerRef.current as any;
-          if (triggerAny._hoverTimeoutRef) {
-            clearTimeout(triggerAny._hoverTimeoutRef);
-            triggerAny._hoverTimeoutRef = null;
-          }
-        }
-      }
-      if (props.onMouseEnter) {
-        props.onMouseEnter(e);
-      }
-    };
-
+    // Position updates
     React.useEffect(() => {
       if (!open || !triggerRef.current) return;
 
       const updatePosition = () => {
         if (!triggerRef.current) return;
-
         const triggerRect = triggerRef.current.getBoundingClientRect();
         let menuRect = menuRef.current?.getBoundingClientRect();
 
         if (!menuRect) {
-          const dummyDiv = document.createElement("div");
-          dummyDiv.style.visibility = "hidden";
-          dummyDiv.style.position = "absolute";
-          dummyDiv.style.minWidth = "8rem";
-          dummyDiv.style.padding = "1px";
-          dummyDiv.style.border = "1px solid";
-          dummyDiv.className = cn(
-            dropdownMenuContentVariants({ variant }),
-            className
-          );
-          document.body.appendChild(dummyDiv);
-          menuRect = dummyDiv.getBoundingClientRect();
-          document.body.removeChild(dummyDiv);
+          // Temporary render to get size if not yet rendered
+          // This part in a Portal scenario is tricky because ref might be null initially.
+          // We'll rely on a second pass or basic estimation if ref is null, 
+          // but Framer Motion should attach ref quickly.
+          // For simplicity in this fix, if no menuRect, we assume a default width/height or wait for next tick.
+          if (!menuRef.current) return;
+          menuRect = menuRef.current.getBoundingClientRect();
         }
 
         let top = 0;
         let left = 0;
 
+        // Basic positioning logic tailored for Portal (relative to viewport)
         if (side === "bottom") {
           top = triggerRect.bottom + sideOffset;
         } else if (side === "top") {
           top = triggerRect.top - (menuRect?.height || 0) - sideOffset;
         } else if (side === "left" || side === "right") {
-          top =
-            triggerRect.top +
-            triggerRect.height / 2 -
-            (menuRect?.height || 0) / 2;
+          top = triggerRect.top + triggerRect.height / 2 - (menuRect?.height || 0) / 2;
         }
 
         if (side === "right") {
@@ -368,201 +275,164 @@ const DropdownMenuContent = React.forwardRef<
         } else if (side === "left") {
           left = triggerRect.left - (menuRect?.width || 0) - sideOffset;
         } else {
-          if (align === "start") {
-            left = triggerRect.left + alignOffset;
-          } else if (align === "center") {
-            left =
-              triggerRect.left +
-              triggerRect.width / 2 -
-              (menuRect?.width || 0) / 2 +
-              alignOffset;
-          } else if (align === "end") {
-            left = triggerRect.right - (menuRect?.width || 0) - alignOffset;
-          }
+          if (align === "start") left = triggerRect.left + alignOffset;
+          else if (align === "center") left = triggerRect.left + triggerRect.width / 2 - (menuRect?.width || 0) / 2 + alignOffset;
+          else if (align === "end") left = triggerRect.right - (menuRect?.width || 0) - alignOffset;
         }
 
+        // Viewport collision detection
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
 
-        if (left + (menuRect?.width || 0) > windowWidth) {
-          left = windowWidth - (menuRect?.width || 0) - 8;
-        }
-
-        if (left < 8) {
-          left = 8;
-        }
+        if (left + (menuRect?.width || 0) > windowWidth) left = windowWidth - (menuRect?.width || 0) - 8;
+        if (left < 8) left = 8;
 
         if (top + (menuRect?.height || 0) > windowHeight) {
-          if (
-            side === "bottom" &&
-            triggerRect.top > (menuRect?.height || 0) + sideOffset
-          ) {
+          if (side === "bottom" && triggerRect.top > (menuRect?.height || 0) + sideOffset) {
             top = triggerRect.top - (menuRect?.height || 0) - sideOffset;
           } else {
             const maxHeight = windowHeight - top - 8;
-            if (menuRef.current) {
-              menuRef.current.style.maxHeight = `${maxHeight}px`;
-            }
+            if (menuRef.current) menuRef.current.style.maxHeight = `${maxHeight}px`;
           }
         }
 
         setPosition({ top, left });
       };
 
-      updatePosition();
-
+      // Run update immediately and on scroll/resize
+      // Use rAF to ensure the DOM has painted the portal content before measuring
+      const raf = requestAnimationFrame(() => {
+        updatePosition();
+        setPositioned(true);
+      });
       window.addEventListener("scroll", updatePosition, true);
       window.addEventListener("resize", updatePosition);
+
+      // Also update after a short delay to ensure Framer Motion has rendered the initial frame
+      const timeout = setTimeout(() => {
+        updatePosition();
+        setPositioned(true);
+      }, 0);
 
       return () => {
         window.removeEventListener("scroll", updatePosition, true);
         window.removeEventListener("resize", updatePosition);
+        cancelAnimationFrame(raf);
+        clearTimeout(timeout);
       };
-    }, [
-      open,
-      align,
-      alignOffset,
-      side,
-      sideOffset,
-      triggerRef,
-      children,
-      variant,
-      className,
-    ]);
+    }, [open, align, alignOffset, side, sideOffset, triggerRef, children, variant, className, mounted]);
 
-    const { onMouseLeave, onMouseEnter, ...otherProps } = props;
+    if (!mounted) return null;
 
-    return (
+    return ReactDOM.createPortal(
       <AnimatePresence>
         {open && (
           <motion.div
             ref={(node) => {
-              if (typeof ref === "function") {
-                ref(node);
-              } else if (ref) {
-                (ref as React.MutableRefObject<HTMLDivElement | null>).current =
-                  node;
-              }
+              if (typeof ref === "function") ref(node);
+              else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
               menuRef.current = node;
             }}
-            className={cn(
-              dropdownMenuContentVariants({ variant }),
-              "dropdown-scrollbar",
-              // "scrollbar-hide",
-              className
-            )}
+            className={cn(dropdownMenuContentVariants({ variant }), "dropdown-scrollbar", className)}
             style={{
               position: "fixed",
               top: `${position.top}px`,
               left: `${position.left}px`,
-              zIndex: 50,
+              zIndex: 99999,
               maxHeight: "calc(90vh - 60px)",
               overflowY: "auto",
+              transformOrigin: side === "bottom" ? "top center" : side === "top" ? "bottom center" : side === "left" ? "center right" : "center left",
             }}
-            onMouseLeave={handleMouseLeave}
-            onMouseEnter={handleMouseEnterContent}
-            initial={{ y: 70, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            {...otherProps}
+            initial={{ opacity: 0, scale: 0.9, y: side === "bottom" ? -4 : side === "top" ? 4 : 0 }}
+            animate={positioned ? { opacity: 1, scale: 1, y: 0, pointerEvents: "auto" as const } : { opacity: 0, scale: 0.9, pointerEvents: "none" as const }}
+            exit={{ opacity: 0, scale: 0.9, y: side === "bottom" ? -4 : side === "top" ? 4 : 0, transition: { duration: 0.15 }, pointerEvents: "none" as const }}
+            transition={{
+              type: "spring",
+              damping: 20,
+              stiffness: 300
+            }}
+            onMouseEnter={(e) => {
+              if (hoverMode && context.timeoutRef.current) {
+                clearTimeout(context.timeoutRef.current);
+              }
+              if (props.onMouseEnter) props.onMouseEnter(e as any);
+            }}
+            onMouseLeave={(e) => {
+              if (hoverMode) {
+                context.timeoutRef.current = setTimeout(() => setOpen(false), 200);
+              }
+              if (props.onMouseLeave) props.onMouseLeave(e as any);
+            }}
+            data-lenis-prevent
+            {...props}
           >
             {children}
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
     );
   }
 );
 DropdownMenuContent.displayName = "DropdownMenuContent";
 
-interface DropdownMenuLabelProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const DropdownMenuLabel = React.forwardRef<
-  HTMLDivElement,
-  DropdownMenuLabelProps
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("px-2 py-1.5 text-sm font-semibold", className)}
-    {...props}
-  />
-));
+const DropdownMenuLabel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("px-2 py-1.5 text-sm font-semibold", className)} {...props} />
+  )
+);
 DropdownMenuLabel.displayName = "DropdownMenuLabel";
 
 interface DropdownMenuItemProps extends React.HTMLAttributes<HTMLDivElement> {
   inset?: boolean;
   disabled?: boolean;
+  asChild?: boolean;
 }
 
-const DropdownMenuItem = React.forwardRef<
-  HTMLDivElement,
-  DropdownMenuItemProps
->(({ className, inset, disabled = false, ...props }, ref) => {
-  const context = React.useContext(DropdownMenuContext);
-  if (!context) {
-    throw new Error("DropdownMenuItem must be used within a DropdownMenu");
+const DropdownMenuItem = React.forwardRef<HTMLDivElement, DropdownMenuItemProps>(
+  ({ className, inset, asChild, disabled = false, ...props }, ref) => {
+    const context = React.useContext(DropdownMenuContext);
+    if (!context) throw new Error("DropdownMenuItem must be used within a DropdownMenu");
+    const { setOpen } = context;
+
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      if (disabled) {
+        e.preventDefault();
+        return;
+      }
+      setOpen(false);
+      if (props.onClick) props.onClick(e);
+    };
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "relative flex gap-1 cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          inset && "pl-8",
+          className
+        )}
+        onClick={handleClick}
+        data-disabled={disabled ? "" : undefined}
+        {...props}
+      />
+    );
   }
-
-  const { setOpen } = context;
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (disabled) {
-      e.preventDefault();
-      return;
-    }
-
-    setOpen(false);
-
-    if (props.onClick) {
-      props.onClick(e);
-    }
-  };
-
-  const { onClick, ...otherProps } = props;
-
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        `relative flex cursor-default select-none items-center 
-        rounded-sm px-2 py-1.5 text-sm outline-none 
-        focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground 
-        data-[disabled]:pointer-events-none data-[disabled]:opacity-50`,
-        inset && "pl-8",
-        className
-      )}
-      onClick={handleClick}
-      data-disabled={disabled ? "" : undefined}
-      {...otherProps}
-    />
-  );
-});
+);
 DropdownMenuItem.displayName = "DropdownMenuItem";
 
-interface DropdownMenuSeparatorProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
-
-const DropdownMenuSeparator = React.forwardRef<
-  HTMLDivElement,
-  DropdownMenuSeparatorProps
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-muted", className)}
-    {...props}
-  />
-));
+const DropdownMenuSeparator = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("-mx-1 my-1 h-px bg-muted", className)} {...props} />
+  )
+);
 DropdownMenuSeparator.displayName = "DropdownMenuSeparator";
 
-interface DropdownMenuGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const DropdownMenuGroup = React.forwardRef<
-  HTMLDivElement,
-  DropdownMenuGroupProps
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("space-y-1", className)} {...props} />
-));
+const DropdownMenuGroup = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("space-y-1", className)} {...props} />
+  )
+);
 DropdownMenuGroup.displayName = "DropdownMenuGroup";
 
 export {

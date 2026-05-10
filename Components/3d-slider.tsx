@@ -86,22 +86,25 @@ const ThreeDSlider: React.FC<ThreeDSliderProps> = ({
 }) => {
     // Refs for state that updates 60fps without re-renders
     const progressRef = useRef(50);
-    const targetProgressRef = useRef(50); // For smooth damping (optional, or direct mapping)
+    const targetProgressRef = useRef(50); // For smooth damping
     const isDownRef = useRef(false);
     const startXRef = useRef(0);
-    const isHoveringRef = useRef(false); // Ref for immediate access in loop
+    const containerRef = useRef<HTMLDivElement>(null);
     const rafRef = useRef<number | null>(null);
 
     // Array of refs to children elements
     const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const numItems = items.length;
+    // Cache for DOM updates to prevent layout thrashing
+    const cacheRef = useRef<Record<number, { transform: string, zIndex: string, opacity: string }>>({});
 
-    // React state only for mounting/initialization if needed
-    // We strictly avoid setState during scroll 
+    const numItems = items.length;
 
     // --- Animation Loop ---
     const update = useCallback(() => {
         if (!itemRefs.current.length) return;
+
+        // Lerp for buttery smoothness
+        progressRef.current += (targetProgressRef.current - progressRef.current) * 0.1;
 
         const progress = progressRef.current;
         const clamped = Math.max(0, Math.min(progress, 100));
@@ -112,101 +115,81 @@ const ThreeDSlider: React.FC<ThreeDSliderProps> = ({
         itemRefs.current.forEach((el, index) => {
             if (!el) return;
 
-            // Calculate relationship to active item
             const denominator = numItems > 1 ? numItems - 1 : 1;
-            // activeRatio: how far this item is from the Active cursor
-            // range: e.g. -2, -1, 0 (active), 1, 2...
-            const activeRatio = (index - activeFloat);
-
-            // Core 3D Transform Math
-            // We can tune these multipliers for the visual stack
-            const x = activeRatio * 120;     // Spacing: 120% width difference? No, looks like 800 previously
-            const y = activeRatio * 20;      // Vertical cascade
-            const rotate = activeRatio * 15; // Rotation cascade
-
-            // Original logic:
-            // x = activeRatio * 800 (percentage?) 
-            // In the ref implementation, let's use percent for consistency with original or px?
-            // Original: x = activeRatio * 800 + '%'
-            // activeRatio in original was (index - active) / (length - 1) which is normalized -1 to 1?
-            // Actually: activeRatio = (index - active) / denominator.
-            // Wait, previous code: (index - active) / denominator
-            // If active is 0 and index is 5 (length 6), ratio is 5/5 = 1.
-
-            const normalizedRatio = activeRatio / denominator; // This is almost 0 for active, small for neighbors
-            // Let's stick to the previous feeling but optimized.
-
-            // Re-evaluating the visual math from previous code:
-            // const activeRatio = (index - active) / denominator;
-            // const x = activeRatio * 800; // %
-            // const y = activeRatio * 200; // %
-            // const rotate = activeRatio * 120; // deg
-
-            // Let's use exactly that math for visual fidelity
-            // NOTE: activeFloat is the actual index (0..n), so we don't need to divide by denominator again if we want to match 'active' from before
-            // Previous 'active' was integer index. Here activeFloat is float index.
-            // Ratio calculation:
             const ratio = (index - activeFloat) / denominator; // -1 (leftmost) to 1 (rightmost)
 
             const tx = ratio * 800;
             const ty = ratio * 200;
             const rot = ratio * 120;
 
-            const zIndex = Math.round(numItems - Math.abs(index - activeFloat));
-            // Or use the discrete distance for cleaner z-sorting
-            // const zIndex = numItems - Math.abs(index - Math.round(activeFloat));
-
-            // discrete z-index for stacking order
-            // We need a stable z-index.
             const dist = Math.abs(index - activeFloat);
-            const z = numItems - dist; // continuous z? CSS z-index needs int
+            const z = numItems - dist;
 
-            // Opacity
-            const opacity = (z / numItems) * 3 - 2; // fade out distant items
+            const opacity = (z / numItems) * 3 - 2;
 
-            // Optimize: simple matrix3d or individual properties
-            // Individual is often faster for browser composition layers
-            el.style.transform = `translate3d(${tx}%, ${ty}%, 0) rotate(${rot}deg)`;
-            el.style.zIndex = Math.round(z * 10).toString(); // Higher precision z-index logic if allowed, or just round
+            const newTransform = `translate3d(${tx}%, ${ty}%, 0) rotate(${rot}deg)`;
+            const newZIndex = Math.round(z * 10).toString();
+            const newOpacity = Math.max(0, Math.min(1, opacity)).toString();
 
-            // Inner content opacity
+            if (!cacheRef.current[index]) {
+                cacheRef.current[index] = { transform: '', zIndex: '', opacity: '' };
+            }
+
+            const cache = cacheRef.current[index];
+
+            // Only update DOM if changed (prevents thrashing)
+            if (cache.transform !== newTransform) {
+                el.style.transform = newTransform;
+                cache.transform = newTransform;
+            }
+            if (cache.zIndex !== newZIndex) {
+                el.style.zIndex = newZIndex;
+                cache.zIndex = newZIndex;
+            }
+
             const inner = el.querySelector('.slider-item-content') as HTMLElement;
-            if (inner) {
-                inner.style.opacity = Math.max(0, Math.min(1, opacity)).toString();
+            if (inner && cache.opacity !== newOpacity) {
+                inner.style.opacity = newOpacity;
+                cache.opacity = newOpacity;
             }
         });
-
-        rafRef.current = requestAnimationFrame(update);
+        // Removed rafRef.current = requestAnimationFrame(update); from here
     }, [numItems]);
 
     // Start loop
     useEffect(() => {
-        rafRef.current = requestAnimationFrame(update);
+        let active = true;
+
+        const loop = () => {
+            if (active) {
+                update();
+                rafRef.current = requestAnimationFrame(loop);
+            }
+        };
+
+        // Initialize the loop
+        rafRef.current = requestAnimationFrame(loop);
+
         return () => {
-            if (rafRef.current) cancelAnimationFrame(rafRef.current);
+            active = false;
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current);
+            }
         };
     }, [update]);
 
-
     // --- Interaction Handlers ---
-
     const handleWheel = useCallback((e: WheelEvent) => {
-        if (!isHoveringRef.current) return;
-
         const wheelProgress = e.deltaY * speedWheel;
-        const current = progressRef.current;
+        const current = targetProgressRef.current;
         const next = current + wheelProgress;
 
-        // Check boundaries
         if ((next < 0 && e.deltaY < 0) || (next > 100 && e.deltaY > 0)) {
-            // Let page scroll
             return;
         }
 
         e.preventDefault();
-        e.stopPropagation();
-        progressRef.current = Math.max(0, Math.min(100, next));
-        // No setState here! The loop picks it up.
+        targetProgressRef.current = Math.max(0, Math.min(100, next));
     }, [speedWheel]);
 
     const getClientX = (e: MouseEvent | TouchEvent) => {
@@ -227,10 +210,10 @@ const ThreeDSlider: React.FC<ThreeDSliderProps> = ({
         if (x === undefined) return;
 
         const diff = (x - startXRef.current) * speedDrag;
-        const current = progressRef.current;
+        const current = targetProgressRef.current;
         const next = Math.max(0, Math.min(100, current + diff));
 
-        progressRef.current = next;
+        targetProgressRef.current = next;
         startXRef.current = x;
     }, [speedDrag]);
 
@@ -239,44 +222,44 @@ const ThreeDSlider: React.FC<ThreeDSliderProps> = ({
     }, []);
 
     const handleClick = useCallback((item: SliderItemData, index: number) => {
-        // Smooth scroll to this item?
-        // For performance, snap or simple lerp logic could be added to the loop
-        // For now, instant snap to keep it simple and responsive
         const denominator = numItems > 1 ? numItems - 1 : 1;
-        progressRef.current = (index / denominator) * 100;
+        targetProgressRef.current = (index / denominator) * 100;
 
         if (onItemClick) onItemClick(item, index);
     }, [numItems, onItemClick]);
 
-
-    // --- Global Listeners ---
+    // --- Listeners ---
     useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
         const wheelOpts = { passive: false };
-        document.addEventListener('wheel', handleWheel, wheelOpts);
-        document.addEventListener('mousedown', handleMouseDown);
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-        document.addEventListener('touchstart', handleMouseDown, { passive: true });
-        document.addEventListener('touchmove', handleMouseMove, { passive: true });
-        document.addEventListener('touchend', handleMouseUp);
+        container.addEventListener('wheel', handleWheel, wheelOpts);
+        container.addEventListener('mousedown', handleMouseDown);
+        container.addEventListener('touchstart', handleMouseDown, { passive: true });
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('touchmove', handleMouseMove, { passive: true });
+        window.addEventListener('touchend', handleMouseUp);
 
         return () => {
-            document.removeEventListener('wheel', handleWheel);
-            document.removeEventListener('mousedown', handleMouseDown);
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-            document.removeEventListener('touchstart', handleMouseDown);
-            document.removeEventListener('touchmove', handleMouseMove);
-            document.removeEventListener('touchend', handleMouseUp);
+            container.removeEventListener('wheel', handleWheel);
+            container.removeEventListener('mousedown', handleMouseDown);
+            container.removeEventListener('touchstart', handleMouseDown);
+
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('touchmove', handleMouseMove);
+            window.removeEventListener('touchend', handleMouseUp);
         };
     }, [handleWheel, handleMouseDown, handleMouseMove, handleMouseUp]);
 
     return (
         <div
+            ref={containerRef}
             className="relative w-full h-screen overflow-hidden bg-black"
             style={containerStyle}
-            onMouseEnter={() => isHoveringRef.current = true}
-            onMouseLeave={() => isHoveringRef.current = false}
         >
             <div className="relative z-10 h-[80vh] overflow-hidden pointer-events-none scale-[0.75] w-full">
                 {items.map((item, index) => (

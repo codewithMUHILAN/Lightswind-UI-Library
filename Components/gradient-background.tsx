@@ -94,7 +94,7 @@ void main() {
 function GradientBackground({
   backdropBlurAmount = "none",
   className = "",
-}: HellBackgroundProps): JSX.Element {
+}: HellBackgroundProps): React.ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

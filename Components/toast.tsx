@@ -1,10 +1,10 @@
-"use client";
 
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { X } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { Progress } from "./progress";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 
 
 /* Toast Components */
@@ -12,21 +12,47 @@ const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   return <div className="toast-provider">{children}</div>;
 };
 
-const ToastViewport = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      `fixed z-[40] flex flex-col-reverse gap-2 right-4 
-      top-4 w-auto max-w-sm `, 
-      className
-    )}
-    {...props}
-  />
-));
+export type ToastPosition =
+  | "top-right"
+  | "top-left"
+  | "bottom-right"
+  | "bottom-left"
+  | "top-center"
+  | "bottom-center";
 
+const toastViewportVariants = cva(
+  "fixed z-[100] flex flex-col gap-2 p-4 w-full md:max-w-[420px] pointer-events-none",
+  {
+    variants: {
+      position: {
+        "top-right": "top-0 right-0 flex-col-reverse",
+        "top-left": "top-0 left-0 flex-col-reverse",
+        "bottom-right": "bottom-0 right-0 flex-col",
+        "bottom-left": "bottom-0 left-0 flex-col",
+        "top-center": "top-0 left-1/2 -translate-x-1/2 flex-col-reverse items-center",
+        "bottom-center": "bottom-0 left-1/2 -translate-x-1/2 flex-col items-center",
+      },
+    },
+    defaultVariants: {
+      position: "top-right",
+    },
+  }
+);
+
+export interface ToastViewportProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  position?: ToastPosition;
+}
+
+const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
+  ({ className, position = "top-right", ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(toastViewportVariants({ position }), className)}
+      {...props}
+    />
+  )
+);
 ToastViewport.displayName = "ToastViewport";
 
 const toastVariants = cva(
@@ -39,7 +65,7 @@ const toastVariants = cva(
         destructive: "border-red-500 bg-red-100 text-red-800",
         success: "border-green-500 bg-green-100 text-green-800",
         warning: "border-yellow-500 bg-yellow-100 text-yellow-800",
-        info: "border-blue-500 bg-blue-100 text-blue-800",
+        info: "border-primarylw bg-[color-mix(in_srgb,var(--primarylw)_15%,white)] dark:bg-[color-mix(in_srgb,var(--primarylw)_15%,black)] text-primarylw",
       },
     },
     defaultVariants: {
@@ -48,89 +74,67 @@ const toastVariants = cva(
   }
 );
 
-export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ToastProps extends Omit<HTMLMotionProps<"div">, "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart" | "onAnimationEnd"> {
   variant?: "default" | "destructive" | "success" | "warning" | "info";
   duration?: number;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   onClose?: () => void;
 }
 
 const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
-  ({ className, variant = "default", duration = 5000, onClose, ...props }, ref) => {
-    const [progress, setProgress] = React.useState(0);
-    const [isOpen, setIsOpen] = React.useState(true);
-    const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
-
-    React.useEffect(() => {
-      if (!isOpen) return;
-      
-      const startTime = Date.now();
-      const endTime = startTime + duration;
-
-      if (intervalRef.current) clearInterval(intervalRef.current);
-
-      setProgress(0);
-
-      intervalRef.current = setInterval(() => {
-        const now = Date.now();
-        const timeLeft = Math.max(0, endTime - now);
-        const newProgress = 100 - (timeLeft / duration) * 100;
-
-        setProgress(newProgress);
-
-        if (newProgress >= 100) {
-          clearInterval(intervalRef.current!);
-          setTimeout(() => {
-            setIsOpen(false);
-            onClose?.();
-          }, 100);
-        }
-      }, 10);
-
-      return () => {
-        if (intervalRef.current) clearInterval(intervalRef.current);
-      };
-    }, [isOpen, duration, onClose]);
-
-    if (!isOpen) return null;
-
+  ({ className, variant = "default", duration = 5000, open = true, onOpenChange, onClose, children, ...props }, ref) => {
     return (
-      <div
+      <motion.div
         ref={ref}
+        layout
+        initial={{ opacity: 0, scale: 0.7, y: -20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.7, y: -20 }}
+        transition={{
+          type: "spring",
+          damping: 25,
+          stiffness: 400,
+          mass: 1
+        }}
         className={cn(
-          toastVariants({ variant }), 
-          "relative z-50 pb-2",  // Removed fixed positioning for better stacking
+          toastVariants({ variant }),
+          "relative z-50 mb-2 overflow-hidden",
           className
         )}
-        style={{ 
-          marginBottom: '8px',  // Add spacing between toasts
-          zIndex: 51  // Ensure proper stacking
-        }}
         {...props}
       >
-        <div className="w-full min-h-8">
-          {props.children}
+        <div className="w-full">
+          {(children as React.ReactNode)}
           {/* Bottom Progress Bar */}
-          <div className="absolute bottom-0 left-0 right-0 h-1">
-            <Progress 
-              value={progress} 
-              className="h-1 rounded-none"
-              indicatorClassName={cn(
-                variant === "destructive" ? "bg-red-600" : 
-                variant === "success" ? "bg-green-600" : 
-                variant === "warning" ? "bg-yellow-600" : 
-                variant === "info" ? "bg-blue-600" : 
-                "bg-gray-600"
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/5 dark:bg-white/5">
+            <motion.div
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: duration / 1000, ease: "linear" }}
+              className={cn(
+                "h-full",
+                variant === "destructive" ? "bg-red-600" :
+                  variant === "success" ? "bg-green-600" :
+                    variant === "warning" ? "bg-yellow-600" :
+                      variant === "info" ? "bg-primarylw" :
+                        "bg-gray-600"
               )}
             />
           </div>
         </div>
 
         {/* Close Button */}
-        <ToastClose onClick={() => {
-          setIsOpen(false);
-          onClose?.();
-        }} />
-      </div>
+        <button
+          onClick={() => {
+            onOpenChange?.(false);
+            onClose?.();
+          }}
+          className="absolute right-2 top-2 rounded-md p-1 text-foreground/70 opacity-70 transition-opacity hover:text-foreground hover:opacity-100"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </motion.div>
     );
   }
 );
@@ -178,6 +182,21 @@ const ToastDescription = React.forwardRef<
 ));
 ToastDescription.displayName = "ToastDescription";
 
+const ToastAction = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>(({ className, ...props }, ref) => (
+  <button
+    ref={ref}
+    className={cn(
+      "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium transition-colors hover:bg-muted focus:outline-none focus:ring-1 focus:ring-ring disabled:pointer-events-none disabled:opacity-50",
+      className
+    )}
+    {...props}
+  />
+));
+ToastAction.displayName = "ToastAction";
+
 export {
   ToastProvider,
   ToastViewport,
@@ -185,4 +204,5 @@ export {
   ToastTitle,
   ToastDescription,
   ToastClose,
+  ToastAction,
 };

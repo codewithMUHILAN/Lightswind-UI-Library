@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef } from 'react';
-import { cn } from '../../lib/utils';
+import { cn } from '../lib/utils';
 import {
   Github,
   Code,
@@ -16,7 +16,7 @@ import {
 
 export interface CardData {
   id: string;
-  icon: React.ComponentType<any>;
+  icon: any;
   href?: string;
   title?: string;
   description?: string;
@@ -171,7 +171,7 @@ const CodeHoverCards: React.FC<CodeHoverCardsProps> = ({
 
                   {/* Character background */}
                   <div
-                    className="absolute inset-0 font-mono text-sm leading-tight opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden break-all text-foreground"
+                    className="absolute inset-0  text-sm leading-tight opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-hidden break-all text-foreground"
                     style={{
                       WebkitMaskImage:
                         'radial-gradient(' +

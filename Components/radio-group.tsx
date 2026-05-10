@@ -1,6 +1,5 @@
-"use client";
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 interface RadioGroupContextType {
   value: string;
@@ -134,7 +133,7 @@ const RadioGroupItem = React.forwardRef<HTMLDivElement, RadioGroupItemProps>(
             className={cn(
               `relative flex items-center justify-center rounded-full border
               border-gray-300 dark:border-gray-800 ring-foreground transition-all duration-200`,
-              checked && "border-foreground",
+              checked && "border-foreground/80 dark:border-foreground/80",
               focused && "ring-2 ring-ring ring-offset-2",
               props.disabled
                 ? "cursor-not-allowed opacity-50"

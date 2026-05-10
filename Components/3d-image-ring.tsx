@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence, useMotionValue, easeOut } from "framer-motion";
-import { cn } from "../../lib/utils"; // Assuming you have this utility for class names
+import { cn } from "../lib/utils"; // Assuming you have this utility for class names
 import { animate } from "framer-motion";
 
 export interface ThreeDImageRingProps {
@@ -47,7 +47,13 @@ export interface ThreeDImageRingProps {
 }
 
 export function ThreeDImageRing({
-  images,
+  images = [
+    "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=2940&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=2938&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1506744626753-1fa7604d459a?q=80&w=2940&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1470071131384-001b85755536?q=80&w=2940&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=2940&auto=format&fit=crop",
+  ],
   width = 300,
   perspective = 2000,
   imageDistance = 500,

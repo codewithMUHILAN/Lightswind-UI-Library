@@ -309,7 +309,7 @@ export const ToggleTheme = ({
                 onClick={toggleTheme}
                 className={cn(
                     "p-2 rounded-full transition-colors duration-300",
-                    isDark ? "hover:text-amber-400" : "hover:text-blue-500",
+                    isDark ? "hover:text-amber-400" : "hover:text-primarylw",
                     className
                 )}
                 {...props}

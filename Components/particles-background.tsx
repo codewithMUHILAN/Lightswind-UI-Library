@@ -1,4 +1,3 @@
-"use client";
 import React, { useLayoutEffect } from 'react';
 
 declare global {

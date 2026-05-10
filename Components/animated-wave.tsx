@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import * as THREE from 'three';
 import { createNoise2D } from 'simplex-noise';
-import { cn } from '../../lib/utils'; // Assuming this utility is correctly set up
+import { cn } from '../lib/utils'; // Assuming this utility is correctly set up
 
 export interface AnimatedWaveProps {
   /** Custom CSS class name */

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import React, { ReactNode, useEffect, useState } from "react";
 import { motion, HTMLMotionProps } from "framer-motion";
 
@@ -46,7 +46,7 @@ export function VideoText({
     const newSvgMask = `<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>
       <text x='50%' y='50%'
             font-size='${responsiveFontSize}'
-            font-weight='${fontWeight}'
+            fontWeight='${fontWeight}'
             text-anchor='${textAnchor}'
             dominant-baseline='${dominantBaseline}'
             font-family='${fontFamily}'
@@ -58,20 +58,22 @@ export function VideoText({
   const validTags = ["div", "span", "section", "article", "p", "h1", "h2", "h3", "h4", "h5", "h6"] as const;
   type ValidTag = (typeof validTags)[number];
 
-  const MotionComponent = motion[validTags.includes(as) ? as : "div"] as React.ElementType;
+  const MotionComponent = motion[validTags.includes(as) ? as : "div"] as any;
 
   if (!svgMask) {
-    return (
-      <MotionComponent className={cn("relative size-full", className)} {...motionProps}>
-        <span className="sr-only">{content}</span>
-      </MotionComponent>
+    return React.createElement(
+      MotionComponent,
+      { className: cn("relative size-full", className), ...motionProps },
+      <span className="sr-only">{content}</span>
     );
   }
 
   const dataUrlMask = `url("data:image/svg+xml,${encodeURIComponent(svgMask)}")`;
 
-  return (
-    <MotionComponent className={cn("relative overflow-hidden", className)} {...motionProps}>
+  return React.createElement(
+    MotionComponent,
+    { className: cn("relative overflow-hidden", className), ...motionProps },
+    <>
       <div
         className="absolute inset-0 flex items-center justify-center"
         style={{
@@ -99,6 +101,6 @@ export function VideoText({
         </video>
       </div>
       <span className="sr-only">{content}</span>
-    </MotionComponent>
+    </>
   );
 }

@@ -134,7 +134,7 @@ const FallBeamBackground: React.FC<FallBeamBackgroundProps> = ({
             >
                 {displayText && (
                     // Text overlay
-                    <h1 className="relative z-20 grid place-content-center h-full font-sans text-4xl sm:text-5xl lg:text-7xl font-bold text-white p-4 text-center">
+                    <h1 className="relative z-20 grid place-content-center h-full  text-4xl sm:text-5xl lg:text-7xl font-bold text-white p-4 text-center">
                         {displayText}
                         {/* Gradient to fade the text bottom into the background */}
                         <div className="absolute inset-0 z-30 pointer-events-none" style={{

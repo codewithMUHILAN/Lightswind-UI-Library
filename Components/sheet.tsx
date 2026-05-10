@@ -1,8 +1,7 @@
-"use client";
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SheetContextValue {
@@ -49,7 +48,7 @@ interface SheetTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 
 const SheetTrigger = React.forwardRef<HTMLButtonElement, SheetTriggerProps>(
   ({ children, asChild, ...props }, forwardedRef) => {
-    const { setOpen } = React.useContext(SheetContext) || { setOpen: () => {} };
+    const { setOpen } = React.useContext(SheetContext) || { setOpen: () => { } };
 
     // Derive dependencies for the hook before the hook itself.
     // This logic can be conditional as it does not involve hooks.
@@ -82,13 +81,14 @@ const SheetTrigger = React.forwardRef<HTMLButtonElement, SheetTriggerProps>(
         return null;
       }
 
+      const element = child as React.ReactElement<any>;
       // Use the memoized `mergedRef` inside the conditional block.
-      return React.cloneElement(child, {
-        ...child.props,
+      return React.cloneElement(element, {
+        ...element.props,
         ...props, // Pass down props like className, etc., to the child
         onClick: (e: React.MouseEvent) => {
           setOpen(true);
-          if (child.props.onClick) child.props.onClick(e);
+          if (element.props.onClick) element.props.onClick(e);
         },
         ref: mergedRef,
       });
@@ -109,23 +109,32 @@ const SheetTrigger = React.forwardRef<HTMLButtonElement, SheetTriggerProps>(
 SheetTrigger.displayName = "SheetTrigger";
 
 
-const SheetClose = React.forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ children, ...props }, ref) => {
-  const { setOpen } = React.useContext(SheetContext) || { setOpen: () => { } };
+interface SheetCloseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  asChild?: boolean;
+}
 
-  return (
-    <button
-      ref={ref}
-      type="button"
-      onClick={() => setOpen(false)}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-});
+const SheetClose = React.forwardRef<HTMLButtonElement, SheetCloseProps>(
+  ({ children, asChild = false, ...props }, ref) => {
+    const { setOpen } = React.useContext(SheetContext) || { setOpen: () => { } };
+
+    if (asChild && React.isValidElement(children)) {
+      return React.cloneElement(children as React.ReactElement<any>, {
+        ...props,
+        ref,
+        onClick: (e: React.MouseEvent<any>) => {
+          (children as React.ReactElement<any>).props.onClick?.(e);
+          setOpen(false);
+        },
+      });
+    }
+
+    return (
+      <button ref={ref} type="button" onClick={() => setOpen(false)} {...props}>
+        {children}
+      </button>
+    );
+  }
+);
 SheetClose.displayName = "SheetClose";
 
 const SheetPortal = ({ children }: { children: React.ReactNode }) => {
@@ -178,24 +187,24 @@ interface SheetContentProps
 
 const sideVariants = {
   top: {
-    initial: { y: "-100%" },
-    animate: { y: "0%" },
-    exit: { y: "-100%" },
+    initial: { y: "-100%", opacity: 0.5, scale: 0.9 },
+    animate: { y: "0%", opacity: 1, scale: 1 },
+    exit: { y: "-100%", opacity: 0.5, scale: 0.9 },
   },
   bottom: {
-    initial: { y: "100%" },
-    animate: { y: "0%" },
-    exit: { y: "100%" },
+    initial: { y: "100%", opacity: 0.5, scale: 0.9 },
+    animate: { y: "0%", opacity: 1, scale: 1 },
+    exit: { y: "100%", opacity: 0.5, scale: 0.9 },
   },
   left: {
-    initial: { x: "-100%" },
-    animate: { x: "0%" },
-    exit: { x: "-100%" },
+    initial: { x: "-100%", opacity: 0.5, scale: 0.9 },
+    animate: { x: "0%", opacity: 1, scale: 1 },
+    exit: { x: "-100%", opacity: 0.5, scale: 0.9 },
   },
   right: {
-    initial: { x: "100%" },
-    animate: { x: "0%" },
-    exit: { x: "100%" },
+    initial: { x: "100%", opacity: 0.5, scale: 0.9 },
+    animate: { x: "0%", opacity: 1, scale: 1 },
+    exit: { x: "100%", opacity: 0.5, scale: 0.9 },
   },
 };
 
@@ -261,19 +270,32 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
               initial={sideVariants[side].initial}
               animate={sideVariants[side].animate}
               exit={sideVariants[side].exit}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{
+                type: "spring",
+                damping: 25,
+                stiffness: 300,
+                opacity: { duration: 0.2 }
+              }}
+              style={{
+                transformOrigin:
+                  side === "top" ? "top center" :
+                    side === "bottom" ? "bottom center" :
+                      side === "left" ? "center left" :
+                        "center right"
+              }}
               className={cn(
-                "fixed z-50 gap-4 bg-background p-6 shadow-lg",
+                "fixed z-50 gap-4 bg-background p-6 shadow-lg pt-10",
                 side === "top" && "inset-x-0 top-0 border-b  border-gray-200 dark:border-gray-800/40",
                 side === "bottom" && "inset-x-0 bottom-0 border-t border-gray-200 dark:border-gray-800/40 ",
                 side === "left" && "inset-y-0 left-0 h-full w-3/4 border-r border-gray-200 dark:border-gray-800/40  sm:max-w-sm",
                 side === "right" && "inset-y-0 right-0 h-full w-3/4 border-l border-gray-200 dark:border-gray-800/40  sm:max-w-sm",
                 className
               )}
+              data-lenis-prevent
               {...restProps}
             >
               {children}
-              <SheetClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+              <SheetClose className="absolute right-4 top-11 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
               </SheetClose>

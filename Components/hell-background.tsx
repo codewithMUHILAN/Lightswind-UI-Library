@@ -103,7 +103,7 @@ function HellBackground({
   backdropBlurAmount = "none",
   className = "",
   color = "#DE443B",
-}: HellBackgroundProps): JSX.Element {
+}: HellBackgroundProps): React.ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

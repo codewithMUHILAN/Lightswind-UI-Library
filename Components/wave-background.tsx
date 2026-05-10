@@ -1,5 +1,5 @@
-"use client";
 import { useEffect, useRef } from "react";
+import { useInView } from "framer-motion";
 
 const vertexShaderSource = `
   attribute vec4 a_position;
@@ -55,8 +55,15 @@ const blurClassMap: Record<BlurSize, string> = {
 function WaveBackground({
   backdropBlurAmount = "sm",
   className = "",
-}: WaveBackgroundProps): JSX.Element {
+}: WaveBackgroundProps): React.ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef);
+  const visibilityRef = useRef(true);
+
+  useEffect(() => {
+    visibilityRef.current = isInView;
+  }, [isInView]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -83,10 +90,12 @@ function WaveBackground({
 
     const vertexShader = compileShader(gl.VERTEX_SHADER, vertexShaderSource);
     const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentShaderSource);
+
     if (!vertexShader || !fragmentShader) return;
 
     const program = gl.createProgram();
     if (!program) return;
+
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
@@ -114,12 +123,21 @@ function WaveBackground({
     const iTimeLocation = gl.getUniformLocation(program, "iTime");
 
     let startTime = Date.now();
+    let animationFrameId: number;
 
     const render = () => {
+      if (!visibilityRef.current) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       canvas.width = width;
       canvas.height = height;
+
+      // Ensure the program is used before setting uniforms (Critical for React Strict Mode)
+      gl.useProgram(program);
       gl.viewport(0, 0, width, height);
 
       const currentTime = (Date.now() - startTime) / 1000;
@@ -128,16 +146,24 @@ function WaveBackground({
       gl.uniform1f(iTimeLocation, currentTime);
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      requestAnimationFrame(render);
+      animationFrameId = requestAnimationFrame(render);
     };
 
     render();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      gl.deleteProgram(program);
+      gl.deleteShader(vertexShader);
+      gl.deleteShader(fragmentShader);
+      gl.deleteBuffer(positionBuffer);
+    };
   }, []);
 
   const finalBlurClass = blurClassMap[backdropBlurAmount] || blurClassMap["sm"];
 
   return (
-    <div className={`w-full max-w-screen h-full overflow-hidden ${className}`}>
+    <div ref={containerRef} className={`w-full max-w-screen h-full overflow-hidden ${className}`}>
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full max-w-screen h-full overflow-hidden"

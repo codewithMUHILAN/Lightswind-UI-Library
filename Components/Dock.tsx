@@ -15,7 +15,7 @@ function useDockItemSize(
   baseItemSize: number,
   magnification: number,
   distance: number,
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<HTMLDivElement | null>,
   spring: { mass: number; stiffness: number; damping: number }
 ) {
   const mouseDistance = useTransform(mouseX, (val) => {
@@ -87,11 +87,11 @@ function DockItem({
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
-      className="relative inline-flex items-center justify-center rounded-full 
-      bg-background    shadow-md  "
+      className="relative inline-flex items-center justify-center rounded-full bg-background shadow-md"
       tabIndex={0}
       role="button"
       aria-haspopup="true"
+      aria-label={label}
     >
       <div className="flex items-center justify-center">{icon}</div>
       {badgeCount !== undefined && badgeCount > 0 && (

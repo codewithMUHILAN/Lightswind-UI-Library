@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { cn } from "../../lib/utils"; // Assuming this is a utility like clsx or classnames
+import { cn } from "../lib/utils"; // Assuming this is a utility like clsx or classnames
 
 export interface ParticleConfig {
   x: number;
@@ -66,8 +66,8 @@ const AnimatedBubbleParticles: React.FC<AnimatedBubbleParticlesProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
-  const intervalRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
+  const intervalRef = useRef<number | undefined>(undefined);
   const particlesArrayRef = useRef<ParticleConfig[]>([]);
   const isPausedRef = useRef(false);
   const gooIdRef = useRef('goo-' + Math.random().toString(36).substring(2, 11));

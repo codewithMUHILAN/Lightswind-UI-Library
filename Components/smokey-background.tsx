@@ -89,7 +89,7 @@ function SmokeyBackground({
   backdropBlurAmount = "sm",
   color = "#fff", // Default purple color
   className = "",
-}: SmokeyBackgroundProps): JSX.Element {
+}: SmokeyBackgroundProps): React.ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { cn } from "../../lib/utils"; // Optional utility for className merging
+import { cn } from "../lib/utils"; // Optional utility for className merging
 
 export type CardContent = {
   id: string | number;
@@ -18,6 +18,8 @@ type SlidingCardsProps = {
   centerIcon?: React.ReactNode;
   visibleRange?: number;
   onCardClick?: (index: number) => void;
+  autoPlay?: boolean;
+  autoPlayInterval?: number;
 };
 
 const SlidingCards: React.FC<SlidingCardsProps> = ({
@@ -25,6 +27,8 @@ const SlidingCards: React.FC<SlidingCardsProps> = ({
   className = "",
   cardSize = "w-24 h-24",
   onCardClick,
+  autoPlay = false,
+  autoPlayInterval = 3000,
 }) => {
   const cardStackRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLElement[]>([]);
@@ -113,12 +117,34 @@ const SlidingCards: React.FC<SlidingCardsProps> = ({
       startX = currentX = 0;
     };
 
+    const autoSlide = () => {
+        const card = getActiveCard();
+        if (!card) return;
+        const duration = getDuration();
+        card.style.transition = `transform ${duration}ms ease, opacity ${duration}ms ease`;
+        card.style.transform = `perspective(700px) translateZ(-12px) translateY(7px) translateX(300px) rotateY(20deg)`;
+        
+        setTimeout(() => {
+            cardsRef.current = [...cardsRef.current.slice(1), card];
+            updatePositions();
+        }, duration);
+    };
+
+    let intervalId: NodeJS.Timeout | null = null;
+    if (autoPlay) {
+        intervalId = setInterval(autoSlide, autoPlayInterval);
+    }
+
     cardStack.addEventListener("pointerdown", (e) => handleStart(e.clientX));
     cardStack.addEventListener("pointermove", (e) => handleMove(e.clientX));
     cardStack.addEventListener("pointerup", handleEnd);
 
     updatePositions();
-  }, []);
+
+    return () => {
+        if (intervalId) clearInterval(intervalId);
+    };
+  }, [autoPlay, autoPlayInterval]);
 
   return (
     <section

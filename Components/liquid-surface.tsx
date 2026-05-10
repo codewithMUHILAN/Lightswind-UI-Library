@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
-import { cn } from "@/app/component2/lib/utils";
+import { cn } from "../lib/utils";
 
 // --- Types ---
 export interface LiquidSurfaceProps {
@@ -659,7 +659,7 @@ export default function LiquidSurface({
 
     return (
         <div
-            className={cn("relative w-full h-full overflow-hidden bg-black font-sans", className)}
+            className={cn("relative w-full h-full overflow-hidden bg-black ", className)}
             style={{ ...style, cursor: showCursor ? "none" : "auto" }}
         >
             {showCursor && (
@@ -678,7 +678,7 @@ export default function LiquidSurface({
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-10 w-full h-full text-white text-center">
                     <h1
                         className="font-bold tracking-tight px-4"
-                        style={{ fontFamily: '"Syne", sans-serif', fontSize: "clamp(3.5rem, 9vw, 9rem)" }}
+                        style={{ fontSize: "clamp(3.5rem, 9vw, 9rem)" }}
                         dangerouslySetInnerHTML={{ __html: heading }}
                     />
                 </div>
@@ -687,3 +687,4 @@ export default function LiquidSurface({
         </div>
     );
 }
+

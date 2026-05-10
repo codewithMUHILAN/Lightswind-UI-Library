@@ -1,6 +1,5 @@
-"use client";
 import React, { useEffect, useRef, useState } from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 export interface DynamicNavigationProps {
   /** Navigation links */
@@ -69,9 +68,8 @@ export const DynamicNavigation = ({
     const { left, width } = linkElement.getBoundingClientRect();
     const navRect = navRef.current.getBoundingClientRect();
 
-    highlightRef.current.style.transform = `translateX(${
-      left - navRect.left
-    }px)`;
+    highlightRef.current.style.transform = `translateX(${left - navRect.left
+      }px)`;
     highlightRef.current.style.width = `${width}px`;
   };
 
@@ -84,12 +82,10 @@ export const DynamicNavigation = ({
     const diameter = Math.max(button.clientWidth, button.clientHeight);
 
     circle.style.width = circle.style.height = `${diameter}px`;
-    circle.style.left = `${
-      event.clientX - button.getBoundingClientRect().left - diameter / 2
-    }px`;
-    circle.style.top = `${
-      event.clientY - button.getBoundingClientRect().top - diameter / 2
-    }px`;
+    circle.style.left = `${event.clientX - button.getBoundingClientRect().left - diameter / 2
+      }px`;
+    circle.style.top = `${event.clientY - button.getBoundingClientRect().top - diameter / 2
+      }px`;
     circle.classList.add(
       "absolute",
       "bg-white",
@@ -170,7 +166,7 @@ export const DynamicNavigation = ({
         ref={highlightRef}
         className={cn(
           `absolute top-0 left-0 h-full rounded-full transition-all 
-          duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] z-0`,
+          duration-300 ease-[&lsqb;cubic-bezier(0.25,1,0.5,1)&rsqb;] z-0`,
           defaultThemeStyles.highlight
         )}
         style={{

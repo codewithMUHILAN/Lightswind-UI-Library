@@ -16,7 +16,7 @@ const Input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
 export interface ChainItem {
     id: string | number; // Unique ID
     name: string;
-    icon: LucideIcon;
+    icon: any;
     /** A secondary string line for the item, e.g., a short description or a value. */
     details?: string;
     logo?: string; // Optional image URL
@@ -240,7 +240,10 @@ const ChainCarousel: React.FC<ChainCarouselProps> = ({
                                 {currentItem.logo ? (
                                     <img src={currentItem.logo} alt={`${currentItem.name} logo`} className="size-12 rounded-full object-cover" />
                                 ) : (
-                                    <currentItem.icon className="size-8 text-background" />
+                                    (() => {
+                                        const Icon = currentItem.icon;
+                                        return <Icon className="size-8 text-background" />;
+                                    })()
                                 )}
                             </div>
                             <h3 className="text-xl xl:text-2xl font-bold text-foreground mt-2">
@@ -308,7 +311,10 @@ const ChainCarousel: React.FC<ChainCarouselProps> = ({
                                         {chain.logo ? (
                                             <img src={chain.logo} alt={`${chain.name} logo`} className="size-6 rounded-full object-cover" />
                                         ) : (
-                                            <chain.icon size={24} className="text-primary" />
+                                            (() => {
+                                                const Icon = chain.icon;
+                                                return <Icon size={24} className="text-primary" />;
+                                            })()
                                         )}
                                         <span className="text-foreground font-medium">{chain.name}</span>
                                         <span className="ml-auto text-sm text-gray-500">{chain.details}</span>

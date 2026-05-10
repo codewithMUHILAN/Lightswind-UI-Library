@@ -56,27 +56,31 @@ const RippleLoader: React.FC<RippleLoaderProps> = ({
         />
       ))}
 
-      <div className="absolute inset-0 grid place-content-center p-[30%]">
+      {/* ICON CONTAINER 
+        Set a specific z-index (e.g., 100) to ensure it's above all ripples.
+        Removed p-[20%] to give the icon max available space inside the center.
+      */}
+      <div
+        className="absolute inset-0 grid place-content-center"
+        style={{ zIndex: 100, padding: `${baseInset / 2}%` }}
+      >
         <motion.span
           className="w-full h-full"
           animate={{ color: [logoColor, "#ffffff", logoColor] }}
           transition={{
             repeat: Infinity,
             duration,
+            delay: 0.1,
             ease: "easeInOut",
           }}
         >
           <span
-            className="w-full h-full"
+            className="w-full h-full text-foreground"
             style={{ display: "inline-block", width: "100%", height: "100%" }}
           >
             {icon &&
-              React.cloneElement(icon as React.ReactElement, {
-                style: {
-                  width: "100%",
-                  height: "100%",
-                  fill: "currentColor",
-                },
+              React.cloneElement(icon as React.ReactElement<any>, {
+                className: "w-full h-full",
               })}
           </span>
         </motion.span>

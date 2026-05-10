@@ -20,7 +20,7 @@ export interface SpringConfig {
 }
 
 export interface SmoothCursorProps {
-  cursor?: JSX.Element;
+  cursor?: React.ReactNode;
   springConfig?: SpringConfig;
   className?: string;
   size?: number;

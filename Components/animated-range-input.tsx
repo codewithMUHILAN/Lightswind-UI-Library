@@ -24,7 +24,7 @@ const AnimatedRangeInput: React.FC<AnimatedRangeInputProps> = ({
   };
 
   return (
-    <div className="relative flex items-center justify-center w-40 h-60 font-primarylw">
+    <div className="relative flex items-center justify-center w-40 h-60 ">
       {/* Left side icon */}
       <div className="absolute -left-10 flex flex-col items-center gap-2">
         <div className="text-black text-xl">{icon}</div>

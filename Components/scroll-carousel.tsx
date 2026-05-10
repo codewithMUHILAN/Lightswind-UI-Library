@@ -11,14 +11,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LucideIcon } from "lucide-react";
 
 // Assuming these are external, import them
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
 // --- Component Props and Types ---
 // Define a type for a single feature object
 export interface FeatureItem {
-  icon: LucideIcon;
+  icon: any;
   title: string;
   description: string;
   image: string;
@@ -33,10 +33,10 @@ export interface ScrollCarouselProps {
 
 // --- Custom Hook for Animations ---
 const useFeatureAnimations = (
-  containerRef: React.RefObject<HTMLDivElement>,
-  scrollContainerRef: React.RefObject<HTMLDivElement>,
-  scrollContainerRef2: React.RefObject<HTMLDivElement>,
-  progressBarRef: React.RefObject<HTMLDivElement>,
+  containerRef: React.RefObject<HTMLDivElement | null>,
+  scrollContainerRef: React.RefObject<HTMLDivElement | null>,
+  scrollContainerRef2: React.RefObject<HTMLDivElement | null>,
+  progressBarRef: React.RefObject<HTMLDivElement | null>,
   cardRefs: React.MutableRefObject<HTMLDivElement[]>,
   cardRefs2: React.MutableRefObject<HTMLDivElement[]>,
   isDesktop: boolean,
@@ -234,21 +234,21 @@ export const ScrollCarousel = forwardRef<HTMLDivElement, ScrollCarouselProps>(
       >
         <div
           ref={containerRef}
-          className="relative overflow-hidden md:h-screen md:py-20 
+          className={`relative overflow-hidden md:h-screen md:py-20 
           flex flex-col gap-0 z-10 
-          lg:[mask-image:_linear-gradient(to_right,transparent_0,_black_5%,_black_95%,transparent_100%)]"
+          lg:[mask-image:_linear-gradient(to_right,transparent_0,_black_5%,_black_95%,transparent_100%)]`}
         >
           <div
             ref={scrollContainerRef}
-            className="flex flex-col md:flex-row gap-8 
-            items-center h-full px-6 md:px-0"
+          className={`flex flex-col md:flex-row gap-8 
+            items-center h-full px-6 md:px-0`}
           >
             {renderFeatureCards(features, cardRefs)}
           </div>
 
           <div
             ref={scrollContainerRef2}
-            className="flex flex-col md:flex-row gap-8 items-center h-full px-6 md:px-0 hidden xl:flex"
+            className={`flex flex-col md:flex-row gap-8 items-center h-full px-6 md:px-0 hidden xl:flex`}
           >
             {renderFeatureCards(features2, cardRefs2)}
           </div>

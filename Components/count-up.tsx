@@ -1,7 +1,6 @@
-"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 // Helper function to format the number
 const formatValue = (val: number, precision: number, sep: string): string => {
@@ -45,7 +44,7 @@ const animationStyles = {
 
 const colorSchemes = {
   default: "text-foreground",
-  gradient: "bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600",
+  gradient: "bg-clip-text text-transparent bg-gradient-to-r from-primarylw to-purple-600",
   primary: "text-primary",
   secondary: "text-secondary",
   custom: "", // use customColor

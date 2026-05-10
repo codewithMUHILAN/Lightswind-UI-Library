@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 // Define button style variants as a constant object (not exported)
 const buttonStyles = {
@@ -34,14 +34,9 @@ export function buttonVariants(options: {
   className?: string;
 } = {}): string {
   const { variant = "default", size = "default", className } = options;
-  
+
   return cn(
-    `inline-flex items-center justify-center gap-2 whitespace-nowrap 
-    rounded-md text-sm font-medium ring-offset-background 
-    transition-colors focus-visible:outline-none focus-visible:ring-2 
-    focus-visible:ring-ring focus-visible:ring-offset-2 
-    disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none 
-    [&_svg]:size-4 [&_svg]:shrink-0`,
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
     buttonStyles.variant[variant],
     buttonStyles.size[size],
     className
@@ -69,10 +64,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     return (
-      <button 
-        className={buttonVariants({ variant, size, className })} 
-        ref={ref} 
-        {...props} 
+      <button
+        className={buttonVariants({ variant, size, className })}
+        ref={ref}
+        {...props}
       />
     );
   }

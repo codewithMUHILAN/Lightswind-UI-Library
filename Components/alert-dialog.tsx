@@ -1,6 +1,5 @@
-"use client";
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { buttonVariants } from "./button";
 import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
 
@@ -77,8 +76,9 @@ const AlertDialogTrigger = React.forwardRef<HTMLButtonElement, AlertDialogTrigge
         <>
           {React.Children.map(children, child => {
             if (React.isValidElement(child)) {
-              return React.cloneElement(child, {
-                ...child.props,
+              const element = child as React.ReactElement<any>;
+              return React.cloneElement(element, {
+                ...element.props,
                 ref,
                 onClick: handleClick
               });
@@ -124,13 +124,23 @@ const AlertDialogOverlay = React.forwardRef<
   return (
     <AnimatePresence>
       {open && (
-        <div
+        <motion.div
           ref={ref}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
           className={cn(
-            "fixed inset-0 z-50 bg-black/80",
+            "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm",
             className
           )}
-          {...props}
+          {...Object.keys(props).reduce((acc: { [key: string]: any }, key) => {
+            if (key === 'onDrag' || key === 'onAnimationStart' || key === 'onTransitionEnd') {
+              return acc;
+            }
+            acc[key] = (props as any)[key];
+            return acc;
+          }, {})}
         />
       )}
     </AnimatePresence>
@@ -187,20 +197,25 @@ const AlertDialogContent = React.forwardRef<
               "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border   bg-background p-6 shadow-lg sm:rounded-lg",
               className
             )}
-            initial={{ y: "-48%", x: "-50%", opacity: 0, scale: 0.95 }}
-            animate={{ y: "-50%", x: "-50%", opacity: 1, scale: 1 }}
-            exit={{ y: "-48%", x: "-50%", opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            initial={{ opacity: 0, scale: 0.3, x: "-50%", y: "-50%" }}
+            animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
+            exit={{ opacity: 0, scale: 0.3, x: "-50%", y: "-50%" }}
+            transition={{
+              type: "spring",
+              damping: 25,
+              stiffness: 400,
+              opacity: { duration: 0.2 }
+            }}
             // Filter out properties that conflict with Framer Motion's types
             // This is the crucial part for resolving the type error.
             {...Object.keys(props).reduce((acc: { [key: string]: any }, key) => {
-                // Add any other conflicting HTML attributes you might discover here.
-                // 'onDrag' is the most common one.
-                if (key === 'onDrag' || key === 'onAnimationStart' || key === 'onTransitionEnd') {
-                    return acc; // Omit this property
-                }
-                acc[key] = (props as any)[key]; // Keep other properties
-                return acc;
+              // Add any other conflicting HTML attributes you might discover here.
+              // 'onDrag' is the most common one.
+              if (key === 'onDrag' || key === 'onAnimationStart' || key === 'onTransitionEnd') {
+                return acc; // Omit this property
+              }
+              acc[key] = (props as any)[key]; // Keep other properties
+              return acc;
             }, {})}
           >
             {children}
@@ -264,7 +279,7 @@ const AlertDialogDescription = React.forwardRef<
 ));
 AlertDialogDescription.displayName = "AlertDialogDescription";
 
-interface AlertDialogActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+interface AlertDialogActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> { }
 
 const AlertDialogAction = React.forwardRef<
   HTMLButtonElement,
@@ -300,7 +315,7 @@ const AlertDialogAction = React.forwardRef<
 });
 AlertDialogAction.displayName = "AlertDialogAction";
 
-interface AlertDialogCancelProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+interface AlertDialogCancelProps extends React.ButtonHTMLAttributes<HTMLButtonElement> { }
 
 const AlertDialogCancel = React.forwardRef<
   HTMLButtonElement,

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -14,24 +14,29 @@ interface TabsContextValue {
   value: string;
   onValueChange: (value: string) => void;
   updateIndicator: () => void;
+  scheduleUpdateIndicator: () => void;
   indicatorStyle: React.CSSProperties;
+  mounted: boolean;
   registerTabTrigger: (value: string, element: HTMLButtonElement | null) => void;
   registerTabsList: (element: HTMLDivElement | null) => void;
 }
 
 const TabsContext = React.createContext<TabsContextValue>({
   value: "",
-  onValueChange: () => {},
-  updateIndicator: () => {},
+  onValueChange: () => { },
+  updateIndicator: () => { },
+  scheduleUpdateIndicator: () => { },
   indicatorStyle: {},
-  registerTabTrigger: () => {},
-  registerTabsList: () => {},
+  mounted: false,
+  registerTabTrigger: () => { },
+  registerTabsList: () => { },
 });
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
   ({ className, defaultValue, value, onValueChange, children, ...props }, ref) => {
     const [internalValue, setInternalValue] = React.useState(defaultValue || "");
     const [indicatorStyle, setIndicatorStyle] = React.useState<React.CSSProperties>({});
+    const [mounted, setMounted] = React.useState(false);
     const tabsListRef = React.useRef<HTMLDivElement | null>(null);
     const tabTriggerRefs = React.useRef(new Map<string, HTMLButtonElement | null>());
 
@@ -56,19 +61,49 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
         if (activeTab) {
           const tabRect = activeTab.getBoundingClientRect();
           const listRect = tabsListRef.current.getBoundingClientRect();
-          setIndicatorStyle({
-            left: `${tabRect.left - listRect.left}px`,
-            width: `${tabRect.width}px`,
-          });
+          // Only update if both rects have valid dimensions (element is visible)
+          if (tabRect.width > 0 && listRect.width > 0) {
+            setIndicatorStyle({
+              left: `${tabRect.left - listRect.left}px`,
+              width: `${tabRect.width}px`,
+            });
+          }
         }
       }
     }, [currentValue]);
 
-    React.useEffect(() => {
-      updateIndicator();
-      window.addEventListener("resize", updateIndicator);
-      return () => window.removeEventListener("resize", updateIndicator);
+    const scheduleUpdateIndicator = React.useCallback(() => {
+      // Use rAF to defer until after browser has painted layout
+      requestAnimationFrame(() => {
+        updateIndicator();
+      });
     }, [updateIndicator]);
+
+    React.useEffect(() => {
+      setMounted(true);
+      // Schedule update after paint so dimensions are correct even inside popovers/dialogs
+      scheduleUpdateIndicator();
+      window.addEventListener("resize", scheduleUpdateIndicator);
+      return () => window.removeEventListener("resize", scheduleUpdateIndicator);
+    }, [scheduleUpdateIndicator]);
+
+    // Watch for when the tabs list becomes visible in the DOM
+    // (e.g., when a Popover or Dialog opens), then re-compute the indicator
+    React.useEffect(() => {
+      const listEl = tabsListRef.current;
+      if (!listEl) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) {
+            scheduleUpdateIndicator();
+          }
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(listEl);
+      return () => observer.disconnect();
+    }, [scheduleUpdateIndicator]);
 
     const handleValueChange = React.useCallback(
       (newValue: string) => {
@@ -84,7 +119,9 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
           value: currentValue,
           onValueChange: handleValueChange,
           updateIndicator,
+          scheduleUpdateIndicator,
           indicatorStyle,
+          mounted,
           registerTabTrigger,
           registerTabsList,
         }}
@@ -100,7 +137,7 @@ Tabs.displayName = "Tabs";
 
 const TabsList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
-    const { indicatorStyle, registerTabsList } = React.useContext(TabsContext);
+    const { indicatorStyle, registerTabsList, mounted } = React.useContext(TabsContext);
 
     return (
       <div
@@ -115,19 +152,21 @@ const TabsList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
         )}
         {...props}
       >
-        <motion.div
-          layout
-          className="tabs-bg-indicator absolute top-0 left-0 h-full rounded-full bg-gradient-tabs"
-          style={{
-            ...indicatorStyle,
-            position: "absolute",
-            top: 0,
-            borderRadius: "9999px",
-            height: "100%",
-            zIndex: 0,
-          }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        />
+        {mounted && (
+          <motion.div
+            layout
+            className="tabs-bg-indicator absolute top-0 left-0 h-full rounded-full bg-gradient-tabs"
+            style={{
+              ...indicatorStyle,
+              position: "absolute",
+              top: 0,
+              borderRadius: "9999px",
+              height: "100%",
+              zIndex: 0,
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          />
+        )}
         {props.children}
       </div>
     );
@@ -139,7 +178,7 @@ const TabsTrigger = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement> & { value: string }
 >(({ className, value, ...props }, ref) => {
-  const { value: selectedValue, onValueChange, registerTabTrigger, updateIndicator } =
+  const { value: selectedValue, onValueChange, registerTabTrigger, updateIndicator, scheduleUpdateIndicator } =
     React.useContext(TabsContext);
   const isActive = selectedValue === value;
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
@@ -150,8 +189,9 @@ const TabsTrigger = React.forwardRef<
   }, [value, registerTabTrigger]);
 
   React.useEffect(() => {
-    if (isActive) updateIndicator();
-  }, [isActive, updateIndicator]);
+    // Use scheduleUpdateIndicator for deferred measurement (fixes popover/dialog initial state)
+    if (isActive) scheduleUpdateIndicator();
+  }, [isActive, scheduleUpdateIndicator]);
 
   return (
     <button

@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { AlertCircle, CheckCircle, Info, X, AlertTriangle } from "lucide-react";
 
 const alertVariants = {
@@ -13,7 +13,7 @@ const alertVariants = {
     warning:
       "border-yellow-500/50 text-yellow-700 dark:text-yellow-500 [&>svg]:text-yellow-500",
     info:
-      "border-blue-500/50 text-blue-700 dark:text-blue-500 [&>svg]:text-blue-500",
+      "border-[color-mix(in_srgb,var(--primarylw)_50%,transparent)] text-blue-700 dark:text-primarylw [&>svg]:text-primarylw",
   },
   size: {
     default: "p-4",
