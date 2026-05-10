@@ -564,7 +564,7 @@ module.exports = plugin(
         animationPlayState: 'paused',
       },
       '@property --border-angle': {
-        syntax: '<angle>',
+        syntax: '"<angle>"',
         inherits: true,
         'initial-value': '0turn',
       },
