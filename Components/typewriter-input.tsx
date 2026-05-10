@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { cn } from '../../lib/utils';
+import { cn } from '../lib/utils';
 import { Input } from './input';
 
 export interface TypewriterInputProps {
@@ -98,7 +98,7 @@ export const TypewriterInput: React.FC<TypewriterInputProps> = ({
   var [showCaret, setShowCaret] = useState(true);
   var [internalValue, setInternalValue] = useState(value);
   var prevValueRef = useRef(value);
-  var timeoutRef = useRef<NodeJS.Timeout>();
+  var timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Update internal value when prop changes
   useEffect(function () {
@@ -215,7 +215,7 @@ export const TypewriterInput: React.FC<TypewriterInputProps> = ({
           "          \n" +
           "          .typewriter-char {\n" +
           "            display: inline-block;\n" +
-          "            font-family: inherit;\n" +
+          "            \n" +
           "          }\n" +
           "          \n" +
           "          .typewriter-char--animate {\n" +

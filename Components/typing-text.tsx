@@ -7,11 +7,11 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 export interface TypingTextProps {
   children: ReactNode;
-  as?: ElementType;
+  as?: any;
   className?: string;
   delay?: number;
   duration?: number;
@@ -48,9 +48,9 @@ export const TypingText = ({
       }
       if (
         React.isValidElement(node) &&
-        typeof node.props.children !== "undefined"
+        typeof (node.props as any).children !== "undefined"
       ) {
-        return extractText(node.props.children);
+        return extractText((node.props as any).children);
       }
       return "";
     };
@@ -75,9 +75,10 @@ export const TypingText = ({
     }),
   };
 
-  return (
-    <Component
-      className={cn(
+  return React.createElement(
+    Component,
+    {
+      className: cn(
         "inline-flex",
         className,
         fontSize,
@@ -89,28 +90,27 @@ export const TypingText = ({
           : align === "right"
           ? "justify-end text-right"
           : "justify-start text-left"
-      )}
+      ),
+    },
+    <motion.span
+      className="inline-block"
+      initial="hidden"
+      animate="visible"
+      aria-label={textContent}
+      role="text"
     >
-      <motion.span
-        className="inline-block"
-        initial="hidden"
-        animate="visible"
-        aria-label={textContent}
-        role="text"
-      >
-        {characters.map((char, index) => (
-          <motion.span
-            key={`${char}-${index}`}
-            className="inline-block"
-            variants={characterVariants}
-            custom={index}
-            initial="hidden"
-            animate="visible"
-          >
-            {char}
-          </motion.span>
-        ))}
-      </motion.span>
-    </Component>
+      {characters.map((char, index) => (
+        <motion.span
+          key={`${char}-${index}`}
+          className="inline-block"
+          variants={characterVariants}
+          custom={index}
+          initial="hidden"
+          animate="visible"
+        >
+          {char}
+        </motion.span>
+      ))}
+    </motion.span>
   );
 };

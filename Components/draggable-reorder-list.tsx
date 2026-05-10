@@ -82,7 +82,7 @@ function Item({
 
         {/* Content */}
         <div className="flex-1 min-w-0 pointer-events-none">
-          <p className="text-sm font-medium truncate select-none">{item.label}</p>
+          <p className="text-sm font-medium truncate select-none text-foreground">{item.label}</p>
           {item.description && (
             <p className="text-xs text-muted-foreground truncate mt-0.5 select-none">
               {item.description}

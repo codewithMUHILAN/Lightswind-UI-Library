@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { Menu, X } from "lucide-react";
 
 export interface MenuItem {
@@ -206,7 +206,7 @@ export const HamburgerMenuOverlay: React.FC<HamburgerMenuOverlayProps> = ({
             transform: translateX(-200px);
             opacity: 0;
             transition: all 0.3s ease;
-            font-family: ${fontFamily};
+            
             font-weight: ${fontWeight};
             color: ${textColor};
             ${menuDirection === "horizontal" ? "display: inline-block; margin: 0 1rem;" : ""}

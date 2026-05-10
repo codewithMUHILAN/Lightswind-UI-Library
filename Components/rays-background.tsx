@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "../utils";
+import { cn } from "../lib/utils";
 
 interface RaysBackgroundProps {
   /** Theme variant - 'light' or 'dark' */
@@ -54,13 +54,26 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
         className
       )}
     >
+      <style suppressHydrationWarning>
+        {`
+          @keyframes rotate-cw {
+            from { transform: rotate(0deg) translate3d(0,0,0); }
+            to { transform: rotate(360deg) translate3d(0,0,0); }
+          }
+          @keyframes rotate-ccw {
+            from { transform: rotate(0deg) translate3d(0,0,0); }
+            to { transform: rotate(-360deg) translate3d(0,0,0); }
+          }
+        `}
+      </style>
+
       {/* Color Ray Container */}
       <div
         className="absolute left-0 right-0 w-full h-full mx-auto overflow-hidden pointer-events-none"
         style={{
           maxWidth: "45%",
-          top: "-60%",
-          transform: "scaleX(3.5) scaleY(3)", // Vertical spread increased
+          top: "-50%",
+          transform: "scaleX(3.5) scaleY(3)",
           mixBlendMode: isLightTheme ? "darken" : "normal",
         }}
       >
@@ -85,20 +98,8 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
             opacity: 0.6,
           }}
         >
-          {/* Before pseudo element - Light rays pattern 1 */}
-          <motion.div
-            animate={
-              animated
-                ? {
-                  rotate: 360,
-                }
-                : {}
-            }
-            transition={{
-              duration: 10 / animationSpeed,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+          {/* Light rays pattern 1 */}
+          <div
             style={{
               position: "absolute",
               top: "50%",
@@ -108,6 +109,9 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
               height: "200vmax",
               opacity: 0.45,
               willChange: "transform",
+              animation: animated
+                ? `rotate-cw ${10 / animationSpeed}s linear infinite`
+                : "none",
               background: `
                 conic-gradient(
                   from 20deg at 50% 50%,
@@ -170,21 +174,8 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
             }}
           />
 
-          {/* After pseudo element - Light rays pattern 2 */}
-          <motion.div
-            animate={
-              animated
-                ? {
-                  rotate: -360,
-                }
-                : {}
-            }
-            transition={{
-              duration: 6 / animationSpeed,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 10 / animationSpeed, // keeping the logical delay
-            }}
+          {/* Light rays pattern 2 */}
+          <div
             style={{
               position: "absolute",
               top: "50%",
@@ -194,6 +185,9 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
               height: "200vmax",
               opacity: 0.45,
               willChange: "transform",
+              animation: animated
+                ? `rotate-ccw ${6 / animationSpeed}s linear infinite`
+                : "none",
               background: `
                 conic-gradient(
                   from 0deg at 50% 50%,
@@ -280,19 +274,7 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
           }}
         >
           {/* Color Rays Before */}
-          <motion.div
-            animate={
-              animated
-                ? {
-                  rotate: -360,
-                }
-                : {}
-            }
-            transition={{
-              duration: 8 / animationSpeed,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+          <div
             style={{
               position: "absolute",
               width: "100%",
@@ -300,6 +282,9 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
               top: 0,
               left: 0,
               willChange: "transform",
+              animation: animated
+                ? `rotate-ccw ${8 / animationSpeed}s linear infinite`
+                : "none",
               background: `conic-gradient(
                 from 90deg at 50% 50%,
                 ${colors.purple},
@@ -321,19 +306,7 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
           />
 
           {/* Color Rays After */}
-          <motion.div
-            animate={
-              animated
-                ? {
-                  rotate: -360,
-                }
-                : {}
-            }
-            transition={{
-              duration: 80 / animationSpeed,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+          <div
             style={{
               position: "absolute",
               width: "100%",
@@ -341,6 +314,9 @@ const RaysBackground: React.FC<RaysBackgroundProps> = ({
               top: "-1.5%",
               left: 0,
               willChange: "transform",
+              animation: animated
+                ? `rotate-ccw ${80 / animationSpeed}s linear infinite`
+                : "none",
               WebkitMaskImage:
                 "radial-gradient(circle at 50% 50%, rgba(0, 0, 0, .9) 9%, rgba(0, 0, 0, .7) 17%, rgba(0, 0, 0, .5) 25%, rgba(0, 0, 0, .3) 33%, rgba(0, 0, 0, .15) 41%, transparent 50%)",
               maskImage:

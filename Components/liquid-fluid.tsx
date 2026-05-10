@@ -293,7 +293,7 @@ export default function LiquidFluid({
         // Interaction
         const isAuto = autoDemo && Date.now() - lastInputTime.current > autoResumeDelay;
         const currentPos = isAuto ? new Vec2(autoPos.current.x, autoPos.current.y) : mouse.current;
-        const diff = new Vec2().subVectors(currentPos, lastMouse.current);
+        const diff = new Vec2().sub(currentPos, lastMouse.current);
         lastMouse.current.copy(currentPos);
         velocity.current.lerp(diff, 0.2);
 

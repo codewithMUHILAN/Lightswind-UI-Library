@@ -1,7 +1,7 @@
-"use client";
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { CircleXIcon } from "lucide-react";
+import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 
 // --- Context and Props (with the new prop added) ---
 
@@ -81,7 +81,7 @@ const Popover: React.FC<PopoverProps> = ({
     // <-- CHANGE #3: Add the new prop to the dependency array
   }, [open, setOpen, closeOnOutsideClick]);
 
-  // Hide/show body scrollbar based on popover open state
+  // Body scroll lock to prevent background scrolling when modal is open
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -131,14 +131,15 @@ const PopoverTrigger: React.FC<PopoverTriggerProps> = ({
       <>
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
+            const element = child as React.ReactElement<any>;
             const childProps = {
-              ...child.props,
+              ...element.props,
               onClick: (e: React.MouseEvent) => {
                 handleClick(e as React.MouseEvent<HTMLElement>);
-                if (child.props.onClick) child.props.onClick(e);
+                if (element.props.onClick) element.props.onClick(e);
               },
             };
-            return React.cloneElement(child, childProps);
+            return React.cloneElement(element, childProps);
           }
           return child;
         })}
@@ -153,13 +154,13 @@ const PopoverTrigger: React.FC<PopoverTriggerProps> = ({
   );
 };
 
-interface PopoverContentProps extends React.HTMLAttributes<HTMLDivElement> {
+interface PopoverContentProps extends Omit<HTMLMotionProps<"div">, "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart" | "onAnimationEnd"> {
   align?: "center" | "start" | "end";
   sideOffset?: number;
 }
 
 const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
-  ({ className, align = "center", sideOffset = 4, ...props }, ref) => {
+  ({ className, align = "center", sideOffset = 4, children, ...props }, ref) => {
     const context = React.useContext(PopoverContext);
     if (!context) {
       throw new Error("PopoverContent must be used within a Popover");
@@ -167,33 +168,43 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
 
     const { open, setOpen } = context;
 
-    if (!open) return null;
-
     return (
-      <>
-        <div
-          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-opacity"
-          style={{ opacity: open ? 1 : 0 }}
-        />
-        <div
-          ref={ref}
-          data-popover-content
-          className={cn(
-            "fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-auto max-w-[90vw] rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-            "max-h-[calc(100vh-2rem)] overflow-y-auto",
-            className
-          )}
-          {...props}
-        >
-          <button
-            onClick={() => setOpen(false)}
-            className="absolute top-2 right-2 z-10 p-1 bg-gray-200/20 backdrop-blur-sm rounded-full shadow-md hover:bg-background hover:scale-110 transition-all duration-200"
-          >
-            <CircleXIcon className="w-6 h-6" />
-          </button>
-          {props.children}
-        </div>
-      </>
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-opacity"
+            />
+            <motion.div
+              ref={ref}
+              data-popover-content
+              initial={{ opacity: 0, scale: 0.9, x: "-50%", y: "-50%" }}
+              animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
+              exit={{ opacity: 0, scale: 0.9, x: "-50%", y: "-50%" }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
+              className={cn(
+                "fixed z-50 left-1/2 top-1/2 w-[95vw] sm:w-auto max-w-[95vw] sm:max-w-[90vw] rounded-2xl border bg-popover text-popover-foreground shadow-2xl outline-none",
+                "max-h-[95vh] sm:max-h-[calc(100vh-4rem)] overflow-y-auto",
+                className
+              )}
+              data-lenis-prevent
+              {...props}
+            >
+              <button
+                onClick={() => setOpen(false)}
+                className="absolute top-3 right-3 z-50 p-1.5 bg-zinc-100/80 dark:bg-zinc-800/80 backdrop-blur-md rounded-full border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all"
+              >
+                <CircleXIcon className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
+              </button>
+              {(children as React.ReactNode)}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     );
   }
 );

@@ -1,9 +1,16 @@
-"use client";
 import React, { useRef, useEffect } from "react";
-import { motion, useAnimationFrame } from "framer-motion";
+import { motion, useAnimationFrame, useInView } from "framer-motion";
+import Image from "next/image";
+
+interface MarqueeItem {
+  id: string;
+  src: string;
+  link: string;
+  alt: string;
+}
 
 interface ImageMarqueeProps {
-  images: string[];
+  items: MarqueeItem[];
   speed?: number; // pixels per second
   direction?: "left" | "right";
   imageWidth?: string; // Tailwind class for the width of the *card div*
@@ -12,7 +19,7 @@ interface ImageMarqueeProps {
 }
 
 const ImageMarquee: React.FC<ImageMarqueeProps> = ({
-  images,
+  items,
   speed = 50, // speed in pixels per second
   direction = "left",
   // Default Tailwind width for the card div, now responsive
@@ -24,6 +31,8 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const x = useRef(0); // This will store the translateX value
+  const [isHovered, setIsHovered] = React.useState(false);
+  const isInView = useInView(containerRef, { margin: "20%" });
 
   // Initialize x.current based on direction for seamless start
   useEffect(() => {
@@ -40,9 +49,11 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = ({
         containerRef.current.style.transform = `translateX(${x.current}px)`;
       }
     }
-  }, [direction, images]); // Re-run if direction or images change
+  }, [direction, items]); // Re-run if direction or items change
 
   useAnimationFrame((t, delta) => {
+    if (!isInView || isHovered) return;
+
     if (containerRef.current) {
       const fullContentWidth = containerRef.current.scrollWidth;
       // If fullContentWidth is 0, the content hasn't rendered or has no width yet.
@@ -72,10 +83,14 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = ({
     }
   });
 
-  const allImages = [...images, ...images]; // Duplicate images for seamless scroll
+  const allItems = [...items, ...items]; // Duplicate items for seamless scroll
 
   return (
-    <div className=" w-full relative">
+    <div
+      className="w-full relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div
         ref={containerRef}
         className="flex w-max" // w-max ensures the flex container takes the width of all its children
@@ -83,23 +98,28 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = ({
           willChange: "transform", // Optimize for animation
         }}
       >
-        {allImages.map((src, idx) => (
-          <div
-            key={idx}
+        {allItems.map((item, idx) => (
+          <a
+            key={`${item.id}-${idx}`}
+            href={item.link}
             className={`${imageWidth} ${imageHeight} ${imageMarginX} flex-shrink-0 
     transform hover:scale-125 transition-transform duration-300 
-    border border-white/20 hover:border-blue-500/40 p-2 
+    border border-white/20 hover:border-primarylw/40 p-2 
     rounded-xl shadow-lg backdrop-blur-md 
-    bg-gray-200/60 dark:bg-white/5`}
+    bg-gray-200/60 dark:bg-white/5 cursor-pointer block relative z-0 hover:z-50`}
           >
-            <motion.img
-              src={src}
-              alt={`marquee-image-${idx}`}
-              // The image itself should now fill its parent div
-              className="w-full h-full object-contain rounded-xl shadow-lg bg-black"
-              draggable={false}
-            />
-          </div>
+            <div className="relative w-full h-full">
+              <Image
+                src={item.src}
+                alt={item.alt}
+                fill
+                sizes="(max-width: 640px) 240px, (max-width: 768px) 300px, 360px"
+                className="object-contain rounded-xl shadow-lg bg-black pointer-events-none"
+                draggable={false}
+                loading="lazy"
+              />
+            </div>
+          </a>
         ))}
       </div>
     </div>

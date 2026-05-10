@@ -1,6 +1,6 @@
-"use client";
 import React, { useEffect, useRef, useCallback } from 'react';
-import { cn } from '../../lib/utils';
+import { useInView } from "framer-motion";
+import { cn } from '../lib/utils';
 
 interface Particle {
   radius: number;
@@ -29,7 +29,7 @@ const MagicLoader: React.FC<MagicLoaderProps> = ({
   className
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const particlesRef = useRef<Particle[]>([]);
   const tickRef = useRef(0);
   const globalAngleRef = useRef(0);
@@ -64,7 +64,7 @@ const MagicLoader: React.FC<MagicLoaderProps> = ({
   const drawParticle = useCallback((ctx: CanvasRenderingContext2D, particle: Particle, index: number, tick: number) => {
     const hue = hueRange[0] + ((tick + (particle.life * 120)) % (hueRange[1] - hueRange[0]));
     ctx.fillStyle = ctx.strokeStyle = `hsla(${hue}, 100%, 60%, ${particle.life})`;
-    
+
     // Draw line to previous particle
     ctx.beginPath();
     if (particlesRef.current[index - 1]) {
@@ -85,7 +85,19 @@ const MagicLoader: React.FC<MagicLoaderProps> = ({
     ctx.fillRect(Math.floor(sparkleX), Math.floor(sparkleY), sparkleSize, sparkleSize);
   }, [hueRange]);
 
+  const visibilityRef = useRef(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef);
+
+  useEffect(() => {
+    visibilityRef.current = isInView;
+  }, [isInView]);
+
   const animate = useCallback(() => {
+    if (!visibilityRef.current) {
+      animationRef.current = requestAnimationFrame(animate);
+      return;
+    }
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -136,7 +148,7 @@ const MagicLoader: React.FC<MagicLoaderProps> = ({
     canvas.height = size * dpr;
     canvas.style.width = `${size}px`;
     canvas.style.height = `${size}px`;
-    
+
     ctx.scale(dpr, dpr);
     ctx.globalCompositeOperation = 'lighter';
 
@@ -159,7 +171,7 @@ const MagicLoader: React.FC<MagicLoaderProps> = ({
   }, [setupCanvas, animate]);
 
   return (
-    <div className={cn("flex items-center justify-center", className)}>
+    <div ref={containerRef} className={cn("flex items-center justify-center", className)}>
       <canvas
         ref={canvasRef}
         className="max-w-full max-h-full"

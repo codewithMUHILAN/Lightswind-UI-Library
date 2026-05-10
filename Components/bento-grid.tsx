@@ -1,10 +1,10 @@
 import React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 interface BentoCardData {
   title: string;
   description: string;
-  icon: React.ElementType;
+  icon: any;
   className?: string;
   background?: React.ReactNode;
 }
@@ -59,7 +59,7 @@ export const BentoGrid = ({
                   "transition-all duration-300 ease-out"
                 )}
               >
-                <Icon className="h-5 w-5 text-current mb-2" />
+                {React.createElement(Icon, { className: "h-5 w-5 text-current mb-2" })}
                 <h3 className="text-base font-semibold">{card.title}</h3>
                 <p className="text-sm text-muted-foreground dark:text-white/60">
                   {card.description}

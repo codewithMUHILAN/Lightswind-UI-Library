@@ -1,6 +1,7 @@
 "use client";
+
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion";
 
 interface MenubarContextValue {
@@ -23,27 +24,24 @@ interface MenubarProps extends React.HTMLAttributes<HTMLDivElement> {}
 function Menubar({ className, children, ...props }: MenubarProps) {
   const [openMenu, setOpenMenu] = React.useState<string | null>(null);
 
+  // close menu when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      const menubarElement = e.target as HTMLElement;
-      const isClickInsideMenubarOrDropdown = menubarElement.closest('[role="menubar"]') || menubarElement.closest('[role="menu"]');
-
-      if (openMenu && !isClickInsideMenubarOrDropdown) {
+      const target = e.target as HTMLElement;
+      const insideMenubar = target.closest('[role="menubar"], [role="menu"]');
+      if (openMenu && !insideMenubar) {
         setOpenMenu(null);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openMenu]);
 
   return (
     <MenubarContext.Provider value={{ openMenu, setOpenMenu }}>
       <div
         className={cn(
-          "flex h-10 items-center space-x-1 rounded-md border   bg-background p-1",
+          "flex h-12 items-center space-x-1 rounded-md border bg-background px-2 md:px-4 shadow-sm",
           className
         )}
         role="menubar"
@@ -61,10 +59,8 @@ interface MenubarMenuProps {
 }
 
 function MenubarMenu({ value, children }: MenubarMenuProps) {
-  // Always call useId unconditionally
   const generatedId = React.useId();
-  // Then, use the provided value if it exists, otherwise use the generatedId
-  const menuId = value ?? generatedId; // Use nullish coalescing operator for clarity
+  const menuId = value ?? generatedId;
 
   return (
     <div className="relative" data-value={menuId}>
@@ -78,14 +74,13 @@ interface MenubarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
 function MenubarTrigger({ className, children, ...props }: MenubarTriggerProps) {
   const { openMenu, setOpenMenu } = useMenubarContext();
   const triggerRef = React.useRef<HTMLButtonElement>(null);
-  
   const [menuId, setMenuId] = React.useState<string>("");
 
   React.useEffect(() => {
     if (triggerRef.current) {
       setMenuId(triggerRef.current.parentElement?.getAttribute("data-value") || "");
     }
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
   const isOpen = openMenu === menuId;
 
@@ -100,7 +95,10 @@ function MenubarTrigger({ className, children, ...props }: MenubarTriggerProps) 
       type="button"
       role="menuitem"
       className={cn(
-        "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 text-sm font-medium outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+        "flex cursor-pointer select-none items-center rounded-md px-3 py-2 text-sm font-medium transition-colors",
+        "hover:bg-accent hover:text-accent-foreground",
+        "focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2",
+        isOpen && "bg-accent text-accent-foreground",
         className
       )}
       aria-expanded={isOpen}
@@ -113,38 +111,34 @@ function MenubarTrigger({ className, children, ...props }: MenubarTriggerProps) 
   );
 }
 
-interface MenubarContentProps extends HTMLMotionProps<"div"> {
-  // Add any specific props for MenubarContent here if needed, e.g., side, align
-}
+interface MenubarContentProps extends HTMLMotionProps<"div"> {}
 
 function MenubarContent({ className, children, ...props }: MenubarContentProps) {
   const { openMenu } = useMenubarContext();
-  const menuContentRef = React.useRef<HTMLDivElement>(null);
-  
-  const [currentMenuId, setCurrentMenuId] = React.useState<string | null>(null);
+  const contentRef = React.useRef<HTMLDivElement>(null);
+  const [menuId, setMenuId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    if (menuContentRef.current) {
-      const parentDataValue = menuContentRef.current.parentElement?.getAttribute("data-value");
-      setCurrentMenuId(parentDataValue || null);
+    if (contentRef.current) {
+      const parentDataValue = contentRef.current.parentElement?.getAttribute("data-value");
+      setMenuId(parentDataValue || null);
     }
   }, []);
 
-  const shouldBeOpen = openMenu === currentMenuId;
+  const isOpen = openMenu === menuId;
 
   return (
     <AnimatePresence>
-      {shouldBeOpen && (
+      {isOpen && (
         <motion.div
-          ref={menuContentRef}
+          ref={contentRef}
           initial={{ opacity: 0, y: -5, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -5, scale: 0.95 }}
           transition={{ duration: 0.15, ease: "easeOut" }}
           className={cn(
-            `absolute left-0 top-0 z-50 mt-10 min-w-[8rem] flex-col
-             rounded-md border   bg-popover p-1
-             text-popover-foreground shadow-md`,
+            "absolute left-0 top-full z-50 mt-2 min-w-[10rem] flex flex-col rounded-md border bg-popover p-1 text-popover-foreground shadow-lg",
+            "md:min-w-[12rem]", // larger menus on bigger screens
             className
           )}
           role="menu"
@@ -167,20 +161,21 @@ function MenubarItem({ className, inset, children, ...props }: MenubarItemProps)
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setOpenMenu(null);
-    if (props.onClick) {
-      props.onClick(e);
-    }
+    props.onClick?.(e);
   };
 
   return (
     <div
+      role="menuitem"
+      onClick={handleClick}
       className={cn(
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm transition-colors",
+        "hover:bg-accent hover:text-accent-foreground",
+        "focus:outline-none focus:bg-accent focus:text-accent-foreground",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         inset && "pl-8",
         className
       )}
-      role="menuitem"
-      onClick={handleClick}
       {...props}
     >
       {children}
@@ -188,10 +183,4 @@ function MenubarItem({ className, inset, children, ...props }: MenubarItemProps)
   );
 }
 
-export {
-  Menubar,
-  MenubarMenu,
-  MenubarTrigger,
-  MenubarContent,
-  MenubarItem,
-};
+export { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem };

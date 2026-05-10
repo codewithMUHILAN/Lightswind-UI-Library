@@ -139,7 +139,7 @@ export const Lens: React.FC<LensProps> = ({
     <div
       ref={containerRef}
       className={cn(
-        "relative overflow-hidden z-20",
+        "relative overflow-hidden z-20 h-full w-full",
         "rounded-" + borderRadius, // String concatenation
         disabled && "cursor-not-allowed opacity-50",
         className

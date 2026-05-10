@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 interface AspectRatioProps extends React.HTMLAttributes<HTMLDivElement> {
   /** The aspect ratio to maintain (width/height) */

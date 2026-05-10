@@ -1,11 +1,11 @@
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 const Table = React.forwardRef<
   HTMLTableElement,
-  React.HTMLAttributes<HTMLTableElement>
->(({ className, ...props }, ref) => (
-  <div className="relative w-full max-h-[400px] overflow-auto scrollbar-hide rounded-lg border border-gray-200 dark:border-zinc-800 bg-white dark:bg-black shadow-sm">
+  React.TableHTMLAttributes<HTMLTableElement> & { noScroll?: boolean }
+>(({ className, noScroll, ...props }, ref) => {
+  const table = (
     <table
       ref={ref}
       className={cn(
@@ -14,8 +14,18 @@ const Table = React.forwardRef<
       )}
       {...props}
     />
-  </div>
-));
+  );
+
+  if (noScroll) return table;
+
+  return (
+    <div className="relative w-full rounded-lg border border-gray-200 dark:border-zinc-800 bg-white dark:bg-black shadow-sm overflow-hidden">
+      <div className="w-full overflow-auto max-h-[calc(80vh-70px)] custom-scrollbar" data-lenis-prevent>
+        {table}
+      </div>
+    </div>
+  );
+});
 Table.displayName = "Table";
 
 const TableHeader = React.forwardRef<

@@ -2,7 +2,7 @@
 
 import React, { useRef, useMemo } from "react"; // Added useMemo
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { cn } from "../../lib/utils"; // Assuming cn utility is available
+import { cn } from "../lib/utils"; // Assuming cn utility is available
 
 export interface ScrollRevealProps {
   children: React.ReactNode;

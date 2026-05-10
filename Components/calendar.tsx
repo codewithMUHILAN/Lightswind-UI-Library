@@ -1,141 +1,157 @@
-"use client";
-import React, { useState } from "react";
-import { DayPicker, DateRange } from "react-day-picker";
-import "react-day-picker/dist/style.css";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./select";
+"use client"
 
-// --- Helper function to replace date-fns/addDays ---
-// Uses native JavaScript Date methods to add days to a given date.
-const addDays = (date: Date, days: number): Date => {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
-};
+import * as React from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { DayPicker } from "react-day-picker"
+import { motion, AnimatePresence } from "framer-motion"
 
-const Calendar = () => {
-  const [mode, setMode] = useState<"single" | "multiple" | "range">("single");
+import { cn } from "../lib/utils"
+import { buttonVariants } from "./button"
 
-  const today = new Date();
-  // Use our new helper function instead of the one from date-fns
-  const nextMonth = addDays(today, 30);
+export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
-  const [singleDate, setSingleDate] = useState<Date | undefined>(today);
-  const [multipleDates, setMultipleDates] = useState<Date[] | undefined>([
-    today,
-  ]);
-  const [range, setRange] = useState<DateRange | undefined>({
-    from: today,
-    // Use our new helper function here as well
-    to: addDays(today, 7),
-  });
-
-  const handleModeChange = (value: "single" | "multiple" | "range") => {
-    setMode(value);
-  };
-
-  // This logic uses native Date methods, so it doesn't need to change.
-  const disabledDays = [
-    new Date(2025, 6, 25), // July 25, 2025 (Month is 0-indexed)
-    new Date(2025, 6, 26), // July 26, 2025
-    {
-      from: new Date(2025, 6, 28), // July 28, 2025
-      to: new Date(2025, 6, 30), // July 30, 2025
-    },
-    (date: Date) => date.getDay() === 0 || date.getDay() === 6, // disable weekends (Sunday and Saturday)
-  ];
-
-  const commonDayPickerProps = {
-    className: "rounded-lg border p-4",
-    weekStartsOn: 1 as const, // Monday
-    // locale: enUS, // This is removed as react-day-picker defaults to English
-    defaultMonth: today,
-    fromDate: today,
-    toDate: nextMonth,
-    disabled: disabledDays,
-    showOutsideDays: true,
-    initialFocus: true,
-  };
+function Calendar({
+  className,
+  classNames,
+  showOutsideDays = true,
+  ...props
+}: CalendarProps) {
+  const [direction, setDirection] = React.useState(0)
+  const [month, setMonth] = React.useState<Date>(props.month || props.defaultMonth || new Date())
 
   return (
-    <div className="min-h-screen bg-background py-8 px-4">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between mb-6">
-        <label className="text-gray-700 dark:text-gray-300 font-medium">
-          Selection Mode:
-        </label>
-        <Select value={mode} onValueChange={handleModeChange}>
-          <SelectTrigger className="w-[180px] dark:bg-gray-700 dark:text-white border rounded-md px-3 py-2">
-            <SelectValue placeholder="Select mode" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="single">Single</SelectItem>
-            <SelectItem value="multiple">Multiple</SelectItem>
-            <SelectItem value="range">Range</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {mode === "single" && (
-        <DayPicker
-          mode="single"
-          selected={singleDate}
-          onSelect={setSingleDate}
-          {...commonDayPickerProps}
-        />
+    <DayPicker
+      showOutsideDays={showOutsideDays}
+      month={month}
+      onMonthChange={(newMonth) => {
+        setDirection(newMonth > month ? 1 : -1)
+        setMonth(newMonth)
+        props.onMonthChange?.(newMonth)
+      }}
+      className={cn(
+        "p-4 bg-white/70 dark:bg-black/40 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl",
+        className
       )}
+      classNames={{
+        months: "relative",
+        month: "space-y-4",
+        month_caption: "flex justify-center pt-1 relative items-center h-10",
+        caption_label: "text-sm font-bold tracking-tight text-foreground/90",
+        nav: "flex items-center space-x-1",
+        button_previous: cn(
+          buttonVariants({ variant: "outline" }),
+          "h-8 w-8 bg-background/50 p-0 opacity-70 hover:opacity-100 hover:bg-accent border-gray-200 dark:border-gray-800 rounded-full absolute left-1 top-1 z-20 transition-all active:scale-90"
+        ),
+        button_next: cn(
+          buttonVariants({ variant: "outline" }),
+          "h-8 w-8 bg-background/50 p-0 opacity-70 hover:opacity-100 hover:bg-accent border-gray-200 dark:border-gray-800 rounded-full absolute right-1 top-1 z-20 transition-all active:scale-90"
+        ),
+        month_grid: "w-full border-collapse space-y-1",
+        weekdays: "flex justify-between",
+        weekday: "text-muted-foreground/60 w-9 font-bold text-[0.65rem] uppercase tracking-[0.1em] text-center",
+        week: "flex w-full mt-1 justify-between",
+        day: "h-9 w-9 text-center text-sm p-0 relative focus-within:relative focus-within:z-20",
+        day_button: cn(
+          buttonVariants({ variant: "ghost" }),
+          "h-9 w-9 p-0 font-medium transition-all duration-300 hover:bg-primary/10 dark:hover:bg-primary/20",
+          "aria-selected:opacity-100 rounded-full relative overflow-visible"
+        ),
+        selected: "text-primary-foreground",
+        today: "text-primary font-bold after:content-[''] after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-primary after:rounded-full",
+        outside: "day-outside text-muted-foreground/30 opacity-40",
+        disabled: "text-muted-foreground opacity-20 cursor-not-allowed",
+        range_start: "day-range-start rounded-l-full",
+        range_end: "day-range-end rounded-r-full",
+        range_middle: "aria-selected:bg-primary/20 aria-selected:text-primary dark:aria-selected:bg-primary/20 dark:aria-selected:text-primary rounded-none",
+        hidden: "invisible",
+        ...classNames,
+      }}
+      components={{
+        Chevron: ({ orientation }) => {
+          const Icon = orientation === "left" ? ChevronLeft : ChevronRight
+          return (
+            <motion.div
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.8 }}
+              className="flex items-center justify-center"
+            >
+              <Icon className="h-4 w-4" />
+            </motion.div>
+          )
+        },
+        Month: ({ children, ...props }) => (
+          <AnimatePresence mode="popLayout" custom={direction} initial={false}>
+            <motion.div
+              key={month.toISOString()}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 20, filter: "blur(4px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, x: -direction * 20, filter: "blur(4px)" }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 30,
+                mass: 1
+              }}
+              className="w-full h-full"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        ),
+        DayButton: ({ day, modifiers, ...buttonProps }) => {
+          const isSelected = modifiers.selected;
+          const isRangeStart = modifiers.range_start;
+          const isRangeEnd = modifiers.range_end;
+          const isRangeMiddle = modifiers.range_middle;
+          const isRange = isRangeStart || isRangeEnd || isRangeMiddle;
+          // Avoid jumping layout animations when a range is spanning
+          const useLayoutAnim = isSelected && !isRange;
 
-      {mode === "multiple" && (
-        <DayPicker
-          mode="multiple"
-          selected={multipleDates}
-          onSelect={setMultipleDates}
-          {...commonDayPickerProps}
-        />
-      )}
+          // Filter out props that conflict with Framer Motion's motion.button
+          const { onDrag, onDragStart, onDragEnd, onDragOver, onDragEnter, onDragLeave, onDragExit, className, ...validProps } = buttonProps as any;
 
-      {mode === "range" && (
-        <DayPicker
-          mode="range"
-          selected={range}
-          onSelect={setRange}
-          required={false}
-          {...commonDayPickerProps}
-        />
-      )}
+          return (
+            <div className="relative w-full h-full flex items-center justify-center">
+              {useLayoutAnim && (
+                <motion.div
+                  layoutId="calendar-selection-pro"
+                  className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/20"
+                  transition={{
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 35,
+                  }}
+                  style={{ zIndex: 0 }}
+                />
+              )}
+              {/* Fallback solid background for the edges of a range */}
+              {isRange && (isRangeStart || isRangeEnd) && (
+                <div className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/20 z-0" />
+              )}
+              <motion.button
+                {...validProps}
+                className={cn(
+                  className, // Incorporate dynamically generated classes from RDP
+                  "z-10 relative overflow-visible flex items-center justify-center",
+                  // Ensure start/end of a range or single selection shows white text
+                  (useLayoutAnim || isRangeStart || isRangeEnd) && "text-primary-foreground focus:text-primary-foreground hover:text-primary-foreground focus:bg-transparent",
+                  // Ensure middle selections use theme colored text instead of turning white
+                  isRangeMiddle && "text-primary dark:text-primary font-medium"
+                )}
+                whileHover={!isRange ? { scale: 1.1 } : undefined}
+                whileTap={!isRange ? { scale: 0.9 } : undefined}
+              >
+                {day.date.getDate()}
+              </motion.button>
+            </div>
+          )
+        }
+      }}
+      {...props}
+    />
+  )
+}
+Calendar.displayName = "Calendar"
 
-      <div className="mt-6 text-center text-gray-800 dark:text-gray-200">
-        {mode === "single" && singleDate && (
-          <p>
-            Selected:{" "}
-            {/* toLocaleDateString is a native method, so this works perfectly */}
-            <strong>{singleDate.toLocaleDateString("en-US")}</strong>
-          </p>
-        )}
-        {mode === "multiple" && multipleDates && (
-          <p>
-            Selected:{" "}
-            {multipleDates.map((date) => (
-              <span key={date.toString()} className="mx-1">
-                {date.toLocaleDateString("en-US")}
-              </span>
-            ))}
-          </p>
-        )}
-        {mode === "range" && range && (
-          <p>
-            From:{" "}
-            <strong>{range.from?.toLocaleDateString("en-US") || "—"}</strong>{" "}
-            to: <strong>{range.to?.toLocaleDateString("en-US") || "—"}</strong>
-          </p>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default Calendar;
+export { Calendar }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import { cn } from '../../lib/utils';
+import { cn } from '../lib/utils';
 
 export interface GlowingCardProps {
   children: React.ReactNode;
@@ -163,7 +163,7 @@ export const GlowingCards: React.FC<GlowingCardsProps> = ({
             ref={overlayRef}
             className={cn(
               "absolute inset-0 pointer-events-none select-none",
-              "opacity-0 transition-all duration-[var(--animation-duration)] ease-out"
+              "opacity-0 transition-all duration-[&lsqb;var(--animation-duration)&rsqb;] ease-out"
             )}
             style={{
               // String concatenation for WebkitMask and mask
@@ -183,15 +183,16 @@ export const GlowingCards: React.FC<GlowingCardsProps> = ({
             >
               {React.Children.map(children, (child, index) => {
                 if (React.isValidElement(child) && child.type === GlowingCard) {
-                  const cardGlowColor = child.props.glowColor || "#3b82f6";
+                  const props = child.props as any;
+                  const cardGlowColor = props.glowColor || "#3b82f6";
                   return React.cloneElement(child as React.ReactElement<any>, {
                     className: cn(
-                      child.props.className,
+                      props.className,
                       "bg-opacity-15 dark:bg-opacity-15",
                       "border-opacity-100 dark:border-opacity-100"
                     ),
                     style: {
-                      ...child.props.style,
+                      ...props.style,
                       // String concatenation for background, border, and boxShadow
                       backgroundColor: cardGlowColor + "15",
                       borderColor: cardGlowColor,

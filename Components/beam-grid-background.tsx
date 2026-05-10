@@ -37,7 +37,7 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
     extraBeamCount = 3,
     idleSpeed = 1.15,
     interactive = true,
-    asBackground = true, // Key: Defaults to true for background use
+    asBackground = true,
     showFade = true,
     fadeIntensity = 20,
     className,
@@ -46,6 +46,7 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const bgCanvasRef = useRef<HTMLCanvasElement | null>(null); // Buffer for static grid
     const [isDarkMode, setIsDarkMode] = useState(false);
     const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
     const lastMouseMoveRef = useRef(Date.now());
@@ -74,33 +75,61 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
 
         const ctx = canvas.getContext("2d")!;
         const rect = container.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+
+        // Handle high-DPI displays for crisp rendering
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
+        ctx.scale(dpr, dpr);
 
         const cols = Math.floor(rect.width / gridSize);
         const rows = Math.floor(rect.height / gridSize);
 
-        // Initialize primary straight-line beams
+        // Pre-render static grid to off-screen canvas
+        if (!bgCanvasRef.current) {
+            bgCanvasRef.current = document.createElement("canvas");
+        }
+        const bgCanvas = bgCanvasRef.current;
+        bgCanvas.width = canvas.width;
+        bgCanvas.height = canvas.height;
+        const bgCtx = bgCanvas.getContext("2d")!;
+        bgCtx.scale(dpr, dpr);
+
+        const lineColor = isDarkMode ? darkGridColor : gridColor;
+        bgCtx.strokeStyle = lineColor;
+        bgCtx.lineWidth = 1;
+        bgCtx.beginPath();
+        for (let x = 0; x <= rect.width; x += gridSize) {
+            bgCtx.moveTo(x, 0);
+            bgCtx.lineTo(x, rect.height);
+        }
+        for (let y = 0; y <= rect.height; y += gridSize) {
+            bgCtx.moveTo(0, y);
+            bgCtx.lineTo(rect.width, y);
+        }
+        bgCtx.stroke();
+
+        // Initialize beams
         const primaryBeams = Array.from({ length: beamCount }).map(() => ({
             x: Math.floor(Math.random() * cols),
             y: Math.floor(Math.random() * rows),
             dir: Math.random() > 0.5 ? "x" : "y" as "x" | "y",
             offset: Math.random() * gridSize,
             speed: beamSpeed + Math.random() * 0.3,
-            type: 'primary' // Identifier
+            type: 'primary'
         }));
 
-        // Initialize extra beams
         const extraBeams = Array.from({ length: extraBeamCount }).map(() => ({
             x: Math.floor(Math.random() * cols),
             y: Math.floor(Math.random() * rows),
             dir: Math.random() > 0.5 ? "x" : "y" as "x" | "y",
             offset: Math.random() * gridSize,
             speed: beamSpeed * 0.5 + Math.random() * 0.1,
-            type: 'extra' // Identifier
+            type: 'extra'
         }));
 
-        // Combine all beams
         const allBeams = [...primaryBeams, ...extraBeams];
 
         const updateMouse = (e: MouseEvent) => {
@@ -112,32 +141,20 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
 
         if (interactive) window.addEventListener("mousemove", updateMouse);
 
+        let animationFrameId: number;
+
         const draw = () => {
+            // Clear main canvas
             ctx.clearRect(0, 0, rect.width, rect.height);
 
-            const lineColor = isDarkMode ? darkGridColor : gridColor;
+            // 1. Draw pre-rendered grid (super fast)
+            ctx.drawImage(bgCanvas, 0, 0, rect.width, rect.height);
+
             const activeBeamColor = isDarkMode ? darkBeamColor : beamColor;
-
-            // Draw grid
-            ctx.strokeStyle = lineColor;
-            ctx.lineWidth = 1;
-            for (let x = 0; x <= rect.width; x += gridSize) {
-                ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, rect.height);
-                ctx.stroke();
-            }
-            for (let y = 0; y <= rect.height; y += gridSize) {
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(rect.width, y);
-                ctx.stroke();
-            }
-
             const now = Date.now();
             const idle = now - lastMouseMoveRef.current > 2000;
 
-            // Beam effect intensity and movement
+            // 2. Draw Beams
             allBeams.forEach((beam) => {
                 ctx.strokeStyle = activeBeamColor;
                 ctx.lineWidth = beam.type === 'extra' ? beamThickness * 0.75 : beamThickness;
@@ -159,7 +176,7 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
                     ctx.lineTo(start + beamLength, y);
                     ctx.stroke();
 
-                    beam.offset += idle ? beam.speed * idleSpeed * 60 : beam.speed * 60;
+                    beam.offset += idle ? beam.speed * idleSpeed * 60 * 0.016 : beam.speed * 60 * 0.016;
                     if (beam.offset > rect.width + beamLength) beam.offset = -beamLength;
                 } else {
                     const x = beam.x * gridSize;
@@ -170,48 +187,25 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
                     ctx.lineTo(x, start + beamLength);
                     ctx.stroke();
 
-                    beam.offset += idle ? beam.speed * idleSpeed * 60 : beam.speed * 60;
+                    beam.offset += idle ? beam.speed * idleSpeed * 60 * 0.016 : beam.speed * 60 * 0.016;
                     if (beam.offset > rect.height + beamLength) beam.offset = -beamLength;
                 }
             });
 
-            // Reset shadow before drawing the interactive highlight
+            // Reset shadow
             ctx.shadowBlur = 0;
 
-            // --- Multi-level Interactive highlight near mouse (The new logic) ---
+            // 3. Draw Interactive Highlights
             if (interactive && !idle) {
                 const targetX = mouseRef.current.x;
                 const targetY = mouseRef.current.y;
-                // Center grid coordinates
                 const centerGx = Math.floor(targetX / gridSize) * gridSize;
                 const centerGy = Math.floor(targetY / gridSize) * gridSize;
 
-                // Define the three levels of highlight
                 const highlights = [
-                    {
-                        // Primary: Center cell
-                        x: centerGx,
-                        y: centerGy,
-                        radius: 0,
-                        lineWidth: beamThickness * 3,
-                        glowFactor: 3,
-                    },
-                    {
-                        // Mild: 1-cell ring around the center
-                        x: centerGx,
-                        y: centerGy,
-                        radius: 1, // Highlight 1 grid cell distance (3x3 area)
-                        lineWidth: beamThickness * 1.5,
-                        glowFactor: 1.5,
-                    },
-                    {
-                        // More Mild: 2-cell ring (5x5 area)
-                        x: centerGx,
-                        y: centerGy,
-                        radius: 2, // Highlight 2 grid cell distance (5x5 area)
-                        lineWidth: beamThickness * 0.75,
-                        glowFactor: 0.75,
-                    },
+                    { x: centerGx, y: centerGy, radius: 0, lineWidth: beamThickness * 3, glowFactor: 3 },
+                    { x: centerGx, y: centerGy, radius: 1, lineWidth: beamThickness * 1.5, glowFactor: 1.5 },
+                    { x: centerGx, y: centerGy, radius: 2, lineWidth: beamThickness * 0.75, glowFactor: 0.75 },
                 ];
 
                 highlights.forEach(({ x, y, radius, lineWidth, glowFactor }) => {
@@ -222,14 +216,12 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
 
                     for (let dx = -radius; dx <= radius; dx++) {
                         for (let dy = -radius; dy <= radius; dy++) {
-                            // Skip inner rings that are drawn with a higher intensity later
-                            if (radius === 1 && Math.abs(dx) <= 0 && Math.abs(dy) <= 0) continue; // Skip center
-                            if (radius === 2 && Math.abs(dx) <= 1 && Math.abs(dy) <= 1) continue; // Skip 3x3 area
+                            if (radius === 1 && Math.abs(dx) === 0 && Math.abs(dy) === 0) continue;
+                            if (radius === 2 && Math.abs(dx) <= 1 && Math.abs(dy) <= 1) continue;
 
                             const cellX = x + dx * gridSize;
                             const cellY = y + dy * gridSize;
 
-                            // Only draw if within canvas bounds
                             if (cellX >= 0 && cellX < rect.width && cellY >= 0 && cellY < rect.height) {
                                 ctx.beginPath();
                                 ctx.rect(cellX, cellY, gridSize, gridSize);
@@ -240,42 +232,27 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
                 });
             }
 
-            requestAnimationFrame(draw);
+            animationFrameId = requestAnimationFrame(draw);
         };
-
-        // Initial setup for beams to avoid a blank frame
-        // This is where you would call draw once or set up a listener for resize if needed
 
         draw();
 
         return () => {
             if (interactive) window.removeEventListener("mousemove", updateMouse);
+            cancelAnimationFrame(animationFrameId);
         };
     }, [
-        gridSize,
-        beamColor,
-        darkBeamColor,
-        gridColor,
-        darkGridColor,
-        beamSpeed,
-        beamCount,
-        extraBeamCount,
-        beamThickness,
-        glowIntensity,
-        beamGlow,
-        isDarkMode,
-        idleSpeed,
-        interactive,
+        gridSize, beamColor, darkBeamColor, gridColor, darkGridColor,
+        beamSpeed, beamCount, extraBeamCount, beamThickness, glowIntensity,
+        beamGlow, isDarkMode, idleSpeed, interactive
     ]);
 
-    // --- Component JSX ---
     return (
         <div
             ref={containerRef}
             className={`relative ${className || ""}`}
             {...props}
             style={{
-                // This ensures it becomes an absolute, full-covering background
                 position: asBackground ? "absolute" : "relative",
                 top: asBackground ? 0 : undefined,
                 left: asBackground ? 0 : undefined,
@@ -287,11 +264,8 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
         >
             <canvas
                 ref={canvasRef}
-                // pointer-events-none is CRUCIAL for letting mouse events pass to the content above.
-                className={`absolute top-0 left-0 w-full h-full z-0 pointer-events-none`}
+                className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
             />
-
-
             {showFade && (
                 <div
                     className="pointer-events-none absolute inset-0 bg-white dark:bg-black"
@@ -301,8 +275,6 @@ const BeamGridBackground: React.FC<BeamGridBackgroundProps> = ({
                     }}
                 />
             )}
-
-            {/* Content children are only rendered if asBackground is explicitly false */}
             {!asBackground && (
                 <div className="relative z-0 w-full h-full">{children}</div>
             )}

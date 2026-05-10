@@ -1,4 +1,3 @@
-"use client";
 import React, { useRef, useEffect, useState } from "react";
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 
@@ -191,7 +190,7 @@ const ThreeDHoverGallery: React.FC<ThreeDHoverGalleryProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-center min-h-screen w-full overflow-hidden bg-background",
+        "flex items-center justify-center min-h-[550px] w-full overflow-hidden bg-background",
         className
       )}
       style={backgroundColor ? { backgroundColor, ...style } : style}

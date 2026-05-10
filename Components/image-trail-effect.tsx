@@ -1,6 +1,6 @@
 // @ts-nocheck
 "use client";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { createRef, ReactNode, useRef } from "react";
 
 interface MouseTrailProps {

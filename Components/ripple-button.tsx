@@ -15,10 +15,13 @@ const RippleButton: React.FC<RippleButtonProps> = ({
   width,
   height,
 }) => {
+  // Use a default circle color if none is provided
+  const defaultCircleColor = circleColor || "#173eff";
+
   return (
     <>
       <button
-        className={`ripple-btn text-white dark:text-black dark:bg-white bg-black`}
+        className={`ripple-btn bg-gray-500 !text-black  `}
         style={{
           backgroundColor: bgColor,
           width: width,
@@ -33,9 +36,10 @@ const RippleButton: React.FC<RippleButtonProps> = ({
         <span className="text">{text}</span>
       </button>
 
+      {/* The styled-jsx block, which requires the @types/styled-jsx package */}
       <style jsx>{`
         .ripple-btn {
-          font-family: Arial, Helvetica, sans-serif;
+          
           font-weight: bold;
           padding: 1em 2em;
           border: none;
@@ -47,8 +51,11 @@ const RippleButton: React.FC<RippleButtonProps> = ({
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
+          /* Ensure text color is set by props if background is set */
+          color: ${bgColor ? 'white' : 'inherit'};
         }
 
+        /* Target all circle spans */
         .ripple-btn span:not(:nth-child(6)) {
           position: absolute;
           left: 50%;
@@ -56,7 +63,8 @@ const RippleButton: React.FC<RippleButtonProps> = ({
           transform: translate(-50%, -50%);
           height: 30px;
           width: 30px;
-          background-color: ${circleColor || "#173eff"};
+          /* Use the prop value for background color */
+          background-color: ${defaultCircleColor};
           border-radius: 50%;
           transition: 0.6s ease;
           pointer-events: none;
@@ -67,6 +75,7 @@ const RippleButton: React.FC<RippleButtonProps> = ({
           z-index: 1;
         }
 
+        /* Initial offset positioning for the circles */
         .ripple-btn span:nth-child(1) {
           transform: translate(-3.3em, -4em);
         }
@@ -87,6 +96,7 @@ const RippleButton: React.FC<RippleButtonProps> = ({
           transform: translate(3.5em, -3.8em);
         }
 
+        /* Hover effect: Scale circles up to create the ripple illusion */
         .ripple-btn:hover span:not(:nth-child(6)) {
           transform: translate(-50%, -50%) scale(4);
           transition: 1.5s ease;

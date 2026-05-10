@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import createGlobe from "cobe";
-import { cn } from "../../lib/utils"; // Assuming cn utility is available for Tailwind classes
+import { cn } from "../lib/utils"; // Assuming cn utility is available for Tailwind classes
 
 // Utility function to convert a hex color string to a normalized RGB array
 // Handles #RGB and #RRGGBB formats.

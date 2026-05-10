@@ -144,7 +144,7 @@ const BeamCircle: React.FC<BeamCircleProps> = ({
                   >
                     {React.cloneElement(orbit.icon as React.ReactElement, {
                       size: orbit.iconSize * 0.6,
-                    })}
+                    } as any)}
                   </motion.div>
                 </div>
               </motion.div>
@@ -158,7 +158,7 @@ const BeamCircle: React.FC<BeamCircleProps> = ({
 
       <style jsx global>{`
         body {
-          font-family: "Inter", sans-serif;
+          
           margin: 0;
         }
       `}</style>

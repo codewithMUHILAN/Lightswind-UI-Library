@@ -57,7 +57,7 @@ function DragOrderItem({ item }: { item: DragItem }) {
       dragListener={false}
       dragControls={dragControls}
       className="flex justify-between items-start p-4 bg-background 
-     text-foreground rounded-xl border border-border shadow-sm"
+     text-foreground rounded-xl border shadow-sm"
     >
       <div className="flex flex-col space-y-1 flex-1">
         <h2 className="text-lg font-semibold">{item.title}</h2>
@@ -68,9 +68,9 @@ function DragOrderItem({ item }: { item: DragItem }) {
             href={item.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-block text-xs text-blue-500 hover:underline"
+            className="mt-2 inline-block text-xs text-primarylw hover:underline"
           >
-            More Info
+            View details about {item.title}
           </a>
         )}
       </div>

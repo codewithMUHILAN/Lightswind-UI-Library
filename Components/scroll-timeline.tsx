@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect, useRef } from "react";
 import {
   motion,
@@ -7,7 +6,7 @@ import {
   useSpring,
   MotionValue,
 } from "framer-motion";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { Card, CardContent } from "./card";
 import { Calendar } from "lucide-react";
 

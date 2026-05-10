@@ -2,9 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { Copy, Terminal, Check } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { motion } from "framer-motion";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import dynamic from "next/dynamic";
+const SyntaxHighlighter = dynamic(
+  () => import("react-syntax-highlighter").then((mod) => mod.Prism),
+  { ssr: false }
+) as React.ComponentType<any>;
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 type TerminalCardProps = {
@@ -59,7 +63,7 @@ const TerminalCard: React.FC<TerminalCardProps> = ({ command, language = "tsx", 
       {/* Header */}
       <div className="flex items-center justify-between px-3 py-2 bg-gray-100 dark:bg-[#202425] rounded-t-lg text-sm font-semibold text-gray-700 dark:text-gray-400">
         <div className="flex items-center gap-2">
-          <Terminal className="w-4 h-4 text-blue-500" />
+          <Terminal className="w-4 h-4 text-primarylw" />
           Terminal
         </div>
         <button
@@ -72,7 +76,7 @@ const TerminalCard: React.FC<TerminalCardProps> = ({ command, language = "tsx", 
       </div>
 
       {/* Content with Syntax Highlighting */}
-      <div className="rounded-b-lg text-sm font-mono p-3 bg-black text-white dark:bg-black max-h-[300px] overflow-auto">
+      <div className="rounded-b-lg text-sm  p-3 bg-black text-white dark:bg-black max-h-[300px] overflow-auto">
         {isComplete ? (
           <SyntaxHighlighter
             language={language}

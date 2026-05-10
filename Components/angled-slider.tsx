@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useAnimation, useMotionValue, animate, Variants } from "framer-motion";
-import { cn } from "@/app/component2/utils";
+import { cn } from "../lib/utils";
 import Image from "next/image";
 
 interface AngledSliderProps {

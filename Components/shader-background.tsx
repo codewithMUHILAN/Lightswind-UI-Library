@@ -91,7 +91,7 @@ function ShaderBackground({
   backdropBlurAmount = "sm",
   color = "#07eae6ff", // Default purple color
   className = "",
-}: ShaderBackgroundProps): JSX.Element {
+}: ShaderBackgroundProps): React.ReactNode {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);

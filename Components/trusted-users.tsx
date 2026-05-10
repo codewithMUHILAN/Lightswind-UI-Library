@@ -1,7 +1,9 @@
 import React from "react";
 import { Star } from "lucide-react";
-import { cn } from "../../lib/utils"; // Adjust path if needed
+import { cn } from "../lib/utils";
 import { CountUp } from "./count-up";
+import Image from "next/image";
+import Link from "next/link";
 
 interface TrustedUsersProps {
   avatars: string[];
@@ -34,16 +36,16 @@ export const TrustedUsers: React.FC<TrustedUsersProps> = ({
         {avatars.map((src, i) => (
           <div
             key={i}
-            className={`w-10 h-10 rounded-full overflow-hidden ring-1 ring-offset-2 ring-offset-black ${
-              ringColors[i] || "ring-blue-900"
-            }`}
+            className={`w-10 h-10 rounded-full overflow-hidden ring-1 ring-offset-2 ring-offset-black ${ringColors[i] || "ring-blue-900"
+              }`}
           >
-            <img
+            <Image
               src={src}
               alt={`Avatar ${i + 1}`}
+              width={40}
+              height={40}
               className="w-full h-full object-cover"
-              loading="lazy" // Add lazy loading
-              decoding="async" // Suggest asynchronous decoding
+              loading="lazy"
             />
           </div>
         ))}
@@ -52,10 +54,10 @@ export const TrustedUsers: React.FC<TrustedUsersProps> = ({
       <div className="flex flex-col items-start gap-1">
         <div className={`flex gap-1 ${starColorClass}`}>
           {Array.from({ length: rating }).map((_, i) => (
-            <Star key={i} fill="currentColor" className="w-4 h-4" />
+            <Star key={i} fill="currentColor" className="w-4 h-4" aria-hidden="true" />
           ))}
         </div>
-        <span className="text-foreground text-xs md:text-md font-medium">
+        <div className="text-foreground text-xs md:text-md font-medium flex items-center flex-wrap">
           {caption}
           <CountUp
             value={totalUsersText}
@@ -65,8 +67,10 @@ export const TrustedUsers: React.FC<TrustedUsersProps> = ({
             suffix="+"
             colorScheme="gradient"
           />
-          <a className="underline text-primarylw dark:text-greedy" href="/pricing">Pro users</a>
-        </span>
+          <Link href="/pricing" className="underline text-primarylw dark:text-primarylw ml-1">
+            Pro users
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,7 @@
-"use client";
 
 import * as React from "react";
 import { Check, ChevronRight, Circle } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 
 type ContextMenuContextValue = {
   open: boolean;
@@ -34,7 +33,7 @@ const ContextMenu = ({ children }: ContextMenuProps) => {
   const [position, setPosition] = React.useState({ x: 0, y: 0 });
   const [subMenuOpen, setSubMenuOpen] = React.useState<Record<string, boolean>>({});
   const [activeItem, setActiveItem] = React.useState<string | null>(null);
-  
+
   return (
     <ContextMenuContext.Provider
       value={{
@@ -53,18 +52,18 @@ const ContextMenu = ({ children }: ContextMenuProps) => {
   );
 };
 
-interface ContextMenuTriggerProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ContextMenuTriggerProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 const ContextMenuTrigger = React.forwardRef<HTMLDivElement, ContextMenuTriggerProps>(
   ({ children, ...props }, ref) => {
     const { setOpen, setPosition } = useContextMenu();
-    
+
     const handleContextMenu = (e: React.MouseEvent) => {
       e.preventDefault();
       setPosition({ x: e.clientX, y: e.clientY });
       setOpen(true);
     };
-    
+
     return (
       <div ref={ref} onContextMenu={handleContextMenu} {...props}>
         {children}
@@ -82,13 +81,15 @@ const ContextMenuPortal = ({ children }: ContextMenuPortalProps) => {
   return <>{children}</>;
 };
 
-interface ContextMenuContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ContextMenuContentProps extends React.HTMLAttributes<HTMLDivElement> { }
+
+import { motion, AnimatePresence } from "framer-motion";
 
 const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentProps>(
   ({ className, children, ...props }, ref) => {
     const { open, position, setOpen } = useContextMenu();
     const contentRef = React.useRef<HTMLDivElement>(null);
-    
+
     React.useEffect(() => {
       if (open) {
         const handleOutsideClick = (e: MouseEvent) => {
@@ -96,35 +97,50 @@ const ContextMenuContent = React.forwardRef<HTMLDivElement, ContextMenuContentPr
             setOpen(false);
           }
         };
-        
+
         document.addEventListener("mousedown", handleOutsideClick);
         return () => {
           document.removeEventListener("mousedown", handleOutsideClick);
         };
       }
     }, [open, setOpen]);
-    
-    if (!open) return null;
-    
+
     return (
-      <ContextMenuPortal>
-        <div
-          ref={ref}
-          style={{
-            position: "fixed",
-            top: `${position.y}px`,
-            left: `${position.x}px`,
-            zIndex: 9999
-          }}
-          className={cn(
-            "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md",
-            className
-          )}
-          {...props}
-        >
-          {children}
-        </div>
-      </ContextMenuPortal>
+      <AnimatePresence>
+        {open && (
+          <ContextMenuPortal>
+            <motion.div
+              ref={(node) => {
+                if (typeof ref === "function") ref(node);
+                else if (ref) (ref as any).current = node;
+                (contentRef as any).current = node;
+              }}
+              initial={{ opacity: 0, scale: 0.3, transformOrigin: "top left" }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.3 }}
+              transition={{
+                type: "spring",
+                damping: 20,
+                stiffness: 300,
+                opacity: { duration: 0.15 }
+              }}
+              style={{
+                position: "fixed",
+                top: `${position.y}px`,
+                left: `${position.x}px`,
+                zIndex: 9999
+              }}
+              className={cn(
+                "z-50 min-w-[10rem] overflow-hidden rounded-xl border bg-background/95 backdrop-blur-xl p-1 text-popover-foreground shadow-2xl animate-in fade-in zoom-in-95 data-[side=bottom]:slide-in-from-top-2",
+                className
+              )}
+              {...(props as any)}
+            >
+              {children}
+            </motion.div>
+          </ContextMenuPortal>
+        )}
+      </AnimatePresence>
     );
   }
 );

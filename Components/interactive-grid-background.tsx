@@ -23,10 +23,10 @@ export interface InteractiveGridBackgroundProps
 
 const InteractiveGridBackground: React.FC<InteractiveGridBackgroundProps> = ({
   gridSize = 50,
-  gridColor = "#e5e7eb",
-  darkGridColor = "#27272a",
-  effectColor = "rgba(0, 0, 0, 0.5)",
-  darkEffectColor = "rgba(255, 255, 255, 0.5)",
+  gridColor = "#cbcbcb",
+  darkGridColor = "#303030",
+  effectColor = "rgba(0, 0, 0, 0.6)",
+  darkEffectColor = "rgba(255, 255, 255, 0.6)",
   trailLength = 3,
   width,
   height,
@@ -53,12 +53,7 @@ const InteractiveGridBackground: React.FC<InteractiveGridBackgroundProps> = ({
   // Detect dark mode
   useEffect(() => {
     const updateDarkMode = () => {
-      const prefersDark =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setIsDarkMode(
-        document.documentElement.classList.contains("dark") || prefersDark
-      );
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
     };
     updateDarkMode();
     const observer = new MutationObserver(() => updateDarkMode());

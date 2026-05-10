@@ -1,6 +1,5 @@
-"use client";
 import * as React from "react";
-import { cn } from "../../lib/utils"; // Ensure this utility is present or replace with className logic
+import { cn } from "../lib/utils"; // Ensure this utility is present or replace with className logic
 import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion"; // Import HTMLMotionProps
 
 interface HoverCardContextType {
@@ -138,10 +137,14 @@ const HoverCardContent = React.forwardRef<HTMLDivElement, HoverCardContentProps>
         {open && ( // Conditionally render the motion.div based on `open` state
           <motion.div
             ref={ref}
-            initial={{ opacity: 0, scale: 0.95, y: -5 }} // Start invisible, slightly smaller, and slightly up
-            animate={{ opacity: 1, scale: 1, y: 0 }}       // Fade in, grow to full size, move to natural position
-            exit={{ opacity: 0, scale: 0.95, y: -5 }}      // Fade out, shrink, and move up on exit
-            transition={{ duration: 0.2, ease: "easeOut" }} // Smooth transition
+            initial={{ opacity: 0, scale: 0.9, y: -4 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: -4 }}
+            transition={{
+              type: "spring",
+              damping: 20,
+              stiffness: 300
+            }}
             className={cn(
               `absolute z-50 w-64 rounded-md border   bg-white
                p-4 text-black shadow-md`,

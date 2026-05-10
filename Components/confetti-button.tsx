@@ -1,6 +1,5 @@
-"use client";
 import React, { useEffect, useState, useRef } from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../lib/utils";
 import { Loader2 } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -42,7 +41,7 @@ const confettiButtonVariants = cva(
         outline: "border bg-background hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        gradient: "bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700",
+        gradient: "bg-gradient-to-r from-primarylw to-purple-600 text-white hover:from-primarylw hover:to-purple-700",
       },
       size: {
         default: "h-10 px-4 py-2 rounded-md",
