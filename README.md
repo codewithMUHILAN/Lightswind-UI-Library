@@ -331,6 +331,17 @@ Lightswind UI is built using CSS variables, allowing you to change your entire a
 }
 ```
 
+## 📜 Changelog
+
+### v3.1.29
+*   ✨ **Meta-Category & Category Installation**: Introduced meta-category installations (`professional` and `animated`) and category-level commands:
+    *   Initialize a project with only professional elements: `npx lightswind@latest init --professional` (or `-p`).
+    *   Initialize a project with only animated elements: `npx lightswind@latest init --animated` (or `-a`).
+    *   Add entire categories on-the-fly: `npx lightswind@latest add --category [category]` (supports aliases like `utilities`, `form-controls`, `3d`, `ui`).
+*   🔄 **Deep Recursive Dependency Resolution**: Bulk and category installs now recursively traverse and resolve internal component imports (e.g., if a component in a category uses `border-beam` internally, the CLI automatically ensures `border-beam` is fetched and installed).
+*   🚫 **Blocks Isolation**: Categorized blocks are excluded from standard installation commands.
+*   🛠️ **Normalization & Aliasing**: Smart normalization of category names and plural/hyphenated arguments.
+
 ## 📄 License
 Licensed under the [MIT License](https://github.com/codewithMUHILAN/Lightswind-UI-Library/blob/main/LICENSE).
 
