@@ -82,13 +82,25 @@ export default function ImageTrailEffect({
     }
   };
 
+  const handleMouseLeave = () => {
+    // Deactivate all images when cursor leaves the container
+    imageRefs.current.forEach((ref) => {
+      if (ref.current) {
+        ref.current.dataset.status = "inactive";
+      }
+    });
+    // Reset position tracker so next entry restarts cleanly
+    lastPosition = { x: 0, y: 0 };
+  };
+
   return (
     <section
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       onTouchMove={(e) => handleMouseMove(e.touches[0])}
       ref={wrapperRef}
       className={cn(
-        `grid place-content-center h-[600px] w-full bg-background  text-foreground
+        `grid place-content-center w-full bg-background text-foreground
         relative overflow-hidden rounded-lg`,
         containerClassName
       )}
@@ -111,3 +123,4 @@ export default function ImageTrailEffect({
     </section>
   );
 }
+

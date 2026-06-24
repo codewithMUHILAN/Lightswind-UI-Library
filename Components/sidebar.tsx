@@ -106,7 +106,7 @@ export function Sidebar({ className, children, ...props }: SidebarProps) {
   return (
     <div
       className={cn(
-        "h-full min-h-screen z-40 w-64 relative",
+        "h-full min-h-screen z-40 lg:z-10 w-64 shrink-0 relative",
         "bg-background border-r border-border/40 shadow-sm",
         "fixed lg:sticky top-0",
         expanded ? "left-0" : "md:left-0 -left-full",
@@ -333,10 +333,10 @@ export function SidebarMenuButton({
   const content = (
     <div
       className={cn(
-        "relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm  outline-none ",
+        "relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm outline-none",
         "hover:bg-secondary/50 active:scale-[0.98]",
         isActive
-          ? "text-primary font-bold bg-primary/5 shadow-sm ring-1 ring-primary/10"
+          ? "text-primarylw font-bold"
           : "text-muted-foreground hover:text-foreground",
         !expanded && "justify-center px-0 py-3",
         className
@@ -348,7 +348,7 @@ export function SidebarMenuButton({
       {isActive && (
         <motion.div
           layoutId="active-indicator"
-          className="absolute inset-0 rounded-lg bg-primary/5 dark:bg-primary/10 border-l-2 border-primary z-0"
+          className="absolute inset-0 rounded-lg bg-[color-mix(in_srgb,var(--primarylw)_8%,transparent)] dark:bg-[color-mix(in_srgb,var(--primarylw)_12%,transparent)] border border-[color-mix(in_srgb,var(--primarylw)_25%,transparent)] z-0"
           initial={false}
           transition={{
             type: "spring",
@@ -373,7 +373,7 @@ export function SidebarMenuButton({
         "relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm outline-none group",
         "hover:bg-secondary/50 active:scale-[0.98]",
         isActive
-          ? "text-primary font-bold bg-primary/5 shadow-sm ring-1 ring-primary/10"
+          ? "text-primarylw font-bold"
           : "text-muted-foreground hover:text-foreground",
         !expanded && "justify-center px-0 py-3",
         className,
@@ -389,7 +389,7 @@ export function SidebarMenuButton({
           {isActive && (
             <motion.div
               layoutId="active-indicator"
-              className="absolute inset-0 rounded-lg bg-primary/5 dark:bg-primary/10 border-l-2 border-primary z-0"
+              className="absolute inset-0 rounded-lg bg-[color-mix(in_srgb,var(--primarylw)_8%,transparent)] dark:bg-[color-mix(in_srgb,var(--primarylw)_12%,transparent)] border border-[color-mix(in_srgb,var(--primarylw)_25%,transparent)] z-0"
               initial={false}
               transition={{
                 type: "spring",

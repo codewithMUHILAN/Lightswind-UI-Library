@@ -135,6 +135,10 @@ const RadioGroupItem = React.forwardRef<HTMLDivElement, RadioGroupItemProps>(
               border-gray-300 dark:border-gray-800 ring-foreground transition-all duration-200`,
               checked && "border-foreground/80 dark:border-foreground/80",
               focused && "ring-2 ring-ring ring-offset-2",
+              "[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10",
+              checked 
+                ? "[.lw-3d_&]:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),inset_0_-1px_0_0_rgba(0,0,0,0.15),0_1px_1px_0_rgba(0,0,0,0.05)]" 
+                : "[.lw-3d_&]:shadow-[inset_0_1px_2px_0_rgba(0,0,0,0.15)]",
               props.disabled
                 ? "cursor-not-allowed opacity-50"
                 : "cursor-pointer",
@@ -146,6 +150,7 @@ const RadioGroupItem = React.forwardRef<HTMLDivElement, RadioGroupItemProps>(
             <div
               className={cn(
                 "absolute rounded-full bg-primary scale-0 transition-transform duration-200 ease-in-out",
+                "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white/15 [.lw-3d_&]:to-black/15",
                 checked && "scale-100",
                 itemSize.inner
               )}

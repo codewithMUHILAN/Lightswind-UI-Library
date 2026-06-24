@@ -1550,7 +1550,7 @@ export default function SmokeyCursor({
   ]);
 
   return (
-    <div className="fixed top-0 left-0 z-50 pointer-events-none w-full h-full cursor-none">
+    <div className="fixed top-0 left-0 z-[99999] pointer-events-none w-full h-full cursor-none">
       <canvas
         ref={canvasRef}
         id="fluid"

@@ -295,7 +295,7 @@ const ParticleOrbitEffect: React.FC<ParticleOrbitEffectProps> = ({
   }
 
   return (
-    <div className={cn("fixed top-0 left-0 z-50 pointer-events-none w-full h-full", className)}>
+    <div className={cn("fixed top-0 left-0 z-[99999] pointer-events-none w-full h-full", className)}>
       <canvas
         ref={canvasRef}
         className="w-screen h-screen block"

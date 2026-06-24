@@ -273,7 +273,10 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps & Omit<React.HTMLAtt
         <div
           ref={trackRef}
           className={cn(
-            "relative h-2 w-full grow overflow-hidden rounded-full bg-secondary",
+            "relative h-2 w-full grow overflow-hidden rounded-full bg-secondary transition-all duration-300",
+            "[.lw-3d_&]:shadow-[inset_0_1.5px_3px_0_rgba(0,0,0,0.15),0_1px_1px_0_rgba(255,255,255,0.05)]",
+            "[.dark.lw-3d_&]:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.3)]",
+            "[.lw-3d_&]:border [.lw-3d_&]:border-black/10 [.dark.lw-3d_&]:border-white/10",
             trackClassName
           )}
           onClick={handleTrackClick}
@@ -281,7 +284,10 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps & Omit<React.HTMLAtt
           {/* Render the filled track for single-thumb sliders */}
           {values.length === 1 && (
             <div
-              className="absolute h-full bg-primary rounded-full transition-all duration-100 ease-out"
+              className={cn(
+                "absolute h-full bg-primary rounded-full transition-all duration-100 ease-out",
+                "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-primary [.lw-3d_&]:to-primary/90"
+              )}
               style={{
                 left: 0,
                 width: `${getValuePercent(values[0])}%`
@@ -292,7 +298,10 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps & Omit<React.HTMLAtt
           {/* Render the range for multi-thumb sliders */}
           {values.length > 1 && (
             <div
-              className="absolute h-full bg-primary rounded-full transition-all duration-100 ease-out"
+              className={cn(
+                "absolute h-full bg-primary rounded-full transition-all duration-100 ease-out",
+                "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-primary [.lw-3d_&]:to-primary/90"
+              )}
               style={{
                 left: `${getValuePercent(Math.min(...values))}%`,
                 width: `${getValuePercent(Math.max(...values)) - getValuePercent(Math.min(...values))}%`
@@ -328,13 +337,17 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps & Omit<React.HTMLAtt
           <div
             key={`thumb-${index}`}
             className={cn(
-              "absolute block h-5 w-5 rounded-full border-2 border-primary bg-background shadow-sm",
+              "absolute block h-5 w-5 rounded-full border-2 border-primary bg-background shadow-sm transition-all",
               // Key change: Optimized transition for immediate feedback
-              "transition-all duration-[&lsqb;50ms&rsqb;] ease-out", // Very short transition for responsiveness
+              "duration-[&lsqb;50ms&rsqb;] ease-out", // Very short transition for responsiveness
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               "hover:scale-110",
               draggingIndex === index && "scale-110 cursor-grabbing", // Apply dragging style
               disabled ? "cursor-not-allowed" : "cursor-grab",
+              "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white [.lw-3d_&]:to-zinc-50/95 [.dark.lw-3d_&]:from-zinc-800 [.dark.lw-3d_&]:to-zinc-900",
+              "[.lw-3d_&]:border-black/15 [.dark.lw-3d_&]:border-white/15",
+              "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.45),0_1.5px_2px_0_rgba(0,0,0,0.06),0_1px_1px_0_rgba(0,0,0,0.04)]",
+              "[.dark.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.15),0_1.5px_2px_0_rgba(0,0,0,0.3)]",
               thumbClassName
             )}
             style={{

@@ -202,7 +202,7 @@ void main(){
   vec3 bro = ro;
   vec3 brd = rd;
 
-  vec3 col = vec3(0.0125, 0.0, 0.025);
+  vec3 col = vec3(0.0);
 
   // multiple rays to create many filaments
   for (float j = 1.0; j < NUM_RAYS + 1.0; j++){
@@ -234,7 +234,8 @@ void main(){
   // final tone mapping & intensity
   col *= (1.0 + uIntensity * 0.6);
   col = pow(clamp(col, 0.0, 10.0), vec3(1.5));
-  fragColor = vec4(col * 1.3, 1.0);
+  float alpha = clamp(max(col.r, max(col.g, col.b)), 0.0, 1.0);
+  fragColor = vec4(col * 1.3, alpha);
 }
 `;
 

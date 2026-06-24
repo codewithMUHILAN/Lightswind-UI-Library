@@ -18,43 +18,90 @@ uniform float iTime;
 uniform vec2 iMouse;
 uniform float iMouseStrength;
 
-uniform vec3 u_color1;
-uniform vec3 u_color2;
-uniform vec3 u_color3;
-uniform float u_has_custom_colors;
+// Colors
+uniform vec3 uColor1;
+uniform vec3 uColor2;
+uniform vec3 uColor3;
+
+// Configurations
+uniform float uSpeed;
+uniform float uScale;
+uniform float uDensity;
+uniform float uInteractive;
+
+// Hash function
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+// 2D Noise
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+               mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+}
+
+// Fractal Brownian Motion (FBM) with rotation to create cosmic swirls
+float fbm(vec2 p) {
+    float value = 0.0;
+    float amplitude = 0.55;
+    float frequency = 1.0;
+    mat2 rot = mat2(0.8, 0.6, -0.6, 0.8);
+    for (int i = 0; i < 5; i++) {
+        value += amplitude * noise(p * frequency);
+        p = rot * p;
+        frequency *= 2.0;
+        amplitude *= 0.5;
+    }
+    return value;
+}
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-    vec2 uv = (2.0 * fragCoord - iResolution.xy) / min(iResolution.x, iResolution.y);
+    vec2 uv = fragCoord.xy / iResolution.xy;
+    vec2 p = (2.0 * fragCoord.xy - iResolution.xy) / min(iResolution.x, iResolution.y);
+    
+    // Smooth interactive mouse gravity / swirl force
     vec2 mouseUV = (2.0 * iMouse - iResolution.xy) / min(iResolution.x, iResolution.y);
+    float mouseDist = length(p - mouseUV);
+    
+    float influence = exp(-mouseDist * mouseDist * 2.5) * iMouseStrength * uInteractive;
+    
+    // Swirl rotation matrix
+    float angle = influence * 2.2 * sin(iTime * 1.2);
+    mat2 swirl = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+    p = swirl * p;
+    
+    // Displace coordinates towards mouse (gravitational pull)
+    p -= (p - mouseUV) * influence * 0.12;
 
-    float dist = length(uv - mouseUV);
-    vec2 dir = (uv - mouseUV) / (dist + 0.0001);
+    // Nebula time flow
+    float t = iTime * uSpeed * 0.15;
+    
+    // Double domain warping FBM to simulate detailed cosmic gas clouds
+    vec2 q = vec2(fbm(p * uScale + vec2(t, t * 0.5)),
+                  fbm(p * uScale + vec2(t * 0.2, t)));
+                  
+    vec2 r = vec2(fbm(p * uScale + 4.0 * q + vec2(1.7, 9.2) + t * 0.15),
+                  fbm(p * uScale + 4.0 * q + vec2(8.3, 2.8) + t * 0.12));
+                  
+    float f = fbm(p * uScale + 4.0 * r);
+    
+    // Interpolate cosmic color gas layers
+    vec3 col = mix(uColor1, uColor2, clamp(f * f * 4.0, 0.0, 1.0));
+    col = mix(col, uColor3, clamp(length(q), 0.0, 1.0));
+    
+    // High-energy core highlights (cosmic dust stars)
+    float stars = pow(f, 3.5) * uDensity * 0.75;
+    col += vec3(stars * 1.2, stars * 1.0, stars * 1.3);
+    
+    // Vignette
+    float vignette = 1.0 - dot(uv - 0.5, uv - 0.5) * 1.3;
+    col *= max(0.0, vignette);
 
-    // Wave distortion radiating outwards from mouse position
-    float influence = exp(-dist * dist * 3.5) * iMouseStrength;
-    uv += dir * influence * 0.2 * sin(dist * 10.0 - iTime * 4.0);
-
-    for(float i = 1.0; i < 8.0; i++) {
-        uv.y += i * 0.1 / i * 
-            sin(uv.x * i * i + iTime * 0.5) * sin(uv.y * i * i + iTime * 0.5);
-    }
-
-    vec3 defaultCol;
-    defaultCol.r = uv.y - 0.1;
-    defaultCol.g = uv.y + 0.3;
-    defaultCol.b = uv.y + 0.95;
-
-    float t = clamp(uv.y + 0.5, 0.0, 1.0);
-    vec3 customCol = mix(u_color1, u_color2, t);
-    customCol = mix(customCol, u_color3, clamp(uv.y, 0.0, 1.0));
-
-    vec3 col = mix(defaultCol, customCol, clamp(u_has_custom_colors, 0.0, 1.0));
-
-    // Subtle glow highlight around mouse position
-    float glow = exp(-dist * dist * 5.0) * iMouseStrength;
-    vec3 glowColor = mix(vec3(0.5, 0.8, 1.0), u_color2, clamp(u_has_custom_colors, 0.0, 1.0));
-    col += glowColor * glow * 0.35;
-
+    // Final color grading
+    col = clamp(col, 0.0, 1.0);
     fragColor = vec4(col, 1.0);
 }
 
@@ -65,11 +112,14 @@ void main() {
 
 export type BlurSize = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
-interface WaveBackgroundProps {
+interface NebulaFlowProps {
+  colors?: string[];
+  speed?: number;
+  scale?: number;
+  density?: number; // Cosmic dust star density factor
+  interactive?: boolean;
   backdropBlurAmount?: BlurSize;
   className?: string;
-  colors?: string[];
-  interactive?: boolean;
 }
 
 const blurClassMap: Record<BlurSize, string> = {
@@ -96,18 +146,23 @@ const hexToRgb = (hex: string): [number, number, number] => {
   }
 };
 
-function WaveBackground({
-  backdropBlurAmount = "sm",
-  className = "",
-  colors,
+const defaultColors = ["#0c061a", "#290d54", "#ec4899"]; // Deep space pink-purple nebula colors
+
+const NebulaFlow: React.FC<NebulaFlowProps> = ({
+  colors = defaultColors,
+  speed = 1.0,
+  scale = 1.0,
+  density = 1.0,
   interactive = true,
-}: WaveBackgroundProps): React.ReactNode {
+  backdropBlurAmount = "none",
+  className = "",
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef);
   const visibilityRef = useRef(true);
 
-  // Mouse interactivity state refs (zero React re-renders during active mouseMove)
+  // Mouse coords and active strength refs
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const mouseStrengthRef = useRef({ value: 0, targetValue: 0 });
 
@@ -119,15 +174,12 @@ function WaveBackground({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Convert colors prop if specified
-    const hasCustomColors = colors && colors.length > 0;
+    // Parse custom colors
     const colorRGBs: [number, number, number][] = [];
-    if (hasCustomColors) {
-      const parsed = colors!.map(hexToRgb);
-      colorRGBs.push(parsed[0] || [0.0, 0.0, 0.0]);
-      colorRGBs.push(parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
-      colorRGBs.push(parsed[2] || parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
-    }
+    const parsed = colors.map(hexToRgb);
+    colorRGBs.push(parsed[0] || [0.0, 0.0, 0.0]);
+    colorRGBs.push(parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
+    colorRGBs.push(parsed[2] || parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
 
     const gl = canvas.getContext("webgl");
     if (!gl) {
@@ -184,12 +236,16 @@ function WaveBackground({
     const iMouseLocation = gl.getUniformLocation(program, "iMouse");
     const iMouseStrengthLocation = gl.getUniformLocation(program, "iMouseStrength");
 
-    const uColor1Location = gl.getUniformLocation(program, "u_color1");
-    const uColor2Location = gl.getUniformLocation(program, "u_color2");
-    const uColor3Location = gl.getUniformLocation(program, "u_color3");
-    const uHasCustomColorsLocation = gl.getUniformLocation(program, "u_has_custom_colors");
+    const uColor1Location = gl.getUniformLocation(program, "uColor1");
+    const uColor2Location = gl.getUniformLocation(program, "uColor2");
+    const uColor3Location = gl.getUniformLocation(program, "uColor3");
+    
+    const uSpeedLocation = gl.getUniformLocation(program, "uSpeed");
+    const uScaleLocation = gl.getUniformLocation(program, "uScale");
+    const uDensityLocation = gl.getUniformLocation(program, "uDensity");
+    const uInteractiveLocation = gl.getUniformLocation(program, "uInteractive");
 
-    // Track mouse events natively to keep high performance
+    // Native mouse and touch listeners
     const handleMouseMove = (e: MouseEvent) => {
       if (!interactive) return;
       const rect = canvas.getBoundingClientRect();
@@ -247,6 +303,7 @@ function WaveBackground({
         return;
       }
 
+      // Handle resize and match resolution
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       if (canvas.width !== width || canvas.height !== height) {
@@ -259,7 +316,7 @@ function WaveBackground({
 
       const currentTime = (Date.now() - startTime) / 1000;
 
-      // Lerp mouse target values for high class fluid movement
+      // Lerp mouse coordinates and strength for smooth momentum
       const mouse = mouseRef.current;
       const mouseStrength = mouseStrengthRef.current;
 
@@ -272,14 +329,15 @@ function WaveBackground({
       gl.uniform2f(iMouseLocation, mouse.x, mouse.y);
       gl.uniform1f(iMouseStrengthLocation, mouseStrength.value);
 
-      if (hasCustomColors) {
-        gl.uniform1f(uHasCustomColorsLocation, 1.0);
-        gl.uniform3fv(uColor1Location, colorRGBs[0]);
-        gl.uniform3fv(uColor2Location, colorRGBs[1]);
-        gl.uniform3fv(uColor3Location, colorRGBs[2]);
-      } else {
-        gl.uniform1f(uHasCustomColorsLocation, 0.0);
-      }
+      // Set uniforms
+      gl.uniform3fv(uColor1Location, colorRGBs[0]);
+      gl.uniform3fv(uColor2Location, colorRGBs[1]);
+      gl.uniform3fv(uColor3Location, colorRGBs[2]);
+
+      gl.uniform1f(uSpeedLocation, speed);
+      gl.uniform1f(uScaleLocation, scale);
+      gl.uniform1f(uDensityLocation, density);
+      gl.uniform1f(uInteractiveLocation, interactive ? 1.0 : 0.0);
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       animationFrameId = requestAnimationFrame(render);
@@ -301,20 +359,24 @@ function WaveBackground({
       canvas.removeEventListener("touchmove", handleTouchMove);
       canvas.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [colors, interactive]);
+  }, [colors, speed, scale, density, interactive]);
 
-  const finalBlurClass = blurClassMap[backdropBlurAmount] || blurClassMap["sm"];
+  const finalBlurClass = blurClassMap[backdropBlurAmount] || blurClassMap["none"];
 
   return (
-    <div ref={containerRef} className={`w-full max-w-screen h-full overflow-hidden ${className}`}>
+    <div
+      ref={containerRef}
+      className={`absolute inset-0 w-full h-full overflow-hidden ${className}`}
+      style={{ pointerEvents: "none" }}
+    >
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full max-w-screen h-full overflow-hidden"
-        style={{ display: "block" }}
+        className="absolute inset-0 w-full h-full"
+        style={{ display: "block", pointerEvents: "auto" }}
       />
-      <div className={`absolute inset-0 ${finalBlurClass}`} />
+      <div className={`absolute inset-0 pointer-events-none ${finalBlurClass}`} />
     </div>
   );
-}
+};
 
-export default WaveBackground;
+export default NebulaFlow;

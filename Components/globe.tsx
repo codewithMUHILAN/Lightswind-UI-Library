@@ -225,12 +225,10 @@ const Globe: React.FC<GlobeProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-center z-[10] mx-auto",
+        "flex items-center justify-center z-[10] mx-auto w-full h-full max-w-[320px] max-h-[320px]",
         className
       )}
       style={{
-        width: "auto",
-        height: "auto", // Container takes full viewport height
         display: "flex", // Ensure flexbox properties are active for centering
         alignItems: "center",
         justifyContent: "center",
@@ -240,10 +238,8 @@ const Globe: React.FC<GlobeProps> = ({
       <canvas
         ref={canvasRef}
         style={{
-          width: "20rem", // Canvas takes full width of its parent (which is constrained)
-          height: "20rem", // Canvas takes full height of its parent (which is constrained)
-          maxWidth: "auto", // Limit max width to viewport height to ensure square aspect in landscape
-          maxHeight: "auto", // Limit max height to viewport width to ensure square aspect in portrait
+          width: "100%",
+          height: "100%",
           aspectRatio: "1", // Force a 1:1 aspect ratio for the canvas element
           display: "block", // Ensure canvas behaves as a block element
           cursor: "grab", // Default cursor

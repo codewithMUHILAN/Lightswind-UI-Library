@@ -83,7 +83,11 @@ const Command = React.forwardRef<HTMLDivElement, CommandProps>(
           ref={ref}
           className={cn(
             `flex  h-full w-full flex-col overflow-hidden rounded-md
-             bg-popover text-popover-foreground`,
+             bg-popover text-popover-foreground transition-all duration-300`,
+            "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white [.lw-3d_&]:to-zinc-50/95 dark:[.lw-3d_&]:from-zinc-900 dark:[.lw-3d_&]:to-zinc-950",
+            "[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10",
+            "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.45),0_12px_24px_-4px_rgba(0,0,0,0.08),0_4px_12px_-2px_rgba(0,0,0,0.04)]",
+            "dark:[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.15),0_12px_24px_-4px_rgba(0,0,0,0.3),0_4px_12px_-2px_rgba(0,0,0,0.2)]",
             className
           )}
           {...props}
@@ -156,7 +160,11 @@ const CommandDialog: React.FC<CommandDialogProps> = ({
         <DialogContent
           className={cn(
             `overflow-hidden p-0 shadow-2xl border-muted/50 bg-background/95
-             backdrop-blur-xl max-w-3xl z-[70]`,
+             backdrop-blur-xl max-w-3xl z-[70] transition-all duration-300`,
+            "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white [.lw-3d_&]:to-zinc-50/95 dark:[.lw-3d_&]:from-zinc-900 dark:[.lw-3d_&]:to-zinc-950",
+            "[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10",
+            "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.45),0_12px_24px_-4px_rgba(0,0,0,0.08),0_4px_12px_-2px_rgba(0,0,0,0.04)]",
+            "dark:[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.15),0_12px_24px_-4px_rgba(0,0,0,0.3),0_4px_12px_-2px_rgba(0,0,0,0.2)]",
             className
           )}
           onClick={handleDialogClick}

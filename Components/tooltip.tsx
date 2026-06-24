@@ -387,11 +387,38 @@ const TooltipContentDisplay = () => {
   const getVariantClasses = React.useCallback(() => {
     const { variant } = config;
     switch (variant) {
-      case "info": return "bg-primarylw text-white border-[color-mix(in_srgb,var(--primarylw)_20%,transparent)]";
-      case "success": return "bg-emerald-600 text-white border-emerald-400/20";
-      case "warning": return "bg-amber-500 text-black border-amber-400/20";
-      case "error": return "bg-rose-600 text-white border-rose-400/20";
-      default: return "bg-popover/90 text-popover-foreground border border-gray-200 dark:border-gray-800 backdrop-blur-md shadow-xl";
+      case "info":
+        return cn(
+          "bg-primarylw text-white border-[color-mix(in_srgb,var(--primarylw)_20%,transparent)]",
+          "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-blue-500 [.lw-3d_&]:to-blue-600",
+          "[.lw-3d_&]:border-blue-600/30 [.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.25)]"
+        );
+      case "success":
+        return cn(
+          "bg-emerald-600 text-white border-emerald-400/20",
+          "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-emerald-500 [.lw-3d_&]:to-emerald-600",
+          "[.lw-3d_&]:border-emerald-600/30 [.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.25)]"
+        );
+      case "warning":
+        return cn(
+          "bg-amber-500 text-black border-amber-400/20",
+          "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-amber-400 [.lw-3d_&]:to-amber-500",
+          "[.lw-3d_&]:border-amber-500/30 [.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.4)]"
+        );
+      case "error":
+        return cn(
+          "bg-rose-600 text-white border-rose-400/20",
+          "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-rose-500 [.lw-3d_&]:to-rose-600",
+          "[.lw-3d_&]:border-rose-600/30 [.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.25)]"
+        );
+      default:
+        return cn(
+          "bg-popover/90 text-popover-foreground border-gray-200 dark:border-gray-800 backdrop-blur-md shadow-xl",
+          "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white [.lw-3d_&]:to-zinc-50/90",
+          "dark:[.lw-3d_&]:from-zinc-800 dark:[.lw-3d_&]:to-zinc-900",
+          "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.6)]",
+          "dark:[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.15)]"
+        );
     }
   }, [config]);
 
@@ -415,7 +442,11 @@ const TooltipContentDisplay = () => {
         exit="exit"
         variants={getAnimationVariants()}
         className={cn(
-          "rounded-md px-3 py-1.5 text-xs font-medium",
+          "rounded-md px-3 py-1.5 text-xs font-medium border border-transparent",
+          "transition-all duration-300",
+          "[.lw-3d_&]:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_2px_4px_0_rgba(0,0,0,0.06),0_4px_12px_0_rgba(0,0,0,0.08)]",
+          "dark:[.lw-3d_&]:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_2px_4px_0_rgba(0,0,0,0.2),0_4px_12px_0_rgba(0,0,0,0.3)]",
+          "[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10",
           getVariantClasses()
         )}
       >

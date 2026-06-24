@@ -29,7 +29,11 @@ function Calendar({
         props.onMonthChange?.(newMonth)
       }}
       className={cn(
-        "p-4 bg-white/70 dark:bg-black/40 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl",
+        "p-4 bg-white/70 dark:bg-black/40 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl transition-all duration-300",
+        "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white [.lw-3d_&]:to-zinc-50/95 dark:[.lw-3d_&]:from-zinc-900 dark:[.lw-3d_&]:to-zinc-950",
+        "[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10",
+        "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.45),0_12px_24px_-4px_rgba(0,0,0,0.08),0_4px_12px_-2px_rgba(0,0,0,0.04)]",
+        "dark:[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.15),0_12px_24px_-4px_rgba(0,0,0,0.3),0_4px_12px_-2px_rgba(0,0,0,0.2)]",
         className
       )}
       classNames={{
@@ -115,8 +119,12 @@ function Calendar({
             <div className="relative w-full h-full flex items-center justify-center">
               {useLayoutAnim && (
                 <motion.div
-                  layoutId="calendar-selection-pro"
-                  className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/20"
+                  layoutId={props.mode === "multiple" ? undefined : "calendar-selection-pro"}
+                  className={cn(
+                    "absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/20",
+                    "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white/15 [.lw-3d_&]:to-black/15",
+                    "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.3),inset_0_-1.5px_0_0_rgba(0,0,0,0.2),0_2px_4px_0_rgba(0,0,0,0.15)]"
+                  )}
                   transition={{
                     type: "spring",
                     stiffness: 500,
@@ -127,7 +135,11 @@ function Calendar({
               )}
               {/* Fallback solid background for the edges of a range */}
               {isRange && (isRangeStart || isRangeEnd) && (
-                <div className="absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/20 z-0" />
+                <div className={cn(
+                  "absolute inset-0 bg-primary rounded-full shadow-lg shadow-primary/20 z-0",
+                  "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white/15 [.lw-3d_&]:to-black/15",
+                  "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.3),inset_0_-1.5px_0_0_rgba(0,0,0,0.2),0_2px_4px_0_rgba(0,0,0,0.15)]"
+                )} />
               )}
               <motion.button
                 {...validProps}

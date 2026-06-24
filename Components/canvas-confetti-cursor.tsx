@@ -240,7 +240,7 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
       style={
         fillParent
           ? { position: "relative", width: "100%", height: "100%" }
-          : { position: "fixed", inset: 0, pointerEvents: "none", zIndex: 50 }
+          : { position: "fixed", inset: 0, pointerEvents: "none", zIndex: 99999 }
       }
     >
       <canvas
@@ -252,7 +252,7 @@ export const CanvasConfettiCursor: React.FC<CanvasConfettiCursorProps> = ({
           height: "100%",
           pointerEvents: fillParent ? "auto" : "none",
           background: "transparent",
-          zIndex: 50,
+          zIndex: 99999,
           ...style
         }}
         className={className}

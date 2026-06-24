@@ -108,45 +108,59 @@ const ConfettiButton = React.forwardRef<HTMLButtonElement, ConfettiButtonProps>(
 
     // Load confetti script dynamically
     useEffect(() => {
-      if (!window.confetti) {
-        const script = document.createElement("script");
-        script.src =
-          "https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js";
-        script.async = true;
-        script.onload = () => setScriptLoaded(true);
-        document.body.appendChild(script);
-
-        return () => {
-          if (script.parentNode) {
-            script.parentNode.removeChild(script);
-          }
-        };
-      } else {
+      if (window.confetti) {
         setScriptLoaded(true);
+        return;
       }
+
+      const existingScript = document.querySelector(
+        'script[src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"]'
+      ) as HTMLScriptElement;
+
+      if (existingScript) {
+        const handleLoad = () => setScriptLoaded(true);
+        existingScript.addEventListener("load", handleLoad);
+        if (window.confetti) {
+          setScriptLoaded(true);
+        }
+        return () => {
+          existingScript.removeEventListener("load", handleLoad);
+        };
+      }
+
+      const script = document.createElement("script");
+      script.src =
+        "https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js";
+      script.async = true;
+      script.onload = () => setScriptLoaded(true);
+      document.body.appendChild(script);
     }, []);
 
     // Auto confetti on mount if needed
     useEffect(() => {
-      if (scriptLoaded && autoConfetti && window.confetti && buttonRef.current) {
+      if ((scriptLoaded || window.confetti) && autoConfetti && buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
         const x = (rect.left + rect.width / 2) / window.innerWidth;
         const y = (rect.top + rect.height / 2) / window.innerHeight;
 
-        window.confetti({
-          ...confettiOptions,
-          origin: { x, y },
-        });
+        const confettiFn = window.confetti;
+        if (confettiFn) {
+          confettiFn({
+            ...confettiOptions,
+            origin: { x, y },
+          });
+        }
       }
     }, [scriptLoaded, autoConfetti, confettiOptions]);
 
     const triggerConfetti = () => {
-      if (scriptLoaded && window.confetti && buttonRef.current) {
+      const confettiFn = window.confetti;
+      if (confettiFn && buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
         const x = (rect.left + rect.width / 2) / window.innerWidth;
         const y = (rect.top + rect.height / 2) / window.innerHeight;
 
-        window.confetti({
+        confettiFn({
           ...confettiOptions,
           origin: { x, y },
         });
@@ -162,9 +176,7 @@ const ConfettiButton = React.forwardRef<HTMLButtonElement, ConfettiButtonProps>(
         }}
         className={cn(confettiButtonVariants({ variant, size, animation }), className)}
         onClick={(e) => {
-          if (scriptLoaded) {
-            triggerConfetti();
-          }
+          triggerConfetti();
           props.onClick?.(e);
         }}
         onMouseEnter={triggerOnHover ? () => triggerConfetti() : undefined}

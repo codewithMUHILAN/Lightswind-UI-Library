@@ -9,8 +9,10 @@ export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElemen
 }
 
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ className, checked, onCheckedChange, ...props }, ref) => {
-    const [isChecked, setIsChecked] = React.useState(checked || false);
+  ({ className, checked, defaultChecked, onCheckedChange, ...props }, ref) => {
+    const [isChecked, setIsChecked] = React.useState(
+      checked !== undefined ? checked : (defaultChecked || false)
+    );
     const [isAnimating, setIsAnimating] = React.useState(false);
 
     React.useEffect(() => {
@@ -53,12 +55,15 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         />
         <div
           className={cn(
-            "peer h-4 w-4 shrink-0 rounded-sm border   ring-offset-background",
+            "peer h-4 w-4 shrink-0 rounded-sm border ring-offset-background",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             "disabled:cursor-not-allowed disabled:opacity-50",
             "transition-all duration-300 ease-in-out",
             isAnimating && "scale-110",
-            isChecked ? "bg-primary" : "bg-transparent hover:bg-primary/10",
+            "[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10",
+            isChecked 
+              ? "bg-primary [.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white/15 [.lw-3d_&]:to-black/15 [.lw-3d_&]:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),inset_0_-1px_0_0_rgba(0,0,0,0.15),0_1px_1px_0_rgba(0,0,0,0.05)]" 
+              : "bg-transparent hover:bg-primary/10 [.lw-3d_&]:shadow-[inset_0_1px_2px_0_rgba(0,0,0,0.15)]",
             className
           )}
         >

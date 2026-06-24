@@ -18,44 +18,66 @@ uniform float iTime;
 uniform vec2 iMouse;
 uniform float iMouseStrength;
 
-uniform vec3 u_color1;
-uniform vec3 u_color2;
-uniform vec3 u_color3;
-uniform float u_has_custom_colors;
+// Colors
+uniform vec3 uColorNodes;
+
+// Configurations
+uniform float uSpeed;
+uniform float uGridDensity;
+uniform float uWarpStrength;
+uniform float uInteractive;
+
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-    vec2 uv = (2.0 * fragCoord - iResolution.xy) / min(iResolution.x, iResolution.y);
+    // Normalized coordinates (-1 to 1)
+    vec2 uv = (2.0 * fragCoord.xy - iResolution.xy) / min(iResolution.x, iResolution.y);
     vec2 mouseUV = (2.0 * iMouse - iResolution.xy) / min(iResolution.x, iResolution.y);
-
-    float dist = length(uv - mouseUV);
-    vec2 dir = (uv - mouseUV) / (dist + 0.0001);
-
-    // Wave distortion radiating outwards from mouse position
-    float influence = exp(-dist * dist * 3.5) * iMouseStrength;
-    uv += dir * influence * 0.2 * sin(dist * 10.0 - iTime * 4.0);
-
-    for(float i = 1.0; i < 8.0; i++) {
-        uv.y += i * 0.1 / i * 
-            sin(uv.x * i * i + iTime * 0.5) * sin(uv.y * i * i + iTime * 0.5);
+    
+    float mouseDist = length(uv - mouseUV);
+    
+    // Warp coordinates based on cursor proximity (creates a gravity well / indentation)
+    float warpFactor = exp(-mouseDist * mouseDist * 3.0) * iMouseStrength * uWarpStrength * uInteractive;
+    
+    // Displace uv coordinate towards mouse (pulling the grid nodes)
+    vec2 warpedUV = uv;
+    if (mouseDist > 0.001) {
+        warpedUV = uv - normalize(uv - mouseUV) * warpFactor * 0.15;
     }
+    
+    // Scale for grid density
+    vec2 gridSpace = warpedUV * uGridDensity;
+    
+    // Pulse animation of nodes
+    vec2 ipos = floor(gridSpace);
+    vec2 fpos = fract(gridSpace);
+    
+    float pulse = 0.5 + 0.5 * sin(iTime * uSpeed * 2.0 + hash(ipos) * 6.28);
+    
+    float nodeDist = length(fpos - 0.5);
+    float nodeGlow = exp(-nodeDist * nodeDist * 40.0);
+    
+    // Base color of the nodes
+    vec3 col = uColorNodes * nodeGlow * (0.35 + 0.65 * pulse);
+    
+    // Add bright highlight tracking the cursor
+    float mouseGlow = exp(-mouseDist * mouseDist * 8.0) * iMouseStrength * uInteractive;
+    col += uColorNodes * mouseGlow * 0.5;
+    
+    // Dark vignette
+    vec2 centerUV = fragCoord.xy / iResolution.xy;
+    float vignette = 1.0 - dot(centerUV - 0.5, centerUV - 0.5) * 1.5;
+    vignette = max(0.0, vignette);
 
-    vec3 defaultCol;
-    defaultCol.r = uv.y - 0.1;
-    defaultCol.g = uv.y + 0.3;
-    defaultCol.b = uv.y + 0.95;
+    // Calculate alpha transparency based on nodes and cursor glow
+    float alpha = clamp(nodeGlow * (0.35 + 0.65 * pulse) + mouseGlow * 0.5, 0.0, 1.0);
 
-    float t = clamp(uv.y + 0.5, 0.0, 1.0);
-    vec3 customCol = mix(u_color1, u_color2, t);
-    customCol = mix(customCol, u_color3, clamp(uv.y, 0.0, 1.0));
+    col *= vignette;
+    alpha *= vignette;
 
-    vec3 col = mix(defaultCol, customCol, clamp(u_has_custom_colors, 0.0, 1.0));
-
-    // Subtle glow highlight around mouse position
-    float glow = exp(-dist * dist * 5.0) * iMouseStrength;
-    vec3 glowColor = mix(vec3(0.5, 0.8, 1.0), u_color2, clamp(u_has_custom_colors, 0.0, 1.0));
-    col += glowColor * glow * 0.35;
-
-    fragColor = vec4(col, 1.0);
+    fragColor = vec4(col, alpha);
 }
 
 void main() {
@@ -65,11 +87,15 @@ void main() {
 
 export type BlurSize = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
-interface WaveBackgroundProps {
+interface QuantumFieldProps {
+  colorGrid?: string; // Kept for backward compatibility, unused
+  colorNodes?: string;
+  speed?: number;
+  gridDensity?: number;
+  warpStrength?: number;
+  interactive?: boolean;
   backdropBlurAmount?: BlurSize;
   className?: string;
-  colors?: string[];
-  interactive?: boolean;
 }
 
 const blurClassMap: Record<BlurSize, string> = {
@@ -96,18 +122,24 @@ const hexToRgb = (hex: string): [number, number, number] => {
   }
 };
 
-function WaveBackground({
-  backdropBlurAmount = "sm",
-  className = "",
-  colors,
+const defaultColorNodes = "#00f0ff"; // Bright cyan pulse
+
+const QuantumField: React.FC<QuantumFieldProps> = ({
+  colorGrid,
+  colorNodes = defaultColorNodes,
+  speed = 1.0,
+  gridDensity = 12.0,
+  warpStrength = 1.0,
   interactive = true,
-}: WaveBackgroundProps): React.ReactNode {
+  backdropBlurAmount = "none",
+  className = "",
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef);
   const visibilityRef = useRef(true);
 
-  // Mouse interactivity state refs (zero React re-renders during active mouseMove)
+  // Mouse coords and active strength refs
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const mouseStrengthRef = useRef({ value: 0, targetValue: 0 });
 
@@ -119,17 +151,10 @@ function WaveBackground({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Convert colors prop if specified
-    const hasCustomColors = colors && colors.length > 0;
-    const colorRGBs: [number, number, number][] = [];
-    if (hasCustomColors) {
-      const parsed = colors!.map(hexToRgb);
-      colorRGBs.push(parsed[0] || [0.0, 0.0, 0.0]);
-      colorRGBs.push(parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
-      colorRGBs.push(parsed[2] || parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
-    }
+    // Parse colors
+    const parsedNodes = hexToRgb(colorNodes);
 
-    const gl = canvas.getContext("webgl");
+    const gl = canvas.getContext("webgl", { alpha: true, antialias: true });
     if (!gl) {
       console.error("WebGL not supported");
       return;
@@ -184,12 +209,14 @@ function WaveBackground({
     const iMouseLocation = gl.getUniformLocation(program, "iMouse");
     const iMouseStrengthLocation = gl.getUniformLocation(program, "iMouseStrength");
 
-    const uColor1Location = gl.getUniformLocation(program, "u_color1");
-    const uColor2Location = gl.getUniformLocation(program, "u_color2");
-    const uColor3Location = gl.getUniformLocation(program, "u_color3");
-    const uHasCustomColorsLocation = gl.getUniformLocation(program, "u_has_custom_colors");
+    const uColorNodesLocation = gl.getUniformLocation(program, "uColorNodes");
+    
+    const uSpeedLocation = gl.getUniformLocation(program, "uSpeed");
+    const uGridDensityLocation = gl.getUniformLocation(program, "uGridDensity");
+    const uWarpStrengthLocation = gl.getUniformLocation(program, "uWarpStrength");
+    const uInteractiveLocation = gl.getUniformLocation(program, "uInteractive");
 
-    // Track mouse events natively to keep high performance
+    // Native mouse and touch listeners
     const handleMouseMove = (e: MouseEvent) => {
       if (!interactive) return;
       const rect = canvas.getBoundingClientRect();
@@ -247,6 +274,7 @@ function WaveBackground({
         return;
       }
 
+      // Handle resize and match resolution
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       if (canvas.width !== width || canvas.height !== height) {
@@ -259,7 +287,7 @@ function WaveBackground({
 
       const currentTime = (Date.now() - startTime) / 1000;
 
-      // Lerp mouse target values for high class fluid movement
+      // Lerp mouse coordinates and strength for smooth momentum
       const mouse = mouseRef.current;
       const mouseStrength = mouseStrengthRef.current;
 
@@ -272,14 +300,13 @@ function WaveBackground({
       gl.uniform2f(iMouseLocation, mouse.x, mouse.y);
       gl.uniform1f(iMouseStrengthLocation, mouseStrength.value);
 
-      if (hasCustomColors) {
-        gl.uniform1f(uHasCustomColorsLocation, 1.0);
-        gl.uniform3fv(uColor1Location, colorRGBs[0]);
-        gl.uniform3fv(uColor2Location, colorRGBs[1]);
-        gl.uniform3fv(uColor3Location, colorRGBs[2]);
-      } else {
-        gl.uniform1f(uHasCustomColorsLocation, 0.0);
-      }
+      // Set uniforms
+      gl.uniform3fv(uColorNodesLocation, parsedNodes);
+
+      gl.uniform1f(uSpeedLocation, speed);
+      gl.uniform1f(uGridDensityLocation, gridDensity);
+      gl.uniform1f(uWarpStrengthLocation, warpStrength);
+      gl.uniform1f(uInteractiveLocation, interactive ? 1.0 : 0.0);
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       animationFrameId = requestAnimationFrame(render);
@@ -301,20 +328,24 @@ function WaveBackground({
       canvas.removeEventListener("touchmove", handleTouchMove);
       canvas.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [colors, interactive]);
+  }, [colorNodes, speed, gridDensity, warpStrength, interactive]);
 
-  const finalBlurClass = blurClassMap[backdropBlurAmount] || blurClassMap["sm"];
+  const finalBlurClass = blurClassMap[backdropBlurAmount] || blurClassMap["none"];
 
   return (
-    <div ref={containerRef} className={`w-full max-w-screen h-full overflow-hidden ${className}`}>
+    <div
+      ref={containerRef}
+      className={`absolute inset-0 w-full h-full overflow-hidden ${className}`}
+      style={{ pointerEvents: "none" }}
+    >
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full max-w-screen h-full overflow-hidden"
-        style={{ display: "block" }}
+        className="absolute inset-0 w-full h-full"
+        style={{ display: "block", pointerEvents: "auto" }}
       />
-      <div className={`absolute inset-0 ${finalBlurClass}`} />
+      <div className={`absolute inset-0 pointer-events-none ${finalBlurClass}`} />
     </div>
   );
-}
+};
 
-export default WaveBackground;
+export default QuantumField;

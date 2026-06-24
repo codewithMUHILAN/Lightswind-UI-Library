@@ -338,7 +338,7 @@ export function SmoothCursor({
               top: pos.y,
               translateX: "-50%",
               translateY: "-50%",
-              zIndex: 99 - index,
+              zIndex: 99999 - index,
               pointerEvents: "none",
               opacity: (trailLength - index) / trailLength * 0.5,
               scale: (trailLength - index) / trailLength * 0.8,
@@ -358,7 +358,7 @@ export function SmoothCursor({
           translateY: "-50%",
           rotate: rotateOnMove ? rotation : 0,
           scale: scale,
-          zIndex: 100,
+          zIndex: 99999,
           pointerEvents: "none",
           willChange: "transform",
           filter: glowEffect ? "drop-shadow(0 0 10px " + color + "40)" : "none", // String concatenation

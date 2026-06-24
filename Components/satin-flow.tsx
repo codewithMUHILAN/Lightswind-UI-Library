@@ -18,42 +18,96 @@ uniform float iTime;
 uniform vec2 iMouse;
 uniform float iMouseStrength;
 
-uniform vec3 u_color1;
-uniform vec3 u_color2;
-uniform vec3 u_color3;
-uniform float u_has_custom_colors;
+// Custom Uniforms
+uniform vec3 uColor1;
+uniform vec3 uColor2;
+uniform vec3 uColor3;
+uniform float uSpeed;
+uniform float uScale;
+uniform float uNoiseIntensity;
+uniform float uInteractive;
+
+// Hash function for pseudo-random gradient vectors
+vec3 hash(vec3 p) {
+    p = vec3(dot(p, vec3(127.1, 311.7, 74.7)),
+             dot(p, vec3(269.5, 183.3, 246.1)),
+             dot(p, vec3(113.5, 271.9, 124.6)));
+    return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+}
+
+// 3D Gradient Noise
+float noise(vec3 p) {
+    vec3 i = floor(p);
+    vec3 f = fract(p);
+    
+    vec3 u = f * f * (3.0 - 2.0 * f);
+
+    return mix(mix(mix(dot(hash(i + vec3(0.0,0.0,0.0)), f - vec3(0.0,0.0,0.0)), 
+                       dot(hash(i + vec3(1.0,0.0,0.0)), f - vec3(1.0,0.0,0.0)), u.x),
+                   mix(dot(hash(i + vec3(0.0,1.0,0.0)), f - vec3(0.0,1.0,0.0)), 
+                       dot(hash(i + vec3(1.0,1.0,0.0)), f - vec3(1.0,1.0,0.0)), u.x), u.y),
+               mix(mix(dot(hash(i + vec3(0.0,0.0,1.0)), f - vec3(0.0,0.0,1.0)), 
+                       dot(hash(i + vec3(1.0,0.0,1.0)), f - vec3(1.0,0.0,1.0)), u.x),
+                   mix(dot(hash(i + vec3(0.0,1.0,1.0)), f - vec3(0.0,1.0,1.0)), 
+                       dot(hash(i + vec3(1.0,1.0,1.0)), f - vec3(1.0,1.0,1.0)), u.x), u.y), u.z);
+}
+
+// Fractional Brownian Motion (fbm) for premium satin/silk fabric fold details
+float fbm(vec3 p) {
+    float v = 0.0;
+    float a = 0.5;
+    vec3 shift = vec3(100.0);
+    for (int i = 0; i < 4; ++i) {
+        v += a * noise(p);
+        p = p * 2.0 + shift;
+        a *= 0.5;
+    }
+    return v;
+}
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-    vec2 uv = (2.0 * fragCoord - iResolution.xy) / min(iResolution.x, iResolution.y);
+    vec2 p = (2.0 * fragCoord.xy - iResolution.xy) / min(iResolution.x, iResolution.y);
+    
+    // Interactive mouse distortion
     vec2 mouseUV = (2.0 * iMouse - iResolution.xy) / min(iResolution.x, iResolution.y);
+    float mouseDist = length(p - mouseUV);
+    float interact = exp(-mouseDist * mouseDist * 3.5) * iMouseStrength * uInteractive;
+    
+    // Distort coordinates smoothly around cursor
+    p += (p - mouseUV) / (mouseDist + 0.001) * interact * 0.18;
 
-    float dist = length(uv - mouseUV);
-    vec2 dir = (uv - mouseUV) / (dist + 0.0001);
-
-    // Wave distortion radiating outwards from mouse position
-    float influence = exp(-dist * dist * 3.5) * iMouseStrength;
-    uv += dir * influence * 0.2 * sin(dist * 10.0 - iTime * 4.0);
-
-    for(float i = 1.0; i < 8.0; i++) {
-        uv.y += i * 0.1 / i * 
-            sin(uv.x * i * i + iTime * 0.5) * sin(uv.y * i * i + iTime * 0.5);
-    }
-
-    vec3 defaultCol;
-    defaultCol.r = uv.y - 0.1;
-    defaultCol.g = uv.y + 0.3;
-    defaultCol.b = uv.y + 0.95;
-
-    float t = clamp(uv.y + 0.5, 0.0, 1.0);
-    vec3 customCol = mix(u_color1, u_color2, t);
-    customCol = mix(customCol, u_color3, clamp(uv.y, 0.0, 1.0));
-
-    vec3 col = mix(defaultCol, customCol, clamp(u_has_custom_colors, 0.0, 1.0));
-
-    // Subtle glow highlight around mouse position
-    float glow = exp(-dist * dist * 5.0) * iMouseStrength;
-    vec3 glowColor = mix(vec3(0.5, 0.8, 1.0), u_color2, clamp(u_has_custom_colors, 0.0, 1.0));
-    col += glowColor * glow * 0.35;
+    // Time scaling based on speed uniform
+    float t = iTime * uSpeed * 0.05;
+    
+    // Scale waves
+    float scale = uScale * 2.2;
+    vec3 p3 = vec3(p * scale, t);
+    
+    // Domain Warping to get luxurious silk-like ribbons/folds
+    float n1 = fbm(p3);
+    float n2 = fbm(p3 + vec3(n1 * 1.5, n1 * 1.2, 0.5));
+    float n3 = fbm(p3 + vec3(n2 * 2.0, n2 * 1.0, 0.8));
+    
+    // Create wave pattern from FBM noise layers
+    float pattern = 0.5 + 0.5 * sin(p.y * scale + n3 * 6.28);
+    
+    // Fabric shadow / highlights
+    float shadow = clamp(n3 * 1.1, -0.5, 0.5);
+    float highlight = pow(max(0.0, 1.0 - abs(n2)), 3.5) * 0.42;
+    
+    // Blend colors for a professional velvet/silk sheen
+    vec3 baseCol = mix(uColor1, uColor2, clamp(pattern + shadow, 0.0, 1.0));
+    baseCol = mix(baseCol, uColor3, clamp(n1 * 1.4 + 0.5, 0.0, 1.0));
+    
+    // Add satin gloss & mouse feedback highlight
+    vec3 col = baseCol + vec3(highlight) + vec3(interact * 0.08);
+    
+    // Fine-grained high-end noise overlay
+    float rnd = fract(sin(dot(fragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
+    col -= (rnd - 0.5) * 0.04 * uNoiseIntensity;
+    
+    // Clamp to valid rgb range
+    col = clamp(col, 0.0, 1.0);
 
     fragColor = vec4(col, 1.0);
 }
@@ -65,11 +119,14 @@ void main() {
 
 export type BlurSize = "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
-interface WaveBackgroundProps {
+interface SatinFlowProps {
+  colors?: string[];
+  speed?: number;
+  scale?: number;
+  noiseIntensity?: number;
+  interactive?: boolean;
   backdropBlurAmount?: BlurSize;
   className?: string;
-  colors?: string[];
-  interactive?: boolean;
 }
 
 const blurClassMap: Record<BlurSize, string> = {
@@ -96,18 +153,23 @@ const hexToRgb = (hex: string): [number, number, number] => {
   }
 };
 
-function WaveBackground({
-  backdropBlurAmount = "sm",
-  className = "",
-  colors,
+const defaultColors = ["#150921", "#371569", "#7822d6"]; // Deep luxurious violet satin colors
+
+const SatinFlow: React.FC<SatinFlowProps> = ({
+  colors = defaultColors,
+  speed = 1.0,
+  scale = 1.0,
+  noiseIntensity = 0.5,
   interactive = true,
-}: WaveBackgroundProps): React.ReactNode {
+  backdropBlurAmount = "none",
+  className = "",
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef);
   const visibilityRef = useRef(true);
 
-  // Mouse interactivity state refs (zero React re-renders during active mouseMove)
+  // Mouse coords and active strength refs
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const mouseStrengthRef = useRef({ value: 0, targetValue: 0 });
 
@@ -119,15 +181,12 @@ function WaveBackground({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Convert colors prop if specified
-    const hasCustomColors = colors && colors.length > 0;
+    // Parse custom colors
     const colorRGBs: [number, number, number][] = [];
-    if (hasCustomColors) {
-      const parsed = colors!.map(hexToRgb);
-      colorRGBs.push(parsed[0] || [0.0, 0.0, 0.0]);
-      colorRGBs.push(parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
-      colorRGBs.push(parsed[2] || parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
-    }
+    const parsed = colors.map(hexToRgb);
+    colorRGBs.push(parsed[0] || [0.0, 0.0, 0.0]);
+    colorRGBs.push(parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
+    colorRGBs.push(parsed[2] || parsed[1] || parsed[0] || [0.0, 0.0, 0.0]);
 
     const gl = canvas.getContext("webgl");
     if (!gl) {
@@ -184,12 +243,16 @@ function WaveBackground({
     const iMouseLocation = gl.getUniformLocation(program, "iMouse");
     const iMouseStrengthLocation = gl.getUniformLocation(program, "iMouseStrength");
 
-    const uColor1Location = gl.getUniformLocation(program, "u_color1");
-    const uColor2Location = gl.getUniformLocation(program, "u_color2");
-    const uColor3Location = gl.getUniformLocation(program, "u_color3");
-    const uHasCustomColorsLocation = gl.getUniformLocation(program, "u_has_custom_colors");
+    const uColor1Location = gl.getUniformLocation(program, "uColor1");
+    const uColor2Location = gl.getUniformLocation(program, "uColor2");
+    const uColor3Location = gl.getUniformLocation(program, "uColor3");
+    
+    const uSpeedLocation = gl.getUniformLocation(program, "uSpeed");
+    const uScaleLocation = gl.getUniformLocation(program, "uScale");
+    const uNoiseIntensityLocation = gl.getUniformLocation(program, "uNoiseIntensity");
+    const uInteractiveLocation = gl.getUniformLocation(program, "uInteractive");
 
-    // Track mouse events natively to keep high performance
+    // Native mouse and touch listeners
     const handleMouseMove = (e: MouseEvent) => {
       if (!interactive) return;
       const rect = canvas.getBoundingClientRect();
@@ -247,6 +310,7 @@ function WaveBackground({
         return;
       }
 
+      // Handle resize and match resolution
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       if (canvas.width !== width || canvas.height !== height) {
@@ -259,7 +323,7 @@ function WaveBackground({
 
       const currentTime = (Date.now() - startTime) / 1000;
 
-      // Lerp mouse target values for high class fluid movement
+      // Lerp mouse coordinates and strength for smooth momentum
       const mouse = mouseRef.current;
       const mouseStrength = mouseStrengthRef.current;
 
@@ -272,14 +336,15 @@ function WaveBackground({
       gl.uniform2f(iMouseLocation, mouse.x, mouse.y);
       gl.uniform1f(iMouseStrengthLocation, mouseStrength.value);
 
-      if (hasCustomColors) {
-        gl.uniform1f(uHasCustomColorsLocation, 1.0);
-        gl.uniform3fv(uColor1Location, colorRGBs[0]);
-        gl.uniform3fv(uColor2Location, colorRGBs[1]);
-        gl.uniform3fv(uColor3Location, colorRGBs[2]);
-      } else {
-        gl.uniform1f(uHasCustomColorsLocation, 0.0);
-      }
+      // Set custom colors & configuration uniforms
+      gl.uniform3fv(uColor1Location, colorRGBs[0]);
+      gl.uniform3fv(uColor2Location, colorRGBs[1]);
+      gl.uniform3fv(uColor3Location, colorRGBs[2]);
+
+      gl.uniform1f(uSpeedLocation, speed);
+      gl.uniform1f(uScaleLocation, scale);
+      gl.uniform1f(uNoiseIntensityLocation, noiseIntensity);
+      gl.uniform1f(uInteractiveLocation, interactive ? 1.0 : 0.0);
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       animationFrameId = requestAnimationFrame(render);
@@ -301,20 +366,24 @@ function WaveBackground({
       canvas.removeEventListener("touchmove", handleTouchMove);
       canvas.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [colors, interactive]);
+  }, [colors, speed, scale, noiseIntensity, interactive]);
 
-  const finalBlurClass = blurClassMap[backdropBlurAmount] || blurClassMap["sm"];
+  const finalBlurClass = blurClassMap[backdropBlurAmount] || blurClassMap["none"];
 
   return (
-    <div ref={containerRef} className={`w-full max-w-screen h-full overflow-hidden ${className}`}>
+    <div
+      ref={containerRef}
+      className={`absolute inset-0 w-full h-full overflow-hidden ${className}`}
+      style={{ pointerEvents: "none" }}
+    >
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full max-w-screen h-full overflow-hidden"
-        style={{ display: "block" }}
+        className="absolute inset-0 w-full h-full"
+        style={{ display: "block", pointerEvents: "auto" }}
       />
-      <div className={`absolute inset-0 ${finalBlurClass}`} />
+      <div className={`absolute inset-0 pointer-events-none ${finalBlurClass}`} />
     </div>
   );
-}
+};
 
-export default WaveBackground;
+export default SatinFlow;

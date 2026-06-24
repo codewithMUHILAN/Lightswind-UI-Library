@@ -70,11 +70,11 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       lg: "h-6"
     };
     
-    // Animation speed variants
-    const animationVariants = {
-      slow: "duration-1000",
-      normal: "duration-700",
-      fast: "duration-300"
+    // Animation speed variants in milliseconds
+    const animationSpeedMs = {
+      slow: 1000,
+      normal: 700,
+      fast: 300
     };
     
     return (
@@ -87,6 +87,11 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         aria-valuetext={indeterminate ? undefined : `${Math.round(percentage)}%`}
         className={cn(
           "relative w-full overflow-hidden rounded-full bg-secondary",
+          "transition-colors duration-200", // Smooth colors/shadows transition for theme toggle
+          // 3D track recessed styling
+          "[.lw-3d_&]:shadow-[inset_0_1.5px_3px_0_rgba(0,0,0,0.15),0_1px_1px_0_rgba(255,255,255,0.05)]",
+          "dark:[.lw-3d_&]:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.3)]",
+          "[.lw-3d_&]:border [.lw-3d_&]:border-black/5 dark:[.lw-3d_&]:border-white/5",
           sizeVariants[size],
           className
         )}
@@ -96,12 +101,21 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           className={cn(
             "h-full w-full flex-1",
             colorVariants[color],
+            // 3D indicator raised styling
+            "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white/20 [.lw-3d_&]:to-black/10",
+            "[.lw-3d_&]:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),inset_0_-1px_0_0_rgba(0,0,0,0.15)]",
+            "dark:[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.35),inset_0_-1.5px_0_0_rgba(0,0,0,0.3)]",
             indeterminate ? "animate-progress-indeterminate origin-left" : "",
-            isAnimating ? "transition-all ease-out" : "",
-            animationVariants[animationSpeed],
             indicatorClassName
           )}
-          style={indeterminate ? {} : { transform: `translateX(-${100 - percentage}%)` }}
+          style={{
+            ...(indeterminate ? {} : { transform: `translateX(-${100 - percentage}%)` }),
+            transition: indeterminate
+              ? "background-color 200ms, border-color 200ms, box-shadow 200ms"
+              : isAnimating
+              ? `transform ${animationSpeedMs[animationSpeed]}ms cubic-bezier(0.4, 0, 0.2, 1), background-color 200ms, border-color 200ms, box-shadow 200ms`
+              : "background-color 200ms, border-color 200ms, box-shadow 200ms"
+          }}
         />
         {showValue && (
           <div className={cn(

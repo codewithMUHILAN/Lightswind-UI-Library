@@ -124,7 +124,7 @@ export const Lens: React.FC<LensProps> = ({
       }}
     >
       <div
-        className="absolute inset-0"
+        className={cn("absolute inset-0", className)}
         style={{
           transform: "scale(" + zoomFactor + ")", // String concatenation
           transformOrigin: currentX + "px " + currentY + "px", // String concatenation

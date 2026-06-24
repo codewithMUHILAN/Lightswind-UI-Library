@@ -177,7 +177,7 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setOpen(false)}
-              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-opacity"
+              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-opacity "
             />
             <motion.div
               ref={ref}
@@ -188,7 +188,7 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
               transition={{ type: "spring", damping: 20, stiffness: 300 }}
               className={cn(
                 "fixed z-50 left-1/2 top-1/2 w-[95vw] sm:w-auto max-w-[95vw] sm:max-w-[90vw] rounded-2xl border bg-popover text-popover-foreground shadow-2xl outline-none",
-                "max-h-[95vh] sm:max-h-[calc(100vh-4rem)] overflow-y-auto",
+                "max-h-[95vh] sm:max-h-[calc(100vh-4rem)] overflow-y-auto p-3 xl:p-6",
                 className
               )}
               data-lenis-prevent

@@ -39,12 +39,14 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const [mounted, setMounted] = React.useState(false);
     const tabsListRef = React.useRef<HTMLDivElement | null>(null);
     const tabTriggerRefs = React.useRef(new Map<string, HTMLButtonElement | null>());
+    const [listElement, setListElement] = React.useState<HTMLDivElement | null>(null);
 
     const controlled = value !== undefined;
     const currentValue = controlled ? value : internalValue;
 
     const registerTabsList = React.useCallback((element: HTMLDivElement | null) => {
       tabsListRef.current = element;
+      setListElement(element);
     }, []);
 
     const registerTabTrigger = React.useCallback((value: string, element: HTMLButtonElement | null) => {
@@ -71,6 +73,19 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
         }
       }
     }, [currentValue]);
+
+    React.useEffect(() => {
+      if (!listElement) return;
+
+      const resizeObserver = new ResizeObserver(() => {
+        updateIndicator();
+      });
+      resizeObserver.observe(listElement);
+
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }, [listElement, updateIndicator]);
 
     const scheduleUpdateIndicator = React.useCallback(() => {
       // Use rAF to defer until after browser has painted layout
@@ -147,7 +162,7 @@ const TabsList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
           registerTabsList(el);
         }}
         className={cn(
-          `relative inline-flex h-8 items-center justify-center rounded-full bg-muted text-primary`,
+          `relative inline-flex h-8 items-center justify-center rounded-full bg-muted p-0.5 text-primary`,
           className
         )}
         {...props}
@@ -155,13 +170,11 @@ const TabsList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
         {mounted && (
           <motion.div
             layout
-            className="tabs-bg-indicator absolute top-0 left-0 h-full rounded-full bg-gradient-tabs"
+            className="tabs-bg-indicator absolute top-0.5 bottom-0.5 rounded-full bg-gradient-tabs"
             style={{
               ...indicatorStyle,
               position: "absolute",
-              top: 0,
               borderRadius: "9999px",
-              height: "100%",
               zIndex: 0,
             }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -210,10 +223,13 @@ const TabsTrigger = React.forwardRef<
          px-3 py-0.5 md:py-1.5 text-xs lg:text-sm font-medium transition-all 
          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
          focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`,
-        isActive ? "text-white dark:text-black" : "",
+        isActive ? "text-white dark:text-black" : "text-muted-foreground hover:text-foreground",
         className
       )}
-      onClick={() => onValueChange(value)}
+      onClick={(e) => {
+        onValueChange(value);
+        props.onClick?.(e);
+      }}
       {...props}
     />
   );

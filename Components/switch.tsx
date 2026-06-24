@@ -105,9 +105,13 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     return (
       <div
         className={cn(
-          "peer inline-flex shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
+          "peer inline-flex shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           // Default background colors for the track based on checked state
           isChecked ? "bg-primary" : "bg-input",
+          "[.lw-3d_&]:border-black/10 [.dark.lw-3d_&]:border-white/10",
+          isChecked
+            ? "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-primary [.lw-3d_&]:to-primary/90 [.lw-3d_&]:shadow-[inset_0_1.5px_2px_rgba(0,0,0,0.2)]"
+            : "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-zinc-100 [.lw-3d_&]:to-zinc-200/90 [.dark.lw-3d_&]:from-zinc-800 [.dark.lw-3d_&]:to-zinc-900/90 [.lw-3d_&]:shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.15),0_0.5px_1px_rgba(255,255,255,0.05)] [.dark.lw-3d_&]:shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.3)]",
           // Apply size-specific track dimensions
           sizeClasses[size].track,
           className
@@ -130,13 +134,16 @@ const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
         {/* The thumb element that visually moves */}
         <span
           className={cn(
-            "pointer-events-none block rounded-full bg-background shadow-lg ring-0",
+            "pointer-events-none block rounded-full bg-background shadow-lg ring-0 transition-all",
             // Apply translation based on checked state using Tailwind classes
             isChecked ? sizeClasses[size].translate : "translate-x-0",
             // Apply size-specific thumb dimensions
             sizeClasses[size].thumb,
             // Apply animation class based on chosen animation type
-            animationClasses[animation].transition
+            animationClasses[animation].transition,
+            "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white [.lw-3d_&]:to-zinc-50/95 [.dark.lw-3d_&]:from-zinc-100 [.dark.lw-3d_&]:to-zinc-200",
+            "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.45),0_2px_4px_0_rgba(0,0,0,0.15)]",
+            "[.dark.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.4),0_2px_4px_0_rgba(0,0,0,0.4)]"
           )}
           style={customThumbStyle} // Apply custom thumb background color
         />

@@ -100,6 +100,10 @@ const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
         className={cn(
           toastVariants({ variant }),
           "relative z-50 mb-2 overflow-hidden",
+          "transition-all duration-300",
+          "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.45),inset_0_-1px_0_0_rgba(0,0,0,0.06),0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]",
+          "dark:[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.15),inset_0_-1px_0_0_rgba(0,0,0,0.3),0_4px_6px_-1px_rgba(0,0,0,0.3),0_2px_4px_-1px_rgba(0,0,0,0.2)]",
+          "[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10",
           className
         )}
         {...props}
