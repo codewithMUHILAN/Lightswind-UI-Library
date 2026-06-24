@@ -148,7 +148,7 @@ export function ScrollPara({
             <p
               key={i}
               className={cn(
-                "text-2xl md:text-5xl lg:text-6xl font-medium leading-tight tracking-tight text-white will-change-transform",
+                "text-2xl md:text-5xl lg:text-6xl font-medium leading-tight tracking-tight text-foreground will-change-transform",
                 textClassName
               )}
               ref={(el) => {
