@@ -19,9 +19,6 @@
   "dependencies": [
     "framer-motion",
     "clsx",
-    "tailwind-merge",
-    "react-hook-form",
-    "@hookform/resolvers",
-    "zod"
+    "tailwind-merge"
   ]
 }

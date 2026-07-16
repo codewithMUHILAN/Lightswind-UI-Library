@@ -229,7 +229,7 @@ const NavigationMenuViewport = React.forwardRef<
       <div
         ref={viewportRef}
         className={cn(
-          "origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-lg md:w-[var(--radix-navigation-menu-viewport-width)]",
+          "origin-top-center relative mt-1.5 h-[var(--lw-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-lg md:w-[var(--lw-navigation-menu-viewport-width)]",
           !hasOpenMenu && "hidden",
           className
         )}

@@ -474,7 +474,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             ref={combinedRef}
             style={calculatedStyle}
             className={cn(
-              "z-50 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md transition-all duration-300",
+              "z-50 min-w-[var(--lw-select-trigger-width)] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md transition-all duration-300",
               "[.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white [.lw-3d_&]:to-zinc-50/95 dark:[.lw-3d_&]:from-zinc-900 dark:[.lw-3d_&]:to-zinc-950",
               "[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10",
               "[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.45),0_12px_24px_-4px_rgba(0,0,0,0.08),0_4px_12px_-2px_rgba(0,0,0,0.04)]",
