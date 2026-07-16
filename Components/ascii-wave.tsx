@@ -16,7 +16,7 @@ const AsciiWave: React.FC<AsciiWaveProps> = ({
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const { theme } = useTheme();
+    const { theme } = useTheme() || {};
 
     useEffect(() => {
         const canvas = canvasRef.current;
