@@ -1,0 +1,22 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "animated-range-input",
+  "type": "lightswind:ui",
+  "title": "Animated Range Input",
+  "description": "A range slider with animated fill and thumb indicator.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/animated-range-input.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/animated-range-input.tsx",
+      "content": "import React from \"react\";\r\nimport { motion, AnimatePresence } from \"framer-motion\";\r\n\r\ninterface AnimatedRangeInputProps {\r\n  value: number;\r\n  onChange: (value: number) => void;\r\n  icon?: React.ReactNode;\r\n  labelId: string;\r\n  fillColor?: string;\r\n}\r\n\r\nconst AnimatedRangeInput: React.FC<AnimatedRangeInputProps> = ({\r\n  value,\r\n  onChange,\r\n  icon,\r\n  labelId,\r\n  fillColor = \"#ff5722\", // Orange\r\n}) => {\r\n  // Handle reverse direction: Top = 100, Bottom = 0\r\n  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {\r\n    const rawValue = Number(e.target.value);\r\n    const correctedValue = 100 - rawValue;\r\n    onChange(correctedValue);\r\n  };\r\n\r\n  return (\r\n    <div className=\"relative flex items-center justify-center w-40 h-60 font-primarylw\">\r\n      {/* Left side icon */}\r\n      <div className=\"absolute -left-10 flex flex-col items-center gap-2\">\r\n        <div className=\"text-black text-xl\">{icon}</div>\r\n      </div>\r\n\r\n      {/* Slider container */}\r\n      <div className=\"relative flex items-center justify-center w-16 h-full rounded-xl border border-gray-300 overflow-hidden bg-white\">\r\n        {/* Animated Fill (based on `value`) */}\r\n        <AnimatePresence>\r\n          <motion.div\r\n            key=\"fill\"\r\n            initial={{ height: 0 }}\r\n            animate={{ height: `${value}%` }}\r\n            exit={{ height: 0 }}\r\n            transition={{ duration: 0.3 }}\r\n            style={{\r\n              position: \"absolute\",\r\n              bottom: 0,\r\n              left: 0,\r\n              width: \"100%\",\r\n              backgroundColor: fillColor,\r\n              zIndex: 1,\r\n              borderRadius: \"inherit\",\r\n            }}\r\n          />\r\n        </AnimatePresence>\r\n\r\n        {/* Value display */}\r\n        <span className=\"absolute text-black text-sm font-bold z-10\">\r\n          {value}%\r\n        </span>\r\n\r\n        {/* Hidden rotated input */}\r\n        <input\r\n          id={labelId}\r\n          type=\"range\"\r\n          min={0}\r\n          max={100}\r\n          step={1}\r\n          value={100 - value} // reverse direction\r\n          onChange={handleChange}\r\n          style={{\r\n            transform: \"rotate(-90deg)\",\r\n            width: \"100%\",\r\n            height: \"100%\",\r\n            position: \"relative\",\r\n            zIndex: 2,\r\n            background: \"transparent\",\r\n            WebkitAppearance: \"none\", // necessary for WebKit\r\n            appearance: \"none\", // for Firefox\r\n            cursor: \"pointer\",\r\n\r\n          }}\r\n        />\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default AnimatedRangeInput;\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion"
+  ]
+}

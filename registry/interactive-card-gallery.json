@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "interactive-card-gallery",
+  "type": "lightswind:ui",
+  "title": "Interactive Card Gallery",
+  "description": "A gallery of cards with interactive hover and click states.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "3d"
+  },
+  "files": [
+    {
+      "path": "r/interactive-card-gallery.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/interactive-card-gallery.tsx",
+      "content": "import React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\nexport interface CardProps {\r\n  title: string;\r\n  description: string;\r\n  imageSrc: string;\r\n  buttonText: string;\r\n  buttonLink?: string;\r\n  imageAlt?: string;\r\n  accentColor?: string;\r\n  onClick?: () => void;\r\n}\r\n\r\ninterface InteractiveCardGalleryProps {\r\n  cards: CardProps[];\r\n  className?: string;\r\n  cardHeight?: string;\r\n  columns?: 1 | 2 | 3 | 4;\r\n  hoverScale?: number;\r\n  transitionDuration?: number;\r\n}\r\n\r\nconst CardItem = ({\r\n  title,\r\n  description,\r\n  imageSrc,\r\n  buttonText,\r\n  buttonLink,\r\n  imageAlt,\r\n  accentColor = \"yellow\",\r\n  onClick,\r\n}: CardProps) => {\r\n  const handleClick = (e: React.MouseEvent) => {\r\n    if (buttonLink) {\r\n      if (!onClick) return;\r\n      e.preventDefault();\r\n    }\r\n    onClick?.();\r\n  };\r\n\r\n  return (\r\n    <div className=\"relative flex items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg group h-full\">\r\n      <div\r\n        className=\"absolute inset-0 bg-cover bg-center transform transition-transform duration-700 ease-out group-hover:scale-110\"\r\n        style={{\r\n          backgroundImage: `url('${imageSrc}')`,\r\n        }}\r\n      />\r\n      <div className=\"absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50\" />\r\n      <div className=\"relative flex flex-col items-center text-white p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-out\">\r\n        <h2 className=\"text-lg font-bold\">{title}</h2>\r\n        <p className=\"mt-2 italic text-sm\">{description}</p>\r\n        <button\r\n          className={`mt-4 px-4 py-2 bg-black text-white font-bold text-xs uppercase tracking-wide rounded-lg hover:bg-gray-800 focus:outline-none focus:ring focus:ring-${accentColor}-400`}\r\n          onClick={handleClick}\r\n        >\r\n          {buttonText}\r\n        </button>\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport function InteractiveCardGallery({\r\n  cards,\r\n  className,\r\n  cardHeight = \"h-64\",\r\n  columns = 4,\r\n  hoverScale = 1.1,\r\n  transitionDuration = 700,\r\n}: InteractiveCardGalleryProps) {\r\n  const getGridCols = () => {\r\n    switch (columns) {\r\n      case 1: return \"grid-cols-1\";\r\n      case 2: return \"sm:grid-cols-2\";\r\n      case 3: return \"sm:grid-cols-2 lg:grid-cols-3\";\r\n      case 4: \r\n      default: return \"sm:grid-cols-2 lg:grid-cols-4\";\r\n    }\r\n  };\r\n\r\n  return (\r\n    <div \r\n      className={cn(\r\n        `grid gap-4 p-4 max-w-screen-lg mx-auto ${getGridCols()}`,\r\n        className\r\n      )}\r\n      style={{ \r\n        \"--hover-scale\": hoverScale, \r\n        \"--transition-duration\": `${transitionDuration}ms` \r\n      } as React.CSSProperties}\r\n    >\r\n      {cards.map((card, index) => (\r\n        <div key={index} className={cn(\"group\", cardHeight)}>\r\n          <CardItem {...card} />\r\n        </div>\r\n      ))}\r\n    </div>\r\n  );\r\n}"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

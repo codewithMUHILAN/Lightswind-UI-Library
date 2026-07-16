@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "trusted-users",
+  "type": "lightswind:ui",
+  "title": "Trusted Users",
+  "description": "An avatar stack showing trusted/verified user faces.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/trusted-users.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/trusted-users.tsx",
+      "content": "import React from \"react\";\r\nimport { Star } from \"lucide-react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\nimport { CountUp } from \"./count-up\";\r\nimport Image from \"next/image\";\r\nimport Link from \"next/link\";\r\n\r\ninterface TrustedUsersProps {\r\n  avatars: string[];\r\n  rating?: number;\r\n  totalUsersText?: number;\r\n  caption?: string;\r\n  className?: string;\r\n  starColorClass?: string;\r\n  ringColors?: string[];\r\n}\r\n\r\nexport const TrustedUsers: React.FC<TrustedUsersProps> = ({\r\n  avatars,\r\n  rating = 5,\r\n  totalUsersText = 1000, // ✅ default as number\r\n  caption = \"Trusted by\",\r\n  className = \"\",\r\n  starColorClass = \"text-yellow-400\",\r\n  ringColors = [],\r\n}) => {\r\n  return (\r\n    <div\r\n      className={cn(\r\n        `flex items-center justify-center gap-6 bg-transparent\r\n          text-foreground py-4 px-4`,\r\n        className\r\n      )}\r\n    >\r\n      <div className=\"flex -space-x-4\">\r\n        {avatars.map((src, i) => (\r\n          <div\r\n            key={i}\r\n            className={`w-10 h-10 rounded-full overflow-hidden ring-1 ring-offset-2 ring-offset-black ${ringColors[i] || \"ring-blue-900\"\r\n              }`}\r\n          >\r\n            <Image\r\n              src={src}\r\n              alt={`Avatar ${i + 1}`}\r\n              width={40}\r\n              height={40}\r\n              className=\"w-full h-full object-cover\"\r\n              loading=\"lazy\"\r\n            />\r\n          </div>\r\n        ))}\r\n      </div>\r\n\r\n      <div className=\"flex flex-col items-start gap-1\">\r\n        <div className={`flex gap-1 ${starColorClass}`}>\r\n          {Array.from({ length: rating }).map((_, i) => (\r\n            <Star key={i} fill=\"currentColor\" className=\"w-4 h-4\" aria-hidden=\"true\" />\r\n          ))}\r\n        </div>\r\n        <div className=\"text-foreground text-xs md:text-md font-medium flex items-center flex-wrap\">\r\n          {caption}\r\n          <CountUp\r\n            value={totalUsersText}\r\n            duration={2}\r\n            separator=\",\"\r\n            className=\"ml-1 text-lg\"\r\n            suffix=\"+\"\r\n            colorScheme=\"gradient\"\r\n          />\r\n          <Link href=\"/pricing\" className=\"underline text-primarylw dark:text-greedy ml-1\">\r\n            Pro users\r\n          </Link>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n"
+    }
+  ],
+  "dependencies": [
+    "lucide-react",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

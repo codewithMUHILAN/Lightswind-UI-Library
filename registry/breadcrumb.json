@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "lightswind:ui",
+  "title": "Breadcrumb",
+  "description": "A navigation aid showing the current page location hierarchy.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "navigation"
+  },
+  "files": [
+    {
+      "path": "r/breadcrumb.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/breadcrumb.tsx",
+      "content": "import * as React from \"react\";\r\nimport { ChevronRight, MoreHorizontal } from \"lucide-react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\nconst Breadcrumb = React.forwardRef<\r\n  HTMLElement,\r\n  React.ComponentPropsWithoutRef<\"nav\"> & {\r\n    separator?: React.ReactNode\r\n  }\r\n>(({ ...props }, ref) => <nav ref={ref} aria-label=\"breadcrumb\" {...props} />);\r\nBreadcrumb.displayName = \"Breadcrumb\";\r\n\r\nconst BreadcrumbList = React.forwardRef<\r\n  HTMLOListElement,\r\n  React.ComponentPropsWithoutRef<\"ol\">\r\n>(({ className, ...props }, ref) => (\r\n  <ol\r\n    ref={ref}\r\n    className={cn(\r\n      \"flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5\",\r\n      className\r\n    )}\r\n    {...props}\r\n  />\r\n));\r\nBreadcrumbList.displayName = \"BreadcrumbList\";\r\n\r\nconst BreadcrumbItem = React.forwardRef<\r\n  HTMLLIElement,\r\n  React.ComponentPropsWithoutRef<\"li\">\r\n>(({ className, ...props }, ref) => (\r\n  <li\r\n    ref={ref}\r\n    className={cn(\"inline-flex items-center gap-1.5\", className)}\r\n    {...props}\r\n  />\r\n));\r\nBreadcrumbItem.displayName = \"BreadcrumbItem\";\r\n\r\ninterface BreadcrumbLinkProps extends React.ComponentPropsWithoutRef<\"a\"> {\r\n  asChild?: boolean;\r\n}\r\n\r\nconst BreadcrumbLink = React.forwardRef<\r\n  HTMLAnchorElement,\r\n  BreadcrumbLinkProps\r\n>(({ asChild, className, children, ...props }, ref) => {\r\n  if (asChild) {\r\n    if (React.isValidElement(children)) {\r\n      // **KEY CHANGE HERE: Assert the type of children for cloneElement**\r\n      return React.cloneElement(children as React.ReactElement<any>, {\r\n        ref, // The ref from forwardRef\r\n        className: cn(\r\n          \"transition-colors hover:text-foreground\",\r\n          className,\r\n          (children.props as any).className // Access existing className safely\r\n        ),\r\n        ...props, // Spread any other props to the child\r\n      });\r\n    }\r\n    console.warn(\"BreadcrumbLink: When `asChild` is true, a single React element child is expected.\");\r\n    return null;\r\n  }\r\n\r\n  return (\r\n    <a\r\n      ref={ref}\r\n      className={cn(\"transition-colors hover:text-foreground\", className)}\r\n      {...props}\r\n    >\r\n      {children}\r\n    </a>\r\n  );\r\n});\r\nBreadcrumbLink.displayName = \"BreadcrumbLink\";\r\n\r\nconst BreadcrumbPage = React.forwardRef<\r\n  HTMLSpanElement,\r\n  React.ComponentPropsWithoutRef<\"span\">\r\n>(({ className, ...props }, ref) => (\r\n  <span\r\n    ref={ref}\r\n    role=\"link\"\r\n    aria-disabled=\"true\"\r\n    aria-current=\"page\"\r\n    className={cn(\"font-normal text-foreground\", className)}\r\n    {...props}\r\n  />\r\n));\r\nBreadcrumbPage.displayName = \"BreadcrumbPage\";\r\n\r\nconst BreadcrumbSeparator = ({\r\n  children,\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<\"li\">) => (\r\n  <li\r\n    role=\"presentation\"\r\n    aria-hidden=\"true\"\r\n    className={cn(\"[&>svg]:size-3.5\", className)}\r\n    {...props}\r\n  >\r\n    {children ?? <ChevronRight />}\r\n  </li>\r\n);\r\nBreadcrumbSeparator.displayName = \"BreadcrumbSeparator\";\r\n\r\nconst BreadcrumbEllipsis = ({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<\"span\">) => (\r\n  <span\r\n    role=\"presentation\"\r\n    aria-hidden=\"true\"\r\n    className={cn(\"flex h-9 w-9 items-center justify-center\", className)}\r\n    {...props}\r\n  >\r\n    <MoreHorizontal className=\"h-4 w-4\" />\r\n    <span className=\"sr-only\">More</span>\r\n  </span>\r\n);\r\nBreadcrumbEllipsis.displayName = \"BreadcrumbEllipsis\";\r\n\r\nexport {\r\n  Breadcrumb,\r\n  BreadcrumbList,\r\n  BreadcrumbItem,\r\n  BreadcrumbLink,\r\n  BreadcrumbPage,\r\n  BreadcrumbSeparator,\r\n  BreadcrumbEllipsis,\r\n};"
+    }
+  ],
+  "dependencies": [
+    "lucide-react",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

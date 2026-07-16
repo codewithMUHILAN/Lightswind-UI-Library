@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "scroll-para-3d",
+  "type": "lightswind:ui",
+  "title": "Scroll Para 3d",
+  "description": "A Scroll Para 3d component for Lightswind UI.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/scroll-para-3d.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/scroll-para-3d.tsx",
+      "content": "\"use client\";\r\n\r\nimport { useGSAP } from \"@gsap/react\";\r\nimport gsap from \"gsap\";\r\nimport { ScrollTrigger } from \"gsap/ScrollTrigger\";\r\nimport { useRef } from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\nexport interface ScrollPara3DProps {\r\n  /**\r\n   * The text lines to reveal in 3D space.\r\n   */\r\n  lines: string[];\r\n  className?: string;\r\n  containerClassName?: string;\r\n  textClassName?: string;\r\n  /**\r\n   * The perspective depth distance in pixels.\r\n   * Less = more extreme 3D depth/stretch.\r\n   * @default 600\r\n   */\r\n  perspective?: number;\r\n  /**\r\n   * The tilt angle of the text floor plane (rotateX degrees).\r\n   * @default 50\r\n   */\r\n  angle?: number;\r\n  /**\r\n   * How much extra scrolling space to pin for the animation.\r\n   * Multiplier based on content height.\r\n   * @default 1.2\r\n   */\r\n  scrubSpeed?: number;\r\n  /**\r\n   * Font size in rem for each text line.\r\n   * @default 3.5\r\n   */\r\n  fontSize?: number;\r\n}\r\n\r\nexport function ScrollPara3D({\r\n  lines,\r\n  className,\r\n  containerClassName,\r\n  textClassName,\r\n  perspective = 600,\r\n  angle = 50,\r\n  scrubSpeed = 1.2,\r\n  fontSize = 3.5,\r\n}: ScrollPara3DProps) {\r\n  const sectionRef = useRef<HTMLDivElement>(null);\r\n  const contentRef = useRef<HTMLDivElement>(null);\r\n\r\n  useGSAP(\r\n    () => {\r\n      gsap.registerPlugin(ScrollTrigger);\r\n      if (!contentRef.current || !sectionRef.current) return;\r\n\r\n      const contentHeight = contentRef.current.offsetHeight;\r\n      const windowHeight = window.innerHeight;\r\n\r\n      const tl = gsap.timeline({\r\n        scrollTrigger: {\r\n          trigger: sectionRef.current,\r\n          start: \"top top\",\r\n          end: `+=${contentHeight * scrubSpeed}`,\r\n          pin: true,\r\n          scrub: 1,\r\n          anticipatePin: 1,\r\n        },\r\n      });\r\n\r\n      // Start just below so text is immediately visible on scroll\r\n      tl.fromTo(\r\n        contentRef.current,\r\n        { y: windowHeight * 0.3 },\r\n        { y: -contentHeight, ease: \"none\" }\r\n      );\r\n\r\n      return () => { tl.kill(); };\r\n    },\r\n    { dependencies: [lines.length, perspective, angle, scrubSpeed, fontSize] }\r\n  );\r\n\r\n  return (\r\n    <div\r\n      ref={sectionRef}\r\n      className={cn(\r\n        \"relative w-full h-screen overflow-hidden bg-background\",\r\n        className\r\n      )}\r\n      style={{ perspective: `${perspective}px` }}\r\n    >\r\n      {/* Top/bottom fade overlay */}\r\n      <div\r\n        className=\"absolute inset-0 z-10 pointer-events-none\"\r\n        style={{\r\n          background:\r\n            \"linear-gradient(to bottom, var(--background) 0%, transparent 15%, transparent 85%, var(--background) 100%)\",\r\n        }}\r\n      />\r\n\r\n      {/*\r\n        Tilted floor plane.\r\n        We use transformOrigin \"center bottom\" so the rotation pivots\r\n        at the bottom center of the plane → text crawls toward viewer naturally.\r\n        Width is 100% of the section.\r\n      */}\r\n      <div\r\n        style={{\r\n          position: \"absolute\",\r\n          inset: 0,\r\n          display: \"flex\",\r\n          alignItems: \"flex-end\",\r\n          justifyContent: \"center\",\r\n          transformStyle: \"preserve-3d\",\r\n          transform: `rotateX(${angle}deg)`,\r\n          transformOrigin: \"center bottom\",\r\n        }}\r\n      >\r\n        {/* Scrolling content strip */}\r\n        <div\r\n          ref={contentRef}\r\n          className={cn(\r\n            \"w-full flex flex-col items-center justify-start\",\r\n            containerClassName\r\n          )}\r\n          style={{ willChange: \"transform\" }}\r\n        >\r\n          {lines.map((line, i) => (\r\n            <p\r\n              key={i}\r\n              className={cn(\r\n                \"w-full text-center font-black uppercase text-primary tracking-tighter leading-tight\",\r\n                textClassName\r\n              )}\r\n              style={{ fontSize: `${fontSize}rem` }}\r\n            >\r\n              {line}\r\n            </p>\r\n          ))}\r\n        </div>\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n"
+    }
+  ],
+  "dependencies": [
+    "gsap",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

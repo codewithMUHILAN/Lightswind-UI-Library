@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "toaster",
+  "type": "lightswind:ui",
+  "title": "Toaster",
+  "description": "A root-level component to render toast notifications.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/toaster.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/toaster.tsx",
+      "content": "\r\nimport * as React from \"react\";\r\nimport { useToast } from \"@/components/hooks/use-toast\";\r\nimport {\r\n  Toast,\r\n  ToastClose,\r\n  ToastDescription,\r\n  ToastProvider,\r\n  ToastTitle,\r\n  ToastViewport,\r\n  ToastPosition,\r\n} from \"./toast\";\r\nimport { X } from \"lucide-react\";\r\nimport { AnimatePresence } from \"framer-motion\";\r\n\r\nexport interface ToasterProps {\r\n  position?: ToastPosition;\r\n}\r\n\r\nexport function Toaster({ position = \"top-right\" }: ToasterProps) {\r\n  const { toasts, dismiss } = useToast();\r\n\r\n  return (\r\n    <ToastProvider>\r\n      <ToastViewport position={position}>\r\n        <AnimatePresence mode=\"popLayout\">\r\n          {toasts.map(({ id, title, description, action, type, variant, duration, ...props }) => {\r\n            // Map toast type to variant if variant is not provided\r\n            const toastVariant = variant || (\r\n              type === \"success\" ? \"success\" :\r\n                type === \"warning\" ? \"warning\" :\r\n                  type === \"info\" ? \"info\" :\r\n                    type === \"destructive\" ? \"destructive\" :\r\n                      \"default\"\r\n            );\r\n\r\n            return (\r\n              <Toast\r\n                key={id}\r\n                {...props}\r\n                variant={toastVariant}\r\n                duration={duration}\r\n                onOpenChange={(open) => {\r\n                  if (!open) dismiss(id);\r\n                }}\r\n              >\r\n                <div className=\"grid gap-1\">\r\n                  {title && <ToastTitle>{title}</ToastTitle>}\r\n                  {description && <ToastDescription>{description}</ToastDescription>}\r\n                </div>\r\n                {action}\r\n              </Toast>\r\n            );\r\n          })}\r\n        </AnimatePresence>\r\n      </ToastViewport>\r\n    </ToastProvider>\r\n  );\r\n}"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "lucide-react"
+  ]
+}

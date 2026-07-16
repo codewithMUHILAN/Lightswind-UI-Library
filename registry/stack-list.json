@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "stack-list",
+  "type": "lightswind:ui",
+  "title": "Stack List",
+  "description": "A vertically stacked list with depth shadow layering.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/stack-list.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/stack-list.tsx",
+      "content": "\"use client\";\r\n\r\nimport { useState } from \"react\";\r\nimport { AnimatePresence, motion } from \"framer-motion\";\r\nimport { ChevronDown } from \"lucide-react\";\r\n\r\ntype StackListItem = {\r\n  icon: React.ReactNode;\r\n  title: string;\r\n  subtitle: string;\r\n  date: string;\r\n};\r\n\r\ntype StackListProps = {\r\n  items: StackListItem[];\r\n  initialVisible?: number;\r\n  className?: string; // allows custom responsive width/styling\r\n};\r\n\r\nexport default function StackList({\r\n  items,\r\n  initialVisible = 1,\r\n  className = \"\",\r\n}: StackListProps) {\r\n  const [expanded, setExpanded] = useState(false);\r\n\r\n  const visibleItems = expanded ? items : items.slice(0, initialVisible);\r\n\r\n  return (\r\n    <div\r\n      className={`bg-transparent text-foreground mx-auto  \r\n         overflow-hidden ${className}`}\r\n    >\r\n      <div className=\"flex flex-col gap-4 relative\">\r\n        <AnimatePresence initial={false}>\r\n          {visibleItems.map((item, index) => (\r\n            <motion.div\r\n              key={item.title + index}\r\n              initial={{ opacity: 0, y: 20, scale: 0.95 }}\r\n              animate={{ opacity: 1, y: 0, scale: 1 }}\r\n              exit={{ opacity: 0, y: -20, scale: 0.95 }}\r\n              transition={{ duration: 0.3, delay: index * 0.05 }}\r\n              className=\"flex items-center gap-4 p-4 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-sm\"\r\n            >\r\n              <div className=\"w-12 h-12 bg-background rounded-xl \r\n              flex items-center justify-center text-foreground\">\r\n                {item.icon}\r\n              </div>\r\n              <div className=\"flex-1\">\r\n                <div className=\"text-xs xl:text-sm font-semibold text-gray-900 dark:text-white\">\r\n                  {item.title}\r\n                </div>\r\n                <div className=\"text-xs xl:text-sm text-gray-500 dark:text-gray-400\">\r\n                  {item.subtitle}\r\n                </div>\r\n              </div>\r\n              <div className=\"text-xs xl:text-sm text-gray-400\">{item.date}</div>\r\n            </motion.div>\r\n          ))}\r\n        </AnimatePresence>\r\n      </div>\r\n\r\n      {items.length > initialVisible && (\r\n        <button\r\n          onClick={() => setExpanded((prev) => !prev)}\r\n          className=\"mt-4 mx-auto flex items-center justify-center gap-2 px-4 py-2\r\n           border border-gray-300 dark:border-gray-700 rounded-full \r\n           text-xs xl:text-sm font-medium text-gray-600 dark:text-gray-300 transition \r\n           hover:bg-gray-100 dark:hover:bg-neutral-800\"\r\n        >\r\n          <span>{expanded ? \"Hide\" : \"Show All\"}</span>\r\n          <motion.div\r\n            animate={{ rotate: expanded ? 180 : 0 }}\r\n            transition={{ duration: 0.3 }}\r\n          >\r\n            <ChevronDown className=\"w-4 h-4\" />\r\n          </motion.div>\r\n        </button>\r\n      )}\r\n    </div>\r\n  );\r\n}\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "lucide-react"
+  ]
+}

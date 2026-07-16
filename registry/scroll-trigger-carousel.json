@@ -1,0 +1,22 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "scroll-trigger-carousel",
+  "type": "lightswind:ui",
+  "title": "Scroll Trigger Carousel",
+  "description": "A carousel that advances slides as the user scrolls.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "3d"
+  },
+  "files": [
+    {
+      "path": "r/scroll-trigger-carousel.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/scroll-trigger-carousel.tsx",
+      "content": "import { motion, useTransform, useScroll } from \"framer-motion\";\r\nimport React, { useRef, ReactNode } from \"react\";\r\n\r\ninterface CarouselItem {\r\n  id: string | number;\r\n  content: ReactNode;\r\n  contentid: ReactNode;\r\n}\r\n\r\ninterface HorizontalCarouselProps {\r\n  items: CarouselItem[];\r\n  itemWidth?: string;\r\n  itemHeight?: string;\r\n  gap?: string;\r\n  scrollLength?: string;\r\n  initialXOffset?: string;\r\n  finalXOffset?: string;\r\n  children?: ReactNode;\r\n  afterCarouselContent?: ReactNode;\r\n}\r\n\r\nconst HorizontalCarousel: React.FC<HorizontalCarouselProps> = ({\r\n  items,\r\n  itemWidth = \"90vw\",\r\n  itemHeight = \"450px\",\r\n  gap = \"1rem\",\r\n  scrollLength = \"150vh\",\r\n  initialXOffset = \"80%\", // Start far off-screen\r\n  finalXOffset = \"-95%\", // End fully off-screen left\r\n  children,\r\n  afterCarouselContent,\r\n}) => {\r\n  const targetRef = useRef<HTMLElement>(null);\r\n  const { scrollYProgress } = useScroll({\r\n    target: targetRef,\r\n    offset: [\"start end\", \"end start\"],\r\n  });\r\n\r\n  // Delay entrance even more (start at 20% scroll progress)\r\n  const x = useTransform(\r\n    scrollYProgress,\r\n    [0.2, 1],\r\n    [initialXOffset, finalXOffset]\r\n  );\r\n\r\n  return (\r\n    <section\r\n      ref={targetRef}\r\n      className=\"relative bg-background\"\r\n      style={{ height: scrollLength }}\r\n    >\r\n      {children && (\r\n        <div className=\"flex h-48 items-center justify-center\">{children}</div>\r\n      )}\r\n\r\n      <div className=\"sticky top-0 flex h-screen items-center overflow-hidden\">\r\n        <motion.div style={{ x, gap }} className=\"flex\">\r\n          {items.map((item) => (\r\n            <React.Fragment key={item.id}>\r\n              <div className=\"flex flex-col items-center justify-center\">\r\n                <div\r\n                  className=\"group relative overflow-hidden bg-background \r\n        flex items-center justify-center\"\r\n                  style={{ width: itemWidth, height: itemHeight }}\r\n                >\r\n                  {item.content}\r\n                </div>\r\n                <h2 className=\"my-4 text-3xl font-bold\">\r\n                  {String(item.contentid)\r\n                    .replace(/-/g, \" \")\r\n                    .replace(/\\b\\w/g, (l) => l.toUpperCase())}\r\n                </h2>\r\n              </div>\r\n            </React.Fragment>\r\n          ))}\r\n        </motion.div>\r\n      </div>\r\n\r\n      {afterCarouselContent && (\r\n        <div className=\"flex h-48 items-center justify-center\">\r\n          {afterCarouselContent}\r\n        </div>\r\n      )}\r\n    </section>\r\n  );\r\n};\r\n\r\nexport default HorizontalCarousel;\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion"
+  ]
+}

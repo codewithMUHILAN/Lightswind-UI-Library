@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "stripes-background",
+  "type": "lightswind:ui",
+  "title": "Stripes Background",
+  "description": "A CSS animated diagonal stripes background pattern.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "background"
+  },
+  "files": [
+    {
+      "path": "r/stripes-background.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/stripes-background.tsx",
+      "content": "// components/ui/StripesBackground.tsx\r\nimport React from \"react\";\r\nimport clsx from \"clsx\";\r\n\r\ninterface StripesBackgroundProps {\r\n  className?: string;\r\n  position?: \"left\" | \"right\" | \"top\" | \"bottom\" | \"full\";\r\n  width?: string;\r\n  height?: string;\r\n  opacity?: string;\r\n}\r\n\r\nconst StripesBackground: React.FC<StripesBackgroundProps> = ({\r\n  className,\r\n  position = \"right\",\r\n  width = \"w-full\",\r\n  height = \"h-full\",\r\n  opacity = \"opacity-30\", // This opacity applies to the div itself\r\n}) => {\r\n  const positionStyles = {\r\n    right: \"absolute top-0 right-0\",\r\n    left: \"absolute top-0 left-0\",\r\n    top: \"absolute top-0 left-0 w-full h-32\",\r\n    bottom: \"absolute bottom-0 left-0 w-full h-32\",\r\n    full: \"absolute inset-0\",\r\n  };\r\n\r\n  return (\r\n    <div\r\n      className={clsx(\r\n        \"pointer-events-none z-10\",\r\n        \"bg-[repeating-linear-gradient(45deg,_#00000066_0px,_#00000066_1px,_transparent_1px,_transparent_6px)]\",\r\n        \"dark:bg-[repeating-linear-gradient(45deg,_#ffffff66_0px,_#ffffff66_1px,_transparent_1px,_transparent_6px)]\",\r\n        positionStyles[position],\r\n        width,\r\n        height,\r\n        opacity,\r\n        className\r\n      )}\r\n    />\r\n  );\r\n};\r\n\r\nexport default StripesBackground;\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

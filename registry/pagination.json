@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "pagination",
+  "type": "lightswind:ui",
+  "title": "Pagination",
+  "description": "A navigation component for moving between pages of content.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "navigation"
+  },
+  "files": [
+    {
+      "path": "r/pagination.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/pagination.tsx",
+      "content": "\r\nimport * as React from \"react\"\r\nimport { ChevronLeft, ChevronRight, MoreHorizontal } from \"lucide-react\"\r\n\r\nimport { cn } from \"@/components/lib/utils\"\r\nimport { buttonVariants } from \"./button\"\r\n\r\nconst Pagination = ({ className, ...props }: React.ComponentProps<\"nav\">) => (\r\n  <nav\r\n    role=\"navigation\"\r\n    aria-label=\"pagination\"\r\n    className={cn(\"mx-auto flex w-full justify-center\", className)}\r\n    {...props}\r\n  />\r\n)\r\nPagination.displayName = \"Pagination\"\r\n\r\nconst PaginationContent = React.forwardRef<\r\n  HTMLUListElement,\r\n  React.ComponentProps<\"ul\">\r\n>(({ className, ...props }, ref) => (\r\n  <ul\r\n    ref={ref}\r\n    className={cn(\"flex flex-row items-center gap-1\", className)}\r\n    {...props}\r\n  />\r\n))\r\nPaginationContent.displayName = \"PaginationContent\"\r\n\r\nconst PaginationItem = React.forwardRef<\r\n  HTMLLIElement,\r\n  React.ComponentProps<\"li\">\r\n>(({ className, ...props }, ref) => (\r\n  <li ref={ref} className={cn(\"\", className)} {...props} />\r\n))\r\nPaginationItem.displayName = \"PaginationItem\"\r\n\r\ntype PaginationLinkProps = {\r\n  isActive?: boolean\r\n  sizeValue?: \"default\" | \"sm\" | \"lg\" | \"icon\"\r\n} & React.ComponentProps<\"a\">\r\n\r\nconst PaginationLink = ({\r\n  className,\r\n  isActive,\r\n  sizeValue = \"icon\",\r\n  ...props\r\n}: PaginationLinkProps) => (\r\n  <a\r\n    aria-current={isActive ? \"page\" : undefined}\r\n    className={cn(\r\n      buttonVariants({\r\n        variant: isActive ? \"outline\" : \"ghost\",\r\n        size: sizeValue,\r\n      }),\r\n      className\r\n    )}\r\n    {...props}\r\n  />\r\n)\r\nPaginationLink.displayName = \"PaginationLink\"\r\n\r\nconst PaginationPrevious = ({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof PaginationLink>) => (\r\n  <PaginationLink\r\n    aria-label=\"Go to previous page\"\r\n    sizeValue=\"default\"\r\n    className={cn(\"gap-1 pl-2.5\", className)}\r\n    {...props}\r\n  >\r\n    <ChevronLeft className=\"h-4 w-4\" />\r\n    <span>Previous</span>\r\n  </PaginationLink>\r\n)\r\nPaginationPrevious.displayName = \"PaginationPrevious\"\r\n\r\nconst PaginationNext = ({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof PaginationLink>) => (\r\n  <PaginationLink\r\n    aria-label=\"Go to next page\"\r\n    sizeValue=\"default\"\r\n    className={cn(\"gap-1 pr-2.5\", className)}\r\n    {...props}\r\n  >\r\n    <span>Next</span>\r\n    <ChevronRight className=\"h-4 w-4\" />\r\n  </PaginationLink>\r\n)\r\nPaginationNext.displayName = \"PaginationNext\"\r\n\r\nconst PaginationEllipsis = ({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<\"span\">) => (\r\n  <span\r\n    aria-hidden\r\n    className={cn(\"flex h-9 w-9 items-center justify-center\", className)}\r\n    {...props}\r\n  >\r\n    <MoreHorizontal className=\"h-4 w-4\" />\r\n    <span className=\"sr-only\">More pages</span>\r\n  </span>\r\n)\r\nPaginationEllipsis.displayName = \"PaginationEllipsis\"\r\n\r\nexport {\r\n  Pagination,\r\n  PaginationContent,\r\n  PaginationEllipsis,\r\n  PaginationItem,\r\n  PaginationLink,\r\n  PaginationNext,\r\n  PaginationPrevious,\r\n}\r\n"
+    }
+  ],
+  "dependencies": [
+    "lucide-react",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

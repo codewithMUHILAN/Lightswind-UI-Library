@@ -1,0 +1,25 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "lightswind:ui",
+  "title": "Checkbox",
+  "description": "A binary control for toggling options on and off.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "form"
+  },
+  "files": [
+    {
+      "path": "r/checkbox.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/checkbox.tsx",
+      "content": "\r\nimport * as React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\nimport { Check } from \"lucide-react\";\r\n\r\nexport interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {\r\n  checked?: boolean;\r\n  onCheckedChange?: (checked: boolean) => void;\r\n}\r\n\r\nconst Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(\r\n  ({ className, checked, defaultChecked, onCheckedChange, ...props }, ref) => {\r\n    const [isChecked, setIsChecked] = React.useState(\r\n      checked !== undefined ? checked : (defaultChecked || false)\r\n    );\r\n    const [isAnimating, setIsAnimating] = React.useState(false);\r\n\r\n    React.useEffect(() => {\r\n      if (checked !== undefined) {\r\n        setIsChecked(checked);\r\n        setIsAnimating(true);\r\n        \r\n        // Reset animation state after transition completes\r\n        const timer = setTimeout(() => {\r\n          setIsAnimating(false);\r\n        }, 300);\r\n        \r\n        return () => clearTimeout(timer);\r\n      }\r\n    }, [checked]);\r\n\r\n    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {\r\n      const newChecked = event.target.checked;\r\n      setIsChecked(newChecked);\r\n      setIsAnimating(true);\r\n      \r\n      // Reset animation state after transition completes\r\n      setTimeout(() => {\r\n        setIsAnimating(false);\r\n      }, 300);\r\n      \r\n      onCheckedChange?.(newChecked);\r\n      props.onChange?.(event);\r\n    };\r\n\r\n    return (\r\n      <div className=\"relative\">\r\n        <input\r\n          type=\"checkbox\"\r\n          className=\"absolute h-4 w-4 opacity-0\"\r\n          ref={ref}\r\n          checked={isChecked}\r\n          onChange={handleChange}\r\n          {...props}\r\n        />\r\n        <div\r\n          className={cn(\r\n            \"peer h-4 w-4 shrink-0 rounded-sm border ring-offset-background\",\r\n            \"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2\",\r\n            \"disabled:cursor-not-allowed disabled:opacity-50\",\r\n            \"transition-all duration-300 ease-in-out\",\r\n            isAnimating && \"scale-110\",\r\n            \"[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10\",\r\n            isChecked \r\n              ? \"bg-primary [.lw-3d_&]:bg-gradient-to-b [.lw-3d_&]:from-white/15 [.lw-3d_&]:to-black/15 [.lw-3d_&]:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),inset_0_-1px_0_0_rgba(0,0,0,0.15),0_1px_1px_0_rgba(0,0,0,0.05)]\" \r\n              : \"bg-transparent hover:bg-primary/10 [.lw-3d_&]:shadow-[inset_0_1px_2px_0_rgba(0,0,0,0.15)]\",\r\n            className\r\n          )}\r\n        >\r\n          {isChecked && (\r\n            <div className={cn(\r\n              \"flex items-center justify-center text-current\",\r\n              \"animate-in fade-in-0 zoom-in-0 duration-300\"\r\n            )}>\r\n              <Check className=\"h-4 w-4 text-white dark:text-black\" />\r\n            </div>\r\n          )}\r\n        </div>\r\n      </div>\r\n    );\r\n  }\r\n);\r\nCheckbox.displayName = \"Checkbox\";\r\n\r\nexport { Checkbox };\r\n"
+    }
+  ],
+  "dependencies": [
+    "lucide-react",
+    "clsx",
+    "tailwind-merge",
+    "@radix-ui/react-checkbox"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "terminal-card",
+  "type": "lightswind:ui",
+  "title": "Terminal Card",
+  "description": "A card designed to look like a terminal/CLI interface.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/terminal-card.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/terminal-card.tsx",
+      "content": "\"use client\";\r\n\r\nimport React, { useEffect, useState } from \"react\";\r\nimport { Copy, Terminal, Check } from \"lucide-react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\nimport { motion } from \"framer-motion\";\r\nimport dynamic from \"next/dynamic\";\r\nconst SyntaxHighlighter = dynamic(\r\n  () => import(\"react-syntax-highlighter\").then((mod) => mod.Prism),\r\n  { ssr: false }\r\n) as React.ComponentType<any>;\r\nimport { oneDark } from \"react-syntax-highlighter/dist/cjs/styles/prism\";\r\n\r\ntype TerminalCardProps = {\r\n  command: string;\r\n  language?: string;\r\n  className?: string;\r\n};\r\n\r\nconst TerminalCard: React.FC<TerminalCardProps> = ({ command, language = \"tsx\", className }) => {\r\n  const [copied, setCopied] = useState(false);\r\n  const [displayedText, setDisplayedText] = useState(\"\");\r\n  const [index, setIndex] = useState(0);\r\n  const [isComplete, setIsComplete] = useState(false);\r\n\r\n  // Typing animation logic\r\n  useEffect(() => {\r\n    let timeout: NodeJS.Timeout;\r\n\r\n    if (index < command.length) {\r\n      timeout = setTimeout(() => {\r\n        setDisplayedText((prev) => prev + command.charAt(index));\r\n        setIndex((prev) => prev + 1);\r\n      }, 40); // typing speed\r\n    } else {\r\n      setIsComplete(true);\r\n      timeout = setTimeout(() => {\r\n        setDisplayedText(\"\");\r\n        setIndex(0);\r\n        setIsComplete(false);\r\n      }, 2000); // restart delay\r\n    }\r\n\r\n    return () => clearTimeout(timeout);\r\n  }, [index, command]);\r\n\r\n  // Copy handler\r\n  const handleCopy = () => {\r\n    navigator.clipboard.writeText(command);\r\n    setCopied(true);\r\n    setTimeout(() => setCopied(false), 1500);\r\n  };\r\n\r\n  return (\r\n    <div\r\n      className={cn(\r\n        \"border rounded-lg backdrop-blur-md min-w-[300px] max-w-full\",\r\n        \"bg-white/70 border-gray-300 text-black\",\r\n        \"dark:bg-white/10 dark:border-gray-400/30 dark:text-white\",\r\n        className\r\n      )}\r\n    >\r\n      {/* Header */}\r\n      <div className=\"flex items-center justify-between px-3 py-2 bg-gray-100 dark:bg-[#202425] rounded-t-lg text-sm font-semibold text-gray-700 dark:text-gray-400\">\r\n        <div className=\"flex items-center gap-2\">\r\n          <Terminal className=\"w-4 h-4 text-primarylw\" />\r\n          Terminal\r\n        </div>\r\n        <button\r\n          className=\"p-1 border rounded transition hover:border-gray-600 dark:hover:border-white text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white\"\r\n          onClick={handleCopy}\r\n          aria-label=\"Copy to clipboard\"\r\n        >\r\n          {copied ? <Check className=\"w-4 h-4 text-green-500\" /> : <Copy className=\"w-4 h-4\" />}\r\n        </button>\r\n      </div>\r\n\r\n      {/* Content with Syntax Highlighting */}\r\n      <div className=\"rounded-b-lg text-sm font-mono p-3 bg-black text-white dark:bg-black max-h-[300px] overflow-auto\">\r\n        {isComplete ? (\r\n          <SyntaxHighlighter\r\n            language={language}\r\n            style={oneDark}\r\n            customStyle={{ background: \"transparent\", margin: 0, padding: 0 }}\r\n          >\r\n            {command}\r\n          </SyntaxHighlighter>\r\n        ) : (\r\n          <motion.pre className=\"whitespace-pre-wrap\">\r\n            {displayedText}\r\n            <motion.span\r\n              className=\"inline-block w-1 bg-white ml-1\"\r\n              animate={{ opacity: [0, 1] }}\r\n              transition={{ duration: 0.6, repeat: Infinity }}\r\n            />\r\n          </motion.pre>\r\n        )}\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default TerminalCard;\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "lucide-react",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

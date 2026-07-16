@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "image-trail-effect",
+  "type": "lightswind:ui",
+  "title": "Image Trail Effect",
+  "description": "Images that follow and fade behind the cursor on movement.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/image-trail-effect.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/image-trail-effect.tsx",
+      "content": "// @ts-nocheck\r\n\"use client\";\r\nimport { cn } from \"@/components/lib/utils\";\r\nimport { createRef, ReactNode, useRef } from \"react\";\r\n\r\ninterface MouseTrailProps {\r\n  imageSources: string[];\r\n  content?: ReactNode;\r\n  containerClassName?: string;\r\n  imageClassName?: string;\r\n  triggerDistance?: number;\r\n  maxTrailImages?: number;\r\n  useFadeEffect?: boolean;\r\n}\r\n\r\nexport default function ImageTrailEffect({\r\n  imageSources,\r\n  content,\r\n  containerClassName,\r\n  maxTrailImages = 5,\r\n  imageClassName = \"w-40 h-48\",\r\n  triggerDistance = 20,\r\n  useFadeEffect = false,\r\n}: MouseTrailProps) {\r\n  const wrapperRef = useRef(null);\r\n  const imageRefs = useRef(\r\n    imageSources.map(() => createRef<HTMLImageElement>())\r\n  );\r\n  const zIndexCounterRef = useRef(1);\r\n\r\n  let imageIndex = 0;\r\n  let lastPosition = { x: 0, y: 0 };\r\n\r\n  const activateImage = (img: HTMLImageElement, x: number, y: number) => {\r\n    const containerBounds = wrapperRef.current?.getBoundingClientRect();\r\n    const relativeX = x - containerBounds.left;\r\n    const relativeY = y - containerBounds.top;\r\n\r\n    img.style.left = `${relativeX}px`;\r\n    img.style.top = `${relativeY}px`;\r\n\r\n    if (zIndexCounterRef.current > 40) {\r\n      zIndexCounterRef.current = 1;\r\n    }\r\n\r\n    img.style.zIndex = String(zIndexCounterRef.current++);\r\n    img.dataset.status = \"active\";\r\n\r\n    if (useFadeEffect) {\r\n      setTimeout(() => {\r\n        img.dataset.status = \"inactive\";\r\n      }, 1500);\r\n    }\r\n\r\n    lastPosition = { x, y };\r\n  };\r\n\r\n  const calculateDistance = (x: number, y: number) => {\r\n    return Math.hypot(x - lastPosition.x, y - lastPosition.y);\r\n  };\r\n\r\n  const deactivateImage = (img: HTMLImageElement) => {\r\n    img.dataset.status = \"inactive\";\r\n  };\r\n\r\n  const handleMouseMove = (e: MouseEvent | Touch) => {\r\n    if (\r\n      calculateDistance(e.clientX, e.clientY) >\r\n      window.innerWidth / triggerDistance\r\n    ) {\r\n      const leadImage =\r\n        imageRefs.current[imageIndex % imageRefs.current.length]?.current;\r\n      const tailImage =\r\n        imageRefs.current[\r\n          (imageIndex - maxTrailImages) % imageRefs.current.length\r\n        ]?.current;\r\n\r\n      if (leadImage) activateImage(leadImage, e.clientX, e.clientY);\r\n      if (tailImage) deactivateImage(tailImage);\r\n\r\n      imageIndex++;\r\n    }\r\n  };\r\n\r\n  const handleMouseLeave = () => {\r\n    // Deactivate all images when cursor leaves the container\r\n    imageRefs.current.forEach((ref) => {\r\n      if (ref.current) {\r\n        ref.current.dataset.status = \"inactive\";\r\n      }\r\n    });\r\n    // Reset position tracker so next entry restarts cleanly\r\n    lastPosition = { x: 0, y: 0 };\r\n  };\r\n\r\n  return (\r\n    <section\r\n      onMouseMove={handleMouseMove}\r\n      onMouseLeave={handleMouseLeave}\r\n      onTouchMove={(e) => handleMouseMove(e.touches[0])}\r\n      ref={wrapperRef}\r\n      className={cn(\r\n        `grid place-content-center h-[600px] w-full bg-background  text-foreground\r\n        relative overflow-hidden rounded-lg`,\r\n        containerClassName\r\n      )}\r\n    >\r\n      {imageSources.map((src, i) => (\r\n        <img\r\n          key={i}\r\n          ref={imageRefs.current[i]}\r\n          src={src}\r\n          alt={`trail-${i}`}\r\n          data-index={i}\r\n          data-status=\"inactive\"\r\n          className={cn(\r\n            \"object-cover scale-0 opacity:0 data-[status='active']:scale-100 data-[status='active']:opacity-100 transition-transform data-[status='active']:duration-500 duration-300 data-[status='active']:ease-out-expo absolute -translate-y-[50%] -translate-x-[50%]\",\r\n            imageClassName\r\n          )}\r\n        />\r\n      ))}\r\n      {content}\r\n    </section>\r\n  );\r\n}\r\n\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

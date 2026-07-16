@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "magnetic-button",
+  "type": "lightswind:ui",
+  "title": "Magnetic Button",
+  "description": "A Magnetic Button component for Lightswind UI.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "button"
+  },
+  "files": [
+    {
+      "path": "r/magnetic-button.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/magnetic-button.tsx",
+      "content": "\"use client\";\r\n\r\nimport React, { useRef, useState } from \"react\";\r\nimport { motion, useSpring, useTransform } from \"framer-motion\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface MagneticButtonProps {\r\n  /** Button label or children */\r\n  children: React.ReactNode;\r\n  /** How strongly the button attracts (0–1, default 0.4) */\r\n  strength?: number;\r\n  /** Pixel radius in which magnetism activates */\r\n  radius?: number;\r\n  /** Visual variant */\r\n  variant?: \"primary\" | \"outline\" | \"ghost\" | \"dark\";\r\n  /** Size */\r\n  size?: \"sm\" | \"md\" | \"lg\";\r\n  /** onClick handler */\r\n  onClick?: () => void;\r\n  /** Additional classes */\r\n  className?: string;\r\n}\r\n\r\nexport function MagneticButton({\r\n  children,\r\n  strength = 0.4,\r\n  radius = 80,\r\n  variant = \"primary\",\r\n  size = \"md\",\r\n  onClick,\r\n  className,\r\n}: MagneticButtonProps) {\r\n  const buttonRef = useRef<HTMLDivElement>(null);\r\n  const [isHovered, setIsHovered] = useState(false);\r\n\r\n  // Spring config — snappy but elastic\r\n  const springConfig = { stiffness: 200, damping: 18, mass: 0.6 };\r\n\r\n  const rawX = useSpring(0, springConfig);\r\n  const rawY = useSpring(0, springConfig);\r\n\r\n  // Inner text moves slightly less than the container (parallax depth)\r\n  const textX = useTransform(rawX, (v) => v * 0.4);\r\n  const textY = useTransform(rawY, (v) => v * 0.4);\r\n\r\n  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {\r\n    const rect = buttonRef.current?.getBoundingClientRect();\r\n    if (!rect) return;\r\n\r\n    const centerX = rect.left + rect.width / 2;\r\n    const centerY = rect.top + rect.height / 2;\r\n\r\n    const distX = e.clientX - centerX;\r\n    const distY = e.clientY - centerY;\r\n    const dist = Math.sqrt(distX ** 2 + distY ** 2);\r\n\r\n    if (dist < radius) {\r\n      rawX.set(distX * strength);\r\n      rawY.set(distY * strength);\r\n      setIsHovered(true);\r\n    } else {\r\n      rawX.set(0);\r\n      rawY.set(0);\r\n      setIsHovered(false);\r\n    }\r\n  };\r\n\r\n  const handleMouseLeave = () => {\r\n    rawX.set(0);\r\n    rawY.set(0);\r\n    setIsHovered(false);\r\n  };\r\n\r\n  const variants = {\r\n    primary:\r\n      \"bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20\",\r\n    outline:\r\n      \"border-2 border-foreground text-foreground hover:bg-foreground/5\",\r\n    ghost:\r\n      \"text-foreground hover:bg-foreground/8\",\r\n    dark:\r\n      \"bg-foreground text-background shadow-lg\",\r\n  };\r\n\r\n  const sizes = {\r\n    sm: \"h-9 px-5 text-sm rounded-full\",\r\n    md: \"h-12 px-8 text-base rounded-full\",\r\n    lg: \"h-14 px-12 text-lg rounded-full\",\r\n  };\r\n\r\n  return (\r\n    <div\r\n      ref={buttonRef}\r\n      onMouseMove={handleMouseMove}\r\n      onMouseLeave={handleMouseLeave}\r\n      style={{ display: \"inline-flex\", padding: radius * 0.25 }}\r\n    >\r\n      <motion.button\r\n        type=\"button\"\r\n        onClick={onClick}\r\n        style={{ x: rawX, y: rawY }}\r\n        animate={{ scale: isHovered ? 1.04 : 1 }}\r\n        transition={{ type: \"spring\", stiffness: 300, damping: 20 }}\r\n        className={cn(\r\n          \"relative inline-flex items-center justify-center font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring overflow-hidden\",\r\n          variants[variant],\r\n          sizes[size],\r\n          className\r\n        )}\r\n      >\r\n        {/* Subtle inner glow on hover */}\r\n        <motion.span\r\n          animate={{ opacity: isHovered ? 1 : 0 }}\r\n          transition={{ duration: 0.25 }}\r\n          className=\"pointer-events-none absolute inset-0 rounded-full bg-white/10\"\r\n        />\r\n\r\n        {/* Text layer with slight parallax */}\r\n        <motion.span\r\n          style={{ x: textX, y: textY }}\r\n          className=\"relative z-10 flex items-center gap-2\"\r\n        >\r\n          {children}\r\n        </motion.span>\r\n      </motion.button>\r\n    </div>\r\n  );\r\n}\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

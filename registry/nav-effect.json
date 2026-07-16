@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "nav-effect",
+  "type": "lightswind:ui",
+  "title": "Nav Effect",
+  "description": "A navigation bar with a liquid/magnetic link hover effect.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/nav-effect.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/nav-effect.tsx",
+      "content": "\"use client\";\r\n\r\nimport React from \"react\";\r\nimport { motion } from \"framer-motion\";\r\nimport clsx from \"clsx\";\r\n\r\ninterface NavEffectProps {\r\n  children: React.ReactNode;\r\n  effectType?: \"underline\" | \"overline\" | \"box\" | \"slide\" | \"grow\";\r\n  underlineColor?: string;\r\n  underlineHeight?: string;\r\n  duration?: number;\r\n  fontSize?: string;\r\n  className?: string;\r\n  boxBgColor?: string;\r\n}\r\n\r\nconst NavEffect: React.FC<NavEffectProps> = ({\r\n  children,\r\n  effectType = \"underline\",\r\n  underlineColor = \"currentColor\",\r\n  underlineHeight = \"2px\",\r\n  duration = 0.3,\r\n  fontSize = \"text-sm md:text-base\",\r\n  className = \"\",\r\n  boxBgColor = \"rgba(0, 0, 0, 0.1)\",\r\n}) => {\r\n  const renderEffect = () => {\r\n    switch (effectType) {\r\n      case \"underline\":\r\n        return (\r\n          <motion.span\r\n            variants={{\r\n              initial: { width: 0, opacity: 0 },\r\n              hover: {\r\n                width: \"100%\",\r\n                opacity: 1,\r\n                transition: { duration, ease: \"easeInOut\" },\r\n              },\r\n            }}\r\n            style={{\r\n              backgroundColor: underlineColor,\r\n              height: underlineHeight,\r\n              bottom: \"0px\",\r\n              left: \"0px\",\r\n              borderRadius: \"9999px\",\r\n            }}\r\n            className=\"absolute w-full\"\r\n          />\r\n        );\r\n\r\n      case \"overline\":\r\n        return (\r\n          <motion.span\r\n            variants={{\r\n              initial: { width: 0, opacity: 0 },\r\n              hover: {\r\n                width: \"100%\",\r\n                opacity: 1,\r\n                transition: { duration, ease: \"easeInOut\" },\r\n              },\r\n            }}\r\n            style={{\r\n              backgroundColor: underlineColor,\r\n              height: underlineHeight,\r\n              top: \"0px\",\r\n              left: \"0px\",\r\n              borderRadius: \"9999px\",\r\n            }}\r\n            className=\"absolute w-full\"\r\n          />\r\n        );\r\n\r\n      case \"box\":\r\n        return (\r\n          <motion.div\r\n            variants={{\r\n              initial: { opacity: 0, scale: 0.95 },\r\n              hover: {\r\n                opacity: 1,\r\n                scale: 1,\r\n                transition: { duration, ease: \"easeOut\" },\r\n              },\r\n            }}\r\n            style={{\r\n              backgroundColor: boxBgColor,\r\n              borderRadius: \"8px\",\r\n            }}\r\n            className=\"absolute inset-0 -z-10\"\r\n          />\r\n        );\r\n\r\n      case \"slide\":\r\n        return (\r\n          <motion.span\r\n            variants={{\r\n              initial: { x: \"-100%\", opacity: 0 },\r\n              hover: {\r\n                x: \"0%\",\r\n                opacity: 1,\r\n                transition: { duration, ease: \"easeInOut\" },\r\n              },\r\n            }}\r\n            style={{\r\n              backgroundColor: underlineColor,\r\n              height: underlineHeight,\r\n              borderRadius: \"9999px\",\r\n            }}\r\n            className=\"absolute bottom-0 left-0 w-full\"\r\n          />\r\n        );\r\n\r\n      default:\r\n        return null;\r\n    }\r\n  };\r\n\r\n  return (\r\n    <motion.li\r\n      whileHover=\"hover\"\r\n      initial=\"initial\"\r\n      animate=\"initial\"\r\n      whileTap=\"hover\"\r\n      className={clsx(\r\n        \"relative inline-flex flex-col items-center justify-center cursor-pointer font-medium transition-colors\",\r\n        fontSize,\r\n        className\r\n      )}\r\n      variants={\r\n        effectType === \"grow\"\r\n          ? {\r\n              initial: { scale: 1 },\r\n              hover: {\r\n                scale: 1.1,\r\n                transition: { duration, ease: \"easeInOut\" },\r\n              },\r\n            }\r\n          : undefined\r\n      }\r\n    >\r\n      <span className=\"relative inline-block pb-[2px]\">\r\n        {children}\r\n        {renderEffect()}\r\n      </span>\r\n    </motion.li>\r\n  );\r\n};\r\n\r\nexport default NavEffect;\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "button",
+  "type": "lightswind:ui",
+  "title": "Button",
+  "description": "A versatile button component with multiple variants and sizes.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/button.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/button.tsx",
+      "content": "\r\nimport * as React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\n// Define button style variants as a constant object (not exported)\r\nconst buttonStyles = {\r\n  variant: {\r\n    default: \"btn-3d-default\",\r\n    destructive: \"btn-3d-destructive\",\r\n    outline: \"btn-3d-outline\",\r\n    secondary: \"btn-3d-secondary\",\r\n    ghost: \"btn-3d-ghost\",\r\n    link: \"btn-3d-link\",\r\n    github: \"btn-3d-github\",\r\n    custom: \"btn-3d-custom\",\r\n    unstyled: \"\",\r\n  },\r\n  size: {\r\n    default: \"h-10 px-4 py-2 rounded-lg\",\r\n    sm: \"h-9 px-3 rounded-md\",\r\n    lg: \"h-11 px-8 rounded-xl\",\r\n    icon: \"h-10 w-10 rounded-lg\",\r\n    unstyled: \"\",\r\n  }\r\n};\r\n\r\nexport interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {\r\n  variant?: keyof typeof buttonStyles.variant;\r\n  size?: keyof typeof buttonStyles.size;\r\n  asChild?: boolean;\r\n}\r\n\r\n// Define the buttonVariants function (exported)\r\nexport function buttonVariants(options: {\r\n  variant?: keyof typeof buttonStyles.variant;\r\n  size?: keyof typeof buttonStyles.size;\r\n  className?: string;\r\n} = {}): string {\r\n  const { variant = \"default\", size = \"default\", className } = options;\r\n\r\n  return cn(\r\n    \"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0\",\r\n    buttonStyles.variant[variant],\r\n    buttonStyles.size[size],\r\n    className\r\n  );\r\n}\r\n\r\nconst Button = React.forwardRef<HTMLButtonElement, ButtonProps>(\r\n  ({ className, variant = \"default\", size = \"default\", asChild = false, ...props }, ref) => {\r\n    if (asChild) {\r\n      return (\r\n        <React.Fragment>\r\n          {React.Children.map(props.children, child => {\r\n            if (React.isValidElement(child)) {\r\n              // Instead of cloneElement with complex props, use a wrapper\r\n              return (\r\n                <span className={buttonVariants({ variant, size, className })}>\r\n                  {child}\r\n                </span>\r\n              );\r\n            }\r\n            return child;\r\n          })}\r\n        </React.Fragment>\r\n      );\r\n    }\r\n\r\n    return (\r\n      <button\r\n        className={buttonVariants({ variant, size, className })}\r\n        ref={ref}\r\n        {...props}\r\n      />\r\n    );\r\n  }\r\n);\r\nButton.displayName = \"Button\";\r\n\r\nexport { Button };\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

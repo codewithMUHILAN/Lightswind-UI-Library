@@ -1,0 +1,22 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "ripple-loader",
+  "type": "lightswind:ui",
+  "title": "Ripple Loader",
+  "description": "A loading indicator with concentric ripple circles.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/ripple-loader.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/ripple-loader.tsx",
+      "content": "\"use client\";\r\nimport React from \"react\";\r\nimport { motion } from \"framer-motion\";\r\n\r\ntype RippleLoaderProps = {\r\n  icon?: React.ReactNode;\r\n  size?: number;\r\n  duration?: number; // in seconds\r\n  logoColor?: string;\r\n};\r\n\r\nconst RippleLoader: React.FC<RippleLoaderProps> = ({\r\n  icon,\r\n  size = 250,\r\n  duration = 2, // use number for easier calculations\r\n  logoColor = \"grey\",\r\n}) => {\r\n  const baseInset = 40;\r\n  const rippleBoxes = Array.from({ length: 5 }, (_, i) => ({\r\n    inset: `${baseInset - i * 10}%`,\r\n    zIndex: 99 - i,\r\n    delay: i * 0.2,\r\n    opacity: 1 - i * 0.2,\r\n  }));\r\n\r\n  return (\r\n    <div\r\n      className=\"relative\"\r\n      style={{ width: size, height: size }}\r\n    >\r\n      {rippleBoxes.map((box, i) => (\r\n        <motion.div\r\n          key={i}\r\n          className=\"absolute rounded-full border-t backdrop-blur-[5px]\"\r\n          style={{\r\n            inset: box.inset,\r\n            zIndex: box.zIndex,\r\n            borderColor: `rgba(100,100,100,${box.opacity})`,\r\n            background:\r\n              \"linear-gradient(0deg, rgba(50, 50, 50, 0.2), rgba(100, 100, 100, 0.2))\",\r\n          }}\r\n          animate={{\r\n            scale: [1, 1.3, 1],\r\n            boxShadow: [\r\n              \"rgba(0, 0, 0, 0.3) 0px 10px 10px 0px\",\r\n              \"rgba(0, 0, 0, 0.3) 0px 30px 20px 0px\",\r\n              \"rgba(0, 0, 0, 0.3) 0px 10px 10px 0px\",\r\n            ],\r\n          }}\r\n          transition={{\r\n            repeat: Infinity,\r\n            duration,\r\n            delay: box.delay,\r\n            ease: \"easeInOut\",\r\n          }}\r\n        />\r\n      ))}\r\n\r\n      {/* ICON CONTAINER \r\n        Set a specific z-index (e.g., 100) to ensure it's above all ripples.\r\n        Removed p-[20%] to give the icon max available space inside the center.\r\n      */}\r\n      <div\r\n        className=\"absolute inset-0 grid place-content-center\"\r\n        style={{ zIndex: 100, padding: `${baseInset / 2}%` }}\r\n      >\r\n        <motion.span\r\n          className=\"w-full h-full\"\r\n          animate={{ color: [logoColor, \"#ffffff\", logoColor] }}\r\n          transition={{\r\n            repeat: Infinity,\r\n            duration,\r\n            delay: 0.1,\r\n            ease: \"easeInOut\",\r\n          }}\r\n        >\r\n          <span\r\n            className=\"w-full h-full text-foreground\"\r\n            style={{ display: \"inline-block\", width: \"100%\", height: \"100%\" }}\r\n          >\r\n            {icon &&\r\n              React.cloneElement(icon as React.ReactElement<any>, {\r\n                className: \"w-full h-full\",\r\n              })}\r\n          </span>\r\n        </motion.span>\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default RippleLoader;"
+    }
+  ],
+  "dependencies": [
+    "framer-motion"
+  ]
+}

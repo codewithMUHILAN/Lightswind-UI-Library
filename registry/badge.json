@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "badge",
+  "type": "lightswind:ui",
+  "title": "Badge",
+  "description": "A small status descriptor for UI elements.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/badge.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/badge.tsx",
+      "content": "\r\nimport * as React from \"react\"\r\nimport { cva, type VariantProps } from \"class-variance-authority\"\r\nimport { cn } from \"@/components/lib/utils\"\r\n\r\nconst badgeVariants = cva(\r\n  \"inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2\",\r\n  {\r\n    variants: {\r\n      variant: {\r\n        default:\r\n          \"border-transparent bg-primary text-primary-foreground\",\r\n        secondary:\r\n          \"border-transparent bg-secondary text-secondary-foreground\",\r\n        destructive:\r\n          \"border-transparent bg-red-500 text-white\",\r\n        outline:\r\n          \"text-foreground\",\r\n        success:\r\n          \"border-transparent bg-green-500 text-white\",\r\n        warning:\r\n          \"border-transparent bg-amber-500 text-white\",\r\n        info:\r\n          \"border-transparent bg-primarylw text-white\",\r\n      },\r\n      size: {\r\n        default: \"px-2.5 py-0.5 text-xs\",\r\n        sm: \"px-2 py-0.5 text-xs\",\r\n        lg: \"px-3 py-1 text-sm\",\r\n      },\r\n      shape: {\r\n        default: \"rounded-full\",\r\n        square: \"rounded-sm\",\r\n        rounded: \"rounded-md\",\r\n      }\r\n    },\r\n    defaultVariants: {\r\n      variant: \"default\",\r\n      size: \"default\",\r\n      shape: \"default\",\r\n    },\r\n  }\r\n)\r\n\r\nexport interface BadgeProps\r\n  extends React.HTMLAttributes<HTMLDivElement>,\r\n    VariantProps<typeof badgeVariants> {\r\n  withDot?: boolean;\r\n  dotColor?: string;\r\n  interactive?: boolean;\r\n  highlighted?: boolean;\r\n}\r\n\r\nfunction Badge({ \r\n  className, \r\n  variant, \r\n  size,\r\n  shape,\r\n  withDot,\r\n  dotColor = \"currentColor\",\r\n  interactive,\r\n  highlighted,\r\n  ...props \r\n}: BadgeProps) {\r\n  return (\r\n    <div \r\n      className={cn(\r\n        badgeVariants({ variant, size, shape }), \r\n        interactive && \"cursor-pointer hover:opacity-80\",\r\n        highlighted && \"ring-2 ring-offset-2 ring-ring\",\r\n        className\r\n      )} \r\n      {...props}\r\n    >\r\n      {withDot && (\r\n        <span \r\n          className=\"mr-1 h-1.5 w-1.5 rounded-full inline-block\" \r\n          style={{ backgroundColor: dotColor }}\r\n        />\r\n      )}\r\n      {props.children}\r\n    </div>\r\n  )\r\n}\r\n\r\nexport { Badge, badgeVariants }\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

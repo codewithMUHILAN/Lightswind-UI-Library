@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "typing-text",
+  "type": "lightswind:ui",
+  "title": "Typing Text",
+  "description": "A typewriter-style text animation with configurable speed.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "text"
+  },
+  "files": [
+    {
+      "path": "r/typing-text.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/typing-text.tsx",
+      "content": "\"use client\";\r\n\r\nimport { motion, Variants } from \"framer-motion\";\r\nimport React, {\r\n  ElementType,\r\n  ReactNode,\r\n  useEffect,\r\n  useState,\r\n} from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\nexport interface TypingTextProps {\r\n  children: ReactNode;\r\n  as?: ElementType;\r\n  className?: string;\r\n  delay?: number;\r\n  duration?: number;\r\n  fontSize?: string;\r\n  fontWeight?: string;\r\n  color?: string;\r\n  letterSpacing?: string;\r\n  align?: \"left\" | \"center\" | \"right\";\r\n  loop?: boolean;\r\n}\r\n\r\nexport const TypingText = ({\r\n  children,\r\n  as: Component = \"div\",\r\n  className = \"\",\r\n  delay = 0,\r\n  duration = 2,\r\n  fontSize = \"text-4xl\",\r\n  fontWeight = \"font-bold\",\r\n  color = \"text-white\",\r\n  letterSpacing = \"tracking-wide\",\r\n  align = \"left\",\r\n  loop = false,\r\n}: TypingTextProps) => {\r\n  const [textContent, setTextContent] = useState<string>(\"\");\r\n\r\n  useEffect(() => {\r\n    const extractText = (node: ReactNode): string => {\r\n      if (typeof node === \"string\" || typeof node === \"number\") {\r\n        return node.toString();\r\n      }\r\n      if (Array.isArray(node)) {\r\n        return node.map(extractText).join(\"\");\r\n      }\r\n      if (React.isValidElement(node)) {\r\n        const element = node as React.ReactElement<any>;\r\n        if (typeof element.props.children !== \"undefined\") {\r\n          return extractText(element.props.children);\r\n        }\r\n      }\r\n      return \"\";\r\n    };\r\n\r\n    setTextContent(extractText(children));\r\n  }, [children]);\r\n\r\n  const characters = textContent.split(\"\").map((char) =>\r\n    char === \" \" ? \"\\u00A0\" : char\r\n  );\r\n\r\n  const characterVariants: Variants = {\r\n    hidden: { opacity: 0, scale: 0.95 },\r\n    visible: (i: number) => ({\r\n      opacity: 1,\r\n      scale: 1,\r\n      transition: {\r\n        delay: delay + i * (duration / characters.length),\r\n        duration: 0.3,\r\n        ease: \"easeInOut\",\r\n      },\r\n    }),\r\n  };\r\n\r\n  return React.createElement(\r\n    Component as any,\r\n    {\r\n      className: cn(\r\n        \"inline-flex\",\r\n        className,\r\n        fontSize,\r\n        fontWeight,\r\n        color,\r\n        letterSpacing,\r\n        align === \"center\"\r\n          ? \"justify-center text-center\"\r\n          : align === \"right\"\r\n          ? \"justify-end text-right\"\r\n          : \"justify-start text-left\"\r\n      ),\r\n    },\r\n    <motion.span\r\n      className=\"inline-block\"\r\n      initial=\"hidden\"\r\n      animate=\"visible\"\r\n      aria-label={textContent}\r\n      role=\"text\"\r\n    >\r\n      {characters.map((char, index) => (\r\n        <motion.span\r\n          key={`${char}-${index}`}\r\n          className=\"inline-block\"\r\n          variants={characterVariants}\r\n          custom={index}\r\n          initial=\"hidden\"\r\n          animate=\"visible\"\r\n        >\r\n          {char}\r\n        </motion.span>\r\n      ))}\r\n    </motion.span>\r\n  );\r\n};\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

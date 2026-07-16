@@ -1,0 +1,19 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "shine-button",
+  "type": "lightswind:ui",
+  "title": "Shine Button",
+  "description": "A button with an animated sheen highlight on hover.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "button"
+  },
+  "files": [
+    {
+      "path": "r/shine-button.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/shine-button.tsx",
+      "content": "import React from \"react\";\r\n\r\ninterface ShineButtonProps {\r\n  label?: string;\r\n  onClick?: () => void;\r\n  className?: string;\r\n  size?: \"sm\" | \"md\" | \"lg\";\r\n  bgColor?: string; // Can be hex or gradient\r\n  disabled?: boolean;\r\n  children?: React.ReactNode;\r\n}\r\n\r\nconst sizeStyles: Record<\r\n  NonNullable<ShineButtonProps[\"size\"]>,\r\n  { padding: string; fontSize: string }\r\n> = {\r\n  sm: { padding: \"0.5rem 1rem\", fontSize: \"0.875rem\" },\r\n  md: { padding: \"0.6rem 1.4rem\", fontSize: \"1rem\" },\r\n  lg: { padding: \"0.8rem 1.8rem\", fontSize: \"1.125rem\" },\r\n};\r\n\r\nexport const ShineButton: React.FC<ShineButtonProps> = ({\r\n  label = \"Shine now\",\r\n  onClick,\r\n  className = \"\",\r\n  size = \"md\",\r\n  bgColor = \"linear-gradient(325deg, hsl(217 100% 56%) 0%, hsl(194 100% 69%) 55%, hsl(217 100% 56%) 90%)\",\r\n  disabled = false,\r\n  children,\r\n}) => {\r\n  const { padding, fontSize } = sizeStyles[size];\r\n\r\n  // Determine whether to use solid color or gradient\r\n  const backgroundImage = bgColor.startsWith(\"linear-gradient\")\r\n    ? bgColor\r\n    : `linear-gradient(to right, ${bgColor}, ${bgColor})`;\r\n\r\n  return (\r\n    <button\r\n      onClick={onClick}\r\n      disabled={disabled}\r\n      className={`relative text-white font-medium rounded-md min-w-[120px] min-h-[44px] transition-all duration-700 ease-in-out\r\n        border-none cursor-pointer shadow-[0px_0px_20px_rgba(71,184,255,0.5),0px_5px_5px_-1px_rgba(58,125,233,0.25),inset_4px_4px_8px_rgba(175,230,255,0.5),inset_-4px_-4px_8px_rgba(19,95,216,0.35)]\r\n        focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-500\r\n        hover:bg-[length:280%_auto] active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none ${className}`}\r\n      style={{\r\n        backgroundImage: disabled ? \"none\" : backgroundImage,\r\n        backgroundColor: disabled ? \"hsl(var(--muted))\" : undefined,\r\n        backgroundSize: \"280% auto\",\r\n        backgroundPosition: \"initial\",\r\n        color: disabled ? \"hsl(var(--muted-foreground))\" : \"hsl(0 0% 100%)\",\r\n        fontSize,\r\n        padding,\r\n        transition: \"0.8s\",\r\n      }}\r\n      onMouseEnter={(e) => {\r\n        if (!disabled) {\r\n          (e.target as HTMLButtonElement).style.backgroundPosition = \"right top\";\r\n        }\r\n      }}\r\n      onMouseLeave={(e) => {\r\n        if (!disabled) {\r\n          (e.target as HTMLButtonElement).style.backgroundPosition = \"initial\";\r\n        }\r\n      }}\r\n    >\r\n      {children || label}\r\n\r\n      {/* Shine effect */}\r\n      {!disabled && (\r\n        <div\r\n          className=\"absolute top-0 left-[-75%] w-[200%] \r\n        h-full bg-white/40 skew-x-[-20deg] opacity-0 \r\n        group-hover:opacity-100 animate-shine pointer-events-none z-20\"\r\n        />\r\n      )}\r\n    </button>\r\n  );\r\n};\r\n"
+    }
+  ]
+}

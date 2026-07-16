@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "dot-pattern",
+  "type": "lightswind:ui",
+  "title": "Dot Pattern",
+  "description": "An SVG dot-grid pattern background with configurable size and opacity.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/dot-pattern.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/dot-pattern.tsx",
+      "content": "import { useId } from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface DotPatternProps {\r\n  width?: number;\r\n  height?: number;\r\n  x?: number;\r\n  y?: number;\r\n  cx?: number;\r\n  cy?: number;\r\n  cr?: number;\r\n  className?: string;\r\n  [key: string]: any;\r\n}\r\n\r\nexport function DotPattern({\r\n  width = 16,\r\n  height = 16,\r\n  x = 0,\r\n  y = 0,\r\n  cx = 1,\r\n  cy = 1,\r\n  cr = 1,\r\n  className,\r\n  ...props\r\n}: DotPatternProps) {\r\n  const id = useId();\r\n\r\n  return (\r\n    <svg\r\n      aria-hidden=\"true\"\r\n      className={cn(\r\n        \"pointer-events-none absolute inset-0 h-full w-full fill-neutral-400/80 blur-[1px] animate-dotPatternMotion\",\r\n        className\r\n      )}\r\n      {...props}\r\n    >\r\n      <defs>\r\n        <pattern\r\n          id={id}\r\n          width={width}\r\n          height={height}\r\n          patternUnits=\"userSpaceOnUse\"\r\n          patternTransform=\"translate(0,0)\"\r\n        >\r\n          <circle cx={cx} cy={cy} r={cr} />\r\n        </pattern>\r\n      </defs>\r\n      <rect width=\"100%\" height=\"100%\" strokeWidth={0} fill={`url(#${id})`} />\r\n    </svg>\r\n  );\r\n}\r\n\r\nexport default DotPattern;\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "3d-marquee",
+  "type": "lightswind:ui",
+  "title": "3D Marquee",
+  "description": "A smooth infinite marquee with a 3D perspective depth effect.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "3d"
+  },
+  "files": [
+    {
+      "path": "r/3d-marquee.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/3d-marquee.tsx",
+      "content": "\"use client\";\r\n\r\nimport { motion } from \"framer-motion\";\r\nimport React from \"react\";\r\n\r\nexport interface MarqueeImage {\r\n  src: string;\r\n  alt: string;\r\n  href?: string;\r\n  target?: \"_blank\" | \"_self\" | \"_parent\" | \"_top\";\r\n}\r\n\r\nexport interface ThreeDMarqueeProps {\r\n  images: MarqueeImage[];\r\n  className?: string;\r\n  cols?: number; // default is 4\r\n  onImageClick?: (image: MarqueeImage, index: number) => void;\r\n}\r\n\r\nexport const ThreeDMarquee: React.FC<ThreeDMarqueeProps> = ({\r\n  images,\r\n  className = \"\",\r\n  cols = 4,\r\n  onImageClick,\r\n}) => {\r\n  // Clone the image list twice\r\n  const duplicatedImages = [...images, ...images];\r\n\r\n  const groupSize = Math.ceil(duplicatedImages.length / cols);\r\n  const imageGroups = Array.from({ length: cols }, (_, index) =>\r\n    duplicatedImages.slice(index * groupSize, (index + 1) * groupSize)\r\n  );\r\n\r\n  const handleImageClick = (image: MarqueeImage, globalIndex: number) => {\r\n    if (onImageClick) {\r\n      onImageClick(image, globalIndex);\r\n    } else if (image.href) {\r\n      window.open(image.href, image.target || \"_self\");\r\n    }\r\n  };\r\n\r\n  return (\r\n    <section\r\n      className={`mx-auto block h-[600px] max-sm:h-[400px] \r\n        overflow-hidden rounded-2xl bg-white dark:bg-black ${className}`}\r\n    >\r\n      <div\r\n        className=\"flex w-full h-full items-center justify-center\"\r\n        style={{\r\n          transform: \"rotateX(55deg) rotateY(0deg) rotateZ(45deg)\",\r\n        }}\r\n      >\r\n        <div className=\"w-full overflow-hidden scale-90 sm:scale-100\">\r\n          <div\r\n            className={`relative grid h-full w-full origin-center \r\n              grid-cols-2 sm:grid-cols-${cols} gap-4 transform \r\n              `}\r\n          >\r\n            {imageGroups.map((imagesInGroup, idx) => (\r\n              <motion.div\r\n                key={`column-${idx}`}\r\n                animate={{ y: idx % 2 === 0 ? 100 : -100 }}\r\n                transition={{\r\n                  duration: idx % 2 === 0 ? 10 : 15,\r\n                  repeat: Infinity,\r\n                  repeatType: \"reverse\",\r\n                }}\r\n                className=\"flex flex-col items-center gap-6 relative\"\r\n              >\r\n                <div className=\"absolute left-0 top-0 h-full w-0.5 bg-gray-200 dark:bg-gray-700\" />\r\n                {imagesInGroup.map((image, imgIdx) => {\r\n                  const globalIndex = idx * groupSize + imgIdx;\r\n                  const isClickable = image.href || onImageClick;\r\n\r\n                  return (\r\n                    <div key={`img-${imgIdx}`} className=\"relative\">\r\n                      <div className=\"absolute top-0 left-0 w-full h-0.5 bg-gray-200 dark:bg-gray-700\" />\r\n                      <motion.img\r\n                        whileHover={{ y: -10 }}\r\n                        transition={{ duration: 0.3, ease: \"easeInOut\" }}\r\n                        src={image.src}\r\n                        alt={image.alt}\r\n                        width={970}\r\n                        height={700}\r\n                        className={`aspect-[970/700] w-full max-w-[200px] rounded-lg object-cover ring ring-gray-300/30 dark:ring-gray-800/50 shadow-xl hover:shadow-2xl transition-shadow duration-300 ${\r\n                          isClickable ? \"cursor-pointer\" : \"\"\r\n                        }`}\r\n                        onClick={() => handleImageClick(image, globalIndex)}\r\n                      />\r\n                    </div>\r\n                  );\r\n                })}\r\n              </motion.div>\r\n            ))}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </section>\r\n  );\r\n};\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "focus-cards-layout",
+  "type": "lightswind:ui",
+  "title": "Focus Cards Layout",
+  "description": "A Focus Cards Layout component for Lightswind UI.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/focus-cards-layout.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/focus-cards-layout.tsx",
+      "content": "\"use client\";\r\nimport React, { useState } from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\nexport interface FocusCardType {\r\n  title: string;\r\n  src: string;\r\n}\r\n\r\nexport const FocusCardsLayout = ({ cards }: { cards: FocusCardType[] }) => {\r\n  const [hovered, setHovered] = useState<number | null>(null);\r\n\r\n  return (\r\n    <div className=\"grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto px-4 md:px-8 w-full\">\r\n      {cards.map((card, index) => (\r\n        <Card\r\n          key={card.title}\r\n          card={card}\r\n          index={index}\r\n          hovered={hovered}\r\n          setHovered={setHovered}\r\n        />\r\n      ))}\r\n    </div>\r\n  );\r\n};\r\n\r\nexport const Card = React.memo(\r\n  ({\r\n    card,\r\n    index,\r\n    hovered,\r\n    setHovered,\r\n  }: {\r\n    card: FocusCardType;\r\n    index: number;\r\n    hovered: number | null;\r\n    setHovered: React.Dispatch<React.SetStateAction<number | null>>;\r\n  }) => {\r\n    return (\r\n      <div\r\n        onMouseEnter={() => setHovered(index)}\r\n        onMouseLeave={() => setHovered(null)}\r\n        className={cn(\r\n          \"rounded-xl sm:rounded-2xl relative bg-muted/40 overflow-hidden h-60 md:h-96 w-full transition-all duration-500 ease-out border border-border/20 shadow-sm\",\r\n          hovered !== null && hovered !== index && \"blur-sm scale-[0.98] md:opacity-40\"\r\n        )}\r\n      >\r\n        <img\r\n          src={card.src}\r\n          alt={card.title}\r\n          className=\"object-cover absolute inset-0 w-full h-full\"\r\n        />\r\n        <div\r\n          className={cn(\r\n            \"absolute inset-0 bg-black/50 flex items-end py-8 px-6 transition-opacity duration-300\",\r\n            hovered === index ? \"opacity-100\" : \"opacity-0\"\r\n          )}\r\n        >\r\n          <div className=\"text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]\">\r\n            {card.title}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    );\r\n  }\r\n);\r\n\r\nCard.displayName = \"FocusCard\";\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

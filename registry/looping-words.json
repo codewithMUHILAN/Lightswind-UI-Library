@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "looping-words",
+  "type": "lightswind:ui",
+  "title": "Looping Words",
+  "description": "A Looping Words component for Lightswind UI.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "text"
+  },
+  "files": [
+    {
+      "path": "r/looping-words.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/looping-words.tsx",
+      "content": "\"use client\";\r\n\r\nimport React, { useEffect, useState, useRef } from \"react\";\r\nimport { motion, useAnimationControls } from \"framer-motion\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface LoopingWordsProps {\r\n  words: string[];\r\n  className?: string;\r\n}\r\n\r\nexport function LoopingWords({ words, className }: LoopingWordsProps) {\r\n  const controls = useAnimationControls();\r\n  const wordsRef = useRef<(HTMLLIElement | null)[]>([]);\r\n  const [selectorWidth, setSelectorWidth] = useState(0);\r\n\r\n  // Duplicate the words array to create a seamless infinite loop\r\n  const duplicatedWords = [...words, ...words];\r\n  const totalOriginal = words.length;\r\n\r\n  useEffect(() => {\r\n    // Initial width setup\r\n    updateWidth(1);\r\n\r\n    let index = 0;\r\n    const interval = setInterval(async () => {\r\n      index++;\r\n      updateWidth((index % totalOriginal) + 1);\r\n\r\n      await controls.start({\r\n        y: `-${(index * 100) / duplicatedWords.length}%`,\r\n        transition: { duration: 1.2, ease: [0.175, 0.885, 0.32, 1.15] },\r\n      });\r\n\r\n      // If we've scrolled past the first full set, snap back to the start seamlessly\r\n      if (index === totalOriginal) {\r\n        index = 0;\r\n        controls.set({ y: \"0%\" });\r\n      }\r\n    }, 2200);\r\n\r\n    return () => clearInterval(interval);\r\n  }, [controls, totalOriginal, duplicatedWords.length]);\r\n\r\n  const updateWidth = (index: number) => {\r\n    const el = wordsRef.current[index];\r\n    if (el) {\r\n      setSelectorWidth(el.offsetWidth);\r\n    }\r\n  };\r\n\r\n  return (\r\n    <div className={cn(\"flex items-center justify-center\", className)}>\r\n      <div className=\"relative h-[2.7em] px-[0.2em] text-[11vw] md:text-[6vw] leading-[0.9] font-bold uppercase whitespace-nowrap overflow-hidden\">\r\n        \r\n        {/* List of words */}\r\n        <motion.ul\r\n          className=\"flex flex-col items-center m-0 p-0 list-none\"\r\n          animate={controls}\r\n          initial={{ y: \"0%\" }}\r\n        >\r\n          {duplicatedWords.map((word, i) => (\r\n            <li\r\n              key={i}\r\n              ref={(el) => {\r\n                wordsRef.current[i] = el;\r\n              }}\r\n              className=\"text-foreground tracking-tight\"\r\n            >\r\n              <p className=\"m-0\">{word}</p>\r\n            </li>\r\n          ))}\r\n        </motion.ul>\r\n\r\n        {/* Fade gradients */}\r\n        <div\r\n          className=\"pointer-events-none absolute inset-0 z-10\"\r\n          style={{\r\n            backgroundImage:\r\n              \"linear-gradient(180deg, hsl(var(--background)) 5%, transparent 40%, transparent 60%, hsl(var(--background)) 95%)\",\r\n          }}\r\n        />\r\n\r\n        {/* Selector Edge Boxes */}\r\n        <motion.div\r\n          className=\"absolute left-1/2 top-1/2 h-[0.9em] -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20\"\r\n          animate={{ width: selectorWidth }}\r\n          transition={{ duration: 0.5, ease: \"easeOut\" }}\r\n        >\r\n          {/* Top Left */}\r\n          <div className=\"absolute top-0 left-0 w-[0.125em] h-[0.125em] border-t-[0.035em] border-l-[0.035em] border-primarylw\" />\r\n          {/* Top Right */}\r\n          <div className=\"absolute top-0 right-0 w-[0.125em] h-[0.125em] border-t-[0.035em] border-r-[0.035em] border-primarylw\" />\r\n          {/* Bottom Left */}\r\n          <div className=\"absolute bottom-0 left-0 w-[0.125em] h-[0.125em] border-b-[0.035em] border-l-[0.035em] border-primarylw\" />\r\n          {/* Bottom Right */}\r\n          <div className=\"absolute bottom-0 right-0 w-[0.125em] h-[0.125em] border-b-[0.035em] border-r-[0.035em] border-primarylw\" />\r\n        </motion.div>\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

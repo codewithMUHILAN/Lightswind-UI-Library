@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "text-scroll-marquee",
+  "type": "lightswind:ui",
+  "title": "Text Scroll Marquee",
+  "description": "A horizontal text ticker with configurable speed and direction.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "text"
+  },
+  "files": [
+    {
+      "path": "r/text-scroll-marquee.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/text-scroll-marquee.tsx",
+      "content": "'use client';\r\n\r\nimport { useRef, useEffect } from 'react';\r\nimport {\r\n  motion,\r\n  useScroll,\r\n  useSpring,\r\n  useTransform,\r\n  useVelocity,\r\n  useAnimationFrame,\r\n  useMotionValue,\r\n} from 'framer-motion';\r\nimport { wrap } from '@motionone/utils';\r\nimport { cn } from '@/components/lib/utils';\r\n\r\ninterface TextScrollMarqueeProps {\r\n  children: string;\r\n  baseVelocity: number;\r\n  className?: string;\r\n  scrollDependent?: boolean;\r\n  delay?: number;\r\n  direction?: 'left' | 'right';\r\n}\r\n\r\nexport default function TextScrollMarquee({\r\n  children,\r\n  baseVelocity = 1,\r\n  className,\r\n  scrollDependent = false,\r\n  delay = 0,\r\n  direction = 'left',\r\n}: TextScrollMarqueeProps) {\r\n  const baseX = useMotionValue(0);\r\n  const { scrollY } = useScroll();\r\n  const scrollVelocity = useVelocity(scrollY);\r\n  const smoothVelocity = useSpring(scrollVelocity, {\r\n    damping: 50,\r\n    stiffness: 400,\r\n  });\r\n  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 2], {\r\n    clamp: false,\r\n  });\r\n\r\n  // ✅ Use modular wrap from -100% to 0% for seamless loop\r\n  const x = useTransform(baseX, (v) => `${wrap(-100, 0, v % 100)}%`);\r\n\r\n  const directionFactor = useRef<number>(direction === 'left' ? 1 : -1);\r\n  const hasStarted = useRef(false);\r\n\r\n  useEffect(() => {\r\n    const timer = setTimeout(() => {\r\n      hasStarted.current = true;\r\n    }, delay);\r\n\r\n    return () => clearTimeout(timer);\r\n  }, [delay]);\r\n\r\n  useEffect(() => {\r\n    directionFactor.current = direction === 'left' ? 1 : -1;\r\n  }, [direction]);\r\n\r\n  useAnimationFrame((t, delta) => {\r\n    if (!hasStarted.current) return;\r\n\r\n    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);\r\n\r\n    if (scrollDependent) {\r\n      if (velocityFactor.get() < 0) {\r\n        directionFactor.current = -1;\r\n      } else if (velocityFactor.get() > 0) {\r\n        directionFactor.current = 1;\r\n      }\r\n    }\r\n\r\n    moveBy += directionFactor.current * moveBy * velocityFactor.get();\r\n\r\n    baseX.set(baseX.get() + moveBy);\r\n  });\r\n\r\n  return (\r\n    <div className=\"overflow-hidden whitespace-nowrap flex flex-nowrap\">\r\n      <motion.div\r\n        className=\"flex whitespace-nowrap gap-10 flex-nowrap\"\r\n        style={{ x }}\r\n      >\r\n        {[...Array(4)].map((_, index) => (\r\n          <span key={index} className={cn('block text-[5vw]', className)}>\r\n            {children}\r\n          </span>\r\n        ))}\r\n      </motion.div>\r\n    </div>\r\n  );\r\n}\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

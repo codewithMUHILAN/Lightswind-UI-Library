@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "connection-graph",
+  "type": "lightswind:ui",
+  "title": "Connection Graph",
+  "description": "A node-edge graph visualization with animated connection lines.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/connection-graph.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/connection-graph.tsx",
+      "content": "\"use client\";\r\nimport React from \"react\";\r\nimport { motion } from \"framer-motion\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface Node {\r\n    id: string;\r\n    content: React.ReactNode;\r\n    position: { x: number; y: number }; // absolute positions\r\n}\r\n\r\ninterface Connection {\r\n    from: string; // source node id\r\n    to: string;   // target node id\r\n    direction?: \"horizontal\" | \"vertical\"; // optional override\r\n}\r\n\r\ninterface ConnectionGraphProps {\r\n    nodes: Node[];\r\n    connections: Connection[];\r\n    beamColor?: string;\r\n    beamDuration?: number; // ms\r\n    className?: string;\r\n}\r\n\r\nconst ConnectionGraph: React.FC<ConnectionGraphProps> = ({\r\n    nodes,\r\n    connections,\r\n    beamColor = \"#ff4500\",\r\n    beamDuration = 2000,\r\n    className,\r\n}) => {\r\n    return (\r\n        <div className={cn(\"relative w-full h-full\", className)}>\r\n            {/* Render Nodes */}\r\n            {nodes.map((node) => (\r\n                <div\r\n                    key={node.id}\r\n                    className=\"absolute flex items-center justify-center rounded-xl \r\n          shadow-lg bg-white dark:bg-neutral-900 border border-neutral-200 \r\n          dark:border-neutral-700 w-28 h-28\"\r\n                    style={{ left: node.position.x, top: node.position.y }}\r\n                >\r\n                    {node.content}\r\n                </div>\r\n            ))}\r\n\r\n            {/* Render Connections */}\r\n            {connections.map((conn, i) => {\r\n                const from = nodes.find((n) => n.id === conn.from);\r\n                const to = nodes.find((n) => n.id === conn.to);\r\n                if (!from || !to) return null;\r\n\r\n                const x1 = from.position.x + 56; // center offset\r\n                const y1 = from.position.y + 56;\r\n                const x2 = to.position.x + 56;\r\n                const y2 = to.position.y + 56;\r\n\r\n                const isHorizontal = Math.abs(y1 - y2) < Math.abs(x1 - x2);\r\n\r\n                return (\r\n                    <svg\r\n                        key={i}\r\n                        className=\"absolute pointer-events-none overflow-visible\"\r\n                        style={{ left: 0, top: 0 }}\r\n                    >\r\n                        {/* Line */}\r\n                        <line\r\n                            x1={x1}\r\n                            y1={y1}\r\n                            x2={x2}\r\n                            y2={y2}\r\n                            stroke=\"rgba(200,200,200,0.4)\"\r\n                            strokeWidth={2}\r\n                        />\r\n\r\n                        {/* Beam animation */}\r\n                        <motion.circle\r\n                            r={6}\r\n                            fill={beamColor}\r\n                            initial={{ x: x1, y: y1, opacity: 0 }}\r\n                            animate={{\r\n                                x: [x1, x2],\r\n                                y: [y1, y2],\r\n                                opacity: [0, 1, 1, 0],\r\n                            }}\r\n                            transition={{\r\n                                duration: beamDuration / 1000,\r\n                                repeat: Infinity,\r\n                                ease: \"easeInOut\",\r\n                                repeatDelay: Math.random() * 2, // random splash timing\r\n                            }}\r\n                        />\r\n\r\n                        {/* Splash at the end */}\r\n                        <motion.circle\r\n                            r={0}\r\n                            cx={x2}\r\n                            cy={y2}\r\n                            fill={beamColor}\r\n                            animate={{ r: [0, 10, 0], opacity: [0, 0.8, 0] }}\r\n                            transition={{\r\n                                duration: 0.8,\r\n                                repeat: Infinity,\r\n                                repeatDelay: beamDuration / 1000 + Math.random() * 2,\r\n                            }}\r\n                        />\r\n                    </svg>\r\n                );\r\n            })}\r\n        </div>\r\n    );\r\n};\r\n\r\nexport default ConnectionGraph;\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

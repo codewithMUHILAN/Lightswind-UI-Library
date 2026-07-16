@@ -1,0 +1,25 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "animated-copy-button",
+  "type": "lightswind:ui",
+  "title": "Animated Copy Button",
+  "description": "A Animated Copy Button component for Lightswind UI.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/animated-copy-button.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/animated-copy-button.tsx",
+      "content": "\"use client\";\r\n\r\nimport React, { useState } from \"react\";\r\nimport { motion, AnimatePresence } from \"framer-motion\";\r\nimport { Check, Copy } from \"lucide-react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface AnimatedCopyButtonProps {\r\n  /** The text that will be copied to the clipboard */\r\n  textToCopy: string;\r\n  /** Optional classname for the button */\r\n  className?: string;\r\n  /** Size of the button */\r\n  size?: \"sm\" | \"md\" | \"lg\";\r\n  /** Optional callback fired when copied */\r\n  onCopy?: () => void;\r\n}\r\n\r\nexport function AnimatedCopyButton({\r\n  textToCopy,\r\n  className,\r\n  size = \"md\",\r\n  onCopy,\r\n}: AnimatedCopyButtonProps) {\r\n  const [isCopied, setIsCopied] = useState(false);\r\n\r\n  const handleCopy = async () => {\r\n    try {\r\n      await navigator.clipboard.writeText(textToCopy);\r\n      setIsCopied(true);\r\n      if (onCopy) onCopy();\r\n\r\n      // Reset after 2 seconds\r\n      setTimeout(() => {\r\n        setIsCopied(false);\r\n      }, 2000);\r\n    } catch (err) {\r\n      console.error(\"Failed to copy text: \", err);\r\n    }\r\n  };\r\n\r\n  const sizes = {\r\n    sm: \"h-8 w-8\",\r\n    md: \"h-10 w-10\",\r\n    lg: \"h-12 w-12\",\r\n  };\r\n\r\n  const iconSizes = {\r\n    sm: \"h-4 w-4\",\r\n    md: \"h-5 w-5\",\r\n    lg: \"h-6 w-6\",\r\n  };\r\n\r\n  return (\r\n    <button\r\n      onClick={handleCopy}\r\n      className={cn(\r\n        \"relative flex items-center justify-center rounded-md border bg-background transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2\",\r\n        sizes[size],\r\n        className\r\n      )}\r\n      aria-label=\"Copy to clipboard\"\r\n    >\r\n      <AnimatePresence mode=\"wait\" initial={false}>\r\n        {isCopied ? (\r\n          <motion.div\r\n            key=\"check\"\r\n            initial={{ opacity: 0, scale: 0.5, rotate: -45 }}\r\n            animate={{ opacity: 1, scale: 1, rotate: 0 }}\r\n            exit={{ opacity: 0, scale: 0.5, rotate: 45 }}\r\n            transition={{ type: \"spring\", stiffness: 300, damping: 20 }}\r\n            className=\"absolute flex items-center justify-center text-green-500\"\r\n          >\r\n            <Check className={iconSizes[size]} />\r\n          </motion.div>\r\n        ) : (\r\n          <motion.div\r\n            key=\"copy\"\r\n            initial={{ opacity: 0, scale: 0.5 }}\r\n            animate={{ opacity: 1, scale: 1 }}\r\n            exit={{ opacity: 0, scale: 0.5 }}\r\n            transition={{ type: \"spring\", stiffness: 300, damping: 20 }}\r\n            className=\"absolute flex items-center justify-center text-foreground/70\"\r\n          >\r\n            <Copy className={iconSizes[size]} />\r\n          </motion.div>\r\n        )}\r\n      </AnimatePresence>\r\n      \r\n      {/* Background Ripple Effect on Copy */}\r\n      {isCopied && (\r\n        <motion.div\r\n          initial={{ opacity: 0.5, scale: 1 }}\r\n          animate={{ opacity: 0, scale: 2 }}\r\n          transition={{ duration: 0.5 }}\r\n          className=\"absolute inset-0 rounded-md bg-green-500/20\"\r\n        />\r\n      )}\r\n    </button>\r\n  );\r\n}\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "lucide-react",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

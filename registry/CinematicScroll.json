@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "CinematicScroll",
+  "type": "lightswind:ui",
+  "title": "CinematicScroll",
+  "description": "A CinematicScroll component for Lightswind UI.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/CinematicScroll.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/CinematicScroll.tsx",
+      "content": "\"use client\";\r\n\r\nimport React, { useRef, useEffect, useState } from \"react\";\r\nimport { motion, useScroll, useSpring, useTransform } from \"framer-motion\";\r\nimport { cn } from \"@/lib/utils\";\r\n\r\ninterface CinematicScrollProps {\r\n  children: React.ReactNode;\r\n  className?: string;\r\n  blurLayers?: number;\r\n  blurMax?: number;\r\n  blurSize?: number; // in pixels\r\n  accentColor?: string;\r\n  showScrollbar?: boolean;\r\n}\r\n\r\nexport const CinematicScroll = ({\r\n  children,\r\n  className,\r\n  blurLayers = 5,\r\n  blurMax = 20,\r\n  blurSize = 80,\r\n  accentColor = \"#3b82f6\",\r\n  showScrollbar = true,\r\n}: CinematicScrollProps) => {\r\n  const containerRef = useRef<HTMLDivElement>(null);\r\n  const scrollerRef = useRef<HTMLDivElement>(null);\r\n\r\n  const { scrollYProgress } = useScroll({\r\n    container: scrollerRef,\r\n  });\r\n\r\n  // Spring smooth progress for the custom bar\r\n  const scaleY = useSpring(scrollYProgress, {\r\n    stiffness: 100,\r\n    damping: 30,\r\n    restDelta: 0.001,\r\n  });\r\n\r\n  return (\r\n    <div\r\n      ref={containerRef}\r\n      className={cn(\r\n        \"relative w-full h-full overflow-hidden rounded-xl border border-border bg-background\",\r\n        className\r\n      )}\r\n      style={{\r\n        \"--blur-max\": blurMax,\r\n        \"--blur-size\": blurSize,\r\n        \"--accent\": accentColor,\r\n      } as React.CSSProperties}\r\n    >\r\n      {/* Top Blur Mask Layers */}\r\n      <div className=\"absolute top-0 left-0 right-0 z-30 pointer-events-none overflow-hidden\" style={{ height: blurSize }}>\r\n        {[...Array(blurLayers)].map((_, i) => (\r\n          <div\r\n            key={`top-${i}`}\r\n            className=\"absolute inset-0\"\r\n            style={{\r\n              backdropFilter: `blur(${Math.sin(((blurLayers - (i + 1)) / blurLayers) * Math.PI / 2) * blurMax}px) contrast(1.2) brightness(1.1)`,\r\n              maskImage: `linear-gradient(to bottom, black, transparent ${((i + 1) / blurLayers) * 100}%)`,\r\n              WebkitMaskImage: `linear-gradient(to bottom, black, transparent ${((i + 1) / blurLayers) * 100}%)`,\r\n            }}\r\n          />\r\n        ))}\r\n      </div>\r\n\r\n      {/* Bottom Blur Mask Layers */}\r\n      <div className=\"absolute bottom-0 left-0 right-0 z-30 pointer-events-none overflow-hidden rotate-180\" style={{ height: blurSize }}>\r\n        {[...Array(blurLayers)].map((_, i) => (\r\n          <div\r\n            key={`bottom-${i}`}\r\n            className=\"absolute inset-0\"\r\n            style={{\r\n              backdropFilter: `blur(${Math.sin(((blurLayers - (i + 1)) / blurLayers) * Math.PI / 2) * blurMax}px) contrast(1.2) brightness(1.1)`,\r\n              maskImage: `linear-gradient(to bottom, black, transparent ${((i + 1) / blurLayers) * 100}%)`,\r\n              WebkitMaskImage: `linear-gradient(to bottom, black, transparent ${((i + 1) / blurLayers) * 100}%)`,\r\n            }}\r\n          />\r\n        ))}\r\n      </div>\r\n\r\n      {/* Custom Scrollbar */}\r\n      {showScrollbar && (\r\n        <div className=\"absolute top-2 right-2 bottom-2 w-1.5 z-40 pointer-events-none hidden sm:block\">\r\n          <motion.div\r\n            className=\"w-full rounded-full origin-top\"\r\n            style={{\r\n              scaleY,\r\n              height: \"100%\",\r\n              background: `linear-gradient(to bottom, ${accentColor}, ${accentColor}dd)`,\r\n              boxShadow: `0 0 10px ${accentColor}44`,\r\n            }}\r\n          />\r\n        </div>\r\n      )}\r\n\r\n      {/* Main Scrollable Content */}\r\n      <div\r\n        ref={scrollerRef}\r\n        className=\"w-full h-full overflow-y-auto overflow-x-hidden custom-scrollbar\"\r\n        style={{ scrollbarWidth: \"none\" }} // Hide default scrollbar\r\n      >\r\n        <div className=\"px-6 py-12\">\r\n          {children}\r\n        </div>\r\n      </div>\r\n\r\n      <style jsx global>{`\r\n        .custom-scrollbar::-webkit-scrollbar {\r\n          display: none;\r\n        }\r\n      `}</style>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default CinematicScroll;\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

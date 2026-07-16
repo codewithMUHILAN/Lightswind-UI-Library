@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "separator",
+  "type": "lightswind:ui",
+  "title": "Separator",
+  "description": "A visual separator for dividing content sections.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "layout"
+  },
+  "files": [
+    {
+      "path": "r/separator.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/separator.tsx",
+      "content": "\r\nimport * as React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {\r\n  /** The orientation of the separator */\r\n  orientation?: \"horizontal\" | \"vertical\";\r\n  /** Whether the separator is decorative or functional */\r\n  decorative?: boolean;\r\n  /** The thickness of the separator */\r\n  thickness?: \"thin\" | \"default\" | \"thick\";\r\n  /** The style of the separator */\r\n  lineStyle?: \"solid\" | \"dashed\" | \"dotted\";\r\n  /** The color variant of the separator */\r\n  variant?: \"default\" | \"muted\" | \"accent\" | \"primary\";\r\n}\r\n\r\nconst Separator = React.forwardRef<HTMLDivElement, SeparatorProps>(\r\n  ({ \r\n    className, \r\n    orientation = \"horizontal\", \r\n    decorative = true, \r\n    thickness = \"default\",\r\n    lineStyle = \"solid\",\r\n    variant = \"default\",\r\n    ...props \r\n  }, ref) => {\r\n    // Thickness classes\r\n    const thicknessClasses = {\r\n      thin: orientation === \"horizontal\" ? \"h-px\" : \"w-px\",\r\n      default: orientation === \"horizontal\" ? \"h-[1px]\" : \"w-[1px]\",\r\n      thick: orientation === \"horizontal\" ? \"h-0.5\" : \"w-0.5\"\r\n    };\r\n\r\n    // Style classes\r\n    const styleClasses = {\r\n      solid: \"border-0\",\r\n      dashed: lineStyle === \"dashed\" ? (orientation === \"horizontal\" ? \"border-t-0 border-l-0 border-r-0 border-b border-dashed\" : \"border-t-0 border-b-0 border-r-0 border-l border-dashed\") : \"\",\r\n      dotted: lineStyle === \"dotted\" ? (orientation === \"horizontal\" ? \"border-t-0 border-l-0 border-r-0 border-b border-dotted\" : \"border-t-0 border-b-0 border-r-0 border-l border-dotted\") : \"\"\r\n    };\r\n\r\n    // Variant classes\r\n    const variantClasses = {\r\n      default: \"bg-primary/20\",\r\n      muted: \"bg-muted\",\r\n      accent: \"bg-accent\",\r\n      primary: \"bg-primary/20\"\r\n    };\r\n\r\n    return (\r\n      <div\r\n        ref={ref}\r\n        role={decorative ? \"none\" : \"separator\"}\r\n        aria-orientation={decorative ? undefined : orientation}\r\n        className={cn(\r\n          \"shrink-0\",\r\n          thicknessClasses[thickness],\r\n          orientation === \"horizontal\" ? \"w-full\" : \"h-full\",\r\n          variantClasses[variant],\r\n          styleClasses[lineStyle],\r\n          className\r\n        )}\r\n        {...props}\r\n      />\r\n    );\r\n  }\r\n);\r\nSeparator.displayName = \"Separator\";\r\n\r\nexport { Separator };\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@radix-ui/react-separator"
+  ]
+}

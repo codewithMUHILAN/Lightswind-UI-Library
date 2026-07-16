@@ -1,0 +1,19 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "orbit-card",
+  "type": "lightswind:ui",
+  "title": "Orbit Card",
+  "description": "A card with icons that orbit around it in a circular path.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/orbit-card.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/orbit-card.tsx",
+      "content": "\"use client\";\r\n\r\nimport React from \"react\";\r\n\r\ntype OrbitCardProps = {\r\n  children: React.ReactNode;\r\n  className?: string;\r\n};\r\n\r\nconst OrbitCard: React.FC<OrbitCardProps> = ({ children, className }) => {\r\n  return (\r\n    <div className={`relative ${className} rounded-xl`}>\r\n      {/* Glowing shadow background */}\r\n      <div className=\"absolute inset-0 z-0 flex items-center justify-center rounded-xl bg-background\">\r\n        <div className=\"absolute h-full w-full animate-orbit-glow rounded-xl\">\r\n          <div className=\"h-full w-full rounded-xl bg-transparent shadow-[0_0_30px_10px_rgba(59,130,246,0.5)]\"></div>\r\n        </div>\r\n      </div>\r\n\r\n      {/* Card Content */}\r\n      <div className=\"relative z-10 rounded-xl bg-background p-6 \">\r\n        {children}\r\n      </div>\r\n\r\n      {/* Keyframes for glowing effect */}\r\n      <style jsx>{`\r\n        @keyframes orbit-glow {\r\n          0% {\r\n            transform: scale(1);\r\n            box-shadow: 0 0 30px 10px rgba(59, 130, 246, 0.5);\r\n          }\r\n          50% {\r\n            transform: scale(1.05);\r\n            box-shadow: 0 0 40px 20px rgba(59, 130, 246, 0.3);\r\n          }\r\n          100% {\r\n            transform: scale(1);\r\n            box-shadow: 0 0 30px 10px rgba(59, 130, 246, 0.5);\r\n          }\r\n        }\r\n        .animate-orbit-glow {\r\n          animation: orbit-glow 4s ease-in-out infinite;\r\n        }\r\n      `}</style>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default OrbitCard;\r\n"
+    }
+  ]
+}

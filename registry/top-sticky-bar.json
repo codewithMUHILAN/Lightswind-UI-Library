@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "top-sticky-bar",
+  "type": "lightswind:ui",
+  "title": "Top Sticky Bar",
+  "description": "A sticky announcement bar that pins to the top of the page.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/top-sticky-bar.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/top-sticky-bar.tsx",
+      "content": "import { motion, Easing } from \"framer-motion\";\r\nimport { cn } from \"@/components/lib/utils\"; // Assuming you have a utility for class name concatenation\r\nimport { useState, useEffect } from \"react\"; // Import useState and useEffect\r\n\r\ninterface TopStickyBarProps {\r\n  /**\r\n   * Controls the visibility of the bar. True to show, false to hide.\r\n   * This prop is ignored if `showOnScroll` is true.\r\n   */\r\n  show?: boolean; // Make optional as it might be controlled internally\r\n  /**\r\n   * If true, the bar's visibility will be controlled by scroll position.\r\n   * If false or undefined, the `show` prop controls visibility.\r\n   * @default false\r\n   */\r\n  showOnScroll?: boolean;\r\n  /**\r\n   * The scroll position (in pixels) after which the bar will become visible when `showOnScroll` is true.\r\n   * @default 200\r\n   */\r\n  scrollThreshold?: number;\r\n  /**\r\n   * The content to display inside the sticky bar. Can be a string, JSX, or any React Node.\r\n   */\r\n  children: React.ReactNode;\r\n  /**\r\n   * Optional. Additional Tailwind CSS classes to apply to the bar for styling.\r\n   * Defaults to basic styling for a top bar.\r\n   */\r\n  className?: string;\r\n  /**\r\n   * Optional. The animation duration in seconds.\r\n   * @default 0.4\r\n   */\r\n  duration?: number;\r\n  /**\r\n   * Optional. The easing function for the animation.\r\n   * @default \"easeInOut\"\r\n   */\r\n  ease?: Easing | Easing[];\r\n  /**\r\n   * Optional. The initial vertical offset for the animation (when hidden).\r\n   * @default -50\r\n   */\r\n  initialY?: number;\r\n  /**\r\n   * Optional. The vertical offset when the bar is shown.\r\n   * @default 0\r\n   */\r\n  visibleY?: number;\r\n  /**\r\n   * Optional. The vertical offset when the bar is hidden.\r\n   * @default -50\r\n   */\r\n  hiddenY?: number;\r\n}\r\n\r\nconst TopStickyBar = ({\r\n  show: externalShow = false, // Renamed to avoid conflict with internal state\r\n  showOnScroll = false,\r\n  scrollThreshold = 200,\r\n  children,\r\n  className,\r\n  duration = 0.4,\r\n  ease = \"easeInOut\",\r\n  initialY = -50,\r\n  visibleY = 0,\r\n  hiddenY = -50,\r\n}: TopStickyBarProps) => {\r\n  const [internalShow, setInternalShow] = useState(externalShow); // Initialize with externalShow\r\n\r\n  // Effect to manage scroll-based visibility\r\n  useEffect(() => {\r\n    if (!showOnScroll) {\r\n      setInternalShow(externalShow); // If not scroll-controlled, use external prop\r\n      return;\r\n    }\r\n\r\n    const handleScroll = () => {\r\n      if (window.scrollY > scrollThreshold) {\r\n        setInternalShow(true);\r\n      } else {\r\n        setInternalShow(false);\r\n      }\r\n    };\r\n\r\n    window.addEventListener(\"scroll\", handleScroll);\r\n    // Call once on mount to set initial state based on current scroll\r\n    handleScroll();\r\n\r\n    return () => window.\r\nremoveEventListener(\"scroll\", handleScroll);\r\n  }, [showOnScroll, scrollThreshold, externalShow]); // Re-run if these props change\r\n\r\n  // Determine the final `show` value\r\n  const finalShow = showOnScroll ? internalShow : externalShow;\r\n\r\n  return (\r\n    <motion.div\r\n      initial={{ y: initialY, opacity: 0 }}\r\n      animate={{\r\n        y: finalShow ? visibleY : hiddenY,\r\n        opacity: finalShow ? 1 : 0,\r\n      }}\r\n      transition={{ duration, ease }}\r\n      className={cn(\r\n        \"fixed top-0 left-0 w-full z-[60] bg-gray-800 text-white py-1 text-sm text-center shadow-md\",\r\n        className\r\n      )}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  );\r\n};\r\n\r\nexport default TopStickyBar;"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

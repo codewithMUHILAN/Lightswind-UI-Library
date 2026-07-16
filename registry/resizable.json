@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "resizable",
+  "type": "lightswind:ui",
+  "title": "Resizable",
+  "description": "Resizable panel groups with draggable splitter handles.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "layout"
+  },
+  "files": [
+    {
+      "path": "r/resizable.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/resizable.tsx",
+      "content": "import { GripVertical } from \"lucide-react\"\r\nimport * as ResizablePrimitive from \"react-resizable-panels\"\r\n\r\nimport { cn } from \"@/components/lib/utils\"\r\n\r\nconst ResizablePanelGroup = ({\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof ResizablePrimitive.PanelGroup>) => (\r\n  <ResizablePrimitive.PanelGroup\r\n    className={cn(\r\n      \"flex h-full w-full data-[panel-group-direction=vertical]:flex-col\",\r\n      className\r\n    )}\r\n    {...props}\r\n  />\r\n)\r\n\r\nconst ResizablePanel = ResizablePrimitive.Panel\r\n\r\nconst ResizableHandle = ({\r\n  withHandle,\r\n  className,\r\n  ...props\r\n}: React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle> & {\r\n  withHandle?: boolean\r\n}) => (\r\n  <ResizablePrimitive.PanelResizeHandle\r\n    className={cn(\r\n      `relative flex w-px items-center justify-center bg-gray-300 dark:bg-gray-800\r\n      after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 \r\n      focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring \r\n      focus-visible:ring-offset-1 data-[panel-group-direction=vertical]:h-px \r\n      data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 \r\n      data-[panel-group-direction=vertical]:after:h-1 \r\n      data-[panel-group-direction=vertical]:after:w-full \r\n      data-[panel-group-direction=vertical]:after:-translate-y-1/2 \r\n      data-[panel-group-direction=vertical]:after:translate-x-0 \r\n      [&[data-panel-group-direction=vertical]>div]:rotate-90`,\r\n      className\r\n    )}\r\n    {...props}\r\n  >\r\n    {withHandle && (\r\n      <div\r\n        className=\"z-10 flex h-4 w-3 items-center justify-center \r\n        rounded-sm border border-muted-foreground !rounded-full\"\r\n      >\r\n        <GripVertical className=\"h-2.5 w-2.5\" />\r\n      </div>\r\n    )}\r\n  </ResizablePrimitive.PanelResizeHandle>\r\n)\r\n\r\n\r\nexport { ResizablePanelGroup, ResizablePanel, ResizableHandle }\r\n"
+    }
+  ],
+  "dependencies": [
+    "lucide-react",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

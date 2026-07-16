@@ -1,0 +1,44 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "input-otp",
+  "type": "lightswind:ui",
+  "title": "OTP Input",
+  "description": "A one-time-password input with individual digit slots.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "form"
+  },
+  "files": [
+    {
+      "path": "r/input-otp.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/input-otp.tsx",
+      "content": "import * as React from \"react\"\r\nimport { OTPInput, OTPInputContext } from \"input-otp\"\r\nimport { Dot } from \"lucide-react\"\r\n\r\nimport { cn } from \"@/components/lib/utils\"\r\n\r\nconst InputOTP = React.forwardRef<\r\n  React.ElementRef<typeof OTPInput>,\r\n  React.ComponentPropsWithoutRef<typeof OTPInput>\r\n>(({ className, containerClassName, ...props }, ref) => (\r\n  <OTPInput\r\n    ref={ref}\r\n    containerClassName={cn(\r\n      \"flex items-center gap-2 has-[:disabled]:opacity-50\",\r\n      containerClassName\r\n    )}\r\n    className={cn(\"disabled:cursor-not-allowed\", className)}\r\n    {...props}\r\n  />\r\n))\r\nInputOTP.displayName = \"InputOTP\"\r\n\r\nconst InputOTPGroup = React.forwardRef<\r\n  React.ElementRef<\"div\">,\r\n  React.ComponentPropsWithoutRef<\"div\">\r\n>(({ className, ...props }, ref) => (\r\n  <div ref={ref} className={cn(\"flex items-center\", className)} {...props} />\r\n))\r\nInputOTPGroup.displayName = \"InputOTPGroup\"\r\n\r\nconst InputOTPSlot = React.forwardRef<\r\n  React.ElementRef<\"div\">,\r\n  React.ComponentPropsWithoutRef<\"div\"> & { index: number }\r\n>(({ index, className, ...props }, ref) => {\r\n  const inputOTPContext = React.useContext(OTPInputContext)\r\n  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]\r\n\r\n  return (\r\n    <div\r\n      ref={ref}\r\n      className={cn(\r\n        \"relative flex h-10 w-10 items-center justify-center border-y border-r text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md\",\r\n        \"[.lw-3d_&]:border-black/10 dark:[.lw-3d_&]:border-white/10\",\r\n        isActive \r\n          ? \"[.lw-3d_&]:shadow-[inset_0_1.5px_3px_0_rgba(0,0,0,0.15),0_0_0_2px_rgba(23,62,255,0.4)] dark:[.lw-3d_&]:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.3),0_0_0_2px_rgba(23,62,255,0.4)]\"\r\n          : \"[.lw-3d_&]:shadow-[inset_0_1.5px_3px_0_rgba(0,0,0,0.15),0_1px_1px_0_rgba(255,255,255,0.05)] dark:[.lw-3d_&]:shadow-[inset_0_2px_4px_0_rgba(0,0,0,0.3)]\",\r\n        isActive && \"z-10 ring-2 ring-ring ring-offset-background [.lw-3d_&]:ring-0\",\r\n        className\r\n      )}\r\n      {...props}\r\n    >\r\n      {char}\r\n      {hasFakeCaret && (\r\n        <div className=\"pointer-events-none absolute inset-0 flex items-center justify-center\">\r\n          <div className=\"h-4 w-px animate-caret-blink bg-foreground duration-1000\" />\r\n        </div>\r\n      )}\r\n    </div>\r\n  )\r\n})\r\nInputOTPSlot.displayName = \"InputOTPSlot\"\r\n\r\nconst InputOTPSeparator = React.forwardRef<\r\n  React.ElementRef<\"div\">,\r\n  React.ComponentPropsWithoutRef<\"div\">\r\n>(({ ...props }, ref) => (\r\n  <div ref={ref} role=\"separator\" {...props}>\r\n    <Dot />\r\n  </div>\r\n))\r\nInputOTPSeparator.displayName = \"InputOTPSeparator\"\r\n\r\nexport { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator }\r\n"
+    }
+  ],
+  "dependencies": [
+    "lucide-react",
+    "input-otp",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "tailwind": {
+    "theme": {
+      "extend": {
+        "keyframes": {
+          "caret-blink": {
+            "0%,70%,100%": {
+              "opacity": "1"
+            },
+            "20%,50%": {
+              "opacity": "0"
+            }
+          }
+        },
+        "animation": {
+          "caret-blink": "caret-blink 1.25s ease-out infinite"
+        }
+      }
+    }
+  }
+}

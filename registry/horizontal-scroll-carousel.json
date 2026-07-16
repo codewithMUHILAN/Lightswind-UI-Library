@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "horizontal-scroll-carousel",
+  "type": "lightswind:ui",
+  "title": "Horizontal Scroll Carousel",
+  "description": "A Horizontal Scroll Carousel component for Lightswind UI.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "3d"
+  },
+  "files": [
+    {
+      "path": "r/horizontal-scroll-carousel.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/horizontal-scroll-carousel.tsx",
+      "content": "\"use client\";\r\nimport { motion, useTransform, useScroll } from \"framer-motion\";\r\nimport { useRef } from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\nexport interface HorizontalScrollCarouselProps {\r\n  cards: React.ReactNode[] | string[];\r\n  containerRef?: React.RefObject<any>;\r\n}\r\n\r\nexport const HorizontalScrollCarousel = ({ cards, containerRef }: HorizontalScrollCarouselProps) => {\r\n  const targetRef = useRef<HTMLDivElement | null>(null);\r\n  const { scrollYProgress } = useScroll({\r\n    target: targetRef,\r\n    container: containerRef,\r\n  });\r\n\r\n  const x = useTransform(scrollYProgress, [0, 1], [\"1%\", \"-95%\"]);\r\n\r\n  return (\r\n    <section ref={targetRef} className=\"relative h-[300vh] bg-background\">\r\n      <div className=\"sticky top-0 flex h-screen items-center overflow-hidden\">\r\n        <motion.div style={{ x }} className=\"flex gap-4 md:gap-8 px-4 md:px-8\">\r\n          {cards.map((card, index) => {\r\n            return (\r\n              <div\r\n                key={index}\r\n                className={cn(\r\n                  \"group relative h-[400px] w-[300px] md:h-[500px] md:w-[450px] overflow-hidden rounded-2xl bg-muted/20 border border-border/50 shrink-0\",\r\n                  \"flex items-center justify-center p-6 shadow-sm shadow-black/5\"\r\n                )}\r\n              >\r\n                {typeof card === \"string\" ? (\r\n                  <img\r\n                    src={card}\r\n                    className=\"absolute inset-0 z-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110\"\r\n                    alt={`Carousel card ${index}`}\r\n                    loading=\"lazy\"\r\n                  />\r\n                ) : (\r\n                  <div className=\"z-10 h-full w-full\">{card}</div>\r\n                )}\r\n                \r\n                {typeof card === \"string\" && (\r\n                  <div className=\"absolute inset-0 z-10 bg-gradient-to-t from-black/60 to-transparent\" />\r\n                )}\r\n              </div>\r\n            );\r\n          })}\r\n        </motion.div>\r\n      </div>\r\n    </section>\r\n  );\r\n};\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

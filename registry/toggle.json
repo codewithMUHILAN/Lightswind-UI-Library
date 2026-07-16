@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "toggle",
+  "type": "lightswind:ui",
+  "title": "Toggle",
+  "description": "A two-state button that can be toggled on or off.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "form"
+  },
+  "files": [
+    {
+      "path": "r/toggle.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/toggle.tsx",
+      "content": "\r\nimport * as React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\n// Define button style variants\r\nconst toggleVariants = {\r\n  variant: {\r\n    default: \"bg-transparent\",\r\n    outline: \"border   bg-transparent hover:bg-accent hover:text-accent-foreground\",\r\n  },\r\n  size: {\r\n    default: \"h-10 px-3\",\r\n    sm: \"h-9 px-2.5\",\r\n    lg: \"h-11 px-5\",\r\n  },\r\n};\r\n\r\nexport interface ToggleProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {\r\n  variant?: keyof typeof toggleVariants.variant;\r\n  size?: keyof typeof toggleVariants.size;\r\n  pressed?: boolean;\r\n  defaultPressed?: boolean; // Add defaultPressed prop\r\n  onPressedChange?: (pressed: boolean) => void;\r\n}\r\n\r\nconst Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(\r\n  ({ \r\n    className, \r\n    variant = \"default\", \r\n    size = \"default\", \r\n    children, \r\n    pressed, \r\n    defaultPressed = false, // Add default value\r\n    onPressedChange,\r\n    ...props \r\n  }, ref) => {\r\n    // Use internal state if uncontrolled\r\n    const [isPressed, setIsPressed] = React.useState(defaultPressed);\r\n    \r\n    // Determine if we're in controlled or uncontrolled mode\r\n    const isControlled = pressed !== undefined;\r\n    const dataState = isControlled ? pressed : isPressed;\r\n    \r\n    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {\r\n      // Don't update internal state if controlled\r\n      if (!isControlled) {\r\n        setIsPressed(!isPressed);\r\n      }\r\n      \r\n      // Call the change handler if provided\r\n      onPressedChange?.(!dataState);\r\n      \r\n      // Call the original onClick handler if it exists\r\n      props.onClick?.(event);\r\n    };\r\n    \r\n    return (\r\n      <button\r\n        ref={ref}\r\n        type=\"button\"\r\n        aria-pressed={dataState}\r\n        data-state={dataState ? \"on\" : \"off\"}\r\n        className={cn(\r\n          \"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-all duration-300 hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground\",\r\n          \"[.lw-3d_&]:border [.lw-3d_&]:border-black/10 [.dark.lw-3d_&]:border-white/10\",\r\n          \"data-[state=off]:[.lw-3d_&]:bg-gradient-to-b data-[state=off]:[.lw-3d_&]:from-white data-[state=off]:[.lw-3d_&]:to-zinc-50/95 data-[state=off]:[.dark.lw-3d_&]:from-zinc-900 data-[state=off]:[.dark.lw-3d_&]:to-zinc-950\",\r\n          \"data-[state=off]:[.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.45),0_1.5px_2px_0_rgba(0,0,0,0.06),0_1px_1px_0_rgba(0,0,0,0.04)]\",\r\n          \"data-[state=off]:[.dark.lw-3d_&]:shadow-[inset_0_1.5px_0_0_rgba(255,255,255,0.15),0_1.5px_2px_0_rgba(0,0,0,0.3)]\",\r\n          \"data-[state=on]:[.lw-3d_&]:bg-accent/80\",\r\n          \"data-[state=on]:[.lw-3d_&]:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)]\",\r\n          \"data-[state=on]:[.dark.lw-3d_&]:shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]\",\r\n          toggleVariants.variant[variant],\r\n          toggleVariants.size[size],\r\n          className\r\n        )}\r\n        onClick={handleClick}\r\n        {...props}\r\n      >\r\n        {children}\r\n      </button>\r\n    );\r\n  }\r\n);\r\nToggle.displayName = \"Toggle\";\r\n\r\nexport { Toggle, toggleVariants };\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@radix-ui/react-toggle"
+  ]
+}

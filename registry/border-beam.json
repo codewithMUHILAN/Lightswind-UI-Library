@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "border-beam",
+  "type": "lightswind:ui",
+  "title": "Border Beam",
+  "description": "A component with an animated beam of light traversing its border.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "button"
+  },
+  "files": [
+    {
+      "path": "r/border-beam.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/border-beam.tsx",
+      "content": "\r\n\"use client\";\r\n\r\nimport React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\nimport { motion } from \"framer-motion\";\r\n\r\ninterface BorderBeamProps {\r\n  /**\r\n   * The size of the border beam.\r\n   */\r\n  size?: number;\r\n  /**\r\n   * The duration of the border beam.\r\n   */\r\n  duration?: number;\r\n  /**\r\n   * The delay of the border beam.\r\n   */\r\n  delay?: number;\r\n  /**\r\n   * The color of the border beam from.\r\n   */\r\n  colorFrom?: string;\r\n  /**\r\n   * The color of the border beam to.\r\n   */\r\n  colorTo?: string;\r\n  /**\r\n   * The motion transition of the border beam.\r\n   */\r\n  transition?: any;\r\n  /**\r\n   * The class name of the border beam.\r\n   */\r\n  className?: string;\r\n  /**\r\n   * The style of the border beam.\r\n   */\r\n  style?: React.CSSProperties;\r\n  /**\r\n   * Whether to reverse the animation direction.\r\n   */\r\n  reverse?: boolean;\r\n  /**\r\n   * The initial offset position (0-100).\r\n   */\r\n  initialOffset?: number;\r\n  /**\r\n   * The thickness of the border.\r\n   */\r\n  borderThickness?: number;\r\n  /**\r\n   * The opacity of the beam.\r\n   */\r\n  opacity?: number;\r\n  /**\r\n   * The intensity of the glow effect.\r\n   */\r\n  glowIntensity?: number;\r\n  /**\r\n   * Border radius of the beam in pixels.\r\n   */\r\n  beamBorderRadius?: number;\r\n  /**\r\n   * Whether to pause animation on hover.\r\n   */\r\n  pauseOnHover?: boolean;\r\n  /**\r\n   * Animation speed multiplier (higher is faster).\r\n   */\r\n  speedMultiplier?: number;\r\n}\r\n\r\nexport const BorderBeam = ({\r\n  className,\r\n  size = 50,\r\n  delay = 0,\r\n  duration = 6,\r\n  colorFrom = \"#7400ff\",\r\n  colorTo = \"#9b41ff\",\r\n  transition,\r\n  style,\r\n  reverse = false,\r\n  initialOffset = 0,\r\n  borderThickness = 1,\r\n  opacity = 1,\r\n  glowIntensity = 0,\r\n  beamBorderRadius,\r\n  pauseOnHover = false,\r\n  speedMultiplier = 1,\r\n}: BorderBeamProps) => {\r\n  // Calculate actual duration based on speed multiplier\r\n  const actualDuration = speedMultiplier ? duration / speedMultiplier : duration;\r\n  \r\n  // Generate box shadow for glow effect\r\n  const glowEffect = glowIntensity > 0 \r\n    ? `0 0 ${glowIntensity * 5}px ${glowIntensity * 2}px var(--color-from)` \r\n    : undefined;\r\n\r\n  return (\r\n <div className=\"pointer-events-none absolute inset-0 rounded-[inherit] \r\n    border border-transparent [mask-clip:padding-box,border-box] \r\n    [mask-composite:intersect] [mask-image:linear-gradient(transparent,transparent),linear-gradient(#000,#000)]\"\r\n \r\n      // style={{ \r\n      //   borderWidth: `${borderThickness}px`,\r\n      // }}\r\n    >\r\n      <motion.div\r\n        className={cn(\r\n          \"absolute aspect-square\",\r\n          \"bg-gradient-to-l from-[var(--color-from)] via-[var(--color-to)] to-transparent\",\r\n          pauseOnHover && \"group-hover:animation-play-state-paused\",\r\n          className,\r\n        )}\r\n        style={{\r\n          width: size,\r\n          offsetPath: `rect(0 auto auto 0 round ${beamBorderRadius ?? size}px)`,\r\n          \"--color-from\": colorFrom,\r\n          \"--color-to\": colorTo,\r\n          opacity: opacity,\r\n          boxShadow: glowEffect,\r\n          borderRadius: beamBorderRadius ? `${beamBorderRadius}px` : undefined,\r\n          ...style,\r\n        } as any}\r\n        initial={{ offsetDistance: `${initialOffset}%` }}\r\n        animate={{\r\n          offsetDistance: reverse\r\n            ? [`${100 - initialOffset}%`, `${-initialOffset}%`]\r\n            : [`${initialOffset}%`, `${100 + initialOffset}%`],\r\n        }}\r\n        transition={{\r\n          repeat: Infinity,\r\n          ease: \"linear\",\r\n          duration: actualDuration,\r\n          delay: -delay,\r\n          ...transition,\r\n        }}\r\n      />\r\n    </div>\r\n  );\r\n};\r\n"
+    }
+  ],
+  "dependencies": [
+    "framer-motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "animated-ocean-waves",
+  "type": "lightswind:ui",
+  "title": "Animated Ocean Waves",
+  "description": "Pure CSS animated ocean waves suitable for hero footers.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/animated-ocean-waves.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/animated-ocean-waves.tsx",
+      "content": "import React from \"react\";\r\n\r\nexport interface AnimatedOceanWavesProps {\r\n  /** Height of the ocean container (CSS value, e.g. '5%', '80px') */\r\n  height?: string;\r\n  /** Background color or gradient for the ocean container */\r\n  oceanBackground?: string;\r\n  /** Wave SVG url (default is the blue wave) */\r\n  waveImageUrl?: string;\r\n  /** Wave animation duration in seconds */\r\n  waveDuration?: number;\r\n  /** Offset between the two wave layers (in px, for parallax effect) */\r\n  waveOffset?: number;\r\n  /** Opacity of the front/back wave layers */\r\n  frontWaveOpacity?: number;\r\n  backWaveOpacity?: number;\r\n  /** Additional container className */\r\n  className?: string;\r\n  /** Additional inline style for the outer container */\r\n  style?: React.CSSProperties;\r\n  /** Z-index of the ocean (allows layering) */\r\n  zIndex?: number;\r\n}\r\n\r\nconst DEFAULT_WAVE_IMAGE = \"https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg\";\r\n\r\nexport const AnimatedOceanWaves: React.FC<AnimatedOceanWavesProps> = ({\r\n  height = \"5%\",\r\n  oceanBackground,\r\n  waveImageUrl = DEFAULT_WAVE_IMAGE,\r\n  waveDuration = 7,\r\n  waveOffset = 23, // offset in px between the two layers\r\n  frontWaveOpacity = 1,\r\n  backWaveOpacity = 1,\r\n  className = \"\",\r\n  style,\r\n  zIndex = 1\r\n}) => {\r\n  // Inline styles for container and waves\r\n  const oceanStyles: React.CSSProperties = {\r\n    height,\r\n    width: \"100%\",\r\n    position: \"absolute\",\r\n    left: 0,\r\n    bottom: 0,\r\n    background: oceanBackground,\r\n    zIndex,\r\n    ...style,\r\n  };\r\n\r\n  const waveStyles: React.CSSProperties = {\r\n    // String concatenation for background image URL\r\n    background: \"url(\" + waveImageUrl + \") repeat-x\",\r\n    position: \"absolute\",\r\n    top: 0,\r\n    width: \"6400px\",\r\n    height: \"198px\",\r\n    // String concatenation for animation property\r\n    animation: \"waveAnim \" + waveDuration + \"s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite\",\r\n    transform: \"translate3d(0, 0, 0)\",\r\n    opacity: frontWaveOpacity,\r\n    pointerEvents: \"none\"\r\n  };\r\n\r\n  const backWaveStyles: React.CSSProperties = {\r\n    ...waveStyles,\r\n    top: -waveOffset,\r\n    opacity: backWaveOpacity,\r\n    // String concatenation for combined animation property\r\n    animation: \"waveAnim \" + waveDuration + \"s cubic-bezier(0.36, 0.45, 0.63, 0.53) -\" + (waveDuration * 0.018) + \"s infinite, \" +\r\n               \"swellAnim \" + waveDuration + \"s ease -\" + (waveDuration * 0.18) + \"s infinite\"\r\n  };\r\n\r\n  return (\r\n    <div className={className} style={oceanStyles} aria-hidden=\"true\">\r\n      {/* Keyframes style tag for animation - standard string for CSS */}\r\n      <style>\r\n        {\"@keyframes waveAnim {\" +\r\n         \"0% { margin-left: 0; }\" +\r\n         \"100% { margin-left: -1600px; }\" +\r\n         \"}\" +\r\n         \"@keyframes swellAnim {\" +\r\n         \"0%, 100% { transform: translate3d(0, -25px, 0);}\" +\r\n         \"50% { transform: translate3d(0, 5px, 0);}\" +\r\n         \"}\"}\r\n      </style>\r\n      <div style={waveStyles}></div>\r\n      <div style={backWaveStyles}></div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default AnimatedOceanWaves;"
+    }
+  ]
+}

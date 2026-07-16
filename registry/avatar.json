@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "avatar",
+  "type": "lightswind:ui",
+  "title": "Avatar",
+  "description": "An image element with a fallback for user profile pictures.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "ui"
+  },
+  "files": [
+    {
+      "path": "r/avatar.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/avatar.tsx",
+      "content": "\r\nimport * as React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {\r\n  src?: string;\r\n  alt?: string;\r\n  fallback?: React.ReactNode;\r\n  status?: \"online\" | \"offline\" | \"away\" | \"busy\" | null;\r\n}\r\n\r\nconst DEFAULT_AVATAR = `https://robohash.org/${Math.random().toString(36).substring(7)}.png`;\r\n\r\n\r\nconst Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(\r\n  ({ className, src, alt, fallback, status, ...props }, ref) => {\r\n    return (\r\n      <div\r\n        ref={ref}\r\n        className={cn(\r\n          \"relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full\",\r\n          \"transition-all duration-300 ease-in-out hover:scale-105\",\r\n          className\r\n        )}\r\n        {...props}\r\n      />\r\n    );\r\n  }\r\n);\r\n\r\nAvatar.displayName = \"Avatar\";\r\n\r\ninterface AvatarImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {}\r\n\r\nconst AvatarImage = React.forwardRef<HTMLImageElement, AvatarImageProps>(\r\n  ({ className, src, alt, onError, onLoad, ...props }, ref) => {\r\n    const [isLoaded, setIsLoaded] = React.useState(false);\r\n    const [imgError, setImgError] = React.useState(false);\r\n\r\n    const hasImage = !!src && !imgError;\r\n\r\n    const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {\r\n      console.log(\"AvatarImage error occurred, showing fallback\");\r\n      setImgError(true);\r\n      if (onError) onError(e);\r\n    };\r\n\r\n    const handleLoad = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {\r\n      setIsLoaded(true);\r\n      if (onLoad) onLoad(e);\r\n    };\r\n\r\n    if (!hasImage) {\r\n      return null;\r\n    }\r\n\r\n    return (\r\n      <img\r\n        ref={ref}\r\n        src={src}\r\n        alt={alt || \"Avatar\"}\r\n        className={cn(\r\n          \"relative z-10 aspect-square h-full w-full object-cover rounded-full\",\r\n          \"transition-opacity duration-300 ease-in-out\",\r\n          isLoaded ? \"opacity-100\" : \"opacity-0\",\r\n          className\r\n        )}\r\n        onError={handleError}\r\n        onLoad={handleLoad}\r\n        {...props}\r\n      />\r\n    );\r\n  }\r\n);\r\nAvatarImage.displayName = \"AvatarImage\";\r\n\r\ninterface AvatarFallbackProps extends React.HTMLAttributes<HTMLDivElement> {}\r\n\r\nconst AvatarFallback = React.forwardRef<HTMLDivElement, AvatarFallbackProps>(\r\n  ({ className, ...props }, ref) => (\r\n    <div\r\n      ref={ref}\r\n      className={cn(\r\n        \"absolute inset-0 flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-semibold\",\r\n        \"animate-in fade-in-0 zoom-in-0 duration-300\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  )\r\n);\r\nAvatarFallback.displayName = \"AvatarFallback\";\r\n\r\nexport { Avatar, AvatarImage, AvatarFallback };\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@radix-ui/react-avatar"
+  ]
+}

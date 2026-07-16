@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "scroll-area",
+  "type": "lightswind:ui",
+  "title": "Scroll Area",
+  "description": "A custom scrollable area with styleable scrollbars.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "layout"
+  },
+  "files": [
+    {
+      "path": "r/scroll-area.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/scroll-area.tsx",
+      "content": "\r\nimport * as React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {\r\n  /** Reference to the viewport element */\r\n  viewportRef?: React.RefObject<HTMLDivElement>;\r\n  /** Maximum height of the scroll area */\r\n  maxHeight?: string | number;\r\n  /** Whether to show scrollbars */\r\n  showScrollbars?: boolean;\r\n  /** Whether to allow scrolling */\r\n  scrollable?: boolean;\r\n  /** The orientation of the scroll area */\r\n  orientation?: \"vertical\" | \"horizontal\" | \"both\";\r\n  /** Whether to smooth scroll */\r\n  smooth?: boolean;\r\n  /** Theme for the scrollbar */\r\n  theme?: \"default\" | \"minimal\" | \"none\";\r\n}\r\n\r\nconst ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(\r\n  ({\r\n    className,\r\n    children,\r\n    viewportRef,\r\n    maxHeight,\r\n    showScrollbars = true,\r\n    scrollable = true,\r\n    orientation = \"vertical\",\r\n    smooth = false,\r\n    theme = \"default\",\r\n    ...props\r\n  }, ref) => {\r\n    const internalRef = React.useRef<HTMLDivElement>(null);\r\n    const resolvedRef = viewportRef || internalRef;\r\n\r\n    const style: React.CSSProperties = {\r\n      maxHeight: maxHeight !== undefined ? (typeof maxHeight === \"number\" ? `${maxHeight}px` : maxHeight) : undefined,\r\n      ...props.style\r\n    };\r\n\r\n    // Orientation scroll classes\r\n    const orientationClasses = {\r\n      vertical: \"overflow-y-auto overflow-x-hidden\",\r\n      horizontal: \"overflow-x-auto overflow-y-hidden\",\r\n      both: \"overflow-auto\"\r\n    };\r\n\r\n    // Theme classes\r\n    const themeClasses = {\r\n      default: \"themed-scrollbar\",\r\n      minimal: \"minimal-scrollbar\",\r\n      none: \"scrollbar-none\"\r\n    };\r\n\r\n    return (\r\n      <div\r\n        ref={ref}\r\n        className={cn(\"relative overflow-hidden\", className)}\r\n        style={style}\r\n        {...props}\r\n      >\r\n        <div\r\n          ref={resolvedRef}\r\n          className={cn(\r\n            \"h-full w-full rounded-[inherit]\",\r\n            scrollable ? orientationClasses[orientation] : \"overflow-hidden\",\r\n            smooth && \"scroll-smooth\",\r\n            showScrollbars ? themeClasses[theme] : \"scrollbar-none\"\r\n          )}\r\n          data-lenis-prevent\r\n        >\r\n          {children}\r\n        </div>\r\n      </div>\r\n    );\r\n  }\r\n);\r\nScrollArea.displayName = \"ScrollArea\";\r\n\r\ninterface ScrollBarProps extends React.HTMLAttributes<HTMLDivElement> {\r\n  /** The orientation of the scrollbar */\r\n  orientation?: \"vertical\" | \"horizontal\";\r\n  /** Size of the scrollbar */\r\n  size?: \"thin\" | \"default\" | \"thick\";\r\n  /** Whether the scrollbar is visible */\r\n  visible?: boolean;\r\n}\r\n\r\nconst ScrollBar = React.forwardRef<HTMLDivElement, ScrollBarProps>(\r\n  ({\r\n    className,\r\n    orientation = \"vertical\",\r\n    size = \"default\",\r\n    visible = false,\r\n    ...props\r\n  }, ref) => {\r\n    // Size classes\r\n    const sizeClasses = {\r\n      thin: orientation === \"vertical\" ? \"w-1\" : \"h-1\",\r\n      default: orientation === \"vertical\" ? \"w-1.5\" : \"h-1.5\",\r\n      thick: orientation === \"vertical\" ? \"w-2\" : \"h-2\"\r\n    };\r\n\r\n    return (\r\n      <div\r\n        ref={ref}\r\n        className={cn(\r\n          \"flex touch-none select-none transition-all\",\r\n          orientation === \"vertical\"\r\n            ? `h-full ${sizeClasses[size]} border-l border-l-transparent p-[1px]`\r\n            : `${sizeClasses[size]} flex-col border-t border-t-transparent p-[1px]`,\r\n          visible ? \"opacity-100\" : \"opacity-0 hover:opacity-100\",\r\n          className\r\n        )}\r\n        {...props}\r\n      >\r\n        <div className=\"relative flex-1 rounded-full bg-primary/50 hover:bg-primary transition-all duration-150\" />\r\n      </div>\r\n    );\r\n  }\r\n);\r\nScrollBar.displayName = \"ScrollBar\";\r\n\r\nexport { ScrollArea, ScrollBar };\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@radix-ui/react-scroll-area"
+  ]
+}

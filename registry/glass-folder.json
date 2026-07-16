@@ -1,0 +1,23 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "glass-folder",
+  "type": "lightswind:ui",
+  "title": "Glass Folder",
+  "description": "A glassmorphism folder icon component with opening animation.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "components"
+  },
+  "files": [
+    {
+      "path": "r/glass-folder.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/glass-folder.tsx",
+      "content": "\"use client\";\r\n\r\nimport React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\"; // Optional: For class merging utility\r\n\r\ntype GlassFolderProps = {\r\n  icon?: React.ReactNode;\r\n  className?: string;\r\n};\r\n\r\nconst GlassFolder: React.FC<GlassFolderProps> = ({ icon, className }) => {\r\n  return (\r\n    <section\r\n      className={cn(\r\n        \"relative group/folder flex flex-col items-center justify-center\",\r\n        className\r\n      )}\r\n    >\r\n      <div className=\"relative w-60 h-40 cursor-pointer origin-bottom [perspective:1500px] z-10\">\r\n        {/* Top tab */}\r\n        <div\r\n          className=\"bg-primarylw/30 backdrop-blur-md w-full h-full origin-top rounded-2xl rounded-tl-none \r\n          group-hover/folder:shadow-[0_20px_40px_rgba(0,0,0,.2)] transition-all ease duration-300 relative \r\n          after:absolute after:content-[''] after:bottom-[99%] after:left-0 after:w-20 after:h-4 after:bg-primarylw/30 after:backdrop-blur-md after:rounded-t-2xl \r\n          before:absolute before:content-[''] before:-top-[15px] before:left-[75.5px] before:w-4 before:h-4 before:bg-primarylw/30 before:backdrop-blur-md before:[clip-path:polygon(0_35%,0%_100%,50%_100%);]\"\r\n        ></div>\r\n\r\n        {/* Folder layers */}\r\n        <div className=\"absolute inset-1 bg-[color-mix(in_srgb,var(--primarylw)_10%,transparent)] backdrop-blur-md rounded-2xl transition-all ease duration-300 origin-bottom select-none group-hover/folder:[transform:rotateX(-20deg)]\"></div>\r\n        <div className=\"absolute inset-1 bg-[color-mix(in_srgb,var(--primarylw)_10%,transparent)] backdrop-blur-md rounded-2xl transition-all ease duration-300 origin-bottom group-hover/folder:[transform:rotateX(-30deg)]\"></div>\r\n        <div className=\"absolute inset-1 bg-[color-mix(in_srgb,var(--primarylw)_10%,transparent)] backdrop-blur-md rounded-2xl transition-all ease duration-300 origin-bottom group-hover/folder:[transform:rotateX(-38deg)]\"></div>\r\n\r\n        {/* Front folder layer with icon */}\r\n        <div\r\n          className=\"absolute bottom-0 bg-[color-mix(in_srgb,var(--primarylw)_20%,transparent)] backdrop-blur-md w-full h-[156px] rounded-2xl rounded-tr-none \r\n          after:absolute after:content-[''] after:bottom-[99%] after:right-0 after:w-[146px] after:h-[16px] after:bg-[color-mix(in_srgb,var(--primarylw)_20%,transparent)] after:backdrop-blur-md after:rounded-t-2xl \r\n          before:absolute before:content-[''] before:-top-[10px] before:right-[142px] before:size-3 before:bg-[color-mix(in_srgb,var(--primarylw)_20%,transparent)] before:backdrop-blur-md before:[clip-path:polygon(100%_14%,50%_100%,100%_100%);] \r\n          transition-all ease duration-300 origin-bottom flex items-center justify-center \r\n          group-hover/folder:shadow-[inset_0_20px_40px_rgba(100,149,237,0.4),inset_0_-20px_40px_rgba(65,105,225,0.3)] \r\n          group-hover/folder:[transform:rotateX(-46deg)_translateY(1px)]\"\r\n        >\r\n          <div className=\"text-foreground text-4xl\">{icon}</div>\r\n        </div>\r\n      </div>\r\n    </section>\r\n  );\r\n};\r\n\r\nexport default GlassFolder;"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

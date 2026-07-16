@@ -1,0 +1,24 @@
+{
+  "$schema": "https://lightswind.com/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "type": "lightswind:ui",
+  "title": "Aspect Ratio",
+  "description": "A Aspect Ratio component for Lightswind UI.",
+  "author": "codewithmuhilan <https://lightswind.com>",
+  "meta": {
+    "category": "layout"
+  },
+  "files": [
+    {
+      "path": "r/aspect-ratio.tsx",
+      "type": "lightswind:ui",
+      "target": "components/ui/aspect-ratio.tsx",
+      "content": "\r\nimport * as React from \"react\";\r\nimport { cn } from \"@/components/lib/utils\";\r\n\r\ninterface AspectRatioProps extends React.HTMLAttributes<HTMLDivElement> {\r\n  /** The aspect ratio to maintain (width/height) */\r\n  ratio?: number;\r\n  /** Predefined aspect ratios for common use cases */\r\n  preset?: \"square\" | \"video\" | \"portrait\" | \"widescreen\" | \"ultrawide\" | \"golden\";\r\n  /** Whether to apply rounded corners */\r\n  rounded?: boolean;\r\n  /** Whether to show a border */\r\n  bordered?: boolean;\r\n  /** Optional object-fit style for child elements */\r\n  objectFit?: \"cover\" | \"contain\" | \"fill\" | \"none\" | \"scale-down\";\r\n}\r\n\r\nconst AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(\r\n  ({ \r\n    className, \r\n    ratio: propRatio, \r\n    preset,\r\n    rounded = false,\r\n    bordered = false,\r\n    objectFit,\r\n    style, \r\n    ...props \r\n  }, ref) => {\r\n    // Predefined aspect ratios\r\n    const presetRatios = {\r\n      square: 1,             // 1:1\r\n      video: 16/9,           // 16:9\r\n      portrait: 3/4,         // 3:4\r\n      widescreen: 16/9,      // 16:9\r\n      ultrawide: 21/9,       // 21:9\r\n      golden: 1.618          // Golden ratio\r\n    };\r\n\r\n    // Determine the final ratio to use\r\n    const ratio = propRatio || (preset ? presetRatios[preset] : 1);\r\n\r\n    return (\r\n      <div\r\n        ref={ref}\r\n        style={{\r\n          position: \"relative\",\r\n          width: \"100%\",\r\n          paddingBottom: `${(1 / ratio) * 100}%`,\r\n          ...style,\r\n        }}\r\n        className={cn(\r\n          \"overflow-hidden\",\r\n          rounded && \"rounded-md\",\r\n          bordered && \"border  \",\r\n          className\r\n        )}\r\n        {...props}\r\n      >\r\n        {props.children && (\r\n          <div \r\n            className={cn(\r\n              \"absolute inset-0 h-full w-full\",\r\n              objectFit && `[&>img]:object-${objectFit} [&>video]:object-${objectFit}`\r\n            )}\r\n          >\r\n            {props.children}\r\n          </div>\r\n        )}\r\n      </div>\r\n    );\r\n  }\r\n);\r\nAspectRatio.displayName = \"AspectRatio\";\r\n\r\nexport { AspectRatio };\r\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "@radix-ui/react-aspect-ratio"
+  ]
+}
