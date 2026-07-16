@@ -1,0 +1,2186 @@
+[
+  {
+    "id": "portfoliosection04",
+    "title": "Dark Masonry Gallery",
+    "description": "A dark-themed, sleek masonry-style portfolio with scroll parallax and large aesthetic imagery.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection04"
+  },
+  {
+    "id": "portfoliosection05",
+    "title": "Sticky Scroll Showcase",
+    "description": "A highly professional split-screen portfolio featuring a sticky descriptive left pane and scrolling cards on the right.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection05"
+  },
+  {
+    "id": "portfoliosection06",
+    "title": "Expandable Accordion Gallery",
+    "description": "An interactive full-width accordion portfolio where hovering seamlessly expands project imagery.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection06"
+  },
+  {
+    "id": "portfoliosection07",
+    "title": "List With Floating Reveal",
+    "description": "A premium list-based portfolio that reveals high-resolution images floating alongside the user's cursor.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection07"
+  },
+  {
+    "id": "portfoliosection08",
+    "title": "Infinite Marquee Showcase",
+    "description": "An ultra-modern layout where a continuous marquee of project cards glides across the screen horizontally tied to your scroll.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection08"
+  },
+  {
+    "id": "portfoliosection09",
+    "title": "Stacked Parallax Cards",
+    "description": "A premium full-screen layout where giant project cards elegantly stack on top of each other as you scroll down.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection09"
+  },
+  {
+    "id": "portfoliosection10",
+    "title": "3D Perspective Grid",
+    "description": "A refined grid where cards elegantly tilt in 3D space based on mouse cursor position.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection10"
+  },
+  {
+    "id": "portfoliosection11",
+    "title": "Minimal Full-Screen Slider",
+    "description": "A highly editorial, full-screen slider focusing on massive typography and stunning crossfade imagery.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection11"
+  },
+  {
+    "id": "portfoliosection12",
+    "title": "Pinned Horizontal Track",
+    "description": "An advanced scrolling experience where the section pins to the viewport while content scrolls horizontally.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection12"
+  },
+  {
+    "id": "portfoliosection13",
+    "title": "Asymmetric Offset Gallery",
+    "description": "A highly sophisticated layout utilizing an alternating two-column vertical offset to create a premium editorial feel.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection13"
+  },
+  {
+    "id": "portfoliosection14",
+    "title": "Interactive Card Deck",
+    "description": "A playful yet highly professional stacked deck interaction where users swipe cards to reveal previous projects.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection14"
+  },
+  {
+    "id": "portfoliosection15",
+    "title": "Text Mask Reveal",
+    "description": "A bold list-based layout featuring massive typography that masks and reveals project imagery only upon hover.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection15"
+  },
+  {
+    "id": "portfoliosection16",
+    "title": "Aurora Portfolio Hero",
+    "description": "A professional split-screen portfolio hero section featuring typing/shine text effects, custom stats, and a border-beaming laptop mockup card.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection16"
+  },
+  {
+    "id": "portfoliosection17",
+    "title": "Cosmic Spotlight Bento Hero",
+    "description": "A professional dark cosmic bento-grid portfolio hero section featuring star meteor animations and mouse-tracking spotlight cards.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection17"
+  },
+  {
+    "id": "portfoliosection18",
+    "title": "Interactive Creative Director Hero",
+    "description": "A highly professional creative director portfolio hero featuring custom dot-grid background alignments, client headshot tooltips, and interactive wobble card projections.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection18"
+  },
+  {
+    "id": "portfoliosection19",
+    "title": "Immersive Art & CGI Portfolio Hero",
+    "description": "A professional immersive visual art portfolio section featuring mouse-interactive ambient blob backgrounds and floating grid gallery layers.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection19"
+  },
+  {
+    "id": "portfoliosection02",
+    "title": "Advanced Bento Portfolio",
+    "description": "A highly professional bento-grid style portfolio section with Framer Motion hover effects.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection02"
+  },
+  {
+    "id": "portfoliosection03",
+    "title": "Professional Interactive Portfolio",
+    "description": "An advanced, full-width interactive portfolio showcase with smooth transitions and glassmorphism details.",
+    "category": "portfolio",
+    "previewUrl": "/preview/portfoliosection03"
+  },
+  {
+    "id": "fleettracker01",
+    "title": "Global Fleet Radar",
+    "description": "A real-time logistics dashboard for tracking global vehicle fleets with status indicators, route history, and driver metadata.",
+    "category": "logistics-pro",
+    "previewUrl": "/preview/fleettracker01"
+  },
+  {
+    "id": "inventoryheatmap01",
+    "title": "Inventory Velocity Heatmap",
+    "description": "A visual warehouse management tool for tracking stock levels across multiple locations with predictive replenishment alerts.",
+    "category": "logistics-pro",
+    "previewUrl": "/preview/inventoryheatmap01"
+  },
+  {
+    "id": "learninglms01",
+    "title": "Enterprise Learning Hub",
+    "description": "A comprehensive LMS interface for managing courses, students, and certification tracks with interactive content previews.",
+    "category": "edtech-pro",
+    "previewUrl": "/preview/learninglms01"
+  },
+  {
+    "id": "studentprogress01",
+    "title": "Student Growth Analytics",
+    "description": "An interactive dashboard for tracking student performance, skill acquisition, and engagement metrics over time.",
+    "category": "edtech-pro",
+    "previewUrl": "/preview/studentprogress01"
+  },
+  {
+    "id": "legalvault01",
+    "title": "Immutable Legal Vault",
+    "description": "A secure document repository for legal contracts featuring version control, digital signature status, and expiration alerts.",
+    "category": "legal-tech",
+    "previewUrl": "/preview/legalvault01"
+  },
+  {
+    "id": "compliancematrix01",
+    "title": "Compliance Risk Matrix",
+    "description": "A high-density grid visualization for tracking regulatory compliance across multiple jurisdictions with risk heatmap coloring.",
+    "category": "legal-tech",
+    "previewUrl": "/preview/compliancematrix01"
+  },
+  {
+    "id": "adcreativeheatmap01",
+    "title": "Visual Creative Performance Heatmap",
+    "description": "A data-driven heatmap for analyzing visual attention and CTR performance across different ad creatives.",
+    "category": "ad-tech",
+    "previewUrl": "/preview/adcreativeheatmap01"
+  },
+  {
+    "id": "conversionfunnel01",
+    "title": "Multi-Touch Attribution Funnel",
+    "description": "A comprehensive visualization of the conversion funnel with multi-touch attribution modeling and drop-off analysis.",
+    "category": "ad-tech",
+    "previewUrl": "/preview/conversionfunnel01"
+  },
+  {
+    "id": "datagovernance01",
+    "title": "Enterprise Data Governance & Lineage",
+    "description": "A professional interface for tracking data lineage, classification, and sensitivity across the entire organization.",
+    "category": "data-admin",
+    "previewUrl": "/preview/datagovernance01"
+  },
+  {
+    "id": "internaluseraudit01",
+    "title": "Admin User Activity & Session Audit",
+    "description": "A high-security audit log for tracking administrator actions, session duration, and sensitive permission changes.",
+    "category": "data-admin",
+    "previewUrl": "/preview/internaluseraudit01"
+  },
+  {
+    "id": "audienceinsights01",
+    "title": "Deep Audience Segment Radar",
+    "description": "A high-fidelity visualization of user demographics, interests, and behavioral segments with overlap analysis.",
+    "category": "ad-tech",
+    "previewUrl": "/preview/audienceinsights01"
+  },
+  {
+    "id": "biddingoptimizer01",
+    "title": "Real-time RTB Bidding Monitor",
+    "description": "A low-latency dashboard for monitoring real-time bidding auctions, win rates, and bid price distribution.",
+    "category": "ad-tech",
+    "previewUrl": "/preview/biddingoptimizer01"
+  },
+  {
+    "id": "adperformance01",
+    "title": "Global Ad Performance Radar",
+    "description": "A comprehensive dashboard for monitoring ad spend, CTR, and conversion rates across different geographic regions and platforms.",
+    "category": "ad-tech",
+    "previewUrl": "/preview/adperformance01"
+  },
+  {
+    "id": "campaignmanager01",
+    "title": "Campaign Creative Manager",
+    "description": "An intuitive workspace for managing multiple marketing campaigns, creative assets, and A/B test variations.",
+    "category": "ad-tech",
+    "previewUrl": "/preview/campaignmanager01"
+  },
+  {
+    "id": "marketanalysis01",
+    "title": "Live Market Analysis Dashboard",
+    "description": "A high-performance trading dashboard featuring real-time price action charts, order books, and depth visualizations for algorithmic trading.",
+    "category": "fintech-pro",
+    "previewUrl": "/preview/marketanalysis01"
+  },
+  {
+    "id": "assetallocation01",
+    "title": "Dynamic Asset Allocation",
+    "description": "An interactive portfolio rebalancing interface with donut charts, risk assessment sliders, and automated distribution proposals.",
+    "category": "fintech-pro",
+    "previewUrl": "/preview/assetallocation01"
+  },
+  {
+    "id": "patientvitals01",
+    "title": "Critical Patient Vitals Monitor",
+    "description": "A medical-grade monitoring screen showing real-time heart rate, SpO2, and blood pressure with wave-form animations and alert thresholds.",
+    "category": "health-tech",
+    "previewUrl": "/preview/patientvitals01"
+  },
+  {
+    "id": "medicalimaging01",
+    "title": "DICOM Viewer Workspace",
+    "description": "A dark-themed medical imaging workspace for reviewing MRI/CT scans with zoom, pan, and annotation tools simulation.",
+    "category": "health-tech",
+    "previewUrl": "/preview/medicalimaging01"
+  },
+  {
+    "id": "apireference01",
+    "title": "API Endpoint Reference",
+    "description": "A two-pane API documentation layout with parameter details, required tags, and an interactive cURL code playground.",
+    "category": "developer-platform",
+    "previewUrl": "/preview/apireference01"
+  },
+  {
+    "id": "apikeys01",
+    "title": "API Keys Manager",
+    "description": "Advanced secret key management interface with visibility toggles, copy actions, environment tags, and usage metadata.",
+    "category": "developer-platform",
+    "previewUrl": "/preview/apikeys01"
+  },
+  {
+    "id": "k8sclusteroptimizer01",
+    "title": "Kubernetes Cluster Resource Optimizer",
+    "description": "A high-fidelity dashboard for analyzing K8s pod utilization, node scaling, and cost-efficiency recommendations.",
+    "category": "cloud-infrastructure",
+    "previewUrl": "/preview/k8sclusteroptimizer01"
+  },
+  {
+    "id": "trafficloadbalancer01",
+    "title": "Advanced Traffic Distribution Console",
+    "description": "A comprehensive monitor for global load balancers, showing request distribution, health checks, and TLS termination stats.",
+    "category": "cloud-infrastructure",
+    "previewUrl": "/preview/trafficloadbalancer01"
+  },
+  {
+    "id": "databaseclusters01",
+    "title": "High-Availability DB Clusters",
+    "description": "A comprehensive monitor for database clusters, showing replication lag, node health, and automated failover status.",
+    "category": "cloud-infrastructure",
+    "previewUrl": "/preview/databaseclusters01"
+  },
+  {
+    "id": "globalcdnstatus01",
+    "title": "Edge Network & Latency Monitor",
+    "description": "A global visualization of CDN edge nodes, traffic distribution, and real-time latency across different regions.",
+    "category": "cloud-infrastructure",
+    "previewUrl": "/preview/globalcdnstatus01"
+  },
+  {
+    "id": "serverinstances01",
+    "title": "Compute Instances Table",
+    "description": "High-density cloud server management table featuring live CPU/RAM utilization mini-charts, region badges, and power controls.",
+    "category": "cloud-infrastructure",
+    "previewUrl": "/preview/serverinstances01"
+  },
+  {
+    "id": "cloudarchitecture01",
+    "title": "Infrastructure Topology map",
+    "description": "A live visualization of production cloud architecture showing load balancers, node clusters, and database latency.",
+    "category": "cloud-infrastructure",
+    "previewUrl": "/preview/cloudarchitecture01"
+  },
+  {
+    "id": "datasciencenotebook01",
+    "title": "Interactive ML Notebook",
+    "description": "A Jupyter-style interactive cell interface with run buttons, python code highlighting, and output visualization.",
+    "category": "data-science",
+    "previewUrl": "/preview/datasciencenotebook01"
+  },
+  {
+    "id": "datasciencemodelmetrics01",
+    "title": "Model Metrics Dashboard",
+    "description": "Real-time performance metrics dashboard for machine learning models, featuring live training loss curves.",
+    "category": "data-science",
+    "previewUrl": "/preview/datasciencemodelmetrics01"
+  },
+  {
+    "id": "securityauditlog01",
+    "title": "Immutable Audit Log",
+    "description": "A detailed, filterable timeline of system events, logins, and API accesses with categorized risk level badges.",
+    "category": "security-ops",
+    "previewUrl": "/preview/securityauditlog01"
+  },
+  {
+    "id": "securitythreatmap01",
+    "title": "Active Threat Radar",
+    "description": "A high-end, dark-themed threat map simulation featuring sweeping radar animations and active ingress plotting.",
+    "category": "security-ops",
+    "previewUrl": "/preview/securitythreatmap01"
+  },
+  {
+    "id": "adminusers01",
+    "title": "Enterprise User Directory",
+    "description": "A highly robust user management table featuring role badges, bulk actions, and advanced status filtering designed for SaaS admin panels.",
+    "category": "enterprise-admin",
+    "previewUrl": "/preview/adminusers01"
+  },
+  {
+    "id": "adminroles01",
+    "title": "RBAC Permissions Matrix",
+    "description": "A sophisticated matrix interface for configuring fine-grained Role-Based Access Control permissions across multiple organizational modules.",
+    "category": "enterprise-admin",
+    "previewUrl": "/preview/adminroles01"
+  },
+  {
+    "id": "onboardingwizard01",
+    "title": "Multi-step Setup Wizard",
+    "description": "An elegant, animated multi-step setup flow for configuring new workspaces, selecting plans, and team invitations.",
+    "category": "onboarding-pro",
+    "previewUrl": "/preview/onboardingwizard01"
+  },
+  {
+    "id": "onboardingwelcome01",
+    "title": "Personalized Welcome Dashboard",
+    "description": "A beautifully personalized welcome screen with a progress checklist and quick start resources to get users engaged immediately.",
+    "category": "onboarding-pro",
+    "previewUrl": "/preview/onboardingwelcome01"
+  },
+  {
+    "id": "billingusage01",
+    "title": "Plan Usage Dashboard",
+    "description": "A comprehensive dashboard widget displaying current plan limits, usage statistics with progress bars, and an upgrade prompt.",
+    "category": "billing",
+    "previewUrl": "/preview/billingusage01"
+  },
+  {
+    "id": "billinghistory01",
+    "title": "Invoice History Table",
+    "description": "A clean and organized table layout for displaying past invoices, amounts, status badges, and download actions.",
+    "category": "billing",
+    "previewUrl": "/preview/billinghistory01"
+  },
+  {
+    "id": "billingpaymentmethod01",
+    "title": "Payment Methods Manager",
+    "description": "A specialized interface for managing active credit cards, adding new payment methods, and updating billing addresses.",
+    "category": "billing",
+    "previewUrl": "/preview/billingpaymentmethod01"
+  },
+  {
+    "id": "aimodelcompare01",
+    "title": "Neural Model Matrix",
+    "description": "A premium model comparison dashboard for selecting LLM tiers. Includes interactive badges, latency stats, and cost metrics.",
+    "category": "ai",
+    "previewUrl": "/preview/aimodelcompare01"
+  },
+  {
+    "id": "aiprompt02",
+    "title": "Floating AI Copilot Prompt",
+    "description": "An expandable, glassmorphic floating prompt bar for executing inline AI commands, generating images, and querying code.",
+    "category": "ai",
+    "previewUrl": "/preview/aiprompt02"
+  },
+  {
+    "id": "aichat02",
+    "title": "Split-View Document Analyst",
+    "description": "A dual-pane interface allowing users to view source documents on the left while conversing with a specialized AI analyst on the right.",
+    "category": "ai",
+    "previewUrl": "/preview/aichat02"
+  },
+  {
+    "id": "aichat01",
+    "title": "Pro AI Chat Interface",
+    "description": "A sleek, black-and-white professional AI chat interface. Features smooth Framer Motion animations, typing indicators, and a premium neural engine aesthetic.",
+    "category": "ai",
+    "previewUrl": "/preview/aichat01"
+  },
+  {
+    "id": "aidashboard01",
+    "title": "Neural System Monitor",
+    "description": "An advanced AI monitoring dashboard. Features live neural load tracking, animated GPU metrics, and real-time efficiency graphs for enterprise AI infrastructure.",
+    "category": "ai-analytics",
+    "previewUrl": "/preview/aidashboard01"
+  },
+  {
+    "id": "aiprompt01",
+    "title": "Magic AI Prompt Area",
+    "description": "A high-end AI prompt input field with immersive motion effects and ambient glow. Designed to capture attention and provide a premium generative experience.",
+    "category": "ai",
+    "previewUrl": "/preview/aiprompt01"
+  },
+  {
+    "id": "aiworkflow01",
+    "title": "Neural Engine Pipeline",
+    "description": "A sophisticated visual workflow for AI pipelines. Illustrates the journey from data ingestion to code synthesis with stunning motion and premium typography.",
+    "category": "ai",
+    "previewUrl": "/preview/aiworkflow01"
+  },
+  {
+    "id": "aisearch01",
+    "title": "Intelligent AI Search",
+    "description": "A highly interactive search overlay designed for AI documentation and queries. Features command-palette style navigation, quick filters, and intelligent suggestions.",
+    "category": "ai-search",
+    "previewUrl": "/preview/aisearch01"
+  },
+  {
+    "id": "aiagentpool01",
+    "title": "Agent Matrix Controller",
+    "description": "A professional UI for managing multiple AI agents and models. Features real-time status indicators, connecting lines, and detailed statistical breakdowns per node.",
+    "category": "ai",
+    "previewUrl": "/preview/aiagentpool01"
+  },
+  {
+    "id": "aiconfig01",
+    "title": "Neural Model Configurator",
+    "description": "A sleek configuration panel for adjusting AI parameters like Temperature and Max Tokens. Includes interactive custom sliders and a tabbed navigation system.",
+    "category": "ai",
+    "previewUrl": "/preview/aiconfig01"
+  },
+  {
+    "id": "aimetrics01",
+    "title": "LLM Operations Overview",
+    "description": "A comprehensive dashboard for tracking LLM metrics, token usage, performance success rates, and dynamic fallback monitoring across multiple neural models.",
+    "category": "ai-analytics",
+    "previewUrl": "/preview/aimetrics01"
+  },
+  {
+    "id": "aitracker01",
+    "title": "VectorStore Index Manager",
+    "description": "Real-time analytics for RAG infrastructure. Monitors multiple vector database nodes, ingestion rates, semantic cache hits, and embedding latency metrics.",
+    "category": "ai-analytics",
+    "previewUrl": "/preview/aitracker01"
+  },
+  {
+    "id": "devapikey01",
+    "title": "API Key Manager",
+    "description": "A secure and professional dashboard component for managing API security tokens. Features environment toggles, hiding values, and robust visual warnings.",
+    "category": "dev-tools",
+    "previewUrl": "/preview/devapikey01"
+  },
+  {
+    "id": "devwebhook01",
+    "title": "Webhook Delivery Log",
+    "description": "A highly detailed webhook request tracker mimicking Stripe's developer dashboard. Includes expandable payload previews, status metrics, and retrying flows.",
+    "category": "dev-tools",
+    "previewUrl": "/preview/devwebhook01"
+  },
+  {
+    "id": "devsecrets01",
+    "title": "Environment Vault Manager",
+    "description": "A secure administrative interface for managing sensitive environment variables and secrets with reveal-on-demand and audit state tracking.",
+    "category": "dev-tools",
+    "previewUrl": "/preview/devsecrets01"
+  },
+  {
+    "id": "devaudit01",
+    "title": "Compliance Audit Protocol",
+    "description": "An elite system event ledger featuring immutable logs, actor tracking, and high-fidelity event classification for high-compliance platforms.",
+    "category": "dev-tools",
+    "previewUrl": "/preview/devaudit01"
+  },
+  {
+    "id": "devusage01",
+    "title": "Resource Quota Intelligence",
+    "description": "A high-fidelity infrastructure metrics dashboard for monitoring API quotas, compute allocation, and storage performance in real-time.",
+    "category": "dev-tools",
+    "previewUrl": "/preview/devusage01"
+  },
+  {
+    "id": "finwallet01",
+    "title": "Crypto / Multi-Asset Wallet",
+    "description": "A compact, highly polished wallet presentation block showing user balances, portfolio percentage changes, and send/swap action points.",
+    "category": "fintech",
+    "previewUrl": "/preview/finwallet01"
+  },
+  {
+    "id": "fintransaction01",
+    "title": "Live Transaction Feed",
+    "description": "A dynamic list of recent on-chain activities (withdrawals, swaps, smart contracts) featuring precise status badges, icons, and timestamp displays.",
+    "category": "fintech",
+    "previewUrl": "/preview/fintransaction01"
+  },
+  {
+    "id": "fintrade01",
+    "title": "Web3 Asset Exchange",
+    "description": "A high-fidelity asset swap interface featuring real-time state simulations, slippage controls, and professional protocol design. Optimized for institutional Web3 platforms.",
+    "category": "fintech",
+    "previewUrl": "/preview/fintrade01"
+  },
+  {
+    "id": "finassets01",
+    "title": "Portfolio Asset Manifest",
+    "description": "A professional portfolio analytics dashboard with live SVG sparklines, yield distribution trackers, and high-fidelity transactional manifests. Designed for deep-tech finance.",
+    "category": "fintech",
+    "previewUrl": "/preview/finassets01"
+  },
+  {
+    "id": "fincredit01",
+    "title": "Digital Card Protocol",
+    "description": "An elite digital card management interface featuring 3D flip card animations, security detail toggles, and professional protocol-based spending controls.",
+    "category": "fintech",
+    "previewUrl": "/preview/fincredit01"
+  },
+  {
+    "id": "pricingtier01",
+    "title": "SaaS Subscription Tiers",
+    "description": "A gorgeous, high-converting 3-tier pricing layout. Features dynamic yearly/monthly toggle animations and glowing highlight badges.",
+    "category": "billing",
+    "previewUrl": "/preview/pricingtier01"
+  },
+  {
+    "id": "pricingcompare01",
+    "title": "Enterprise Feature Matrix",
+    "description": "A comprehensive, fully responsive feature comparison table. Displays plan limitations side-by-side using unified, clean iconography and sticky headers.",
+    "category": "billing",
+    "previewUrl": "/preview/pricingcompare01"
+  },
+  {
+    "id": "ecoproduct01",
+    "title": "Product Detail Gallery",
+    "description": "A gorgeous, high-converting product detail view. Features a large image gallery, seamless variant selection pills, and trust badges.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecoproduct01"
+  },
+  {
+    "id": "ecocart01",
+    "title": "Shopping Cart Summary",
+    "description": "A beautifully animated cart slide-out UI. Allows users to effortlessly adjust quantities, view subtotal calculations, and proceed to checkout.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecocart01"
+  },
+  {
+    "id": "settingsprofile01",
+    "title": "User Profile Overview",
+    "description": "A comprehensive profile management screen featuring banner customization, avatar uploads, and professional identity inputs.",
+    "category": "settings",
+    "previewUrl": "/preview/settingsprofile01"
+  },
+  {
+    "id": "settingssecurity01",
+    "title": "Security & Logic Center",
+    "description": "An advanced application access panel integrating hardware key registrations, dynamic 2FA toggles, and live tracking of active browser sessions.",
+    "category": "settings",
+    "previewUrl": "/preview/settingssecurity01"
+  },
+  {
+    "id": "socialfeed01",
+    "title": "Interactive Timeline Feed",
+    "description": "A highly engaging social media feed block. Features inline media grids, interaction counts, expandable threaded comments, and sleek 'Like' micro-animations.",
+    "category": "social",
+    "previewUrl": "/preview/socialfeed01"
+  },
+  {
+    "id": "socialchat01",
+    "title": "Fidelity Direct Messenger",
+    "description": "A complex web messaging component. Features a seamless sidebar contact list, dynamic read-receipt mapping, interactive 'Typing' states, and auto-scrolling log mechanics.",
+    "category": "social",
+    "previewUrl": "/preview/socialchat01"
+  },
+  {
+    "id": "socialdiscovery01",
+    "title": "Creator Discovery Grid",
+    "description": "A premium creator exploration interface with interactive follow cards, high-fidelity bio snippets, and institutional social aesthetics.",
+    "category": "social",
+    "previewUrl": "/preview/socialdiscovery01"
+  },
+  {
+    "id": "socialcommunity01",
+    "title": "Elite Community Dashboard",
+    "description": "A sophisticated community hub with channelized navigation, real-time member statistics, and polished event promotion areas.",
+    "category": "social",
+    "previewUrl": "/preview/socialcommunity01"
+  },
+  {
+    "id": "datadisplaytable01",
+    "title": "SaaS User Management Table",
+    "description": "A professional-grade data table engineered for scale. Features custom status badges, 'select all' batching logic, pagination toggles, and beautifully aligned typography.",
+    "category": "data-admin",
+    "previewUrl": "/preview/datadisplaytable01"
+  },
+  {
+    "id": "datadisplaykanban01",
+    "title": "Sprint Project Board",
+    "description": "An incredibly responsive Kanban-style project tracker. Seamlessly displays priority tags, nested avatars, comment/attachment logic, and interactive filter states.",
+    "category": "data-admin",
+    "previewUrl": "/preview/datadisplaykanban01"
+  },
+  {
+    "id": "analyticschart01",
+    "title": "Animated Revenue Chart",
+    "description": "A premium SVG line and area chart featuring dynamic path-drawing animations entirely powered by Framer Motion. Uses an interactive hover grid for rich tooltips.",
+    "category": "analytics",
+    "previewUrl": "/preview/analyticschart01"
+  },
+  {
+    "id": "analyticspie01",
+    "title": "Dynamic Donut Analytics",
+    "description": "A structurally pure SVG donut chart showing traffic acquisition. Computes strokes dynamically and features an active legend targeting specific data slices.",
+    "category": "analytics",
+    "previewUrl": "/preview/analyticspie01"
+  },
+  {
+    "id": "navsidebar01",
+    "title": "Animated SaaS Sidebar",
+    "description": "A gorgeous, collapsable dashboard sidebar navigation. Features nested accordion sub-menus, smooth Framer Motion expanding physics, and integrated user profiles.",
+    "category": "navigation",
+    "previewUrl": "/preview/navsidebar01"
+  },
+  {
+    "id": "navmegamenu01",
+    "title": "Framer Mega Menu",
+    "description": "An incredibly complex drop-down mega menu. Utilizes physics-based height adjustments to cleanly render deep content hierarchies without jarring clipping.",
+    "category": "navigation",
+    "previewUrl": "/preview/navmegamenu01"
+  },
+  {
+    "id": "aisearchcommand01",
+    "title": "AI Command Palette",
+    "description": "A gorgeous, spotlight-style Command+K menu interface. Includes mapped keyboard navigation, rapid suggestion chips, and categorized AI action prompts.",
+    "category": "ai-search",
+    "previewUrl": "/preview/aisearchcommand01"
+  },
+  {
+    "id": "aisearchask01",
+    "title": "AI Google Landing Page",
+    "description": "A gorgeous, centered conversational AI search that streams typewritten answers. Features background orbs, intelligent suggestion badges, and interactive copy/share actions.",
+    "category": "ai-search",
+    "previewUrl": "/preview/aisearchask01"
+  },
+  {
+    "id": "aisearchdropdown01",
+    "title": "Navbar AI Dropdown",
+    "description": "A standard navigation search bar that expands into a multi-column dropdown featuring recent queries, doc suggestions, and intelligent 'AI Capabilities' mapped to keyboard shortcuts.",
+    "category": "ai-search",
+    "previewUrl": "/preview/aisearchdropdown01"
+  },
+  {
+    "id": "aisearchcode01",
+    "title": "Developer Code Search",
+    "description": "A premium dark-mode specialized AI search targeting codebases. Includes context selector pills (@web, @workspace) and renders syntax-highlighted code blocks with copy features.",
+    "category": "ai-search",
+    "previewUrl": "/preview/aisearchcode01"
+  },
+  {
+    "id": "ecocheckout01",
+    "title": "Multi-step Checkout",
+    "description": "A high-fidelity animated checkout flow for e-commerce. Seamlessly handles Address, Payment, and Success states with beautiful Spring animations and Apple Pay mockups.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecocheckout01"
+  },
+  {
+    "id": "devtoolswebhook01",
+    "title": "Webhook Realtime Listener",
+    "description": "A gorgeous real-time webhook dashboard. Listens and simulates incoming POST requests, displaying visual connectivity statuses and rendering formatted multi-tab JSON payloads securely.",
+    "category": "dev-tools",
+    "previewUrl": "/preview/devtoolswebhook01"
+  },
+  {
+    "id": "fintechwallet01",
+    "title": "Crypto Wallet Dashboard",
+    "description": "A mobile-first Web3 active wallet display. Shows interactive percentage changes, multi-token asset tracking lists, gradient promotional areas, and ambient blurring lights.",
+    "category": "fintech",
+    "previewUrl": "/preview/fintechwallet01"
+  },
+  {
+    "id": "socialprofile01",
+    "title": "Animated User Profile",
+    "description": "A high-fidelity social profile interface structured with semantic HTML. Displays a sticky hero header, Framer Motion nested tab indicators, and a comprehensive Twitter-style feed complete with interactions.",
+    "category": "social",
+    "previewUrl": "/preview/socialprofile01"
+  },
+  {
+    "id": "billingtoggle01",
+    "title": "UI Standardized Billing Cards",
+    "description": "A high-converting 3-column SaaS pricing board. Demonstrates extensive usage of the site's official UI components (Cards, Switches, Badges) to ensure design consistency and reusability.",
+    "category": "billing",
+    "previewUrl": "/preview/billingtoggle01"
+  },
+  {
+    "id": "background02",
+    "title": "Procedural Fire Shader",
+    "description": "A highly optimized, fully procedural WebGL fire simulation with interactive fluid dynamics. Built with native WebGL, React, and GSAP for a premium zero-lag experience.",
+    "category": "background",
+    "previewUrl": "/preview/background02"
+  },
+  {
+    "id": "background03",
+    "title": "Falling Aether Beams",
+    "description": "A professional vertical beam effect system. High-performance energy trails fall smoothly across the screen, creating a high-tech corporate and SaaS aesthetic with deep contrast.",
+    "category": "background",
+    "previewUrl": "/preview/background03"
+  },
+  {
+    "id": "background04",
+    "title": "Geometric Connection Grid",
+    "description": "A neat, tech-focused background featuring interactive floating nodes with dynamic connection lines. Built with Canvas API for extreme performance, reacting subtly to mouse proximity for a professional high-tech feel.",
+    "category": "background",
+    "previewUrl": "/preview/background04"
+  },
+  {
+    "id": "background05",
+    "title": "Orbital Canvas Background",
+    "description": "A pure, high-performance 3D planet background powered by WebGL shaders. Dynamically morphs and responds to user movement, providing a high-end cosmic environment for any landing page.",
+    "category": "background",
+    "previewUrl": "/preview/background05"
+  },
+  {
+    "id": "scroll01",
+    "title": "Infinite Scroll Gallery",
+    "description": "A dual-direction infinite scrolling gallery synchronized to the user's scroll. Built with GSAP ScrollTrigger for a seamless, immersive visual showcase.",
+    "category": "scroll",
+    "previewUrl": "/preview/scroll01"
+  },
+  {
+    "id": "background01",
+    "title": "Liquid Surface Background",
+    "description": "A mesmerizing interactive liquid distortion background powered by WebGL. Features dynamic color schemes, interactive touch repulsion, and a premium GUI for color picking built with GSAP and Framer Motion.",
+    "category": "background",
+    "previewUrl": "/preview/background01"
+  },
+  {
+    "id": "sidebar01",
+    "title": "Modern Collapsible Sidebar",
+    "description": "A clean, responsive dashboard sidebar with collapsible state, smooth animations, and integrated user profile section. Built with Framer Motion for premium feel.",
+    "category": "sidebar",
+    "previewUrl": "/preview/sidebar01"
+  },
+  {
+    "id": "sidebar02",
+    "title": "Pro Workspace Sidebar",
+    "description": "A high-end, responsive sidebar supporting both light and dark modes. Features nested folders, workspace switcher, and glassmorphic details. Perfect for SaaS apps.",
+    "category": "sidebar",
+    "previewUrl": "/preview/sidebar02"
+  },
+  {
+    "id": "sidebar03",
+    "title": "Dual Context Sidebar",
+    "description": "An advanced, dual-column sidebar layout. Features a primary context rail for switching between major apps/workspaces and a secondary panel for detailed navigation.",
+    "category": "sidebar",
+    "previewUrl": "/preview/sidebar03"
+  },
+  {
+    "id": "3dblock01",
+    "title": "Infinite 3D Carousel",
+    "description": "A stunning, high-performance 3D infinite carousel component built with React and GSAP. Features scroll-triggered animations, smooth color transitions, and overlapping panel effects. Perfect for immersive landing page showcases and portfolio galleries.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock01"
+  },
+  {
+    "id": "analytics01",
+    "title": "Advanced Admin Dashboard",
+    "description": "A production-ready React admin dashboard template featuring interactive Recharts data visualization. Includes statistical trend cards, revenue metrics, and a modern glassmorphism UI design. Fully responsive and accessible.",
+    "category": "analytics",
+    "previewUrl": "/preview/analytics01"
+  },
+  {
+    "id": "analytics02",
+    "title": "SaaS Growth Dashboard",
+    "description": "A professional SaaS analytics dashboard designed for growth tracking. Visualizes conversion funnels, user demographics, and key performance indicators (KPIs) with a premium, clean aesthetic.",
+    "category": "analytics",
+    "previewUrl": "/preview/analytics02"
+  },
+  {
+    "id": "analytics03",
+    "title": "Enterprise Infrastructure Monitor",
+    "description": "Real-time enterprise infrastructure monitoring dashboard. Features global heatmaps, server health status, and network latency graphs. Built for high-scale applications requiring instant data feedback.",
+    "category": "analytics",
+    "previewUrl": "/preview/analytics03"
+  },
+  {
+    "id": "pricing01",
+    "title": "Professional Pricing",
+    "description": "Clean, conversion-optimized pricing tables for SaaS products. Features clear visual hierarchy, highlighted 'Recommended' tiers, and fully responsive layouts to maximize subscription signups.",
+    "category": "pricing",
+    "previewUrl": "/preview/pricing01"
+  },
+  {
+    "id": "pricing02",
+    "title": "Premium Tier Grid",
+    "description": "Advanced pricing grid layout with emphasis on premium tiers. Includes detailed feature checklists, tooltips, and a comparative layout designed to upsell users to higher plans.",
+    "category": "pricing",
+    "previewUrl": "/preview/pricing02"
+  },
+  {
+    "id": "pricing03",
+    "title": "Enterprise Comparison Table",
+    "description": "A comprehensive pricing comparison table for enterprise software. Detailed feature-by-feature breakdown with sticky headers and category separation. Essential for B2B SaaS.",
+    "category": "pricing",
+    "previewUrl": "/preview/pricing03"
+  },
+  {
+    "id": "feature01",
+    "title": "Bento Feature Grid",
+    "description": "Modern Bento box style feature grid. A trendy, modular layout specifically designed to showcase multiple product features in a visually engaging and organized manner.",
+    "category": "features",
+    "previewUrl": "/preview/feature01"
+  },
+  {
+    "id": "team01",
+    "title": "Modern Team Profiles",
+    "description": "Sleek and professional team member cards with integrated social media links and subtle hover effects. Perfect for 'About Us' pages and establishing company trust.",
+    "category": "team",
+    "previewUrl": "/preview/team01"
+  },
+  {
+    "id": "blog01",
+    "title": "Editorial Blog Feed",
+    "description": "A clean, typography-focused blog listing component. Features category filtering, search functionality, and an elegant card layout optimized for high readability.",
+    "category": "blog",
+    "previewUrl": "/preview/blog01"
+  },
+  {
+    "id": "contact01",
+    "title": "Glassmorphic Contact Form",
+    "description": "Premium contact section featuring trendy glassmorphism effects. Includes floating input labels, 3D depth, and form validation for a polished user experience.",
+    "category": "contact",
+    "previewUrl": "/preview/contact01"
+  },
+  {
+    "id": "contact02",
+    "title": "Modern Split Contact",
+    "description": "A professional split-screen contact layout. Displays company contact info on one side and a clean, minimalist enquiry form on the other. Ideal for agencies and consultancies.",
+    "category": "contact",
+    "previewUrl": "/preview/contact02"
+  },
+  {
+    "id": "page01",
+    "title": "AI Launch Landing Page",
+    "description": "A complete, high-converting landing page template tailored for AI SaaS products. Includes Hero, Features, Pricing, and Testimonial sections in one cohesive, copy-paste React component.",
+    "category": "page",
+    "previewUrl": "/preview/page01"
+  },
+  {
+    "id": "logo01",
+    "title": "Infinite Brand Carousel",
+    "description": "A smooth, infinite-scrolling logo marquee component. Essential for showcasing client partnerships and building social proof on landing pages.",
+    "category": "logo",
+    "previewUrl": "/preview/logo01"
+  },
+  {
+    "id": "footer01",
+    "title": "Modern Multi-Column Footer",
+    "description": "A comprehensive SEO-friendly footer layout. Features multi-column navigation links, an integrated newsletter subscription form, and social media icons.",
+    "category": "footer",
+    "previewUrl": "/preview/footer01"
+  },
+  {
+    "id": "card01",
+    "title": "Interactive 3D Card Showcase",
+    "description": "Premium interactive cards featuring 3D tilt effects and animated gradients. Built with Framer Motion for a tactile, high-end user experience.",
+    "category": "card",
+    "previewUrl": "/preview/card01"
+  },
+  {
+    "id": "card02",
+    "title": "Interactive Video Card",
+    "description": "A visually engaging card with video backgrounds that activate on hover, perfect for immersive content previews or featured items.",
+    "category": "card",
+    "previewUrl": "/preview/card02"
+  },
+  {
+    "id": "card03",
+    "title": "Expandable Feature Card",
+    "description": "An interactive card that expands to reveal detailed content and distinct visual states. Ideal for product features or detailed specifications.",
+    "category": "card",
+    "previewUrl": "/preview/card03"
+  },
+  {
+    "id": "hero01",
+    "title": "Creative Agency Hero",
+    "description": "A bold, visually striking hero section designed for creative agencies. Features irregular grid layouts and large typography to make a strong first impression.",
+    "category": "hero",
+    "previewUrl": "/preview/hero01"
+  },
+  {
+    "id": "hero02",
+    "title": "Modern Landing Hero",
+    "description": "A high-conversion landing page hero with glassmorphic cards and smooth entrance animations. Optimized for SaaS and technology products.",
+    "category": "hero",
+    "previewUrl": "/preview/hero02"
+  },
+  {
+    "id": "hero09",
+    "title": "Far Edge Hero Section",
+    "description": "An elite, cosmic-scale hero section featuring a world-class 3D planet as its visual centerpiece. Pairs stunning WebGL visuals with bold, black-box typography and a high-impact data-driven stat grid. Perfect for high-tech SaaS and Web3 platforms.",
+    "category": "hero",
+    "previewUrl": "/preview/hero09"
+  },
+  {
+    "id": "card04",
+    "title": "Magic Card",
+    "description": "An interactive card component with a mesmerizing pointer-tracking spotlight effect. Features glassmorphic borders that reveal themselves as you hover.",
+    "category": "card",
+    "previewUrl": "/preview/card04"
+  },
+  {
+    "id": "login01",
+    "title": "Professional Auth Login",
+    "description": "A production-ready login form featuring social authentication providers (Google, GitHub), secure password toggles, and a refined glassmorphic aesthetic. Fully accessible and responsive.",
+    "category": "forms",
+    "previewUrl": "/preview/login01"
+  },
+  {
+    "id": "newsletter01",
+    "title": "High-Conversion Newsletter",
+    "description": "Maximize your subscriber growth with this premium newsletter block. Features ambient glow effects, real-time input validation, and persuasive micro-copy placement.",
+    "category": "newsletter",
+    "previewUrl": "/preview/newsletter01"
+  },
+  {
+    "id": "signup01",
+    "title": "Minimalist Multi-step Signup",
+    "description": "A streamlined sign-up experience focusing on reducing friction. ideal for SaaS onboarding with clear progress indication and error handling.",
+    "category": "forms",
+    "previewUrl": "/preview/signup01"
+  },
+  {
+    "id": "testimonial01",
+    "title": "Scrolling Social Proof",
+    "description": "A dynamic, infinite-scroll testimonial marquee. Perfect for displaying a large volume of customer feedback in a compact, engaging way to build instant credibility.",
+    "category": "testimonials",
+    "previewUrl": "/preview/testimonial01"
+  },
+  {
+    "id": "testimonial02",
+    "title": "Trusted Wall of Love",
+    "description": "A masonry-style grid of customer testimonials. Designed to showcase diverse user stories and high ratings in a visually rich 'Wall of Love' format.",
+    "category": "testimonials",
+    "previewUrl": "/preview/testimonial02"
+  },
+  {
+    "id": "faq01",
+    "title": "Modern Minimalist FAQ",
+    "description": "A clean, accessible accordion component for Frequently Asked Questions. Features smooth expansion animations and a clutter-free design to answer user queries efficiently.",
+    "category": "faq",
+    "previewUrl": "/preview/faq01"
+  },
+  {
+    "id": "faq02",
+    "title": "Categorized Support FAQ",
+    "description": "A professional help center layout with sidebar navigation for categorized questions. Ideal for documentation sites and extensive support pages.",
+    "category": "faq",
+    "previewUrl": "/preview/faq02"
+  },
+  {
+    "id": "blog03",
+    "title": "Modern Blog Grid",
+    "description": "A visually rich blog grid featuring card hover effects, glassmorphic overlays, and metadata badges. Optimized for showcasing high-quality editorial content.",
+    "category": "blog",
+    "previewUrl": "/preview/blog03"
+  },
+  {
+    "id": "blog02",
+    "title": "Minimalist Article List",
+    "description": "A sophisticated, typography-first article list. Features elegant grayscale styling that transitions to color on interaction, perfect for minimal personal brands.",
+    "category": "blog",
+    "previewUrl": "/preview/blog02"
+  },
+  {
+    "id": "logo02",
+    "title": "Infinite Logo Marquee",
+    "description": "A smooth, continuous scrolling marquee for partner logos. Features grayscale-to-color hover transitions to subtly highlight brands without cluttering the interface.",
+    "category": "logo",
+    "previewUrl": "/preview/logo02"
+  },
+  {
+    "id": "feature02",
+    "title": "Bento Feature Grid",
+    "description": "A trendy Bento-box style grid layout featuring mixed card sizes, hover lifts, and integrated icon accents. Perfect for explaining complex product features simply.",
+    "category": "features",
+    "previewUrl": "/preview/feature02"
+  },
+  {
+    "id": "cta01",
+    "title": "Growth Accelerator CTA",
+    "description": "A high-impact Call to Action section designed for conversions. Features glassmorphic backgrounds, blurred light accents, and clear value propositions.",
+    "category": "cta",
+    "previewUrl": "/preview/cta01"
+  },
+  {
+    "id": "login02",
+    "title": "Visual Split Login",
+    "description": "A visually striking split-screen login page. Combines a clean authentication form with a high-fidelity image or branded content area to reinforce brand identity.",
+    "category": "forms",
+    "previewUrl": "/preview/login02"
+  },
+  {
+    "id": "team02",
+    "title": "Modern Social Team Grid",
+    "description": "A dynamic team directory featuring large profile images and interactive social media overlays. Grayscale-to-color hover effects create an engaging user experience.",
+    "category": "team",
+    "previewUrl": "/preview/team02"
+  },
+  {
+    "id": "pricing04",
+    "title": "High-Contrast Comparison",
+    "description": "A bold, two-tier pricing component using high-contrast design to distinguish between 'Standard' and 'Pro' plans. Effective for simplifying decision-making.",
+    "category": "pricing",
+    "previewUrl": "/preview/pricing04"
+  },
+  {
+    "id": "footer02",
+    "title": "Comprehensive Ecosystem Footer",
+    "description": "A feature-rich footer designed for large platforms. Includes multi-tier navigation, system status indicators, legal links, and an integrated newsletter capture.",
+    "category": "footer",
+    "previewUrl": "/preview/footer02"
+  },
+  {
+    "id": "hero03",
+    "title": "Immersive Centered Hero",
+    "description": "A commanding centered hero section with ambient background gradients and a featured dashboard preview. Designed to maximize initial user engagement.",
+    "category": "hero",
+    "previewUrl": "/preview/hero03"
+  },
+  {
+    "id": "feature03",
+    "title": "Sticky List Features",
+    "description": "A sophisticated feature comparison layout with a sticky sidebar navigation and scrolling content area. Ideal for detailed product tours and technical deep dives.",
+    "category": "features",
+    "previewUrl": "/preview/feature03"
+  },
+  {
+    "id": "faq03",
+    "title": "Premium Accordion FAQ",
+    "description": "A polished FAQ section featuring smooth expansion animations and clean typography. Includes a built-in support contact card for unresolved queries.",
+    "category": "faq",
+    "previewUrl": "/preview/faq03"
+  },
+  {
+    "id": "cta02",
+    "title": "Modern Glass CTA",
+    "description": "A sleek, horizontal call-to-action bar with subtle background blurs and interactive hover states. Designed to fit seamlessly between content sections.",
+    "category": "cta",
+    "previewUrl": "/preview/cta02"
+  },
+  {
+    "id": "step01",
+    "title": "Animated Process Map",
+    "description": "A visual 'How It Works' component with numbered steps, connecting lines, and scroll-triggered animations. Essential for explaining complex workflows clearly.",
+    "category": "steps",
+    "previewUrl": "/preview/step01"
+  },
+  {
+    "id": "stats01",
+    "title": "Growth & Impact Grid",
+    "description": "A minimalist statistics grid designed to highlight key performance indicators (KPIs) and company achievements. Features animated number counters to draw attention.",
+    "category": "stats",
+    "previewUrl": "/preview/stats01"
+  },
+  {
+    "id": "testimonial03",
+    "title": "Large Featured Quote",
+    "description": "A commanding single-testimonial layout featuring oversized typography and a dedicated author profile. Ideal for highlighting a key customer success story.",
+    "category": "testimonials",
+    "previewUrl": "/preview/testimonial03"
+  },
+  {
+    "id": "logo03",
+    "title": "Professional Brand Grid",
+    "description": "A clean, static logo grid with a subtle hover zoom effect. Designed to display partner or client logos with professional restraint and elegance.",
+    "category": "logo",
+    "previewUrl": "/preview/logo03"
+  },
+  {
+    "id": "cta03",
+    "title": "Immersive Dark Conversion",
+    "description": "A visually rich, dark-themed Call to Action block. Features a full-width background image with an overlay, perfect for breaking up light-themed pages.",
+    "category": "cta",
+    "previewUrl": "/preview/cta03"
+  },
+  {
+    "id": "gallery01",
+    "title": "Modern Masonry Portfolio",
+    "description": "A classic masonry image gallery that adapts to different image aspect ratios. Features a hover overlay for project titles and categories.",
+    "category": "gallery",
+    "previewUrl": "/preview/gallery01"
+  },
+  {
+    "id": "team03",
+    "title": "Executive Spotlight",
+    "description": "A premium layout for highlighting executive team members. Features a side-by-side photo and bio arrangement with a refined serif typography option.",
+    "category": "team",
+    "previewUrl": "/preview/team03"
+  },
+  {
+    "id": "cta04",
+    "title": "App Store Conversion",
+    "description": "A dedicated mobile app promotion block. Includes buttons for App Store and Google Play, alongside a device mockup placeholder.",
+    "category": "cta",
+    "previewUrl": "/preview/cta04"
+  },
+  {
+    "id": "feature04",
+    "title": "Interactive Sandbox Feature",
+    "description": "An advanced feature block with an interactive playground area. Allows users to toggle states or view different configurations of a product feature live.",
+    "category": "features",
+    "previewUrl": "/preview/feature04"
+  },
+  {
+    "id": "blog04",
+    "title": "Landscape Featured Articles",
+    "description": "A wide-format blog layout for featured stories. Prioritizes large imagery and headline legibility, suitable for hero inputs or major announcements.",
+    "category": "blog",
+    "previewUrl": "/preview/blog04"
+  },
+  {
+    "id": "hero04",
+    "title": "Split Impact Hero",
+    "description": "A high-conversion split screen hero section. Combines a clear value proposition with a dedicated media area, trust badges, and a floating testimonial for immediate social proof.",
+    "category": "hero",
+    "previewUrl": "/preview/hero04"
+  },
+  {
+    "id": "testimonial04",
+    "title": "Infinite Carousel Wall",
+    "description": "A smooth, auto-scrolling testimonial marquee that pauses on interaction. Perfect for showcasing a high volume of client feedback in a compact, dynamic strip.",
+    "category": "testimonials",
+    "previewUrl": "/preview/testimonial04"
+  },
+  {
+    "id": "newsletter02",
+    "title": "High-Polished Dark Newsletter",
+    "description": "An immersive dark-mode newsletter capture form. Features sophisticated gradient glows, ambient blurs, and high-contrast input fields designed for developer-focused tools.",
+    "category": "newsletter",
+    "previewUrl": "/preview/newsletter02"
+  },
+  {
+    "id": "contact03",
+    "title": "Minimalist Tech Contact",
+    "description": "A clean, spacious contact form designed for clarity. Features bold typography, high-contrast inputs, and a simplified layout to reduce user friction.",
+    "category": "contact",
+    "previewUrl": "/preview/contact03"
+  },
+  {
+    "id": "timeline01",
+    "title": "Industrial Vertical Timeline",
+    "description": "A professional vertical timeline component. Ideal for displaying company history, potential product roadmaps, or release logs with a structured, step-by-step layout.",
+    "category": "timeline",
+    "previewUrl": "/preview/timeline01"
+  },
+  {
+    "id": "timeline02",
+    "title": "Product Roadmap Showcase",
+    "description": "A premium horizontal scrolling timeline featuring scroll-synced progress indicators, glassmorphic roadmap cards, and smooth staggered entrance animations. Perfect for product roadmaps and strategic vision segments.",
+    "category": "timeline",
+    "previewUrl": "/preview/timeline02"
+  },
+  {
+    "id": "timeline03",
+    "title": "Phase Execution Matrix",
+    "description": "A professional vertical timeline specializing in project cycle visualization. Features staggered neo-brutalist cards, central spine progression, and interactive phase indicators.",
+    "category": "timeline",
+    "previewUrl": "/preview/timeline03"
+  },
+  {
+    "id": "pricing06",
+    "title": "Enterprise Comparison Table",
+    "description": "A detailed, feature-rich pricing comparison table. Includes sticky headers, category segmentation, and clear check/cross indicators for deep plan comparison.",
+    "category": "pricing",
+    "previewUrl": "/preview/pricing06"
+  },
+  {
+    "id": "pricing07",
+    "title": "Toggle Switch Pricing",
+    "description": "A clean pricing section with a prominent monthly/yearly toggle. Highlights savings to encourage annual subscriptions and uses a card-based layout.",
+    "category": "pricing",
+    "previewUrl": "/preview/pricing07"
+  },
+  {
+    "id": "team04",
+    "title": "Visionary Portrait Grid",
+    "description": "A premium team showcase featuring large, high-resolution portraits with hover-reveal bios. Designed for executive leadership pages where personal branding is key.",
+    "category": "team",
+    "previewUrl": "/preview/team04"
+  },
+  {
+    "id": "faq04",
+    "title": "Strategic Two-Column FAQ",
+    "description": "A space-efficient FAQ component with a sticky sidebar header and categorization. Perfect for long lists of questions without overwhelming the user.",
+    "category": "faq",
+    "previewUrl": "/preview/faq04"
+  },
+  {
+    "id": "pricing05",
+    "title": "High-Contrast Tier Grid",
+    "description": "A bold pricing grid that uses high-contrast colors to highlight the 'Most Popular' plan. Effectively guides user attention to the desired subscription tier.",
+    "category": "pricing",
+    "previewUrl": "/preview/pricing05"
+  },
+  {
+    "id": "header01",
+    "title": "Enterprise Navigation Header",
+    "description": "A robust, responsive navigation bar suitable for large-scale applications. Features support for mega-menus, user account dropdowns, and mobile drawers.",
+    "category": "navigation",
+    "previewUrl": "/preview/header01"
+  },
+  {
+    "id": "cta05",
+    "title": "Large Immersive CTA",
+    "description": "A full-width, centered call-to-action block with impactful typography and background effects. Ideal for the bottom of landing pages to drive final conversion.",
+    "category": "cta",
+    "previewUrl": "/preview/cta05"
+  },
+  {
+    "id": "feature05",
+    "title": "Code-First Feature Grid",
+    "description": "A technical feature showcase designed for developer tools. Integrates syntax-highlighted code snippets alongside benefit descriptions to prove technical capability.",
+    "category": "features",
+    "previewUrl": "/preview/feature05"
+  },
+  {
+    "id": "stats02",
+    "title": "Abstract Dark Metrics",
+    "description": "A futuristic statistics block for dark-mode interfaces. Uses large, high-contrast numbers and subtle gradients to make key performance indicators pop.",
+    "category": "stats",
+    "previewUrl": "/preview/stats02"
+  },
+  {
+    "id": "logo04",
+    "title": "Minimalist Trusted Strip",
+    "description": "A compact, single-line logo strip perfect for separating content sections. Uses grayscale branding to add authority without distractions.",
+    "category": "logo",
+    "previewUrl": "/preview/logo04"
+  },
+  {
+    "id": "feature06",
+    "title": "Bento Grid Ecosystem",
+    "description": "A comprehensive Bento-style grid for displaying a product ecosystem. Mixes icon cards, text blocks, and small previews to create a cohesive overview.",
+    "category": "features",
+    "previewUrl": "/preview/feature06"
+  },
+  {
+    "id": "hero05",
+    "title": "SaaS Dashboard Hero",
+    "description": "A premium hero section featuring a 3D-tilted dashboard mockup. Designed to instantly communicate 'software' and 'modernity' to visitors.",
+    "category": "hero",
+    "previewUrl": "/preview/hero05"
+  },
+  {
+    "id": "testimonial05",
+    "title": "Executive Highlight Quote",
+    "description": "A large-format testimonial block dedicated to a single, impactful quote. Features a high-fidelity avatar and subtle background styling to draw focus.",
+    "category": "testimonials",
+    "previewUrl": "/preview/testimonial05"
+  },
+  {
+    "id": "footer03",
+    "title": "Minimalist Copyright Footer",
+    "description": "A simple, understated footer focusing on copyright info, a logo, and essential social links. Best for single-page sites or rapid prototypes.",
+    "category": "footer",
+    "previewUrl": "/preview/footer03"
+  },
+  {
+    "id": "contact04",
+    "title": "Contact with Sidebar Info",
+    "description": "A two-column contact layout that pairs a functional form with a sidebar for address, email, and phone details. Builds trust by showing physical presence.",
+    "category": "contact",
+    "previewUrl": "/preview/contact04"
+  },
+  {
+    "id": "contact05",
+    "title": "Institutional Support Hub",
+    "description": "A professional support-focused contact block with prioritized department channels, elite typography, and unified service callouts.",
+    "category": "contact",
+    "previewUrl": "/preview/contact05"
+  },
+  {
+    "id": "contact06",
+    "title": "Global Headquarters Presence",
+    "description": "An elite international office network block featuring live local time synchronization per timezone and stylized HQ narrative visuals.",
+    "category": "contact",
+    "previewUrl": "/preview/contact06"
+  },
+  {
+    "id": "contact07",
+    "title": "Architectural Consultation",
+    "description": "A premium solution-oriented contact block with service selection chips, elite typography, and high-fidelity institutional inquiry forms.",
+    "category": "contact",
+    "previewUrl": "/preview/contact07"
+  },
+  {
+    "id": "team05",
+    "title": "Circular Avatar Grid",
+    "description": "A clean team grid using circular avatars and centered text. A classic, approachable design choice for startups and community-focused groups.",
+    "category": "team",
+    "previewUrl": "/preview/team05"
+  },
+  {
+    "id": "step02",
+    "title": "Vertical Progress Tracker",
+    "description": "A vertical step progress component with active state indicators. Ideal for multi-stage forms, tutorials, or shipment tracking interfaces.",
+    "category": "steps",
+    "previewUrl": "/preview/step02"
+  },
+  {
+    "id": "blog05",
+    "title": "Classic Sidebar Blog",
+    "description": "A traditional blog layout featuring a main content column and a functional sidebar for categories, search, and recent posts. Best for content-heavy sites.",
+    "category": "blog",
+    "previewUrl": "/preview/blog05"
+  },
+  {
+    "id": "gallery02",
+    "title": "Immersive Lightbox Gallery",
+    "description": "A premium image gallery grid that opens full-screen interactive lightboxes on click. Perfect for photography portfolios requiring close-up inspection.",
+    "category": "gallery",
+    "previewUrl": "/preview/gallery02"
+  },
+  {
+    "id": "3dblock02",
+    "title": "Levitating 3D Shapes",
+    "description": "A mesmerizing hero background featuring floating, interactive geometric 3D shapes. Built with React Three Fiber performance in mind.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock02"
+  },
+  {
+    "id": "3dblock03",
+    "title": "Interactive 3D Globe",
+    "description": "A stunning, rotatable 3D globe with location markers. Perfect for visualizing global reach, server locations, or international teams.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock03"
+  },
+  {
+    "id": "3dblock04",
+    "title": "3D Laptop Scroll",
+    "description": "A high-fidelity 3D laptop model that opens and closes based on scroll position. The screen content is fully customizable with your own images or video.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock04"
+  },
+  {
+    "id": "3dblock05",
+    "title": "3D Phone Showcase",
+    "description": "A realistic 3D smartphone model for showcasing mobile app interfaces. Creates a premium, tangible feel for app landing pages.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock05"
+  },
+  {
+    "id": "3dblock06",
+    "title": "Glassmorphic 3D Tunnel",
+    "description": "An abstract 3D tunnel effect with glassmorphic materials and dynamic lighting. Creates a sense of depth and modern sophistication.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock06"
+  },
+  {
+    "id": "3dblock07",
+    "title": "Particle Wave Field",
+    "description": "A fluid, interactive particle wave simulation. Responses to mouse movement to create an engaging, organic background effect.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock07"
+  },
+  {
+    "id": "3dblock08",
+    "title": "3D Interactive Orbit Showcase",
+    "description": "A mesmerizing 3D orbital feature showcase. Elements deconstruct and float into space based on scroll position, creating a deep, immersive spatial experience.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock08"
+  },
+  {
+    "id": "3dblock09",
+    "title": "3D Orbital Planet System",
+    "description": "An elite, interactive 3D planet simulation powered by high-performance WebGL shaders. Dynamically morphs between terrestrial, gaseous, and stellar states with physics-based mouse interactions. Engineered for professional enterprise and space-tech aesthetics.",
+    "category": "3d-blocks",
+    "previewUrl": "/preview/3dblock09"
+  },
+  {
+    "id": "analytics04",
+    "title": "Global Revenue Heatmap",
+    "description": "An interactive geographical heatmap for tracking real-time global revenue distribution. Features localized data drill-downs and animated growth indicators for high-level business intelligence.",
+    "category": "analytics",
+    "previewUrl": "/preview/analytics04"
+  },
+  {
+    "id": "analytics05",
+    "title": "LLM Intelligence Engine",
+    "description": "Premium real-time computational monitoring and sandbox calculator dashboard for multi-model LLM inference gateways.",
+    "category": "analytics",
+    "previewUrl": "/preview/analytics05"
+  },
+  {
+    "id": "hero06",
+    "title": "Split Media Conversion Hero",
+    "description": "A high-converting split-screen hero section pairing immersive media (video/image) with sharp, benefit-driven copy. Optimized for SaaS landing pages to drive immediate user action.",
+    "category": "hero",
+    "previewUrl": "/preview/hero06"
+  },
+  {
+    "id": "feature07",
+    "title": "Tiered Service Comparison",
+    "description": "A professional feature comparison matrix designed for complex service offerings. Uses a clean, structured layout to help users evaluate plans and identify the best value proposition.",
+    "category": "features",
+    "previewUrl": "/preview/feature07"
+  },
+  {
+    "id": "cta06",
+    "title": "Glassmorphic Call to Action",
+    "description": "A visually stunning CTA block with a glassmorphic background, ambient glow, and high-impact typography. Perfect for driving final conversions at the bottom of a landing page.",
+    "category": "cta",
+    "previewUrl": "/preview/cta06"
+  },
+  {
+    "id": "gallery03",
+    "title": "Advanced Masonry Grid",
+    "description": "A high-performance masonry grid for image-heavy portfolios. Features dynamic loading, sleek hover transitions, and a responsive layout that adapts to any screen size.",
+    "category": "gallery",
+    "previewUrl": "/preview/gallery03"
+  },
+  {
+    "id": "testimonial06",
+    "title": "Dynamic Highlight Wall",
+    "description": "A premium masonry testimonial grid featuring interactive highlighter-style text effects and social proof metadata. Perfect for showcasing high-impact customer feedback.",
+    "category": "testimonials",
+    "previewUrl": "/preview/testimonial06"
+  },
+  {
+    "id": "stats03",
+    "title": "Live Metric Pulse",
+    "description": "An animated statistics section with radial progress indicators and live trend visualizations. Designed for modern dashboards and company overview pages.",
+    "category": "stats",
+    "previewUrl": "/preview/stats03"
+  },
+  {
+    "id": "newsletter03",
+    "title": "Minimalist Glass Capture",
+    "description": "A sleek, glassmorphic newsletter signup block with floating input fields and refined micro-interactions for maximum conversion.",
+    "category": "newsletter",
+    "previewUrl": "/preview/newsletter03"
+  },
+  {
+    "id": "faq05",
+    "title": "Enterprise Solution Matrix",
+    "description": "A structured, category-based FAQ system designed for complex products. Features search integration and organized response tiers.",
+    "category": "faq",
+    "previewUrl": "/preview/faq05"
+  },
+  {
+    "id": "pricing08",
+    "title": "Scalable Enterprise Tiers",
+    "description": "A high-impact pricing grid focused on enterprise scale, featuring custom quote triggers and unlimited feature tiering.",
+    "category": "pricing",
+    "previewUrl": "/preview/pricing08"
+  },
+  {
+    "id": "hero07",
+    "title": "Universal Gravity Hero",
+    "description": "A commanding centered hero section with orbiting elements, premium glassmorphism, and high-impact social proof.",
+    "category": "hero",
+    "previewUrl": "/preview/hero07"
+  },
+  {
+    "id": "feature08",
+    "title": "Engineered Depth Bento",
+    "description": "A trendy bento-style feature grid with depth-optimized cards, hover interactions, and professional icon integration.",
+    "category": "features",
+    "previewUrl": "/preview/feature08"
+  },
+  {
+    "id": "cta07",
+    "title": "Infinitive Launch CTA",
+    "description": "A high-conversion CTA section with floating magnetic animations, premium glass panels, and ambient atmospheric effects.",
+    "category": "cta",
+    "previewUrl": "/preview/cta07"
+  },
+  {
+    "id": "card05",
+    "title": "ASCII Data Wave Card",
+    "description": "A professional card featuring a dynamic ASCII wave animation powered by Canvas. Smooth, lightweight, and perfect for data-heavy or developer-focused branding like Firecrawl.",
+    "category": "card",
+    "previewUrl": "/preview/card05"
+  },
+  {
+    "id": "feature09",
+    "title": "Premium Services Matrix",
+    "description": "A sophisticated, high-end feature grid designed for digital agencies and consulting firms. Features abstract gradients, clean icons, and a strong call-to-action block.",
+    "category": "features",
+    "previewUrl": "/preview/feature09"
+  },
+  {
+    "id": "portfolio01",
+    "title": "Professional Filtered Portfolio",
+    "description": "A stunning masonry-style portfolio grid with category filtering. Includes smooth layout animations via Framer Motion and detailed hover overlays.",
+    "category": "gallery",
+    "previewUrl": "/preview/portfolio01"
+  },
+  {
+    "id": "hero08",
+    "title": "Enterprise SaaS Hero",
+    "description": "A highly professional, dark-themed hero section optimized for B2B tech products. Features a large interactive app mockup and subtle glowing mesh gradients.",
+    "category": "hero",
+    "previewUrl": "/preview/hero08"
+  },
+  {
+    "id": "testimonial07",
+    "title": "Corporate B2B Testimonial Slider",
+    "description": "A refined, corporate testimonial slider built for high-level quotes. Includes company logo placeholders, star ratings, and smooth fade transitions.",
+    "category": "testimonials",
+    "previewUrl": "/preview/testimonial07"
+  },
+  {
+    "id": "feature10",
+    "title": "Ecosystem Beam Hub",
+    "description": "A highly professional and interactive ecosystem diagram. Features glowing energy beams simulating power supply travelling to a centralized core.",
+    "category": "features",
+    "previewUrl": "/preview/feature10"
+  },
+  {
+    "id": "bento01",
+    "title": "Strategic Product Bento",
+    "description": "A premium product-focused bento grid featuring staggered card sizes, interactive hover states, and smooth glassmorphic details. Ideal for main feature sections.",
+    "category": "bento",
+    "previewUrl": "/preview/bento01"
+  },
+  {
+    "id": "bento02",
+    "title": "Data-Dense Analytics Bento",
+    "description": "A high-density information grid designed for analytics and data tracking. Combines micro-charts, stat counters, and activity maps into a cohesive system.",
+    "category": "bento",
+    "previewUrl": "/preview/bento02"
+  },
+  {
+    "id": "bento03",
+    "title": "Digital Ecosystem Hub",
+    "description": "A futuristic enterprise-grade bento grid focusing on global telemetry, multi-cloud monitoring, and planetary scale security. Low-light glassmorphic HUD look.",
+    "category": "bento",
+    "previewUrl": "/preview/bento03"
+  },
+  {
+    "id": "bento04",
+    "title": "Engineering Matrix Grid",
+    "description": "A neo-brutalist industrial bento layout designed for developer platforms and hardware startups. Features high-contrast yellow/black aesthetics and grid-pinned units.",
+    "category": "bento",
+    "previewUrl": "/preview/bento04"
+  },
+  {
+    "id": "bento05",
+    "title": "Planetary Grid",
+    "description": "An elite bento layout featuring a central interactive globe and dynamic border-beam effects. Perfect for global infrastructure and network monitoring.",
+    "category": "bento",
+    "previewUrl": "/preview/bento05"
+  },
+  {
+    "id": "bento06",
+    "title": "Mobile Ecosystem",
+    "description": "A high-end bento showcasing mobile-first experiences through a central iPhone mockup and staggered information grids.",
+    "category": "bento",
+    "previewUrl": "/preview/bento06"
+  },
+  {
+    "id": "bento07",
+    "title": "Analytics Control Matrix",
+    "description": "A premium high-density Bento grid showing AI models routing orchestration, secure Quantum Key checks, and glowing load latency SVG charts.",
+    "category": "bento",
+    "previewUrl": "/preview/bento07"
+  },
+  {
+    "id": "mockup01",
+    "title": "Native Precision",
+    "description": "A premium iPhone 16 Pro hero display with industrial-grade feature highlights and high-fidelity typography.",
+    "category": "mockups",
+    "previewUrl": "/preview/mockup01"
+  },
+  {
+    "id": "mockup02",
+    "title": "Multi-Device Scale",
+    "description": "A stunning triple-device array with staggered animations and global reach telemetry. Ideal for scaling product visions.",
+    "category": "mockups",
+    "previewUrl": "/preview/mockup02"
+  },
+  {
+    "id": "primitive01",
+    "title": "Interactive Atoms",
+    "description": "A showcase of fundamental interactive building blocks like ripple loaders and luminance sweep effects.",
+    "category": "primitives",
+    "previewUrl": "/preview/primitive01"
+  },
+  {
+    "id": "primitive02",
+    "title": "Quantum Depth View",
+    "description": "Advanced 3D perspective transformations for stunning visual depth and parallax interaction models.",
+    "category": "primitives",
+    "previewUrl": "/preview/primitive02"
+  },
+  {
+    "id": "authlogin01",
+    "title": "Pro Visual Login",
+    "description": "An elite split-screen authentication portal with high-fidelity visual context, social providers, and secure multi-input fields. Optimized for enterprise SaaS and developer workflows.",
+    "category": "auth",
+    "previewUrl": "/preview/authlogin01"
+  },
+  {
+    "id": "authsignup01",
+    "title": "Multi-Step Onboarding",
+    "description": "A sophisticated triple-phase registration experience with profile, workspace, and team invitation layers. Features interactive progress tracking and real-time validation.",
+    "category": "auth",
+    "previewUrl": "/preview/authsignup01"
+  },
+  {
+    "id": "auth2fa01",
+    "title": "Secure 2-Step Gate",
+    "description": "A high-security two-factor verification block with timed OTP input sequences, biometric fallback options, and rapid re-authentication logic.",
+    "category": "auth",
+    "previewUrl": "/preview/auth2fa01"
+  },
+  {
+    "id": "authotp01",
+    "title": "Magic Access Portal",
+    "description": "A passwordless authentication experience utilizing magic links and secure one-time passcodes. Features immersive inbox-check transitions and email app deep-linking.",
+    "category": "auth",
+    "previewUrl": "/preview/authotp01"
+  },
+  {
+    "id": "authpasswordreset01",
+    "title": "Recovery Flow Matrix",
+    "description": "A robust multi-phase password recovery system. Handles secure link requests, complex password application with validation, and comprehensive success confirmation.",
+    "category": "auth",
+    "previewUrl": "/preview/authpasswordreset01"
+  },
+  {
+    "id": "datadisplaystats01",
+    "title": "Metric Analytics Pulse",
+    "description": "A professional landing-page statistics block featuring animated sparklines, dynamic trend indicators, and high-contrast numerical highlights for business-critical data.",
+    "category": "data-admin",
+    "previewUrl": "/preview/datadisplaystats01"
+  },
+  {
+    "id": "newsletter04",
+    "title": "High-Impact Dark Newsletter",
+    "description": "An immersive, horizontally-structured newsletter section featuring ambient typography effects, glassmorphic inputs, and premium motion-trigger states.",
+    "category": "newsletter",
+    "previewUrl": "/preview/newsletter04"
+  },
+  {
+    "id": "step03",
+    "title": "Fluid Horizontal Progress",
+    "description": "An elite horizontal step-progress component with physics-based line animations, interactive tooltip labels, and high-fidelity active state indicators.",
+    "category": "steps",
+    "previewUrl": "/preview/step03"
+  },
+  {
+    "id": "sidebar04",
+    "title": "Minimal Rail Navigation",
+    "description": "A high-performance icon-only sidebar rail for complex SaaS applications. Features multi-state tooltip logic, hover-active pill mechanics, and integrated system telemetry.",
+    "category": "sidebar",
+    "previewUrl": "/preview/sidebar04"
+  },
+  {
+    "id": "ecocategorygrid01",
+    "title": "Smart Category Hub",
+    "description": "A premium horizontal category showcase featuring high-impact imagery, ambient lighting hover states, and dynamic item counters for ecommerce navigations.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecocategorygrid01"
+  },
+  {
+    "id": "ecoorderhistory01",
+    "title": "Enterprise Order Dashboard",
+    "description": "A highly-detailed order management ledger for customer accounts. Includes professional status tracking, CSV exports, and interactive shipment details.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecoorderhistory01"
+  },
+  {
+    "id": "ecowishlist01",
+    "title": "Curated Wishlist Board",
+    "description": "An elite wishlist experience featuring interactive product cards, rating visualizers, and streamlined 'Add to Cart' conversion points for saved items.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecowishlist01"
+  },
+  {
+    "id": "ecoproductcomparison01",
+    "title": "Specifications Matrix",
+    "description": "A high-end product comparison table with detailed hardware specs, neural feature toggles, and integrated purchase CTAs for elite product lines.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecoproductcomparison01"
+  },
+  {
+    "id": "ecoreviewstats01",
+    "title": "Verified Feedback Hub",
+    "description": "An advanced customer reviews dashboard featuring metric distribution charts, filtered recent insights, and high-fidelity user sentiment indicators.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecoreviewstats01"
+  },
+  {
+    "id": "ecoinventorytracker01",
+    "title": "Admin Telemetry Center",
+    "description": "A specialized internal inventory management block for tracking SKU performance, stock levels, and automated restock sequences across supply chains.",
+    "category": "ecommerce",
+    "previewUrl": "/preview/ecoinventorytracker01"
+  },
+  {
+    "id": "settingsnotifications01",
+    "title": "Notification Control Portal",
+    "description": "An advanced communication management hub featuring multi-channel alert toggles, critical feed prioritization, and quiet-hour configuration states.",
+    "category": "settings",
+    "previewUrl": "/preview/settingsnotifications01"
+  },
+  {
+    "id": "settingsbilling01",
+    "title": "Enterprise Billing Settings",
+    "description": "A comprehensive financial settings layer with subscription plan overviews, node usage telemetry, payment method controls, and invoice ledger history.",
+    "category": "settings",
+    "previewUrl": "/preview/settingsbilling01"
+  },
+  {
+    "id": "settingsintegrations01",
+    "title": "Platform Integration Core",
+    "description": "An advanced settings board for connecting third-party APIs and enterprise services. Features app-specific toggle logic and custom system bridge requests.",
+    "category": "settings",
+    "previewUrl": "/preview/settingsintegrations01"
+  },
+  {
+    "id": "contactform02",
+    "title": "Elite Contact Dispatch",
+    "description": "A premium, split-column contact form featuring corporate detail cards, voice dispatch info, and a high-converting message manifest area.",
+    "category": "forms",
+    "previewUrl": "/preview/contactform02"
+  },
+  {
+    "id": "feedbackform01",
+    "title": "System Feedback Hub",
+    "description": "A professional interactive feedback widget with star rating micro-animations, secure data manifest, and immersive success/exit states.",
+    "category": "forms",
+    "previewUrl": "/preview/feedbackform01"
+  },
+  {
+    "id": "searchform01",
+    "title": "Advanced Discovery Engine",
+    "description": "A high-fidelity search filter board featuring animated expansion logic, system attribute badges, and pro-discovery command tips.",
+    "category": "forms",
+    "previewUrl": "/preview/searchform01"
+  },
+  {
+    "id": "footer04",
+    "title": "Elite CPU Ecosystem Footer",
+    "description": "An ultra-modern, high-fidelity footer with a CPU-inspired brand section, rapid multi-column navigation links with micro-animations, and an integrated system status manifest. Designed for deep monochromatic professionalism.",
+    "category": "footer",
+    "previewUrl": "/preview/footer04"
+  },
+  {
+    "id": "footer05",
+    "title": "Minimal High-End Footer",
+    "description": "A gorgeous, centered minimal footer designed for premium dark-mode interfaces. Features clean typography, spacious navigation rows, and a subtle system uptime status bar for mission-critical reliability.",
+    "category": "footer",
+    "previewUrl": "/preview/footer05"
+  },
+  {
+    "id": "footer06",
+    "title": "Protocol Command Center",
+    "description": "A high-tech, terminal-inspired 'Command Center' footer. Features deep monochromatic styling, mono-spaced data manifests, real-time UTC indicators, and enterprise service protocol links.",
+    "category": "footer",
+    "previewUrl": "/preview/footer06"
+  },
+  {
+    "id": "header02",
+    "title": "Floating Protocol Header",
+    "description": "A gorgeous, floating glassmorphic header designed for modern SaaS. Features a command search mock, notification badges, and high-fidelity 'Deploy' button. Fully responsive with spring-based mobile transitions.",
+    "category": "navigation",
+    "previewUrl": "/preview/header02"
+  },
+  {
+    "id": "header03",
+    "title": "Dynamic Tabbed Pill",
+    "description": "An elite, centered pill navigation system. Features high-contrast branding, active tab spring animations (LayoutGroup), and a premium micro-status indicator overlay.",
+    "category": "navigation",
+    "previewUrl": "/preview/header03"
+  },
+  {
+    "id": "sidebar05",
+    "title": "Dark Console Sidebar",
+    "description": "A professional, dark-console sidebar console for enterprise SaaS. Features hierarchical menu groups, active pill transitions, and a built-in search manifest and system status indicators.",
+    "category": "sidebar",
+    "previewUrl": "/preview/sidebar05"
+  },
+  {
+    "id": "sidebar06",
+    "title": "Glassmorphic Pro Sidebar",
+    "description": "A professional, spring-animated glassmorphic sidebar for complex dashboards. Features hierarchical navigation groups, shared element transitions (LayoutGroup), and a full dashboard frame mockup.",
+    "category": "sidebar",
+    "previewUrl": "/preview/sidebar06"
+  },
+  {
+    "id": "sidebar07",
+    "title": "Protocol Enterprise Console",
+    "description": "A high-fidelity enterprise console mockup with a custom floating toggle. Features a protocol-inspired monochromatic brand identity, nested action states, and a status-aware header system.",
+    "category": "sidebar",
+    "previewUrl": "/preview/sidebar07"
+  },
+  {
+    "id": "analytics06",
+    "title": "Neural Analytics Core",
+    "description": "A professional 'Neural Analytics' dashboard designed for deep-tech SaaS. Features high-fidelity Area Charts, animated resource load progress manifest, and a protocol-inspired micro-stat grid.",
+    "category": "analytics",
+    "previewUrl": "/preview/analytics06"
+  },
+  {
+    "id": "analytics07",
+    "title": "Conversion Engine Manifest",
+    "description": "A high-fidelity conversion and traffic analytics dashboard. Features a sophisticated funnel visualization, vertical traffic source bars, and status-aware infrastructure headers.",
+    "category": "analytics",
+    "previewUrl": "/preview/analytics07"
+  },
+  {
+    "id": "aidashboard02",
+    "title": "Neural Infrastructure Hub",
+    "description": "An elite AI infrastructure analytics dashboard. Features a protocol-inspired monochromatic aesthetic, custom token throughput AreaChart, and dynamic core diagnostic manifests.",
+    "category": "ai-analytics",
+    "previewUrl": "/preview/aidashboard02"
+  },
+  {
+    "id": "aimetrics02",
+    "title": "Cluster Telemetry Console",
+    "description": "A professional high-fidelity AI metrics console. Features region-specific inference latency tracking (BarChart), a real-time event stream manifest, and detailed infrastructure telemetry.",
+    "category": "ai-analytics",
+    "previewUrl": "/preview/aimetrics02"
+  },
+  {
+    "id": "saasfeaturegrid01",
+    "title": "Bento Feature Manifest",
+    "description": "A professional high-fidelity Bento Grid featuring SaaS capabilities, mouse-tracking spotlights, interactive elements, and custom badges.",
+    "category": "saas",
+    "previewUrl": "/preview/saasfeaturegrid01"
+  },
+  {
+    "id": "saasstats01",
+    "title": "SaaS Enterprise Core Stats",
+    "description": "A conversion-optimized enterprise statistics block with animated trends, secondary controls, and interactive details.",
+    "category": "saas",
+    "previewUrl": "/preview/saasstats01"
+  },
+  {
+    "id": "saasmetricdashboard01",
+    "title": "KPI Optimization Console",
+    "description": "A high-fidelity dashboard console presenting critical SaaS key performance indicators (KPIs) with detailed telemetry panels.",
+    "category": "saas",
+    "previewUrl": "/preview/saasmetricdashboard01"
+  },
+  {
+    "id": "saasintegrationhub01",
+    "title": "Connected Integration Grid",
+    "description": "A visually stunning integration grid showcasing automated connections, API statuses, and interactive workflow setups.",
+    "category": "saas",
+    "previewUrl": "/preview/saasintegrationhub01"
+  },
+  {
+    "id": "saaspricing01",
+    "title": "SaaS Conversion Pricing",
+    "description": "A premium SaaS pricing grid featuring interactive plan highlights, feature matrices, and conversion-optimized checkout links.",
+    "category": "saas",
+    "previewUrl": "/preview/saaspricing01"
+  },
+  {
+    "id": "saasbilling01",
+    "title": "Flexible Seat Billing",
+    "description": "A professional seats and plan billing configurator with dynamic price calculator and commitment toggle.",
+    "category": "saas",
+    "previewUrl": "/preview/saasbilling01"
+  },
+  {
+    "id": "saasfeedbackwidget01",
+    "title": "Feature Feedback Hub",
+    "description": "An interactive feedback collection panel with emoji ratings and category filters.",
+    "category": "saas",
+    "previewUrl": "/preview/saasfeedbackwidget01"
+  },
+  {
+    "id": "saasonboarding01",
+    "title": "Workspace Onboarding Setup",
+    "description": "A multi-step onboarding flow for workspaces with naming, accent colors, and developer invitations.",
+    "category": "saas",
+    "previewUrl": "/preview/saasonboarding01"
+  },
+  {
+    "id": "saasusermanagement01",
+    "title": "Team User Console",
+    "description": "A high-density user roster view with customizable role menus and filter query fields.",
+    "category": "saas",
+    "previewUrl": "/preview/saasusermanagement01"
+  },
+  {
+    "id": "saasactivityfeed01",
+    "title": "Workspace Live Logs",
+    "description": "A real-time telemetry log feed displaying interactive JSON payloads.",
+    "category": "saas",
+    "previewUrl": "/preview/saasactivityfeed01"
+  },
+  {
+    "id": "saasfeaturegrid02",
+    "title": "Developer Bento Feature Manifest",
+    "description": "A premium interactive SaaS Feature Bento Grid with smooth tab-switching animations, glassmorphic styling, and latency/uptime metrics.",
+    "category": "saas",
+    "previewUrl": "/preview/saasfeaturegrid02"
+  },
+  {
+    "id": "saasintegrationhub02",
+    "title": "Observability Integration Hub",
+    "description": "An advanced integration console featuring active fuzzy search, category filtering, live connection toggles, and webhook payload terminal preview.",
+    "category": "saas",
+    "previewUrl": "/preview/saasintegrationhub02"
+  },
+  {
+    "id": "saasactivityfeed02",
+    "title": "Telemetry Activity Console",
+    "description": "A state-of-the-art live activity and log console featuring simulated live streams, pause controls, search queries, and collapsible metadata payloads.",
+    "category": "saas",
+    "previewUrl": "/preview/saasactivityfeed02"
+  },
+  {
+    "id": "mediamention01",
+    "title": "Media Grid Quotes",
+    "description": "A responsive logo grid with animated cover cards and press quote flyouts on hover.",
+    "category": "media-mentions",
+    "previewUrl": "/preview/mediamention01"
+  },
+  {
+    "id": "mediamention02",
+    "title": "Continuous Press Marquee",
+    "description": "An infinite horizontal scrolling ticker of brand logos with hover pause-states.",
+    "category": "media-mentions",
+    "previewUrl": "/preview/mediamention02"
+  },
+  {
+    "id": "mediamention03",
+    "title": "Quote Tab Switcher",
+    "description": "A clickable brand logo roster that updates the active central testimonial widget.",
+    "category": "media-mentions",
+    "previewUrl": "/preview/mediamention03"
+  },
+  {
+    "id": "mediamention04",
+    "title": "Split Cover Story Showcase",
+    "description": "A split design with a primary featured story card alongside minor press mentions.",
+    "category": "media-mentions",
+    "previewUrl": "/preview/mediamention04"
+  },
+  {
+    "id": "mediamention05",
+    "title": "Glow Accolade Grid",
+    "description": "A dark high-contrast panel grid featuring custom branding glow effects and ratings.",
+    "category": "media-mentions",
+    "previewUrl": "/preview/mediamention05"
+  },
+  {
+    "id": "casestudy01",
+    "title": "Metrics Storytelling Hero",
+    "description": "A conversion-focused case study landing page with interactive challenge, solution, and results tabs.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy01"
+  },
+  {
+    "id": "casestudy02",
+    "title": "Performance Metrics Grid",
+    "description": "A grid layout highlighting before and after performance gains with an interactive legacy switcher.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy02"
+  },
+  {
+    "id": "casestudy03",
+    "title": "Split Outcome narrative",
+    "description": "A split case study block featuring an interactive engineering checklist and executive quote panel.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy03"
+  },
+  {
+    "id": "casestudy04",
+    "title": "Problem Solution Stepper",
+    "description": "An interactive step-based journey showcasing legacy bottlenecks, strategy implementation, and rollout success metrics.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy04"
+  },
+  {
+    "id": "casestudy05",
+    "title": "Lighthouse Audit Showcase",
+    "description": "A dark high-contrast panel comparing Core Web Vitals upgrades with live tab selectors.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy05"
+  },
+  {
+    "id": "casestudy06",
+    "title": "Video Stream Overview",
+    "description": "A split block displaying an interactive media video preview player and detailed statistics columns.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy06"
+  },
+  {
+    "id": "casestudy07",
+    "title": "ROI Interactive Calculator",
+    "description": "An estimation widget allowing users to configure team metrics to project monthly savings value.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy07"
+  },
+  {
+    "id": "casestudy08",
+    "title": "Directory Client Stories",
+    "description": "A professional tabbed logo selector card loaded with case summary metadata and rollout facts.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy08"
+  },
+  {
+    "id": "casestudy09",
+    "title": "Milestone Rollout Timeline",
+    "description": "A vertical roadmap component with responsive milestone marker details and layout tags.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy09"
+  },
+  {
+    "id": "casestudy10",
+    "title": "Key Metrics Spotlight",
+    "description": "A multi-metric spotlight panel containing detailed helper icon tooltip annotations.",
+    "category": "case-study",
+    "previewUrl": "/preview/casestudy10"
+  },
+  {
+    "id": "pipeline01",
+    "title": "CI/CD Build Pipeline",
+    "description": "An interactive build stage tracker featuring console log panel visualization.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline01"
+  },
+  {
+    "id": "pipeline02",
+    "title": "Data Streaming Graph",
+    "description": "An ingestion flow node graph detailing real-time message rates and backpressure metrics.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline02"
+  },
+  {
+    "id": "pipeline03",
+    "title": "ML Training Process",
+    "description": "A machine learning pipeline tracker highlighting accuracy and cross-entropy loss parameters.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline03"
+  },
+  {
+    "id": "pipeline04",
+    "title": "Git Release Flow",
+    "description": "A version control visualizer mapping git branches, validation checklists, and signature reviews.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline04"
+  },
+  {
+    "id": "pipeline05",
+    "title": "Canary Scale Topography",
+    "description": "A Kubernetes replica topology controller showing active canary proxy weights.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline05"
+  },
+  {
+    "id": "pipeline06",
+    "title": "API Gateway Router",
+    "description": "An inbound gateway proxy routing request headers to internal micro-services.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline06"
+  },
+  {
+    "id": "pipeline07",
+    "title": "ETL Processor",
+    "description": "An extract-transform-load pipeline with live record counter simulations.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline07"
+  },
+  {
+    "id": "pipeline08",
+    "title": "FaaS Orchestrator",
+    "description": "A step-function execution visualizer tracking inputs/outputs and execution times.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline08"
+  },
+  {
+    "id": "pipeline09",
+    "title": "Webhook Delivery Queue",
+    "description": "A webhook retry queue manager tracking event delivery parameters.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline09"
+  },
+  {
+    "id": "pipeline10",
+    "title": "Database Replication Sync",
+    "description": "A primary-replica database syncing topology dashboard highlighting lags.",
+    "category": "pipeline-visualizers",
+    "previewUrl": "/preview/pipeline10"
+  },
+  {
+    "id": "changelog01",
+    "title": "Timeline Changelog",
+    "description": "A professional vertical release timeline tracking version tags, descriptions, and authors.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog01"
+  },
+  {
+    "id": "changelog02",
+    "title": "Collapsible Accordion Details",
+    "description": "A collapsible accordion layout showing detailed features, stability fixes, and commit shas.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog02"
+  },
+  {
+    "id": "changelog03",
+    "title": "Searchable Notes Feed",
+    "description": "An interactive tabbed search board filtering updates dynamically by categories.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog03"
+  },
+  {
+    "id": "changelog04",
+    "title": "Header Metrics Changelog",
+    "description": "A changelog feed topped with core summary statistics and contributor activity metrics.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog04"
+  },
+  {
+    "id": "changelog05",
+    "title": "Pipeline Status Lanes",
+    "description": "A release workflow pipeline visualization showcasing stable, candidate, and beta release states.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog05"
+  },
+  {
+    "id": "changelog06",
+    "title": "Interactive Commit Stream",
+    "description": "A dynamic git commit log tracking modified file counts, line insertions, and authors.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog06"
+  },
+  {
+    "id": "changelog07",
+    "title": "Roadmap Milestones Tracker",
+    "description": "A task tracking dashboard visualization showing completed, active, and planned milestones.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog07"
+  },
+  {
+    "id": "changelog08",
+    "title": "Release Subscription Newsletter",
+    "description": "A subscription newsletter signup block alongside a snapshot version summary card.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog08"
+  },
+  {
+    "id": "changelog09",
+    "title": "Developer Upgrade Path",
+    "description": "A copy-pasteable CLI command and code snippet dashboard for release migrations.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog09"
+  },
+  {
+    "id": "changelog10",
+    "title": "Multi-Product Version Registry",
+    "description": "A grid tracking stable, candidate, and beta deployment statuses across tools.",
+    "category": "changelog",
+    "previewUrl": "/preview/changelog10"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "startCommand": {
+    "type": "stdio",
+    "command": "node",
+    "args": ["dist/mcp/index.js"]
+  },
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "LIGHTSWIND_API_KEY": {
+        "type": "string",
+        "title": "Lightswind Pro API Key",
+        "description": "Your Lightswind Pro license key (starts with sk_pro_...). Optional for free components."
+      }
+    }
+  }
+}

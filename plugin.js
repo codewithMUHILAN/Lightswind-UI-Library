@@ -2,8 +2,29 @@ const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
-module.exports = plugin(
-  function ({ addBase, theme, addComponents, addUtilities }) {
+module.exports = plugin.withOptions(
+  function (options = {}) {
+    return function ({ addBase, theme, addComponents, addUtilities }) {
+      const effect3d = options.effect3d === true || options.effect3d === 'true';
+
+      const add3D = (selector, flatStyles, active3DStyles) => {
+        addComponents({
+          [selector]: effect3d ? active3DStyles : flatStyles
+        });
+
+        if (!effect3d) {
+          let scoped;
+          if (selector.startsWith(".dark ")) {
+            const sub = selector.substring(6);
+            scoped = `.dark .lw-3d ${sub}, .dark .lw-3d${sub}, .dark .theme-3d ${sub}, .dark .theme-3d${sub}, .lw-3d .dark ${sub}, .lw-3d.dark ${sub}, .theme-3d .dark ${sub}, .theme-3d.dark ${sub}`;
+          } else {
+            scoped = `.lw-3d ${selector}, .lw-3d${selector}, .theme-3d ${selector}, .theme-3d${selector}`;
+          }
+          addComponents({
+            [scoped]: active3DStyles
+          });
+        }
+      };
     // Add custom keyframes animations
     addBase({
       // Light (default) theme
@@ -26,6 +47,8 @@ module.exports = plugin(
 
         "--primary": "0 0% 0%",
         "--primary-foreground": "0 0% 100%",
+        "--lw-primary-color": "hsl(var(--primary))",
+        "--lw-primary-foreground": "hsl(var(--primary-foreground))",
 
         "--secondary": "0 0% 96%",
         "--secondary-foreground": "0 0% 0%",
@@ -69,6 +92,8 @@ module.exports = plugin(
 
         "--primary": "0 0% 100%",
         "--primary-foreground": "0 0% 0%",
+        "--lw-primary-color": "hsl(var(--primary))",
+        "--lw-primary-foreground": "hsl(var(--primary-foreground))",
 
         "--secondary": "0 0% 15%",
         "--secondary-foreground": "0 0% 100%",
@@ -82,7 +107,7 @@ module.exports = plugin(
         "--destructive": "0 62% 30%",
         "--destructive-foreground": "0 0% 100%",
 
-        "--border": "#000",
+        "--border": "0 0% 10%",
         "--input": "0 0% 20%",
         "--ring": "0 0% 20%",
 
@@ -190,6 +215,21 @@ module.exports = plugin(
         "100%": { opacity: "1" },
       },
 
+      // Missing Circle & Shine Animations
+      "@keyframes rotateClockwise": {
+        from: { transform: "rotate(0deg)" },
+        to: { transform: "rotate(360deg)" },
+      },
+      "@keyframes rotateAnticlockwise": {
+        from: { transform: "rotate(0deg)" },
+        to: { transform: "rotate(-360deg)" },
+      },
+      "@keyframes shine": {
+        "0%": { left: "-60%" },
+        "99%": { left: "220%" },
+        "100%": { opacity: "0" },
+      },
+
       "*": {
         scrollbarWidth: "thin",
         scrollbarColor:
@@ -212,15 +252,41 @@ module.exports = plugin(
         pointerEvents: "none",
         transition: "backdrop-filter 0.2s ease",
       },
+      ".border": {
+        borderWidth: "1px",
+        borderColor: "hsl(var(--border))",
+      },
       ".dark .border": {
         borderColor: "hsl(var(--border))",
       },
-      ".border": {
-        borderWidth: "1px",
-        borderColor: colors.gray[200],
+      // Directional border variants — default to theme border color
+      ".border-t": {
+        borderTopWidth: "1px",
+        borderTopColor: "hsl(var(--border))",
       },
-      ".dark .border": {
-        borderColor: colors.gray[800],
+      ".border-b": {
+        borderBottomWidth: "1px",
+        borderBottomColor: "hsl(var(--border))",
+      },
+      ".border-l": {
+        borderLeftWidth: "1px",
+        borderLeftColor: "hsl(var(--border))",
+      },
+      ".border-r": {
+        borderRightWidth: "1px",
+        borderRightColor: "hsl(var(--border))",
+      },
+      ".border-x": {
+        borderLeftWidth: "1px",
+        borderLeftColor: "hsl(var(--border))",
+        borderRightWidth: "1px",
+        borderRightColor: "hsl(var(--border))",
+      },
+      ".border-y": {
+        borderTopWidth: "1px",
+        borderTopColor: "hsl(var(--border))",
+        borderBottomWidth: "1px",
+        borderBottomColor: "hsl(var(--border))",
       },
     });
 
@@ -286,7 +352,7 @@ module.exports = plugin(
         transitionDuration: "200ms",
       },
       ".toggle-switch.active": {
-        backgroundColor: "hsl(var(--primary))",
+        backgroundColor: "var(--lw-primary-color)",
       },
       ".toggle-switch .toggle-knob": {
         position: "absolute",
@@ -341,7 +407,7 @@ module.exports = plugin(
       ".tabs-bg-indicator": {
         position: "absolute",
         borderRadius: "0.125rem",
-        backgroundColor: "hsl(var(--primary))",
+        backgroundColor: "var(--lw-primary-color)",
         transitionProperty: "all",
         transitionDuration: "200ms",
         transitionTimingFunction: "ease-out",
@@ -422,6 +488,12 @@ module.exports = plugin(
       ".animate-shimmer": {
         animation: "shimmer 2s infinite",
       },
+      ".animate-shine": {
+        animation: "shine 2s ease-in-out forwards",
+      },
+      ".animate-rotate-cw": {
+        animation: "rotateClockwise 3s linear infinite",
+      },
       "@keyframes toast-enter": {
         "0%": { transform: "translateX(100%)", opacity: "0" },
         "100%": { transform: "translateX(0)", opacity: "1" },
@@ -439,6 +511,453 @@ module.exports = plugin(
         "100%": { transform: "translateY(-100%)", opacity: "0" },
       },
     });
+
+
+            // Premium 3D Buttons & Components (Flat by default, 3D on options.effect3d or .lw-3d wrapper)
+      add3D(".btn-3d-default", {
+        background: "var(--lw-primary-color)",
+        color: "var(--lw-primary-foreground)",
+        borderWidth: "1px",
+        borderColor: "transparent",
+        boxShadow: "none",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          background: "color-mix(in srgb, var(--lw-primary-color) 90%, transparent)",
+          boxShadow: "none",
+        },
+        "&:active": {
+          background: "var(--lw-primary-color)",
+          boxShadow: "none",
+          transform: "none",
+          transitionDuration: "0ms",
+        },
+      }, {
+        background: "linear-gradient(to bottom, color-mix(in srgb, var(--lw-primary-color) 90%, transparent) 0%, var(--lw-primary-color) 100%)",
+        color: "var(--lw-primary-foreground)",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 0 rgba(255, 255, 255, 0.18), 0 1px 2px 0 rgba(255, 255, 255, 0.2)",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.3), inset 0 -2px 0 0 rgba(0, 0, 0, 0.25), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+          background: "linear-gradient(to bottom, color-mix(in srgb, var(--lw-primary-color) 95%, transparent) 0%, color-mix(in srgb, var(--lw-primary-color) 98%, transparent) 100%)",
+        },
+        "&:active": {
+          boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.2)",
+          transform: "translateY(1.5px)",
+          background: "var(--lw-primary-color)",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".dark .btn-3d-default", {
+        background: "var(--lw-primary-color)",
+        borderColor: "transparent",
+        boxShadow: "none",
+        "&:hover": {
+          boxShadow: "none",
+          background: "color-mix(in srgb, var(--lw-primary-color) 90%, transparent)",
+        },
+        "&:active": {
+          boxShadow: "none",
+          transform: "none",
+          background: "var(--lw-primary-color)",
+          transitionDuration: "0ms",
+        },
+      }, {
+        background: "linear-gradient(to bottom, var(--lw-primary-color) 0%, color-mix(in srgb, var(--lw-primary-color) 92%, transparent) 100%)",
+        borderColor: "rgba(0, 0, 0, 0.12)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.9), inset 0 -2px 0 0 rgba(0, 0, 0, 0.18), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        "&:hover": {
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 1.0), inset 0 -2px 0 0 rgba(0, 0, 0, 0.22), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+          background: "linear-gradient(to bottom, var(--lw-primary-color) 0%, color-mix(in srgb, var(--lw-primary-color) 96%, transparent) 100%)",
+        },
+        "&:active": {
+          boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.15)",
+          transform: "translateY(1.5px)",
+          background: "color-mix(in srgb, var(--lw-primary-color) 90%, transparent)",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".btn-3d-destructive", {
+        background: "hsl(var(--destructive))",
+        color: "hsl(var(--destructive-foreground))",
+        borderWidth: "1px",
+        borderColor: "transparent",
+        boxShadow: "none",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          background: "hsl(var(--destructive) / 0.9)",
+          boxShadow: "none",
+        },
+        "&:active": {
+          background: "hsl(var(--destructive))",
+          boxShadow: "none",
+          transform: "none",
+          transitionDuration: "0ms",
+        },
+      }, {
+        background: "linear-gradient(to bottom, hsl(var(--destructive) / 0.9) 0%, hsl(var(--destructive)) 100%)",
+        color: "hsl(var(--destructive-foreground))",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.25), inset 0 -2px 0 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.35), inset 0 -2px 0 0 rgba(0, 0, 0, 0.35), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+          background: "linear-gradient(to bottom, hsl(var(--destructive) / 0.95) 0%, hsl(var(--destructive) / 0.98) 100%)",
+        },
+        "&:active": {
+          boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.25)",
+          transform: "translateY(1.5px)",
+          background: "hsl(var(--destructive))",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".dark .btn-3d-destructive", {
+        background: "hsl(var(--destructive))",
+        borderColor: "transparent",
+        boxShadow: "none",
+        "&:hover": {
+          boxShadow: "none",
+          background: "hsl(var(--destructive) / 0.9)",
+        },
+        "&:active": {
+          boxShadow: "none",
+          transform: "none",
+          background: "hsl(var(--destructive))",
+          transitionDuration: "0ms",
+        },
+      }, {
+        background: "linear-gradient(to bottom, hsl(0, 84%, 55%) 0%, hsl(0, 84%, 45%) 100%)",
+        borderColor: "rgba(255, 255, 255, 0.1)",
+        borderTopColor: "rgba(255, 255, 255, 0.30)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.45), inset 0 -2px 0 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        "&:hover": {
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.55), inset 0 -2px 0 0 rgba(0, 0, 0, 0.25), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+          background: "linear-gradient(to bottom, hsl(0, 84%, 60%) 0%, hsl(0, 84%, 50%) 100%)",
+        },
+        "&:active": {
+          boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.3)",
+          transform: "translateY(1.5px)",
+          background: "linear-gradient(to bottom, hsl(0, 84%, 48%) 0%, hsl(0, 84%, 40%) 100%)",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".btn-3d-secondary", {
+        background: "hsl(var(--secondary))",
+        color: "hsl(var(--secondary-foreground))",
+        borderWidth: "1px",
+        borderColor: "transparent",
+        boxShadow: "none",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          background: "hsl(var(--secondary) / 0.9)",
+          boxShadow: "none",
+        },
+        "&:active": {
+          background: "hsl(var(--secondary))",
+          boxShadow: "none",
+          transform: "none",
+          transitionDuration: "0ms",
+        },
+      }, {
+        background: "linear-gradient(to bottom, hsl(var(--secondary) / 0.9) 0%, hsl(var(--secondary)) 100%)",
+        color: "hsl(var(--secondary-foreground))",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.05)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.4), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.08), 0 2px 3px 0 rgba(0, 0, 0, 0.08)",
+          background: "linear-gradient(to bottom, hsl(var(--secondary) / 0.95) 0%, hsl(var(--secondary) / 0.98) 100%)",
+        },
+        "&:active": {
+          boxShadow: "inset 0 1.5px 2px 0 rgba(0, 0, 0, 0.1)",
+          transform: "translateY(1.5px)",
+          background: "hsl(var(--secondary))",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".dark .btn-3d-secondary", {
+        background: "hsl(var(--secondary))",
+        borderColor: "transparent",
+        boxShadow: "none",
+        "&:hover": {
+          boxShadow: "none",
+          background: "hsl(var(--secondary) / 0.9)",
+        },
+        "&:active": {
+          boxShadow: "none",
+          transform: "none",
+          background: "hsl(var(--secondary))",
+          transitionDuration: "0ms",
+        },
+      }, {
+        background: "linear-gradient(to bottom, hsl(var(--secondary) / 0.95) 0%, hsl(var(--secondary) / 0.85) 100%)",
+        borderColor: "rgba(255, 255, 255, 0.05)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.15), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.35), 0 1px 2px 0 rgba(0, 0, 0, 0.15)",
+        "&:hover": {
+          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.2), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.45), 0 2px 3px 0 rgba(0, 0, 0, 0.2)",
+          background: "linear-gradient(to bottom, hsl(var(--secondary) / 1) 0%, hsl(var(--secondary) / 0.9) 100%)",
+        },
+        "&:active": {
+          boxShadow: "inset 0 1.5px 2px 0 rgba(0, 0, 0, 0.3)",
+          transform: "translateY(1.5px)",
+          background: "hsl(var(--secondary) / 0.9)",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".btn-3d-github", {
+        background: "#ffffff",
+        color: "#000000",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        boxShadow: "none",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          boxShadow: "none",
+          backgroundColor: "#f9fafb",
+        },
+        "&:active": {
+          boxShadow: "none",
+          transform: "none",
+          transitionDuration: "0ms",
+        },
+      }, {
+        background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.90) 100%)",
+        color: "#000000",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04)",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.8), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.08), 0 2px 3px 0 rgba(0, 0, 0, 0.06)",
+          backgroundColor: "#f9fafb",
+        },
+        "&:active": {
+          boxShadow: "inset 0 1.5px 2px 0 rgba(0, 0, 0, 0.08)",
+          transform: "translateY(1.5px)",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".dark .btn-3d-github", {
+        background: "#1f2937",
+        color: "#ffffff",
+        borderColor: "rgba(255, 255, 255, 0.1)",
+        boxShadow: "none",
+        "&:hover": {
+          boxShadow: "none",
+          backgroundColor: "#374151",
+        },
+        "&:active": {
+          boxShadow: "none",
+          transform: "none",
+          transitionDuration: "0ms",
+        },
+      }, {
+        borderColor: "rgba(255, 255, 255, 0.2)",
+        borderTopColor: "rgba(255, 255, 255, 0.4)",
+      });
+
+      add3D(".btn-3d-outline", {
+        borderWidth: "1px",
+        borderColor: "hsl(var(--border))",
+        backgroundColor: "hsl(var(--background))",
+        boxShadow: "none",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          backgroundColor: "hsl(var(--accent))",
+          color: "hsl(var(--accent-foreground))",
+          boxShadow: "none",
+        },
+        "&:active": {
+          boxShadow: "none",
+          transform: "none",
+          transitionDuration: "0ms",
+        },
+      }, {
+        borderWidth: "1px",
+        borderColor: "hsl(var(--border))",
+        backgroundColor: "hsl(var(--background))",
+        boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          backgroundColor: "hsl(var(--accent))",
+          color: "hsl(var(--accent-foreground))",
+          boxShadow: "0 2px 3px 0 rgba(0, 0, 0, 0.08)",
+        },
+        "&:active": {
+          boxShadow: "none",
+          transform: "translateY(1.5px)",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".dark .btn-3d-outline", {
+        boxShadow: "none",
+      }, {
+        boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.15)",
+      });
+
+      add3D(".btn-3d-ghost", {
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          backgroundColor: "hsl(var(--accent))",
+          color: "hsl(var(--accent-foreground))",
+        },
+        "&:active": {
+          transform: "none",
+          backgroundColor: "hsl(var(--accent) / 0.8)",
+          transitionDuration: "0ms",
+        },
+      }, {
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          backgroundColor: "hsl(var(--accent))",
+          color: "hsl(var(--accent-foreground))",
+        },
+        "&:active": {
+          transform: "translateY(1.5px)",
+          backgroundColor: "hsl(var(--accent) / 0.8)",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".btn-3d-custom", {
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.15)",
+        boxShadow: "none",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          boxShadow: "none",
+        },
+        "&:active": {
+          boxShadow: "none",
+          transform: "none",
+          transitionDuration: "0ms",
+        },
+      }, {
+        backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.1) 100%)",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.15)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.3), inset 0 -2px 0 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.05) 100%)",
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 0 rgba(0, 0, 0, 0.25), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+        },
+        "&:active": {
+          backgroundImage: "linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%)",
+          boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.25)",
+          transform: "translateY(1.5px)",
+          transitionDuration: "0ms",
+        },
+      });
+
+      add3D(".dark .btn-3d-custom", {
+        borderColor: "rgba(255, 255, 255, 0.12)",
+        boxShadow: "none",
+        "&:hover": {
+          boxShadow: "none",
+        },
+        "&:active": {
+          boxShadow: "none",
+        }
+      }, {
+        borderColor: "rgba(255, 255, 255, 0.12)",
+        borderTopColor: "rgba(255, 255, 255, 0.3)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.35), inset 0 -2px 0 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.15)",
+        "&:hover": {
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.45), inset 0 -2px 0 0 rgba(0, 0, 0, 0.35), 0 2px 4px 0 rgba(0, 0, 0, 0.2)",
+        },
+        "&:active": {
+          boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.4)",
+        }
+      });
+
+      add3D(".btn-3d-link", {
+        color: "var(--lw-primary-color)",
+        textDecorationLine: "none",
+        textUnderlineOffset: "4px",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          textDecorationLine: "underline",
+        },
+      }, {
+        color: "var(--lw-primary-color)",
+        textDecorationLine: "none",
+        textUnderlineOffset: "4px",
+        transitionProperty: "all",
+        transitionDuration: "200ms",
+        "&:hover": {
+          textDecorationLine: "underline",
+        },
+      });
+
+      add3D(".bg-gradient-tabs", {
+        background: "hsl(var(--foreground)) !important",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        boxShadow: "none",
+      }, {
+        background: "linear-gradient(to bottom, hsl(var(--foreground) / 0.9) 0%, hsl(var(--foreground)) 100%) !important",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 0 rgba(255, 255, 255, 0.18), 0 1px 2px 0 rgba(255, 255, 255, 0.2)",
+      });
+
+      add3D(".dark .bg-gradient-tabs", {
+        background: "hsl(var(--foreground)) !important",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.12)",
+        boxShadow: "none",
+      }, {
+        background: "linear-gradient(to bottom, hsl(var(--foreground)) 0%, hsl(var(--foreground) / 0.92) 100%) !important",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.12)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.9), inset 0 -2px 0 0 rgba(0, 0, 0, 0.18), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      });
+
+      add3D(".chart-3d-shade .recharts-rectangle", {
+        filter: "none",
+      }, {
+        filter: "url(#lw-3d-shade)",
+      });
+
+      add3D(".chart-3d-shade .recharts-sector", {
+        filter: "none",
+      }, {
+        filter: "url(#lw-3d-shade)",
+      });
+
+      add3D(".chart-3d-shade .recharts-area-area", {
+        filter: "none",
+      }, {
+        filter: "url(#lw-3d-shade)",
+      });
+
 
     // Add custom root-level styles and components
     addBase({
@@ -459,8 +978,8 @@ module.exports = plugin(
         borderRadius: theme("borderRadius.lg"),
         boxShadow: theme("boxShadow.lg"),
         padding: theme("spacing.6"),
-        backgroundColor: theme("colors.white"),
-        border: `1px solid ${theme("colors.border-gray")}`,
+        backgroundColor: "hsl(var(--card))",
+        border: "1px solid hsl(var(--border))",
       },
 
       // Dynamic navigation classes
@@ -600,11 +1119,14 @@ module.exports = plugin(
       ".transition-colors": {
         transition: "background-color 0.4s, color 0.4s",
       },
-    });
-  },
 
-  {
-    theme: {
+      
+        });
+  };
+},
+  function (options = {}) {
+    return {
+      theme: {
       container: {
         center: true,
         padding: "16px",
@@ -628,9 +1150,9 @@ module.exports = plugin(
         colors: {
           // Custom color namespaces
           // custom color here
-          greedy: "#07eae6ff",
-          primarylw: "#173eff",
-          primarylw2: "#3758f9",
+          greedy: "#00a3e4ff",
+          primarylw: "var(--primarylw)",
+          "primarylw-2": "var(--primarylw-2)",
 
           darklw: {
             DEFAULT: "var(--darklw)",
@@ -638,36 +1160,36 @@ module.exports = plugin(
           },
 
           // Theme-based design tokens
-          background: "hsl(var(--background))",
-          foreground: "hsl(var(--foreground))",
+          background: "hsl(var(--background) / <alpha-value>)",
+          foreground: "hsl(var(--foreground) / <alpha-value>)",
 
-          card: "hsl(var(--card))",
-          "card-foreground": "hsl(var(--card-foreground))",
+          card: "hsl(var(--card) / <alpha-value>)",
+          "card-foreground": "hsl(var(--card-foreground) / <alpha-value>)",
 
-          popover: "hsl(var(--popover))",
-          "popover-foreground": "hsl(var(--popover-foreground))",
+          popover: "hsl(var(--popover) / <alpha-value>)",
+          "popover-foreground": "hsl(var(--popover-foreground) / <alpha-value>)",
 
-          primary: "hsl(var(--primary))",
-          "primary-foreground": "hsl(var(--primary-foreground))",
+          primary: "hsl(var(--primary) / <alpha-value>)",
+          "primary-foreground": "hsl(var(--primary-foreground) / <alpha-value>)",
 
-          secondary: "hsl(var(--secondary))",
-          "secondary-foreground": "hsl(var(--secondary-foreground))",
+          secondary: "hsl(var(--secondary) / <alpha-value>)",
+          "secondary-foreground": "hsl(var(--secondary-foreground) / <alpha-value>)",
 
-          muted: "hsl(var(--muted))",
-          "muted-foreground": "hsl(var(--muted-foreground))",
+          muted: "hsl(var(--muted) / <alpha-value>)",
+          "muted-foreground": "hsl(var(--muted-foreground) / <alpha-value>)",
 
-          accent: "hsl(var(--accent))",
-          "accent-foreground": "hsl(var(--accent-foreground))",
+          accent: "hsl(var(--accent) / <alpha-value>)",
+          "accent-foreground": "hsl(var(--accent-foreground) / <alpha-value>)",
 
-          destructive: "hsl(var(--destructive))",
-          "destructive-foreground": "hsl(var(--destructive-foreground))",
+          destructive: "hsl(var(--destructive) / <alpha-value>)",
+          "destructive-foreground": "hsl(var(--destructive-foreground) / <alpha-value>)",
 
           border: {
-            DEFAULT: "hsl(var(--border))",
+            DEFAULT: "hsl(var(--border) / <alpha-value>)",
             2: "var(--darklw-2)",
           },
-          input: "hsl(var(--input))",
-          ring: "hsl(var(--ring))",
+          input: "hsl(var(--input) / <alpha-value>)",
+          ring: "hsl(var(--ring) / <alpha-value>)",
 
           // Scrollbar colors
           "scrollbar-thumb": "hsl(var(--scrollbar-thumb))",
@@ -676,5 +1198,6 @@ module.exports = plugin(
         },
       },
     },
+      };
   }
 );

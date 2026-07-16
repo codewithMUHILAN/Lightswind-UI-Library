@@ -1,0 +1,94 @@
+{
+  "serverInfo": {
+    "name": "lightswind-ui-mcp",
+    "version": "1.1.2"
+  },
+  "authentication": {
+    "required": false
+  },
+  "tools": [
+    {
+      "name": "list_all_components",
+      "description": "List all available Lightswind components, optionally filtered by category.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "category": { "type": "string", "description": "Filter components by category name." }
+        }
+      }
+    },
+    {
+      "name": "get_component",
+      "description": "Retrieve the full React code and installation details for a specific component by name.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "The exact name of the component." }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "search_components",
+      "description": "Fuzzy search for components matching a query.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "Search term." },
+          "limit": { "type": "number" }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "list_categories",
+      "description": "List all component categories in Lightswind UI.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "get_block",
+      "description": "Retrieve the details and source code for a premium Pro template block.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "The block name or ID." }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "list_blocks",
+      "description": "List all available Pro template blocks.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "get_installation_guide",
+      "description": "Get setup instructions for Next.js, Vite, etc.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "framework": { "type": "string", "enum": ["nextjs", "vite", "remix"] }
+        }
+      }
+    },
+    {
+      "name": "get_usage_example",
+      "description": "Get a code usage example for a component.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" }
+        },
+        "required": ["name"]
+      }
+    }
+  ],
+  "resources": [],
+  "prompts": []
+}

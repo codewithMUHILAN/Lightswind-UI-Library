@@ -1,0 +1,637 @@
+{
+    "3d-cards-carousel": [
+        "gsap"
+    ],
+    "3d-carousel": [
+        "lucide-react"
+    ],
+    "3d-focus-marquee": [
+        "framer-motion"
+    ],
+    "3d-hover-gallery": [],
+    "3d-image-carousel": [
+        "lucide-react"
+    ],
+    "3d-image-gallery": [
+        "framer-motion"
+    ],
+    "3d-image-ring": [
+        "framer-motion"
+    ],
+    "3d-image-slider": [
+        "framer-motion"
+    ],
+    "3d-marquee": [
+        "framer-motion"
+    ],
+    "3d-MarqueewithCustomComponents": [
+        "framer-motion"
+    ],
+    "3d-model-viewer": [
+        "@react-three/drei",
+        "@react-three/fiber",
+        "three"
+    ],
+    "3d-nodes-with-center": [
+        "framer-motion",
+        "gsap",
+        "lucide-react"
+    ],
+    "3d-perspective-card": [],
+    "3d-pin": [
+        "framer-motion"
+    ],
+    "3d-scroll-trigger": [
+        "framer-motion"
+    ],
+    "3d-showcase-carousel": [
+        "lucide-react"
+    ],
+    "3d-slider": [],
+    "accordion": [
+        "lucide-react"
+    ],
+    "ai-prompt": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "alert-dialog": [
+        "framer-motion"
+    ],
+    "alert": [
+        "lucide-react"
+    ],
+    "angled-slider": [
+        "framer-motion"
+    ],
+    "animated-blob-background": [
+        "framer-motion"
+    ],
+    "animated-bubble-particles": [],
+    "animated-copy-button": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "animated-notification": [
+        "lucide-react",
+        "react-flip-toolkit",
+        "uuid"
+    ],
+    "animated-ocean-waves": [],
+    "animated-range-input": [
+        "framer-motion"
+    ],
+    "animated-tooltip": [
+        "framer-motion"
+    ],
+    "animated-wave": [
+        "simplex-noise",
+        "three"
+    ],
+    "antigravity-bg": [],
+    "apple-dock": [
+        "framer-motion"
+    ],
+    "ascii-wave": [
+        "next-themes"
+    ],
+    "aspect-ratio": [],
+    "aurora-background": [],
+    "aurora-shader": [
+        "ogl"
+    ],
+    "aurora-text-effect": [],
+    "avatar": [],
+    "badge": [
+        "class-variance-authority"
+    ],
+    "beam-circle": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "beam-grid-background": [],
+    "bento-grid": [],
+    "border-beam": [
+        "framer-motion"
+    ],
+    "breadcrumb": [
+        "lucide-react"
+    ],
+    "button": [],
+    "calendar": [
+        "framer-motion",
+        "lucide-react",
+        "react-day-picker"
+    ],
+    "canvas-confetti-cursor": [],
+    "card-stack": [
+        "framer-motion"
+    ],
+    "card": [],
+    "carousel": [
+        "embla-carousel-react",
+        "lucide-react"
+    ],
+    "chain-carousel": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "chart": [
+        "recharts"
+    ],
+    "checkbox": [
+        "lucide-react"
+    ],
+    "CinematicScroll": [
+        "framer-motion"
+    ],
+    "code-hover-cards": [
+        "lucide-react"
+    ],
+    "collapsible": [
+        "class-variance-authority",
+        "framer-motion"
+    ],
+    "command": [
+        "lucide-react"
+    ],
+    "confetti-button": [
+        "class-variance-authority",
+        "lucide-react"
+    ],
+    "connection-graph": [
+        "framer-motion"
+    ],
+    "container-scroll": [
+        "framer-motion"
+    ],
+    "context-menu": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "cool-bento-effect": [
+        "framer-motion"
+    ],
+    "cool-theme-toggle": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "cosmic-dust": [],
+    "cosmic-singularity-background": [
+        "framer-motion",
+        "three"
+    ],
+    "count-up": [
+        "framer-motion"
+    ],
+    "cyber-hive-background": [
+        "framer-motion",
+        "three"
+    ],
+    "dialog": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "direction-aware-hover": [
+        "framer-motion"
+    ],
+    "Dock": [
+        "framer-motion"
+    ],
+    "dot-grid-background": [],
+    "dot-pattern": [],
+    "drag-order-list": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "draggable-reorder-list": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "drawer": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "dropdown-menu": [
+        "class-variance-authority",
+        "framer-motion"
+    ],
+    "dynamic-island": [
+        "framer-motion"
+    ],
+    "dynamic-navigation": [],
+    "electro-border": [],
+    "ether-waves-background": [
+        "framer-motion",
+        "three"
+    ],
+    "evervault-card": [
+        "framer-motion"
+    ],
+    "expandable-search-bar": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "expandable-search": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "expandable-speed-dial": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "fall-beam-background": [
+        "framer-motion"
+    ],
+    "file-upload": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "flip-words": [
+        "framer-motion"
+    ],
+    "floating-label-input": [
+        "framer-motion"
+    ],
+    "fluid-button": [],
+    "fluid-chrome-background": [
+        "framer-motion",
+        "three"
+    ],
+    "focus-cards-layout": [],
+    "form": [
+        "framer-motion",
+        "react-hook-form"
+    ],
+    "glass-folder": [],
+    "glitch-button": [],
+    "globe": [
+        "cobe"
+    ],
+    "glowing-background": [],
+    "glowing-cards": [],
+    "glowing-lights": [],
+    "glowing-lines": [],
+    "gradient-background": [],
+    "gradient-btn-home": [],
+    "gradient-button": [],
+    "grid-dot-backgrounds": [],
+    "hamburger-menu-overlay": [
+        "lucide-react"
+    ],
+    "HangingIdCard": [],
+    "hell-background": [],
+    "hero-parallax-layout": [
+        "framer-motion"
+    ],
+    "holo-button": [],
+    "holographic-wave": [
+        "ogl"
+    ],
+    "horizontal-scroll-carousel": [
+        "framer-motion"
+    ],
+    "hover-card": [
+        "framer-motion"
+    ],
+    "image-reveal": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "image-sliding-marquee": [
+        "framer-motion"
+    ],
+    "image-trail-effect": [],
+    "in-view-stagger": [
+        "framer-motion"
+    ],
+    "infinite-drift": [
+        "three"
+    ],
+    "infinite-webgl-scroll": [],
+    "input-otp": [
+        "input-otp",
+        "lucide-react"
+    ],
+    "input": [
+        "framer-motion"
+    ],
+    "interactive-card-gallery": [],
+    "interactive-card": [
+        "framer-motion"
+    ],
+    "interactive-gradient-card": [],
+    "interactive-grid-background": [],
+    "iphone16-pro": [],
+    "kinetic-flow-bg": [],
+    "label": [],
+    "layout-grid": [
+        "framer-motion"
+    ],
+    "lens": [
+        "framer-motion"
+    ],
+    "liquid-fluid": [
+        "framer-motion",
+        "gsap",
+        "ogl"
+    ],
+    "liquid-surface": [
+        "gsap",
+        "three"
+    ],
+    "looping-words": [
+        "framer-motion"
+    ],
+    "magic-card": [],
+    "magic-loader": [
+        "framer-motion"
+    ],
+    "magnetic-button": [
+        "framer-motion"
+    ],
+    "magnetic-field-background": [
+        "framer-motion"
+    ],
+    "magnifying-zoom": [
+        "framer-motion"
+    ],
+    "marquee-menu": [
+        "framer-motion"
+    ],
+    "menubar": [
+        "framer-motion"
+    ],
+    "meteors": [],
+    "morphing-navigation": [
+        "framer-motion"
+    ],
+    "nav-effect": [
+        "clsx",
+        "framer-motion"
+    ],
+    "navigation-menu": [
+        "lucide-react"
+    ],
+    "nebula-flow": [
+        "framer-motion"
+    ],
+    "neural-link-background": [
+        "framer-motion"
+    ],
+    "neural-veil": [],
+    "orbit-card": [],
+    "pagination": [
+        "lucide-react"
+    ],
+    "parallax-scroll": [
+        "framer-motion"
+    ],
+    "particle-orbit-effect": [],
+    "particles-background": [],
+    "password-strength-indicator": [
+        "lucide-react"
+    ],
+    "plasma-globe": [
+        "ogl"
+    ],
+    "popover": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "progress": [],
+    "quantum-field": [
+        "framer-motion"
+    ],
+    "radio-group": [],
+    "range-slider": [
+        "framer-motion"
+    ],
+    "rays-background": [
+        "framer-motion"
+    ],
+    "reflect-background": [],
+    "resizable": [
+        "lucide-react",
+        "react-resizable-panels"
+    ],
+    "ripple-button": [],
+    "ripple-loader": [
+        "framer-motion"
+    ],
+    "rolling-text-3d": [
+        "gsap"
+    ],
+    "satin-flow": [
+        "framer-motion"
+    ],
+    "scroll-area": [],
+    "scroll-cards": [
+        "@gsap/react",
+        "gsap"
+    ],
+    "scroll-carousel": [
+        "gsap",
+        "lucide-react"
+    ],
+    "scroll-list": [
+        "framer-motion"
+    ],
+    "scroll-para-3d": [
+        "@gsap/react",
+        "gsap"
+    ],
+    "scroll-para": [
+        "@gsap/react",
+        "gsap"
+    ],
+    "scroll-reveal": [
+        "framer-motion"
+    ],
+    "scroll-rotate-gallery": [
+        "framer-motion",
+        "gsap"
+    ],
+    "scroll-stack": [],
+    "scroll-timeline": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "scroll-trigger-carousel": [
+        "framer-motion"
+    ],
+    "ScrollSnapCarouselPin": [
+        "framer-motion"
+    ],
+    "ScrollVelocityContainer": [
+        "framer-motion"
+    ],
+    "seasonal-hover-cards": [],
+    "select": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "separator": [],
+    "shader-background": [],
+    "sheet": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "shine-button": [],
+    "shiny-text": [
+        "framer-motion"
+    ],
+    "sidebar": [
+        "clsx",
+        "framer-motion",
+        "lucide-react",
+        "tailwind-merge"
+    ],
+    "skeleton": [],
+    "slide-to-confirm": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "slider": [],
+    "sliding-cards": [],
+    "sliding-logo-marquee": [
+        "lucide-react"
+    ],
+    "smart-radio-group": [
+        "framer-motion"
+    ],
+    "smokey-background": [],
+    "smokey-cursor-hero": [
+        "framer-motion"
+    ],
+    "smokey-cursor": [],
+    "smooth-cursor": [
+        "framer-motion"
+    ],
+    "sparkle-navbar": [
+        "gsap"
+    ],
+    "sparkle-particles": [
+        "@tsparticles/engine",
+        "@tsparticles/react",
+        "@tsparticles/slim"
+    ],
+    "SparkleCursor": [
+        "gsap"
+    ],
+    "SpectrumLoader": [
+        "framer-motion"
+    ],
+    "split-image-grid": [],
+    "stack-list": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "stacking-cards": [
+        "framer-motion"
+    ],
+    "stardust-button": [],
+    "stellar-vortex-bg": [],
+    "stepper": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "sticky-scroll-layout": [
+        "framer-motion"
+    ],
+    "stripes-background": [
+        "clsx"
+    ],
+    "stylish-carousel": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "switch": [],
+    "table": [],
+    "tabs": [
+        "framer-motion"
+    ],
+    "tag-input": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "team-carousel": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "terminal-card": [
+        "framer-motion",
+        "lucide-react",
+        "react-syntax-highlighter"
+    ],
+    "test": [],
+    "text-generate-effect": [
+        "framer-motion"
+    ],
+    "text-reveal-card": [
+        "framer-motion"
+    ],
+    "text-scroll-marquee": [
+        "@motionone/utils",
+        "framer-motion"
+    ],
+    "text-trail-cursor": [
+        "framer-motion"
+    ],
+    "textarea": [],
+    "ThreeDImageCarousel": [
+        "lucide-react"
+    ],
+    "timeline-layout": [
+        "framer-motion"
+    ],
+    "toast": [
+        "class-variance-authority",
+        "framer-motion",
+        "lucide-react"
+    ],
+    "toaster": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "toggle-group": [],
+    "toggle-theme": [
+        "lucide-react"
+    ],
+    "toggle": [],
+    "tooltip": [
+        "framer-motion"
+    ],
+    "top-loader": [],
+    "top-sticky-bar": [
+        "framer-motion"
+    ],
+    "trial-button": [],
+    "trusted-users": [
+        "lucide-react"
+    ],
+    "typewriter-input": [],
+    "typing-text": [
+        "framer-motion"
+    ],
+    "vector-flow": [
+        "framer-motion"
+    ],
+    "video-modal": [
+        "framer-motion",
+        "lucide-react"
+    ],
+    "video-text": [
+        "framer-motion"
+    ],
+    "VolumetricFractalBackground": [],
+    "wave-background": [
+        "framer-motion"
+    ],
+    "wobble-card": [
+        "framer-motion"
+    ],
+    "woofy-hover-image": [
+        "three"
+    ]
+}

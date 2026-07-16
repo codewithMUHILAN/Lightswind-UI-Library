@@ -1,0 +1,1003 @@
+/*
+ * lightswind.com
+ * lightswind.css
+ *
+ * This file contains a standalone CSS library with custom themes, animations,
+ * and utility classes. It does NOT require Tailwind CSS for compilation.
+ * Users can directly import this file into their projects.
+   Also works without overriding your tailwind CSS
+ */
+
+/* ==========================================================================
+   1. CSS Variables for Theming
+   ========================================================================== */
+
+/* Light (default) theme variables */
+:root {
+  --primarylw: #173eff;
+  --primarylw-2: #3758f9;
+  --darklw: #11131b;
+  --darklw-2: #1a1d25;
+
+  /* HSL values for theme colors */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 0%;
+
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 0%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 0 0% 90%;
+  --input: 0 0% 90%;
+  --ring: 0 0% 0%;
+
+  --radius: 0.5rem;
+  /* For rounded corners */
+
+  /* Scrollbar colors */
+  --scrollbar-thumb: 0 0% 75%;
+  --scrollbar-track: 0 0% 95%;
+  --scrollbar-hover: 0 0% 65%;
+
+  /* Custom named colors */
+  --greedy: #07eae6ff;
+}
+
+/* Dark theme variables */
+.dark {
+  --primarylw: #173eff;
+  --primarylw-2: #3758f9;
+  --darklw: #11131b;
+  --darklw-2: #1a1d25;
+
+  /* HSL values for theme colors in dark mode */
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+
+  --card: 0 0% 5%;
+  --card-foreground: 0 0% 100%;
+
+  --popover: 0 0% 5%;
+  --popover-foreground: 0 0% 100%;
+
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 0%;
+
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 65%;
+
+  --accent: 0 0% 15%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: #000;
+  /* Direct hex for dark border */
+  --input: 0 0% 20%;
+  --ring: 0 0% 20%;
+
+  /* Scrollbar colors for dark mode */
+  --scrollbar-thumb: 0 0% 25%;
+  --scrollbar-track: 0 0% 10%;
+  --scrollbar-hover: 0 0% 35%;
+
+  /* Custom named colors (same as light, but can be overridden if needed) */
+  --greedy: #07eae6ff;
+}
+
+/* ==========================================================================
+   2. Keyframe Animations
+   ========================================================================== */
+
+/* Neon Button Animations */
+@keyframes neon-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes neon-bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Tiny Bar Loader Animation */
+@keyframes tiny-bar-loader-anime {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.1;
+  }
+}
+
+/* Glassmorphism Animated Login Form Background */
+@keyframes GlassLoginAnimateBg {
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Gradient Animated Background Turn */
+@keyframes GradientAnimatedBgTurn {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* Glassmorphism Marquee Animation */
+@keyframes marquee-right-left {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Animated Gradient Border Button Property and Animation */
+/* @property MUST be defined at the global scope, not inside a rule */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+
+@keyframes bg-spin {
+  to {
+    --border-angle: 1turn;
+  }
+}
+
+/* Product Card Skeleton Loader Animation */
+@keyframes skeletonLoader {
+  0% {
+    background-position: -2000px 0;
+  }
+
+  100% {
+    background-position: 2000px 0;
+  }
+}
+
+/* Skeleton Bars Loader Animation */
+@keyframes skeletonBarsLoader {
+  0% {
+    background-position: -2000px 0;
+  }
+
+  100% {
+    background-position: 2000px 0;
+  }
+}
+
+/* Animated Cart Button Animations */
+@keyframes AnimatedCartBtntruck {
+  0% {
+    left: -10%;
+  }
+
+  40%,
+  55% {
+    left: 50%;
+  }
+
+  100% {
+    left: 110%;
+  }
+}
+
+@keyframes AnimatedCartBtnbox {
+
+  0%,
+  40% {
+    top: -20%;
+    left: -5%;
+  }
+
+  55% {
+    top: 37%;
+    left: 52%;
+  }
+
+  100% {
+    top: 37%;
+    left: 110%;
+  }
+}
+
+@keyframes AnimatedCartBtntxt1 {
+  0% {
+    opacity: 1;
+  }
+
+  20%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes AnimatedCartBtntxt2 {
+
+  0%,
+  80% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Shimmer Effect Animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Toast Notification Animations (Desktop & Mobile) */
+@keyframes toast-enter {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-exit {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes toast-enter-mobile {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-exit-mobile {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   3. Base Styles & Global Utilities
+   ========================================================================== */
+
+/* Global Scrollbar Styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--scrollbar-thumb)) hsl(var(--scrollbar-track));
+  /* Apply font family globally */
+  box-sizing: border-box;
+  /* Good practice for all elements */
+}
+
+/* Body Styling */
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  margin: 0;
+  /* Reset default body margin */
+  padding: 0;
+  /* Reset default body padding */
+}
+
+/* Overflow handling for dialogs/popovers */
+.command-dialog-open,
+.popover-open {
+  overflow: hidden;
+}
+
+.command-dialog-open::after,
+.popover-open::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 39;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  transition: backdrop-filter 0.2s ease;
+}
+
+/* Border Styling (light and dark modes) */
+.border {
+  border-width: 1px;
+  border-color: hsl(var(--border));
+  /* Use CSS variable for consistency */
+}
+
+.dark .border {
+  border-color: var(--darklw-2);
+  /* Using darklw-2 as per your original config for dark border */
+}
+
+/* Smooth Scroll Utility */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Hide Scrollbar Utility */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* For IE and Edge */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* For Chrome, Safari, and Opera */
+}
+
+/* Custom Card Component Styling */
+.custom-card {
+  border-radius: var(--radius);
+  /* Using CSS variable for radius */
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* shadow-lg */
+  padding: 1.5rem;
+  /* spacing.6 */
+  background-color: hsl(var(--card));
+  /* Use card background color */
+  border: 1px solid hsl(var(--border));
+  /* Use border color */
+}
+
+/* Dynamic Navigation Classes */
+.dynamicNav-nav-bg {
+  background-color: #000000;
+  width: 100%;
+  position: relative;
+}
+
+.dynamicNav-highlight-glow {
+  box-shadow: inset 0 0 10px #fff;
+}
+
+.dynamicNav-nav-link {
+  color: #ffffff;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.dynamicNav-nav-link:hover {
+  transform: scale(1.1);
+}
+
+.dynamicNav-highlight-transition {
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.dynamicNav-active-link {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Interactive Gallery Card Styles */
+.InteractiveGalleryCard:hover {
+  transform: perspective(1000px);
+}
+
+.InteractiveGalleryCard {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+/* Glass Marquee Styles */
+.GlassMarqueeContainer {
+  display: flex;
+  width: 200%;
+  /* Important for marquee effect */
+  gap: 20px;
+  white-space: nowrap;
+  align-items: center;
+  animation: marquee-right-left 12s linear infinite;
+}
+
+.GlassMarqueeContainer:hover {
+  animation-play-state: paused;
+}
+
+.GlassMarqueeCard {
+  flex-shrink: 0;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s,
+    filter 0.3s;
+}
+
+.GlassMarqueeCard:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.4);
+}
+
+.GlassMarqueeEffect {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Animated Gradient Border Button Styles */
+.gradient-border {
+  --border-angle: 0turn;
+  background:
+    conic-gradient(from var(--border-angle), #000, #000) padding-box,
+    conic-gradient(from var(--border-angle),
+      transparent 25%,
+      #08f,
+      rgb(1, 206, 46) 99%,
+      transparent) border-box;
+  animation: bg-spin 3s linear infinite;
+  border: 1px solid transparent;
+  background-origin: border-box;
+}
+
+.gradient-border:hover {
+  animation-play-state: paused;
+}
+
+/* Animated Range Input Styles */
+.animatedRangeInput .animatedRangeInputLevel::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0;
+  height: 0;
+  -webkit-box-shadow: -200px 0 0 200px #fff;
+  box-shadow: -200px 0 0 200px #fff;
+}
+
+.animatedRangeInput .animatedRangeInputLevel::-moz-range-thumb {
+  width: 0;
+  height: 0;
+  border-radius: 0;
+  border: none;
+  box-shadow: -200px 0 0 200px #fff;
+}
+
+/* Toggle Theme Sidebar Transitions */
+.ToggleThemeSidebar {
+  transition:
+    width 0.4s ease,
+    padding 0.4s ease;
+}
+
+.ToggleThemeSidebar-expanded {
+  width: 160px;
+}
+
+.ToggleThemeSidebar-collapsed {
+  width: 64px;
+}
+
+/* Smooth transition for theme changes */
+.transition-colors {
+  transition:
+    background-color 0.4s,
+    color 0.4s;
+}
+
+/* Content Max Height and Overflow for dialogs/popovers */
+.dropdown-content,
+.select-content,
+.popover-content,
+.command-dialog {
+  max-height: calc(90vh - 2rem);
+  overflow-y: auto;
+}
+
+/* No Scroll Utility */
+.no-scroll {
+  overflow: hidden;
+}
+
+/* Custom Scrollbar Styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.3);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(120, 120, 120, 0.7);
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Flex Wrap Tabs Layout */
+.flex-wrap-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  /* 4px */
+}
+
+/* Sidebar Scrollable Syntax Scrollbar */
+.sidebar-scrollable-syntax::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.sidebar-scrollable-syntax::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+.sidebar-scrollable-syntax::-webkit-scrollbar-thumb {
+  background-color: #505050;
+  border-radius: 10px;
+  border: 2px solid #f0f0f0;
+}
+
+.sidebar-scrollable-syntax::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3;
+}
+
+/* ==========================================================================
+   4. Utility Classes (Explicitly Defined)
+   ========================================================================== */
+
+/* Color Utilities (text- and background- colors) */
+.text-greedy {
+  color: var(--greedy);
+}
+
+.bg-greedy {
+  background-color: var(--greedy);
+}
+
+.text-primarylw {
+  color: var(--primarylw);
+}
+
+.bg-primarylw {
+  background-color: var(--primarylw);
+}
+
+.text-primarylw-2 {
+  color: var(--primarylw-2);
+}
+
+.bg-primarylw-2 {
+  background-color: var(--primarylw-2);
+}
+
+.text-darklw {
+  color: var(--darklw);
+}
+
+.bg-darklw {
+  background-color: var(--darklw);
+}
+
+.text-darklw-2 {
+  color: var(--darklw-2);
+}
+
+.bg-darklw-2 {
+  background-color: var(--darklw-2);
+}
+
+.text-background {
+  color: hsl(var(--background));
+}
+
+.bg-background {
+  background-color: hsl(var(--background));
+}
+
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+
+.bg-foreground {
+  background-color: hsl(var(--foreground));
+}
+
+.text-card {
+  color: hsl(var(--card));
+}
+
+.bg-card {
+  background-color: hsl(var(--card));
+}
+
+.text-card-foreground {
+  color: hsl(var(--card-foreground));
+}
+
+.bg-card-foreground {
+  background-color: hsl(var(--card-foreground));
+}
+
+.text-popover {
+  color: hsl(var(--popover));
+}
+
+.bg-popover {
+  background-color: hsl(var(--popover));
+}
+
+.text-popover-foreground {
+  color: hsl(var(--popover-foreground));
+}
+
+.bg-popover-foreground {
+  background-color: hsl(var(--popover-foreground));
+}
+
+.text-primary {
+  color: hsl(var(--primary));
+}
+
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+
+.bg-primary-foreground {
+  background-color: hsl(var(--primary-foreground));
+}
+
+.text-secondary {
+  color: hsl(var(--secondary));
+}
+
+.bg-secondary {
+  background-color: hsl(var(--secondary));
+}
+
+.text-secondary-foreground {
+  color: hsl(var(--secondary-foreground));
+}
+
+.bg-secondary-foreground {
+  background-color: hsl(var(--secondary-foreground));
+}
+
+.text-muted {
+  color: hsl(var(--muted));
+}
+
+.bg-muted {
+  background-color: hsl(var(--muted));
+}
+
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+.bg-muted-foreground {
+  background-color: hsl(var(--muted-foreground));
+}
+
+.text-accent {
+  color: hsl(var(--accent));
+}
+
+.bg-accent {
+  background-color: hsl(var(--accent));
+}
+
+.text-accent-foreground {
+  color: hsl(var(--accent-foreground));
+}
+
+.bg-accent-foreground {
+  background-color: hsl(var(--accent-foreground));
+}
+
+.text-destructive {
+  color: hsl(var(--destructive));
+}
+
+.bg-destructive {
+  background-color: hsl(var(--destructive));
+}
+
+.text-destructive-foreground {
+  color: hsl(var(--destructive-foreground));
+}
+
+.bg-destructive-foreground {
+  background-color: hsl(var(--destructive-foreground));
+}
+
+.text-border {
+  color: hsl(var(--border));
+}
+
+.bg-border {
+  background-color: hsl(var(--border));
+}
+
+.text-input {
+  color: hsl(var(--input));
+}
+
+.bg-input {
+  background-color: hsl(var(--input));
+}
+
+.text-ring {
+  color: hsl(var(--ring));
+}
+
+.bg-ring {
+  background-color: hsl(var(--ring));
+}
+
+/* Scrollbar Color Utilities */
+.text-scrollbar-thumb {
+  color: hsl(var(--scrollbar-thumb));
+}
+
+.bg-scrollbar-thumb {
+  background-color: hsl(var(--scrollbar-thumb));
+}
+
+.text-scrollbar-track {
+  color: hsl(var(--scrollbar-track));
+}
+
+.bg-scrollbar-track {
+  background-color: hsl(var(--scrollbar-track));
+}
+
+.text-scrollbar-hover {
+  color: hsl(var(--scrollbar-hover));
+}
+
+.bg-scrollbar-hover {
+  background-color: hsl(var(--scrollbar-hover));
+}
+
+/* Animation Utility Classes */
+.neon-pulse-animation {
+  animation: neon-pulse 0.6s ease-in-out infinite;
+}
+
+.neon-bounce-animation {
+  animation: neon-bounce 0.3s ease-in-out infinite;
+}
+
+.tiny-bar-loader {
+  animation: tiny-bar-loader-anime 1s linear infinite;
+}
+
+.GlassMarqueeContainer {
+  /* This class is also used for layout, but also for animation */
+  animation: marquee-right-left 12s linear infinite;
+}
+
+.animated-gradient-border-button {
+  --border-angle: 0turn;
+  animation: bg-spin 3s linear infinite;
+}
+
+.animate-skeletonLoader {
+  animation: skeletonLoader 5s ease-in-out infinite;
+}
+
+.skeletonBarsLoaders {
+  background-size: 200% 100%;
+  animation: skeletonBarsLoader 6s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Animated Cart Button Specific Classes */
+.cart-button.clicked .cart-shopping-svg {
+  animation: AnimatedCartBtntruck 2s ease-in-out forwards;
+}
+
+.cart-button.clicked .cart-box-svg {
+  animation: AnimatedCartBtnbox 2s ease-in-out forwards;
+}
+
+.cart-button.clicked span.add-to-cart {
+  animation: AnimatedCartBtntxt1 2s ease-in-out forwards;
+}
+
+.cart-button.clicked span.added {
+  animation: AnimatedCartBtntxt2 2s ease-in-out forwards;
+}
+
+/* Card Hover Effect */
+.card-hover {
+  transition-property: transform;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+  transform: none;
+}
+
+.card-hover:hover {
+  transform: scale(1.02);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Toggle Switch Component */
+.toggle-switch {
+  position: relative;
+  width: 2.5rem;
+  /* w-10 */
+  height: 1.25rem;
+  /* h-5 */
+  border-radius: 9999px;
+  background-color: hsl(var(--secondary));
+  transition-property: background-color;
+  transition-duration: 200ms;
+}
+
+.toggle-switch.active {
+  background-color: hsl(var(--primary));
+}
+
+.toggle-switch .toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 1rem;
+  /* w-4 */
+  height: 1rem;
+  /* h-4 */
+  border-radius: 9999px;
+  background-color: hsl(var(--foreground));
+  transition-property: transform;
+  transition-duration: 200ms;
+}
+
+.toggle-switch.active .toggle-knob {
+  transform: translateX(1.25rem);
+  /* translate-x-5 */
+  background-color: hsl(var(--background));
+}
+
+/* Dropdown Hover Item */
+.dropdown-hover-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition-property: color, background-color;
+  transition-duration: 200ms;
+}
+
+.dropdown-hover-item:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+/* Dropdown Category & Item */
+.dropdown-category {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.dropdown-category-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+/* Tabs Background Indicator */
+.tabs-bg-indicator {
+  position: absolute;
+  border-radius: 0.125rem;
+  background-color: hsl(var(--primary));
+  transition-property: all;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transform-origin: center center;
+}
+
+/* Sidebar Menu Indicator */
+.sidebar-menu-indicator {
+  position: absolute;
+  transition-property: all;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
