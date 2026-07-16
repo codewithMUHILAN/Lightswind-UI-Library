@@ -1,7 +1,7 @@
 {
   "name": "lightswind",
   "homepage": "https://lightswind.com/",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "A collection of beautifully crafted React Components, Blocks & Templates for Modern Developers. Create stunning web applications effortlessly by using our 160+ professional and animated react components.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
