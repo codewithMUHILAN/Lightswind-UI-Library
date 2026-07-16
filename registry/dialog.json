@@ -18,7 +18,6 @@
   ],
   "dependencies": [
     "framer-motion",
-    "lucide-react",
-    "@radix-ui/react-dialog"
+    "lucide-react"
   ]
 }

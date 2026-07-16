@@ -18,7 +18,6 @@
   ],
   "dependencies": [
     "clsx",
-    "tailwind-merge",
-    "@radix-ui/react-avatar"
+    "tailwind-merge"
   ]
 }

@@ -3,7 +3,7 @@
   "name": "accordion",
   "type": "lightswind:ui",
   "title": "Accordion",
-  "description": "A WAI-ARIA compliant animated accordion built on Radix UI.",
+  "description": "A WAI-ARIA compliant animated accordion built with custom React states.",
   "author": "codewithmuhilan <https://lightswind.com>",
   "meta": {
     "category": "layout"
@@ -19,7 +19,6 @@
   "dependencies": [
     "lucide-react",
     "clsx",
-    "tailwind-merge",
-    "@radix-ui/react-accordion"
+    "tailwind-merge"
   ]
 }

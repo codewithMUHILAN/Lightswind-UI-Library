@@ -19,8 +19,6 @@
   "dependencies": [
     "framer-motion",
     "clsx",
-    "tailwind-merge",
-    "@radix-ui/react-alert-dialog",
-    "@radix-ui/react-dialog"
+    "tailwind-merge"
   ]
 }

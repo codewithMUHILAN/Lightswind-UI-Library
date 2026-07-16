@@ -20,7 +20,6 @@
     "framer-motion",
     "lucide-react",
     "clsx",
-    "tailwind-merge",
-    "@radix-ui/react-context-menu"
+    "tailwind-merge"
   ]
 }

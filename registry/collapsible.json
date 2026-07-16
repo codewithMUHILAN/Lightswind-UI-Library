@@ -19,7 +19,6 @@
   "dependencies": [
     "framer-motion",
     "clsx",
-    "tailwind-merge",
-    "@radix-ui/react-collapsible"
+    "tailwind-merge"
   ]
 }

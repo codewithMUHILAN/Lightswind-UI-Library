@@ -19,7 +19,6 @@
   "dependencies": [
     "lucide-react",
     "clsx",
-    "tailwind-merge",
-    "@radix-ui/react-hover-card"
+    "tailwind-merge"
   ]
 }

@@ -3,7 +3,7 @@
   "name": "select",
   "type": "lightswind:ui",
   "title": "Select",
-  "description": "A styled select dropdown built on Radix UI.",
+  "description": "A styled select dropdown built with custom React states.",
   "author": "codewithmuhilan <https://lightswind.com>",
   "meta": {
     "category": "form"
@@ -20,7 +20,6 @@
     "framer-motion",
     "lucide-react",
     "clsx",
-    "tailwind-merge",
-    "@radix-ui/react-select"
+    "tailwind-merge"
   ]
 }

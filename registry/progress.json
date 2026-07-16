@@ -18,7 +18,6 @@
   ],
   "dependencies": [
     "clsx",
-    "tailwind-merge",
-    "@radix-ui/react-progress"
+    "tailwind-merge"
   ]
 }
