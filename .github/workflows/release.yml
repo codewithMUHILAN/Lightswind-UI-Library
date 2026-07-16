@@ -1,0 +1,69 @@
+name: 🚀 Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'lightswindui/v*'   # triggers on tags like: lightswindui/v3.2.0
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # required to create releases
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history for changelog generation
+
+      - name: 🏷️ Extract version from tag
+        id: get_version
+        run: |
+          # Tag format: lightswindui/v3.2.0  →  version = 3.2.0
+          TAG="${GITHUB_REF#refs/tags/lightswindui/v}"
+          echo "version=$TAG" >> $GITHUB_OUTPUT
+          echo "tag_name=lightswindui/v$TAG" >> $GITHUB_OUTPUT
+          echo "📦 Releasing version: $TAG"
+
+      - name: 📝 Read version from package.json
+        id: pkg_version
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "pkg_version=$PKG_VERSION" >> $GITHUB_OUTPUT
+
+      - name: 🎉 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.tag_name }}
+          name: "Lightswind UI v${{ steps.get_version.outputs.version }}"
+          body: |
+            ## 🚀 Lightswind UI v${{ steps.get_version.outputs.version }}
+
+            ### Install / Update
+            ```bash
+            npx lightswind@latest init
+            ```
+            ```bash
+            npm install lightswind@${{ steps.get_version.outputs.version }}
+            ```
+
+            ### What's New
+            See [CHANGELOG](https://lightswind.com/changelog) or the [README](./README.md#-changelog) for full details.
+
+            ---
+
+            ### 🔗 Links
+            - 📦 [npm Package](https://www.npmjs.com/package/lightswind/v/${{ steps.get_version.outputs.version }})
+            - 📖 [Documentation](https://lightswind.com/components/introduction)
+            - 🤖 [MCP Server Setup](https://lightswind.com/components/mcp-server)
+            - 💎 [Pro License](https://lightswind.com/pricing)
+
+            ---
+            Built with ❤️ by [Code with Muhilan](https://codewithmuhilan.com)
+          draft: false
+          prerelease: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
