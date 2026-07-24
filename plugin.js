@@ -533,15 +533,15 @@ module.exports = plugin.withOptions(
           transitionDuration: "0ms",
         },
       }, {
-        background: "linear-gradient(to bottom, color-mix(in srgb, var(--lw-primary-color) 90%, transparent) 0%, var(--lw-primary-color) 100%)",
+        background: "linear-gradient(to bottom, color-mix(in srgb, var(--lw-primary-color) 92%, transparent) 0%, var(--lw-primary-color) 100%)",
         color: "var(--lw-primary-foreground)",
         borderWidth: "1px",
-        borderColor: "rgba(0, 0, 0, 0.1)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 0 rgba(255, 255, 255, 0.18), 0 1px 2px 0 rgba(255, 255, 255, 0.2)",
+        borderColor: "rgba(0, 0, 0, 0.22)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1.5px rgba(255, 255, 255, 0.22), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.08), 0 2px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04)",
         transitionProperty: "all",
         transitionDuration: "200ms",
         "&:hover": {
-          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.3), inset 0 -2px 0 0 rgba(0, 0, 0, 0.25), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.55), inset 0 0 0 1.5px rgba(255, 255, 255, 0.32), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.12), 0 3px 5px 0 rgba(0, 0, 0, 0.08)",
           background: "linear-gradient(to bottom, color-mix(in srgb, var(--lw-primary-color) 95%, transparent) 0%, color-mix(in srgb, var(--lw-primary-color) 98%, transparent) 100%)",
         },
         "&:active": {
@@ -567,12 +567,13 @@ module.exports = plugin.withOptions(
           transitionDuration: "0ms",
         },
       }, {
-        background: "linear-gradient(to bottom, var(--lw-primary-color) 0%, color-mix(in srgb, var(--lw-primary-color) 92%, transparent) 100%)",
-        borderColor: "rgba(0, 0, 0, 0.12)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.9), inset 0 -2px 0 0 rgba(0, 0, 0, 0.18), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        background: "linear-gradient(to bottom, var(--lw-primary-color) 0%, color-mix(in srgb, var(--lw-primary-color) 88%, black) 100%)",
+        borderColor: "rgba(255, 255, 255, 0.12)",
+        borderTopColor: "rgba(255, 255, 255, 0.2)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.35), 0 2px 4px 0 rgba(0, 0, 0, 0.35)",
         "&:hover": {
-          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 1.0), inset 0 -2px 0 0 rgba(0, 0, 0, 0.22), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
-          background: "linear-gradient(to bottom, var(--lw-primary-color) 0%, color-mix(in srgb, var(--lw-primary-color) 96%, transparent) 100%)",
+          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.18), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.45), 0 3px 6px 0 rgba(0, 0, 0, 0.45)",
+          background: "linear-gradient(to bottom, var(--lw-primary-color) 0%, color-mix(in srgb, var(--lw-primary-color) 94%, black) 100%)",
         },
         "&:active": {
           boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.15)",
@@ -604,12 +605,12 @@ module.exports = plugin.withOptions(
         background: "linear-gradient(to bottom, hsl(var(--destructive) / 0.9) 0%, hsl(var(--destructive)) 100%)",
         color: "hsl(var(--destructive-foreground))",
         borderWidth: "1px",
-        borderColor: "rgba(0, 0, 0, 0.1)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.25), inset 0 -2px 0 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        borderColor: "rgba(0, 0, 0, 0.22)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1.5px rgba(255, 255, 255, 0.22), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.08), 0 2px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04)",
         transitionProperty: "all",
         transitionDuration: "200ms",
         "&:hover": {
-          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.35), inset 0 -2px 0 0 rgba(0, 0, 0, 0.35), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.55), inset 0 0 0 1.5px rgba(255, 255, 255, 0.32), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.12), 0 3px 5px 0 rgba(0, 0, 0, 0.08)",
           background: "linear-gradient(to bottom, hsl(var(--destructive) / 0.95) 0%, hsl(var(--destructive) / 0.98) 100%)",
         },
         "&:active": {
@@ -636,11 +637,11 @@ module.exports = plugin.withOptions(
         },
       }, {
         background: "linear-gradient(to bottom, hsl(0, 84%, 55%) 0%, hsl(0, 84%, 45%) 100%)",
-        borderColor: "rgba(255, 255, 255, 0.1)",
-        borderTopColor: "rgba(255, 255, 255, 0.30)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.45), inset 0 -2px 0 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        borderColor: "rgba(255, 255, 255, 0.12)",
+        borderTopColor: "rgba(255, 255, 255, 0.28)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.15), inset 0 0 0 1.5px rgba(255, 255, 255, 0.05), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.45), 0 2px 3px 0 rgba(0, 0, 0, 0.35)",
         "&:hover": {
-          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.55), inset 0 -2px 0 0 rgba(0, 0, 0, 0.25), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.22), inset 0 0 0 1.5px rgba(255, 255, 255, 0.1), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.55), 0 3px 5px 0 rgba(0, 0, 0, 0.45)",
           background: "linear-gradient(to bottom, hsl(0, 84%, 60%) 0%, hsl(0, 84%, 50%) 100%)",
         },
         "&:active": {
@@ -670,16 +671,18 @@ module.exports = plugin.withOptions(
           transitionDuration: "0ms",
         },
       }, {
-        background: "linear-gradient(to bottom, hsl(var(--secondary) / 0.9) 0%, hsl(var(--secondary)) 100%)",
+        background: "linear-gradient(to bottom, color-mix(in srgb, hsl(var(--secondary)) 15%, #ffffff) 0%, color-mix(in srgb, hsl(var(--secondary)) 85%, #000000 10%) 100%)",
         color: "hsl(var(--secondary-foreground))",
         borderWidth: "1px",
-        borderColor: "rgba(0, 0, 0, 0.05)",
-        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.4), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        borderTopColor: "rgba(0, 0, 0, 0.14)",
+        borderBottomColor: "rgba(0, 0, 0, 0.22)",
+        boxShadow: "inset 0 1.5px 0 0 #ffffff, inset 0 0 0 1.5px rgba(255, 255, 255, 0.7), inset 0 -2px 0 0 rgba(0, 0, 0, 0.06), 0 2px 4px 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04)",
         transitionProperty: "all",
         transitionDuration: "200ms",
         "&:hover": {
-          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.08), 0 2px 3px 0 rgba(0, 0, 0, 0.08)",
-          background: "linear-gradient(to bottom, hsl(var(--secondary) / 0.95) 0%, hsl(var(--secondary) / 0.98) 100%)",
+          boxShadow: "inset 0 1.5px 0 0 #ffffff, inset 0 0 0 1.5px rgba(255, 255, 255, 0.8), inset 0 -2px 0 0 rgba(0, 0, 0, 0.09), 0 3px 6px 0 rgba(0, 0, 0, 0.08)",
+          background: "linear-gradient(to bottom, color-mix(in srgb, hsl(var(--secondary)) 20%, #ffffff) 0%, color-mix(in srgb, hsl(var(--secondary)) 80%, #000000 12%) 100%)",
         },
         "&:active": {
           boxShadow: "inset 0 1.5px 2px 0 rgba(0, 0, 0, 0.1)",
@@ -704,11 +707,12 @@ module.exports = plugin.withOptions(
           transitionDuration: "0ms",
         },
       }, {
-        background: "linear-gradient(to bottom, hsl(var(--secondary) / 0.95) 0%, hsl(var(--secondary) / 0.85) 100%)",
-        borderColor: "rgba(255, 255, 255, 0.05)",
-        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.15), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.35), 0 1px 2px 0 rgba(0, 0, 0, 0.15)",
+        background: "linear-gradient(to bottom, hsl(var(--secondary) / 0.98) 0%, hsl(var(--secondary) / 0.85) 100%)",
+        borderColor: "rgba(255, 255, 255, 0.12)",
+        borderTopColor: "rgba(255, 255, 255, 0.22)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.25), inset 0 0 0 1.5px rgba(255, 255, 255, 0.1), inset 0 -2px 0 0 rgba(0, 0, 0, 0.4), 0 2px 4px 0 rgba(0, 0, 0, 0.3)",
         "&:hover": {
-          boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.2), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.45), 0 2px 3px 0 rgba(0, 0, 0, 0.2)",
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.32), inset 0 0 0 1.5px rgba(255, 255, 255, 0.15), inset 0 -2px 0 0 rgba(0, 0, 0, 0.5), 0 3px 6px 0 rgba(0, 0, 0, 0.35)",
           background: "linear-gradient(to bottom, hsl(var(--secondary) / 1) 0%, hsl(var(--secondary) / 0.9) 100%)",
         },
         "&:active": {
@@ -737,15 +741,17 @@ module.exports = plugin.withOptions(
           transitionDuration: "0ms",
         },
       }, {
-        background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.90) 100%)",
+        background: "linear-gradient(to bottom, #fafafa 0%, #e4e4e7 100%)",
         color: "#000000",
         borderWidth: "1px",
-        borderColor: "rgba(0, 0, 0, 0.1)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04)",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        borderTopColor: "rgba(0, 0, 0, 0.14)",
+        borderBottomColor: "rgba(0, 0, 0, 0.22)",
+        boxShadow: "inset 0 1.5px 0 0 #ffffff, inset 0 0 0 1.5px rgba(255, 255, 255, 0.7), inset 0 -2px 0 0 rgba(0, 0, 0, 0.06), 0 2px 4px 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04)",
         transitionProperty: "all",
         transitionDuration: "200ms",
         "&:hover": {
-          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.8), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.08), 0 2px 3px 0 rgba(0, 0, 0, 0.06)",
+          boxShadow: "inset 0 1.5px 0 0 #ffffff, inset 0 0 0 1.5px rgba(255, 255, 255, 0.8), inset 0 -2px 0 0 rgba(0, 0, 0, 0.08), 0 3px 5px 0 rgba(0, 0, 0, 0.08)",
           backgroundColor: "#f9fafb",
         },
         "&:active": {
@@ -770,8 +776,10 @@ module.exports = plugin.withOptions(
           transitionDuration: "0ms",
         },
       }, {
-        borderColor: "rgba(255, 255, 255, 0.2)",
-        borderTopColor: "rgba(255, 255, 255, 0.4)",
+        background: "linear-gradient(to bottom, #2a3544 0%, #18202c 100%)",
+        borderColor: "rgba(255, 255, 255, 0.12)",
+        borderTopColor: "rgba(255, 255, 255, 0.24)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.25), inset 0 0 0 1.5px rgba(255, 255, 255, 0.15), inset 0 -2px 0 0 rgba(0, 0, 0, 0.4), 0 2px 4px 0 rgba(0, 0, 0, 0.3)",
       });
 
       add3D(".btn-3d-outline", {
@@ -793,18 +801,21 @@ module.exports = plugin.withOptions(
         },
       }, {
         borderWidth: "1px",
-        borderColor: "hsl(var(--border))",
-        backgroundColor: "hsl(var(--background))",
-        boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        borderTopColor: "rgba(0, 0, 0, 0.14)",
+        borderBottomColor: "rgba(0, 0, 0, 0.22)",
+        background: "linear-gradient(to bottom, color-mix(in srgb, hsl(var(--secondary)) 15%, #ffffff) 0%, color-mix(in srgb, hsl(var(--secondary)) 85%, #000000 8%) 100%)",
+        boxShadow: "inset 0 1.5px 0 0 #ffffff, inset 0 0 0 1.5px rgba(255, 255, 255, 0.7), inset 0 -2px 0 0 rgba(0, 0, 0, 0.06), 0 2px 4px 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04)",
         transitionProperty: "all",
         transitionDuration: "200ms",
         "&:hover": {
           backgroundColor: "hsl(var(--accent))",
           color: "hsl(var(--accent-foreground))",
-          boxShadow: "0 2px 3px 0 rgba(0, 0, 0, 0.08)",
+          background: "linear-gradient(to bottom, color-mix(in srgb, hsl(var(--secondary)) 20%, #ffffff) 0%, color-mix(in srgb, hsl(var(--accent)) 85%, #000000 8%) 100%)",
+          boxShadow: "inset 0 1.5px 0 0 #ffffff, inset 0 0 0 1.5px rgba(255, 255, 255, 0.8), inset 0 -2px 0 0 rgba(0, 0, 0, 0.08), 0 3px 5px 0 rgba(0, 0, 0, 0.08)",
         },
         "&:active": {
-          boxShadow: "none",
+          boxShadow: "inset 0 1.5px 2px 0 rgba(0, 0, 0, 0.08)",
           transform: "translateY(1.5px)",
           transitionDuration: "0ms",
         },
@@ -813,7 +824,9 @@ module.exports = plugin.withOptions(
       add3D(".dark .btn-3d-outline", {
         boxShadow: "none",
       }, {
-        boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.15)",
+        borderColor: "rgba(255, 255, 255, 0.15)",
+        background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.2), inset 0 0 0 1.5px rgba(255, 255, 255, 0.08), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.4), 0 2px 4px 0 rgba(0, 0, 0, 0.35)",
       });
 
       add3D(".btn-3d-ghost", {
@@ -857,18 +870,20 @@ module.exports = plugin.withOptions(
           transitionDuration: "0ms",
         },
       }, {
-        backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.1) 100%)",
+        backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.18) 0%, rgba(0, 0, 0, 0.08) 100%)",
         borderWidth: "1px",
-        borderColor: "rgba(0, 0, 0, 0.15)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.3), inset 0 -2px 0 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        borderColor: "rgba(0, 0, 0, 0.24)",
+        borderTopColor: "rgba(0, 0, 0, 0.16)",
+        borderBottomColor: "rgba(0, 0, 0, 0.3)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.75), inset 0 0 0 1.5px rgba(255, 255, 255, 0.45), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.04)",
         transitionProperty: "all",
         transitionDuration: "200ms",
         "&:hover": {
-          backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.05) 100%)",
-          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.4), inset 0 -2px 0 0 rgba(0, 0, 0, 0.25), 0 2px 4px 0 rgba(0, 0, 0, 0.1)",
+          backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.28) 0%, rgba(0, 0, 0, 0.04) 100%)",
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.8), inset 0 0 0 1.5px rgba(255, 255, 255, 0.5), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.12), 0 3px 5px 0 rgba(0, 0, 0, 0.08)",
         },
         "&:active": {
-          backgroundImage: "linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%)",
+          backgroundImage: "linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.12) 100%)",
           boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.25)",
           transform: "translateY(1.5px)",
           transitionDuration: "0ms",
@@ -886,14 +901,140 @@ module.exports = plugin.withOptions(
         }
       }, {
         borderColor: "rgba(255, 255, 255, 0.12)",
-        borderTopColor: "rgba(255, 255, 255, 0.3)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.35), inset 0 -2px 0 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.15)",
+        borderTopColor: "rgba(255, 255, 255, 0.28)",
+        backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 0%, rgba(0, 0, 0, 0.25) 100%)",
+        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.22), inset 0 0 0 1.5px rgba(255, 255, 255, 0.08), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.5), 0 2px 3px 0 rgba(0, 0, 0, 0.35)",
         "&:hover": {
-          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.45), inset 0 -2px 0 0 rgba(0, 0, 0, 0.35), 0 2px 4px 0 rgba(0, 0, 0, 0.2)",
+          boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.3), inset 0 0 0 1.5px rgba(255, 255, 255, 0.12), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.6), 0 3px 5px 0 rgba(0, 0, 0, 0.45)",
         },
         "&:active": {
           boxShadow: "inset 0 2px 3px 0 rgba(0, 0, 0, 0.4)",
         }
+      });
+
+      // Badge 3D Shader Variations
+      add3D(".badge-3d-default", {
+        background: "var(--lw-primary-color)",
+        color: "var(--lw-primary-foreground)",
+        borderWidth: "1px",
+        borderColor: "transparent",
+      }, {
+        background: "linear-gradient(to bottom, color-mix(in srgb, var(--lw-primary-color) 92%, #ffffff) 0%, var(--lw-primary-color) 100%)",
+        color: "var(--lw-primary-foreground)",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.22), inset 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+      });
+
+      add3D(".dark .badge-3d-default", {
+        background: "var(--lw-primary-color)",
+        borderColor: "transparent",
+      }, {
+        background: "linear-gradient(to bottom, var(--lw-primary-color) 0%, color-mix(in srgb, var(--lw-primary-color) 88%, black) 100%)",
+        borderColor: "rgba(255, 255, 255, 0.12)",
+        borderTopColor: "rgba(255, 255, 255, 0.2)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 -1px 0 0 rgba(0, 0, 0, 0.35), 0 1px 2px 0 rgba(0, 0, 0, 0.25)",
+      });
+
+      add3D(".badge-3d-secondary", {
+        background: "hsl(var(--secondary))",
+        color: "hsl(var(--secondary-foreground))",
+        borderWidth: "1px",
+        borderColor: "transparent",
+      }, {
+        background: "linear-gradient(to bottom, color-mix(in srgb, hsl(var(--secondary)) 15%, #ffffff) 0%, color-mix(in srgb, hsl(var(--secondary)) 85%, #000000 10%) 100%)",
+        color: "hsl(var(--secondary-foreground))",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        borderTopColor: "rgba(0, 0, 0, 0.14)",
+        borderBottomColor: "rgba(0, 0, 0, 0.22)",
+        boxShadow: "inset 0 1px 0 0 #ffffff, inset 0 0 0 1px rgba(255, 255, 255, 0.7), inset 0 -1px 0 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      });
+
+      add3D(".dark .badge-3d-secondary", {
+        background: "hsl(var(--secondary))",
+        borderColor: "transparent",
+      }, {
+        background: "linear-gradient(to bottom, hsl(var(--secondary) / 0.98) 0%, hsl(var(--secondary) / 0.85) 100%)",
+        borderColor: "rgba(255, 255, 255, 0.12)",
+        borderTopColor: "rgba(255, 255, 255, 0.22)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.25), inset 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.4), 0 1.5px 3px 0 rgba(0, 0, 0, 0.3)",
+      });
+
+      add3D(".badge-3d-destructive", {
+        background: "#ef4444",
+        color: "#ffffff",
+        borderWidth: "1px",
+        borderColor: "transparent",
+      }, {
+        background: "linear-gradient(to bottom, #f87171 0%, #dc2626 100%)",
+        color: "#ffffff",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.22)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.22), inset 0 -1px 0 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+      });
+
+      add3D(".badge-3d-outline", {
+        borderWidth: "1px",
+        borderColor: "hsl(var(--border))",
+        backgroundColor: "hsl(var(--background))",
+        color: "hsl(var(--foreground))",
+      }, {
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        borderTopColor: "rgba(0, 0, 0, 0.14)",
+        borderBottomColor: "rgba(0, 0, 0, 0.22)",
+        background: "linear-gradient(to bottom, color-mix(in srgb, hsl(var(--secondary)) 15%, #ffffff) 0%, color-mix(in srgb, hsl(var(--secondary)) 85%, #000000 8%) 100%)",
+        color: "hsl(var(--foreground))",
+        boxShadow: "inset 0 1px 0 0 #ffffff, inset 0 0 0 1px rgba(255, 255, 255, 0.7), inset 0 -1px 0 0 rgba(0, 0, 0, 0.06), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      });
+
+      add3D(".dark .badge-3d-outline", {
+        borderColor: "rgba(255, 255, 255, 0.15)",
+      }, {
+        borderColor: "rgba(255, 255, 255, 0.15)",
+        background: "linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%)",
+        color: "hsl(var(--foreground))",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.08), inset 0 -1px 0 0 rgba(0, 0, 0, 0.4), 0 1.5px 3px 0 rgba(0, 0, 0, 0.35)",
+      });
+
+      add3D(".badge-3d-success", {
+        background: "#22c55e",
+        color: "#ffffff",
+        borderWidth: "1px",
+        borderColor: "transparent",
+      }, {
+        background: "linear-gradient(to bottom, #4ade80 0%, #16a34a 100%)",
+        color: "#ffffff",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0 0 rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
+      });
+
+      add3D(".badge-3d-warning", {
+        background: "#f59e0b",
+        color: "#ffffff",
+        borderWidth: "1px",
+        borderColor: "transparent",
+      }, {
+        background: "linear-gradient(to bottom, #fbbf24 0%, #d97706 100%)",
+        color: "#ffffff",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.22), inset 0 -1px 0 0 rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
+      });
+
+      add3D(".badge-3d-info", {
+        background: "#3b82f6",
+        color: "#ffffff",
+        borderWidth: "1px",
+        borderColor: "transparent",
+      }, {
+        background: "linear-gradient(to bottom, #60a5fa 0%, #2563eb 100%)",
+        color: "#ffffff",
+        borderWidth: "1px",
+        borderColor: "rgba(0, 0, 0, 0.18)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px 0 0 rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.1)",
       });
 
       add3D(".btn-3d-link", {
@@ -922,10 +1063,11 @@ module.exports = plugin.withOptions(
         borderColor: "rgba(0, 0, 0, 0.1)",
         boxShadow: "none",
       }, {
-        background: "linear-gradient(to bottom, hsl(var(--foreground) / 0.9) 0%, hsl(var(--foreground)) 100%) !important",
+        background: "linear-gradient(to bottom, color-mix(in srgb, hsl(var(--foreground)) 92%, #ffffff) 0%, color-mix(in srgb, hsl(var(--foreground)) 85%, #000000) 100%) !important",
         borderWidth: "1px",
-        borderColor: "rgba(0, 0, 0, 0.1)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.2), inset 0 -2px 0 0 rgba(255, 255, 255, 0.18), 0 1px 2px 0 rgba(255, 255, 255, 0.2)",
+        borderColor: "rgba(0, 0, 0, 0.3)",
+        borderTopColor: "rgba(255, 255, 255, 0.18)",
+        boxShadow: "inset 0 1px 0 0 rgba(255, 255, 255, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.35), 0 2px 4px 0 rgba(0, 0, 0, 0.2) !important",
       });
 
       add3D(".dark .bg-gradient-tabs", {
@@ -934,10 +1076,12 @@ module.exports = plugin.withOptions(
         borderColor: "rgba(0, 0, 0, 0.12)",
         boxShadow: "none",
       }, {
-        background: "linear-gradient(to bottom, hsl(var(--foreground)) 0%, hsl(var(--foreground) / 0.92) 100%) !important",
+        background: "linear-gradient(to bottom, #ffffff 0%, #e4e4e7 100%) !important",
         borderWidth: "1px",
-        borderColor: "rgba(0, 0, 0, 0.12)",
-        boxShadow: "inset 0 1.5px 0 0 rgba(255, 255, 255, 0.9), inset 0 -2px 0 0 rgba(0, 0, 0, 0.18), 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        borderColor: "rgba(0, 0, 0, 0.2)",
+        borderTopColor: "rgba(255, 255, 255, 0.4)",
+        borderBottomColor: "rgba(0, 0, 0, 0.25)",
+        boxShadow: "inset 0 1.5px 0 0 #ffffff, inset 0 0 0 1.5px rgba(255, 255, 255, 0.75), inset 0 -2px 0 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.25) !important",
       });
 
       add3D(".chart-3d-shade .recharts-rectangle", {
