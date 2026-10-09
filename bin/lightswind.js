@@ -8,6 +8,7 @@ const os = require("os");
 const http = require("http");
 const https = require("https");
 const { createHmac } = require("crypto");
+const { isSafePackageSpec, isSafeComponentName } = require("./validators");
 
 // --- Configuration ---
 const COMPONENT_DEPS_MAP = require("./component-deps.json");
@@ -614,6 +615,11 @@ function detectPackageManager() {
  * Install npm dependencies
  */
 function installDependencies(deps) {
+  const rejected = deps.filter(dep => !isSafePackageSpec(dep));
+  if (rejected.length > 0) {
+    console.warn(`⚠️  Skipping invalid package names: ${rejected.map(dep => JSON.stringify(dep)).join(", ")}`);
+    deps = deps.filter(isSafePackageSpec);
+  }
   if (deps.length === 0) return;
 
   const pm = detectPackageManager();
@@ -1459,6 +1465,11 @@ async function installComponent(componentName, visited = new Set(), isCategoryIn
     process.exit(1);
   }
 
+  if (!isSafeComponentName(componentName)) {
+    console.warn(`⚠️  Skipping invalid component name: ${JSON.stringify(componentName)}`);
+    return;
+  }
+
   // Prevent infinite loops on recursive installs
   if (visited.has(componentName)) return;
   const isRoot = visited.size === 0;
@@ -1656,6 +1667,11 @@ async function installBlock(blockName, visited = new Set()) {
     console.error("Usage: npx lightswind@latest add-block <block-name>");
     console.error("Example: npx lightswind@latest add-block bento-feature-manifest\n");
     process.exit(1);
+  }
+
+  if (!isSafeComponentName(blockName)) {
+    console.warn(`⚠️  Skipping invalid block name: ${JSON.stringify(blockName)}`);
+    return;
   }
 
   if (visited.has(blockName)) return;
@@ -2396,10 +2412,18 @@ if (command === "add" && arg === "add") {
         }
         await installCategory(categoryName);
       } else {
+        if (arg && !isSafeComponentName(arg)) {
+          console.error(`\n❌ Invalid component name: ${JSON.stringify(arg)}. Use letters, numbers, "-" or "_".\n`);
+          process.exit(1);
+        }
         await installComponent(arg);
       }
       break;
     case "add-block":
+      if (arg && !isSafeComponentName(arg)) {
+        console.error(`\n❌ Invalid block name: ${JSON.stringify(arg)}. Use letters, numbers, "-" or "_".\n`);
+        process.exit(1);
+      }
       await installBlock(arg);
       break;
     case "list":
