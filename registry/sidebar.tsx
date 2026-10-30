@@ -206,19 +206,30 @@ export function SidebarContent({
 }: SidebarContentProps) {
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
-  // Load/Save scroll position remains similar but cleaner
+  // Load/Save scroll position with debounced localStorage writes
   React.useEffect(() => {
     const scrollElement = scrollRef.current;
     if (scrollElement) {
-      const savedScrollTop = localStorage.getItem(SCROLL_STORAGE_KEY);
-      if (savedScrollTop) scrollElement.scrollTop = parseInt(savedScrollTop, 10);
+      try {
+        const savedScrollTop = localStorage.getItem(SCROLL_STORAGE_KEY);
+        if (savedScrollTop) scrollElement.scrollTop = parseInt(savedScrollTop, 10);
+      } catch (e) {}
 
+      let timeoutId: any = null;
       const handleScroll = () => {
-        localStorage.setItem(SCROLL_STORAGE_KEY, scrollElement.scrollTop.toString());
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          try {
+            localStorage.setItem(SCROLL_STORAGE_KEY, scrollElement.scrollTop.toString());
+          } catch (e) {}
+        }, 150);
       };
 
       scrollElement.addEventListener("scroll", handleScroll, { passive: true });
-      return () => scrollElement.removeEventListener("scroll", handleScroll);
+      return () => {
+        scrollElement.removeEventListener("scroll", handleScroll);
+        if (timeoutId) clearTimeout(timeoutId);
+      };
     }
   }, []);
 
@@ -232,7 +243,7 @@ export function SidebarContent({
     >
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-4 px-3"
+        className="flex-1 overflow-y-auto overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-4 px-3 overscroll-contain [will-change:scroll-position]"
       >
         {children}
       </div>
