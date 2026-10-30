@@ -1,71 +1,54 @@
 // Lightswind UI entry point
-export const version = "3.2.0";
+export const version: string = __LIGHTSWIND_VERSION__;
 
-// Automatic client-side telemetry to capture the exact live production URL
-if (typeof window !== "undefined") {
-  try {
-    const hostname = window.location.hostname;
-    if (hostname && hostname !== "localhost" && hostname !== "127.0.0.1" && !hostname.endsWith(".local")) {
-      const key = "lw_telemetry_registered";
-      const lastSent = window.localStorage.getItem(key);
-      const now = Date.now();
+const TELEMETRY_URL = "https://pro.lightswind.com/api/npm-telemetry";
+const RATE_LIMIT_MS = 604800000; // 7 days
 
-      // 7 days rate limit per browser session to prevent database load
-      if (!lastSent || now - parseInt(lastSent, 10) > 604800000) {
-        const url = "iuuqt;00qsp/mjhiutxjoe/dpn0bqj0oqn.ufmfnfusz".split("").map(c => String.fromCharCode(c.charCodeAt(0) - 1)).join("");
-        const body = JSON.stringify({ c: "package-init", d: hostname });
+function isTelemetryAllowed(): boolean {
+  if (typeof window === "undefined") return false;
 
-        if (navigator.sendBeacon) {
-          navigator.sendBeacon(url, new Blob([body], { type: "application/json" }));
-        } else {
-          fetch(url, {
-            method: "POST",
-            body: body,
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" }
-          }).catch(() => {});
-        }
-        window.localStorage.setItem(key, now.toString());
-      }
-    }
-  } catch (e) {}
+  const hostname = window.location.hostname;
+  // Ignore development/local traffic
+  if (!hostname || hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".local")) {
+    return false;
+  }
+
+  // Check opt-out
+  if ((window as any).LIGHTSWIND_NO_TELEMETRY || navigator.doNotTrack === "1") {
+    return false;
+  }
+
+  return true;
 }
 
-export function trackComponent(name: string) {
-  if (typeof window === "undefined") return;
-  
+function sendTelemetry(storageKey: string, component: string) {
   try {
-    const hostname = window.location.hostname;
-    // Ignore development/local traffic
-    if (!hostname || hostname === "localhost" || hostname === "127.0.0.1" || hostname.endsWith(".local")) {
-      return;
-    }
+    if (!isTelemetryAllowed()) return;
 
-    // Check opt-out
-    if ((window as any).LIGHTSWIND_NO_TELEMETRY || navigator.doNotTrack === "1") {
-      return;
-    }
-
-    const key = `lw_tel_${name}`;
-    const lastSent = window.localStorage.getItem(key);
+    const lastSent = window.localStorage.getItem(storageKey);
     const now = Date.now();
 
-    // 7 days rate limit per component
-    if (!lastSent || now - parseInt(lastSent, 10) > 604800000) {
-      const url = "iuuqt;00qsp/mjhiutxjoe/dpn0bqj0oqn.ufmfnfusz".split("").map(c => String.fromCharCode(c.charCodeAt(0) - 1)).join("");
-      const body = JSON.stringify({ c: name, d: hostname });
+    if (!lastSent || now - parseInt(lastSent, 10) > RATE_LIMIT_MS) {
+      const body = JSON.stringify({ c: component, d: window.location.hostname });
 
       if (navigator.sendBeacon) {
-        navigator.sendBeacon(url, new Blob([body], { type: "application/json" }));
+        navigator.sendBeacon(TELEMETRY_URL, new Blob([body], { type: "application/json" }));
       } else {
-        fetch(url, {
+        fetch(TELEMETRY_URL, {
           method: "POST",
           body: body,
           mode: "no-cors",
           headers: { "Content-Type": "application/json" }
         }).catch(() => {});
       }
-      window.localStorage.setItem(key, now.toString());
+      window.localStorage.setItem(storageKey, now.toString());
     }
   } catch (e) {}
+}
+
+// Automatic client-side telemetry to capture the exact live production URL
+sendTelemetry("lw_telemetry_registered", "package-init");
+
+export function trackComponent(name: string) {
+  sendTelemetry(`lw_tel_${name}`, name);
 }

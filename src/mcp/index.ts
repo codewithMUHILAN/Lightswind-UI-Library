@@ -7,10 +7,10 @@ import {
   ListToolsRequestSchema,
   Tool,
 } from "@modelcontextprotocol/sdk/types.js";
-import { z } from "zod";
 import Fuse from "fuse.js";
 import * as fs from "fs";
 import * as path from "path";
+import * as http from "http";
 import * as https from "https";
 import * as os from "os";
 
@@ -41,10 +41,14 @@ interface LightswindBlock {
 
 // ─── Data Fetching ──────────────────────────────────────────────────────────
 
-const REGISTRY_API = "https://lightswind.com/api/registry";
-const BLOCKS_METADATA_API = "https://pro.lightswind.com/api/mcp/blocks";
+const REGISTRY_BASE = process.env.LIGHTSWIND_REGISTRY_URL || "https://lightswind.com";
+const API_BASE = process.env.LIGHTSWIND_API_URL || "https://pro.lightswind.com";
+const REGISTRY_API = `${REGISTRY_BASE}/api/registry`;
+const BLOCKS_METADATA_API = `${API_BASE}/api/mcp/blocks`;
+const REQUEST_TIMEOUT_MS = Number(process.env.LIGHTSWIND_REQUEST_TIMEOUT_MS) || 10000;
 
 let componentsCache: LightswindComponent[] | null = null;
+let componentsLoading: Promise<LightswindComponent[]> | null = null;
 let blocksCache: LightswindBlock[] | null = null;
 let componentsFuse: Fuse<LightswindComponent> | null = null;
 
@@ -67,81 +71,54 @@ function getApiKey(): string | null {
   return null;
 }
 
-async function fetchJSON(url: string): Promise<any> {
+function fetchJSON(url: string, headers: Record<string, string> = {}): Promise<any> {
   return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
+    const client = new URL(url).protocol === "http:" ? http : https;
+    const req = client.get(url, { headers: { "Content-Type": "application/json", ...headers } }, (res) => {
       let data = "";
       res.on("data", (chunk) => (data += chunk));
       res.on("end", () => {
+        clearTimeout(timer);
         try { resolve(JSON.parse(data)); }
         catch (e) { reject(e); }
       });
-    }).on("error", reject);
+    });
+    // Overall deadline (not just socket idle) so a slow-dripping response cannot hang a tool call.
+    const timer = setTimeout(() => {
+      req.destroy(new Error(`Request timed out after ${REQUEST_TIMEOUT_MS}ms`));
+    }, REQUEST_TIMEOUT_MS);
+    req.on("error", (err) => {
+      clearTimeout(timer);
+      reject(err);
+    });
   });
+}
+
+function apiKeyHeaders(apiKey: string | null): Record<string, string> {
+  return apiKey ? { "x-api-key": apiKey } : {};
 }
 
 async function fetchSecureBlock(blockId: string, apiKey: string | null): Promise<any> {
-  const url = `https://pro.lightswind.com/api/v1/secure-block?id=${blockId}`;
-  return new Promise((resolve, reject) => {
-    const parsedUrl = new URL(url);
-    const options = {
-      hostname: parsedUrl.hostname,
-      port: 443,
-      path: parsedUrl.pathname + parsedUrl.search,
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        ...(apiKey ? { "x-api-key": apiKey } : {})
-      }
-    };
-    https.get(options, (res) => {
-      let data = "";
-      res.on("data", (chunk) => (data += chunk));
-      res.on("end", () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on("error", reject);
-  });
+  return fetchJSON(`${API_BASE}/api/v1/secure-block?id=${encodeURIComponent(blockId)}`, apiKeyHeaders(apiKey));
 }
 
 async function fetchSecureComponent(componentName: string, apiKey: string | null): Promise<any> {
-  const url = `https://pro.lightswind.com/api/v1/components?name=${componentName}`;
-  return new Promise((resolve, reject) => {
-    const parsedUrl = new URL(url);
-    const options = {
-      hostname: parsedUrl.hostname,
-      port: 443,
-      path: parsedUrl.pathname + parsedUrl.search,
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        ...(apiKey ? { "x-api-key": apiKey } : {})
-      }
-    };
-    https.get(options, (res) => {
-      let data = "";
-      res.on("data", (chunk) => (data += chunk));
-      res.on("end", () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          reject(e);
-        }
-      });
-    }).on("error", reject);
+  return fetchJSON(`${API_BASE}/api/v1/components?name=${encodeURIComponent(componentName)}`, apiKeyHeaders(apiKey));
+}
+
+function buildComponentsIndex(components: LightswindComponent[]) {
+  componentsFuse = new Fuse(components, {
+    keys: ["title", "description", "keywords"],
+    threshold: 0.4,
+    includeScore: true,
   });
 }
 
-async function getComponents(): Promise<LightswindComponent[]> {
-  if (componentsCache) return componentsCache;
+async function loadComponents(): Promise<LightswindComponent[]> {
   try {
     const res = await fetchJSON(REGISTRY_API);
     const items = Array.isArray(res) ? res : res.items ?? [];
-    
+
     // Map Shadcn registry format to LightswindComponent format
     componentsCache = items.map((item: any) => {
       const code = item.files?.[0]?.content ?? "";
@@ -156,17 +133,24 @@ async function getComponents(): Promise<LightswindComponent[]> {
         hidden: "false"
       };
     });
+    buildComponentsIndex(componentsCache!);
+    return componentsCache!;
   } catch (err) {
+    // Not cached, so the next tool call retries instead of serving an empty catalog for the whole session.
     console.error("Error fetching registry:", err);
-    componentsCache = [];
+    buildComponentsIndex([]);
+    return [];
   }
-  // Build fuse index
-  componentsFuse = new Fuse(componentsCache!, {
-    keys: ["title", "description", "keywords"],
-    threshold: 0.4,
-    includeScore: true,
-  });
-  return componentsCache!;
+}
+
+async function getComponents(): Promise<LightswindComponent[]> {
+  if (componentsCache) return componentsCache;
+  if (!componentsLoading) {
+    componentsLoading = loadComponents().finally(() => {
+      componentsLoading = null;
+    });
+  }
+  return componentsLoading;
 }
 
 async function getBlocks(): Promise<LightswindBlock[]> {

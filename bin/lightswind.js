@@ -8,6 +8,7 @@ const os = require("os");
 const http = require("http");
 const https = require("https");
 const { createHmac } = require("crypto");
+const { isSafePackageSpec, isSafeComponentName } = require("./validators");
 
 // --- Configuration ---
 const COMPONENT_DEPS_MAP = require("./component-deps.json");
@@ -37,8 +38,8 @@ function readRcConfig() {
   if (fs.existsSync(rcPath)) {
     try {
       const raw = fs.readJsonSync(rcPath);
-      // Validate key format before trusting it — must start with sk_pro_ or sk_live_
-      if (raw.apiKey && !(/^sk_(pro|live)_[a-z0-9]+$/i.test(raw.apiKey))) {
+      // Validate key format before trusting it — must start with sk_pro_ or sk_live_ or be a hex key token
+      if (raw.apiKey && !(/^(sk_(pro|live)_[a-z0-9]+|[a-f0-9]{32,64})$/i.test(raw.apiKey))) {
         console.warn('⚠️  ~/.lightswindrc contains an invalid API key format. Ignoring.');
         raw.apiKey = null;
       }
@@ -106,7 +107,7 @@ function writeLightswindConfig(config) {
 
 
 function getApiUrl() {
-  return process.env.LIGHTSWIND_API_URL || readRcConfig().apiUrl || "https://pro.lightswind.com";
+  return process.env.LIGHTSWIND_API_URL || readRcConfig().apiUrl || "https://lightswind.com";
 }
 
 function getApiKey() {
@@ -267,8 +268,8 @@ async function fetchRegistry() {
 
 async function handleLogin(key) {
   // Validate key format locally before even hitting the network
-  if (!key || !(/^sk_(pro|live)_[a-z0-9]+$/i.test(key))) {
-    console.error('\n❌ Invalid key format. Keys must start with sk_pro_ or sk_live_\n');
+  if (!key || !(/^(sk_(pro|live)_[a-z0-9]+|[a-f0-9]{32,64})$/i.test(key))) {
+    console.error('\n❌ Invalid key format. Keys must start with sk_pro_ or sk_live_ (or be a valid API key token).\n');
     process.exit(1);
   }
 
@@ -614,6 +615,11 @@ function detectPackageManager() {
  * Install npm dependencies
  */
 function installDependencies(deps) {
+  const rejected = deps.filter(dep => !isSafePackageSpec(dep));
+  if (rejected.length > 0) {
+    console.warn(`⚠️  Skipping invalid package names: ${rejected.map(dep => JSON.stringify(dep)).join(", ")}`);
+    deps = deps.filter(isSafePackageSpec);
+  }
   if (deps.length === 0) return;
 
   const pm = detectPackageManager();
@@ -654,9 +660,19 @@ function installDependencies(deps) {
     execSync(cmd, { stdio: "inherit", cwd: USER_CWD });
     console.log("✅ Dependencies installed successfully\n");
   } catch (error) {
+    if (pm === "npm") {
+      console.log("⚠️ Standard npm install failed (likely peer dependency conflict). Retrying with --legacy-peer-deps...");
+      try {
+        execSync(`${cmd} --legacy-peer-deps`, { stdio: "inherit", cwd: USER_CWD });
+        console.log("✅ Dependencies installed successfully with --legacy-peer-deps\n");
+        return;
+      } catch (retryErr) {
+        // Fall through to error output
+      }
+    }
     console.error(`❌ Failed to install dependencies using ${pm}`);
     console.error("💡 Try installing them manually:");
-    console.error(`   ${pm === "npm" ? "npm install" : pm + " add"} ${deps.join(" ")}`);
+    console.error(`   ${pm === "npm" ? "npm install --legacy-peer-deps" : pm + " add"} ${deps.join(" ")}`);
   }
 }
 
@@ -1034,12 +1050,12 @@ function configureTailwindV3Plugin() {
     if (content.includes('plugins:')) {
       content = content.replace(
         /plugins:\s*\[/,
-        "plugins: [\n    require('lightswind/plugin'),"
+        "plugins: [\n    require('lightswind/plugin')({ effect3d: false }),"
       );
     } else {
       content = content.replace(
         /module\.exports\s*=\s*{/,
-        "module.exports = {\n  plugins: [require('lightswind/plugin')],"
+        "module.exports = {\n  plugins: [require('lightswind/plugin')({ effect3d: false })],"
       );
     }
 
@@ -1119,6 +1135,13 @@ function autoConfigureTailwindPlugin() {
     if (!configureTailwindV3Plugin()) {
       appendCssFallback();
     }
+  }
+
+  // Ensure 3D Shade Effect is strictly OFF (false) on initial install
+  const config = readLightswindConfig();
+  if (config.effect3d === undefined) {
+    config.effect3d = false;
+    writeLightswindConfig(config);
   }
 }
 
@@ -1260,9 +1283,9 @@ function toggle3D(status) {
     try {
       let content = fs.readFileSync(cssPath, 'utf-8');
       if (on) {
-        content = content.replace(/@plugin\s+['"]lightswind\/plugin['"]\s*;?/g, "@plugin 'lightswind/plugin' { effect3d: true };");
+        content = content.replace(/@plugin\s+['"]lightswind\/plugin['"](\s*\{\s*effect3d\s*:\s*(false|true)\s*\}\s*)?;?/g, "@plugin 'lightswind/plugin' { effect3d: true };");
       } else {
-        content = content.replace(/@plugin\s+['"]lightswind\/plugin['"]\s*\{\s*effect3d\s*:\s*true\s*\}\s*;?/g, "@plugin 'lightswind/plugin';");
+        content = content.replace(/@plugin\s+['"]lightswind\/plugin['"](\s*\{\s*effect3d\s*:\s*(false|true)\s*\}\s*)?;?/g, "@plugin 'lightswind/plugin';");
       }
       fs.writeFileSync(cssPath, content, 'utf-8');
       console.log(`✅ 3D Shade configuration updated in ${path.basename(cssPath)}`);
@@ -1279,9 +1302,9 @@ function toggle3D(status) {
     try {
       let content = fs.readFileSync(configPath, 'utf-8');
       if (on) {
-        content = content.replace(/require\(['"]lightswind\/plugin['"]\)/g, "require('lightswind/plugin')({ effect3d: true })");
+        content = content.replace(/require\(['"]lightswind\/plugin['"]\)(\(\{\s*effect3d\s*:\s*(false|true)\s*\}\)|\(\))?/g, "require('lightswind/plugin')({ effect3d: true })");
       } else {
-        content = content.replace(/require\(['"]lightswind\/plugin['"]\)\(\{\s*effect3d\s*:\s*true\s*\}\)/g, "require('lightswind/plugin')");
+        content = content.replace(/require\(['"]lightswind\/plugin['"]\)(\(\{\s*effect3d\s*:\s*(false|true)\s*\}\)|\(\))?/g, "require('lightswind/plugin')({ effect3d: false })");
       }
       fs.writeFileSync(configPath, content, 'utf-8');
       console.log(`✅ 3D Shade configuration updated in ${path.basename(configPath)}`);
@@ -1459,6 +1482,11 @@ async function installComponent(componentName, visited = new Set(), isCategoryIn
     process.exit(1);
   }
 
+  if (!isSafeComponentName(componentName)) {
+    console.warn(`⚠️  Skipping invalid component name: ${JSON.stringify(componentName)}`);
+    return;
+  }
+
   // Prevent infinite loops on recursive installs
   if (visited.has(componentName)) return;
   const isRoot = visited.size === 0;
@@ -1470,6 +1498,7 @@ async function installComponent(componentName, visited = new Set(), isCategoryIn
   const localSourceExists = fs.existsSync(fromPath);
 
   if (isRoot && !isCategoryInstall) {
+    _accumulatedDeps.clear();
     console.log(`\n📦 Installing ${componentName}...`);
     console.log(`📦 Detected: ${paths.FRAMEWORK.name}`);
     console.log(`📁 Installing to: ${paths.ALL_UI_TO}\n`);
@@ -1516,21 +1545,7 @@ async function installComponent(componentName, visited = new Set(), isCategoryIn
       const missingDeps = getMissingDependencies(componentDeps, userPkg);
 
       if (missingDeps.length > 0) {
-        if (isCategoryInstall) {
-          missingDeps.forEach(dep => _accumulatedDeps.add(dep));
-        } else {
-          if (isRoot) {
-            console.log(`📦 ${componentName} requires: ${missingDeps.join(", ")}`);
-            const shouldInstall = await promptUser("Install dependencies? (Y/n): ");
-            if (shouldInstall) {
-              installDependencies(missingDeps);
-            } else {
-              console.log("⚠️  Skipping dependency installation.");
-            }
-          } else {
-            installDependencies(missingDeps);
-          }
-        }
+        missingDeps.forEach(dep => _accumulatedDeps.add(dep));
       }
 
       // Install any internally imported components recursively
@@ -1571,7 +1586,7 @@ async function installComponent(componentName, visited = new Set(), isCategoryIn
       console.error(`\n❌ Component '${componentName}' not found in the free registry.`);
       console.error("If this is a Pro component, please login first:");
       console.error("  npx lightswind auth login --key=YOUR_KEY");
-      console.error("  Get your key at: https://pro.lightswind.com/setting/license");
+      console.error("  Get your key at: https://lightswind.com/setting/license");
       console.error("\nIf you believe this is a bug, check the component name at: https://lightswind.com/components\n");
       process.exit(1);
     }
@@ -1612,15 +1627,7 @@ async function installComponent(componentName, visited = new Set(), isCategoryIn
           const userPkg = readUserPackageJson();
           const missingDeps = getMissingDependencies(componentDeps, userPkg);
           if (missingDeps.length > 0) {
-            if (isCategoryInstall) {
-              missingDeps.forEach(dep => _accumulatedDeps.add(dep));
-            } else {
-              console.log(`📦 ${componentName} requires external packages: ${missingDeps.join(", ")}`);
-              const shouldInstall = !isRoot || await promptUser("Install dependencies? (Y/n): ");
-              if (shouldInstall) {
-                installDependencies(missingDeps);
-              }
-            }
+            missingDeps.forEach(dep => _accumulatedDeps.add(dep));
           }
         }
 
@@ -1639,6 +1646,20 @@ async function installComponent(componentName, visited = new Set(), isCategoryIn
 
   // Only run post-install configuration if this is the root component being installed and not part of a category/all install
   if (isRoot && !isCategoryInstall) {
+    if (_accumulatedDeps.size > 0) {
+      const userPkg = readUserPackageJson();
+      const finalMissing = getMissingDependencies([..._accumulatedDeps], userPkg);
+      if (finalMissing.length > 0) {
+        console.log(`\n📦 ${componentName} requires: ${finalMissing.join(", ")}`);
+        const shouldInstall = await promptUser("Install dependencies? (Y/n): ");
+        if (shouldInstall) {
+          installDependencies(finalMissing);
+        } else {
+          console.log("⚠️  Skipping dependency installation.");
+        }
+      }
+    }
+
     await copySharedUtils();
     autoConfigureTailwindPlugin();
 
@@ -1656,6 +1677,11 @@ async function installBlock(blockName, visited = new Set()) {
     console.error("Usage: npx lightswind@latest add-block <block-name>");
     console.error("Example: npx lightswind@latest add-block bento-feature-manifest\n");
     process.exit(1);
+  }
+
+  if (!isSafeComponentName(blockName)) {
+    console.warn(`⚠️  Skipping invalid block name: ${JSON.stringify(blockName)}`);
+    return;
   }
 
   if (visited.has(blockName)) return;
@@ -1715,16 +1741,16 @@ async function installBlock(blockName, visited = new Set()) {
       console.log(`✅ Installed block: ${blockFile}`);
     }
 
+    if (isRoot) {
+      _accumulatedDeps.clear();
+    }
+
     // Install external package dependencies (e.g. framer-motion, lucide-react)
     if (blockDeps.length > 0) {
       const userPkg = readUserPackageJson();
       const missingDeps = getMissingDependencies(blockDeps, userPkg);
       if (missingDeps.length > 0) {
-        console.log(`📦 ${blockName} requires external packages: ${missingDeps.join(", ")}`);
-        const shouldInstall = !isRoot || await promptUser("Install dependencies? (Y/n): ");
-        if (shouldInstall) {
-          installDependencies(missingDeps);
-        }
+        missingDeps.forEach(dep => _accumulatedDeps.add(dep));
       }
     }
 
@@ -1746,6 +1772,20 @@ async function installBlock(blockName, visited = new Set()) {
 
   // Post-install setup
   if (isRoot) {
+    if (_accumulatedDeps.size > 0) {
+      const userPkg = readUserPackageJson();
+      const finalMissing = getMissingDependencies([..._accumulatedDeps], userPkg);
+      if (finalMissing.length > 0) {
+        console.log(`\n📦 Block '${blockName}' requires: ${finalMissing.join(", ")}`);
+        const shouldInstall = await promptUser("Install dependencies? (Y/n): ");
+        if (shouldInstall) {
+          installDependencies(finalMissing);
+        } else {
+          console.log("⚠️  Skipping dependency installation.");
+        }
+      }
+    }
+
     await copySharedUtils();
     autoConfigureTailwindPlugin();
 
@@ -2229,7 +2269,7 @@ async function handleLogout() {
   // Best-effort: notify the server so the activity log shows "Logout"
   if (savedKey) {
     try {
-      const apiUrl = config.apiUrl || 'https://pro.lightswind.com';
+      const apiUrl = config.apiUrl || 'https://lightswind.com';
       await makeRequest(
         `${apiUrl}/api/v1/auth/activity`,
         'POST',
@@ -2352,17 +2392,26 @@ if (command === "add" && arg === "add") {
       const subCommand = (arg || '').toLowerCase();
       if (subCommand === "login") {
         let key = null;
-        const keyArg = process.argv.slice(4).find(a => a.startsWith('--key='));
-        if (keyArg) {
-          key = keyArg.split('=')[1];
+        const keyEqualsArg = process.argv.slice(4).find(a => a.startsWith('--key='));
+        if (keyEqualsArg) {
+          key = keyEqualsArg.split('=').slice(1).join('=');
         } else {
-          key = process.argv[4];
+          const keySpaceIdx = process.argv.indexOf('--key');
+          if (keySpaceIdx !== -1 && process.argv[keySpaceIdx + 1]) {
+            key = process.argv[keySpaceIdx + 1];
+          } else if (process.argv[4]) {
+            key = process.argv[4];
+          }
+        }
+
+        if (key) {
+          key = key.replace(/^--key=/, '').replace(/^--/, '').trim();
         }
 
         if (!key) {
           console.error("\n❌ Please specify your Pro API key.");
           console.error("Usage: npx lightswind auth login --key=<YOUR_KEY>");
-          console.error("You can generate a key at: https://pro.lightswind.com/setting/license\n");
+          console.error("You can generate a key at: https://lightswind.com/setting/license\n");
           process.exit(1);
         }
         await handleLogin(key);
@@ -2396,10 +2445,18 @@ if (command === "add" && arg === "add") {
         }
         await installCategory(categoryName);
       } else {
+        if (arg && !isSafeComponentName(arg)) {
+          console.error(`\n❌ Invalid component name: ${JSON.stringify(arg)}. Use letters, numbers, "-" or "_".\n`);
+          process.exit(1);
+        }
         await installComponent(arg);
       }
       break;
     case "add-block":
+      if (arg && !isSafeComponentName(arg)) {
+        console.error(`\n❌ Invalid block name: ${JSON.stringify(arg)}. Use letters, numbers, "-" or "_".\n`);
+        process.exit(1);
+      }
       await installBlock(arg);
       break;
     case "list":
@@ -2439,6 +2496,12 @@ if (command === "add" && arg === "add") {
           process.exit(1);
         }
       }
+      break;
+    }
+    case "--version":
+    case "-v": {
+      const pkg = require("../package.json");
+      console.log(`v${pkg.version}`);
       break;
     }
     case "--help":

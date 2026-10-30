@@ -4,7 +4,7 @@
   "version": "3.2.2",
   "description": "A collection of beautifully crafted React Components, Blocks & Templates for Modern Developers. Create stunning web applications effortlessly by using our 160+ professional and animated react components.",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "exports": {
     ".": "./dist/index.js",
     "./plugin": "./plugin.js",
@@ -13,21 +13,20 @@
   "files": [
     "dist",
     "bin",
+    "src/components/lib",
+    "src/components/hooks",
     "src/styles",
-    "plugin.js",
-    "cli.js",
-    "lightswindv1.0.css",
-    "lightswindv1.0.min.js"
+    "plugin.js"
   ],
   "bin": {
-    "create-lightswind": "cli.js",
     "lightswind": "bin/lightswind.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "build-css": "npx postcss tailwind.css -o ./src/lightswind.css"
+    "pretest": "npm run build",
+    "test": "node --test \"tests/*.test.mjs\""
   },
   "keywords": [
     "component-library",
@@ -78,9 +77,11 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "fs-extra": "^11.3.0",
+    "fuse.js": "^7.5.0",
     "tailwind-merge": "^2.2.0"
   },
   "devDependencies": {
@@ -91,12 +92,14 @@
     "cssnano": "^7.0.6",
     "javascript-obfuscator": "^4.1.1",
     "postcss": "^8.4.49",
-    "postcss-cli": "^11.0.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^4",
     "terser": "^5.36.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.2"
+  },
+  "overrides": {
+    "esbuild": "^0.28.2"
   }
 }
