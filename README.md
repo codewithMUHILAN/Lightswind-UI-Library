@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/codewithmuhilan-lightswind-ui-library-badge.png)](https://mseep.ai/app/codewithmuhilan-lightswind-ui-library)
+
 
 <div align="center">
 
